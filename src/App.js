@@ -5,10 +5,12 @@ import {Drug} from "./page/Drug";
 import {Box} from "@chakra-ui/react";
 import {Hs} from "./page/Hs";
 import axios from "axios";
+import DrugStoreWrite from "./page/DrugStore/DrugStoreWrite";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<HomeLayout/>}>
+            <Route path="drugStore" element={<DrugStoreWrite />} />
             <Route path='hospital' element={<Hs/>}/>
             <Route path="nutraceutical" element={<Drug/>}/>
         </Route>
@@ -19,8 +21,8 @@ const router = createBrowserRouter(
 function App() {
     const [key, setKey] = useState(null)
     useEffect(() => {
-        axios.get("/hospital")
-            .then(response => setKey(response.data));
+        // axios.get("/hospital")
+        //     .then(response => setKey(response.data));
     }, []);
 
     return (
