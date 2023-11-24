@@ -1,17 +1,20 @@
 import React, {useEffect, useState} from "react";
-import {Box, Heading, Table, Tbody, Td, Th, Thead, Tr} from "@chakra-ui/react";
+import {Box, Button, Flex, Heading, Spacer, Table, Tbody, Td, Th, Thead, Tr} from "@chakra-ui/react";
 import axios from "axios";
 import {Map, MapMarker, useKakaoLoader, ZoomControl} from "react-kakao-maps-sdk";
+import {useNavigate} from "react-router-dom";
 
 export function Hs() {
 
     const [list, setList] = useState(null);
     const [position, setPosition] = useState();
+    const navigate = useNavigate();
 
     const [level, setLevel] = useState();
     useEffect(() => {
         axios.get("/api/hospital/list?category=hospital").then(r => setList(r.data));
     }, []);
+
     const [loading, error] = useKakaoLoader({
         appkey: process.env.REACT_APP_KAKAO_KEY,
     });
@@ -20,7 +23,12 @@ export function Hs() {
     return (
         <Box>
             <Box>
-                <Heading>병원 리스트</Heading>
+                <Flex align="center">
+                    <Heading>병원 리스트</Heading>
+                    <Spacer/>
+                    <Button onClick={() => navigate("/hospitalAdd")}>병원 추가</Button>
+                </Flex>
+
                 <Box>
                     <Table>
                         <Thead>
