@@ -1,10 +1,9 @@
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom";
 import {HomeLayout} from "./layout/HomeLayout";
-import React, {createContext, useEffect, useState} from "react";
+import React from "react";
 import {Drug} from "./page/Drug";
 import {Box} from "@chakra-ui/react";
 import {Hs} from "./page/Hs";
-import axios from "axios";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -15,25 +14,34 @@ const router = createBrowserRouter(
     )
 );
 
+// async function loadKakaoMapKey() {
+//     return await axios.get("/api/hospital")
+//         .then(response => response.data)
+//         ;
+// }
 
 function App() {
-    const [key, setKey] = useState(null)
-    useEffect(() => {
-        axios.get("/hospital")
-            .then(response => setKey(response.data));
-    }, []);
-
+    // const [key, setKey] = useState(null);
+    // useEffect(() => {
+    //     axios.get("/api/hospital")
+    //         .then(response => setKey(response.data));
+    // }, []);
+    //
+    // console.log(key);
+    // if (key === null) {
+    //     return null;
+    // }
     return (
         <Box>
-            <KakaoMapAppContext.Provider value={key}>
-                <RouterProvider router={router}/>
-            </KakaoMapAppContext.Provider>
+            {/*<KakaoMapAppContext.Provider value={key}>*/}
+            <RouterProvider router={router}/>
+            {/*</KakaoMapAppContext.Provider>*/}
 
 
         </Box>
     );
 }
 
-export const KakaoMapAppContext = createContext(null)
+// export const KakaoMapAppContext = createContext(null);
 
 export default App;
