@@ -1,11 +1,10 @@
-import {Box} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 export function DrugWrite() {
-    return (
-        <Box>
-            <Box>
-                영양제 정보와 구매를 함께 하세요!
-            </Box>
-        </Box>
-    );
+  return (
+    <Box>
+      <h1>기능성 영양제</h1>
+      <Box></Box>
+    </Box>
+  );
 }
