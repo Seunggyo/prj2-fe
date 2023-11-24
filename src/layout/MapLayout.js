@@ -1,7 +1,7 @@
 import {Box} from "@chakra-ui/react";
 import {useKakaoLoader} from "react-kakao-maps-sdk";
 
-export function MapLayout() {
+export function DrugWrite() {
     useKakaoLoader();
     return (
         <Box>
