@@ -1,12 +1,14 @@
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom";
 import {HomeLayout} from "./layout/HomeLayout";
 import React from "react";
-import {Map} from "./page/Map";
+import {Drug} from "./page/Drug";
+import {Map, MapMarker} from "react-kakao-maps-sdk";
+import {Box} from "@chakra-ui/react";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<HomeLayout/>}>
-            <Route path="map" element={<Map/>}/>
+            <Route path="nutraceutical" element={<Drug/>}/>
         </Route>
     )
 );
@@ -14,7 +16,12 @@ const router = createBrowserRouter(
 
 function App() {
     return (
-        <RouterProvider router={router}/>
+        <Box>
+            <RouterProvider router={router}/>
+            <Map center={{lat: 36.503232, lng: 127.269971}} style={{width: "100%", height: "900px"}} level={5}>
+                <MapMarker position={{lat: 36.503232, lng: 127.269971}}/>
+            </Map>
+        </Box>
     );
 }
 
