@@ -11,7 +11,7 @@ export function NavBar() {
             <Button onClick={() => navigate("/")}>
                 <FontAwesomeIcon icon={faHospital}/>
             </Button>
-            <Button onClick={() => navigate("map")}>
+            <Button onClick={() => navigate("hospital")}>
                 병원
             </Button>
             <Button onClick={() => navigate("nutraceutical")}>
