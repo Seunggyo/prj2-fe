@@ -6,17 +6,19 @@ import {
 } from "react-router-dom";
 import { HomeLayout } from "./layout/HomeLayout";
 import React from "react";
-import { DrugWrite } from "./page/DrugWrite";
+import { DrugChoice } from "./page/drug/DrugChoice";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { Box } from "@chakra-ui/react";
 import { DrugLayout } from "./layout/DrugLayout";
+import DrugList from "./page/drug/DrugList";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<HomeLayout />}>
       <Route path="drug" element={<DrugLayout />}>
-        <Route path="ns" element={<DrugWrite />} />
+        <Route path="choice" element={<DrugChoice />} />
       </Route>
+      <Route path="drug/list" element={<DrugList />} />
     </Route>,
   ),
 );

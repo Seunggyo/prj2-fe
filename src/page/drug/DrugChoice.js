@@ -1,16 +1,16 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Flex,
-  Heading,
-  Stack,
-  StackDivider,
-} from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export function DrugWrite() {
+export function DrugChoice() {
+  const navigate = useNavigate();
+  function handleStomach() {
+    navigate("/drug/list", {
+      state: "stomach",
+    });
+  }
+
   return (
     <Box>
       <Box width="100%" height="50px">
@@ -18,7 +18,12 @@ export function DrugWrite() {
       </Box>
       <Flex>
         <Box width="200px" height="250px" border="1px solid #ffd6d1">
-          <Box height="100px" width="100px" margin="50px">
+          <Box
+            height="100px"
+            width="100px"
+            margin="50px"
+            onClick={handleStomach}
+          >
             <img src="/images/firstScreen/up.jpg" height="100%" width="100%" />
             <h1>위 건강</h1>
           </Box>
