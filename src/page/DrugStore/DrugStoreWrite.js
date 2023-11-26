@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Checkbox,
   Flex,
   FormControl,
   FormHelperText,
@@ -92,8 +93,8 @@ export function DrugStoreWrite() {
           <Box>
             <Flex>
               <FormLabel>오픈 시간</FormLabel>
-              <Box mx="20px">
-                <Flex justify="space-between">
+              <Box>
+                <Flex>
                   <Select
                     defaultValue="7"
                     onChange={(e) => setOpenHour(e.target.value)}
@@ -118,7 +119,7 @@ export function DrugStoreWrite() {
                   </Select>
                 </Flex>
               </Box>
-              <FormLabel>마감 시간</FormLabel>
+              <FormLabel mx="20px">마감 시간</FormLabel>
               <Box>
                 <Flex>
                   <Select
@@ -144,22 +145,24 @@ export function DrugStoreWrite() {
                   </Select>
                 </Flex>
               </Box>
+              <FormLabel mx="20px">야간 업무</FormLabel>
+              <Flex>
+                <Box>
+                  <Checkbox s onClick={handleCheckNight} value={nightCare} />
+                </Box>
+              </Flex>
             </Flex>
           </Box>
         </FormControl>
 
         <FormControl>
-          <FormLabel>야간 업무 진행시 체크 해주세요</FormLabel>
-          <Flex>
-            <Switch onClick={handleCheckNight} value={nightCare} />
-            {nightCare === true && (
-              <Input
-                type="text"
-                placeholder="업무 마감 시간을 입력해주세요"
-                onChange={(e) => setNightCare(e.target.value)}
-              />
-            )}
-          </Flex>
+          {/*{nightCare === true && (*/}
+          {/*  <Input*/}
+          {/*    type="text"*/}
+          {/*    placeholder="업무 마감 시간을 입력해주세요"*/}
+          {/*    onChange={(e) => setNightCare(e.target.value)}*/}
+          {/*  />*/}
+          {/*)}*/}
         </FormControl>
         <FormControl>
           <FormLabel>약국 소개</FormLabel>
