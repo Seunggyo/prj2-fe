@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Card,
-  Flex,
-  FormLabel,
-  Select,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import { Flex, Select, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -124,7 +116,10 @@ export function BoardWrite() {
                   type="file"
                 />
               </div>
-              <button class=" px-8 py-2 mx-auto block rounded-md font-dongle text-3xl text-indigo-100 bg-indigo-600  ">
+              <button
+                class=" px-8 py-2 mx-auto block rounded-md
+              font-dongle text-3xl text-indigo-100 bg-indigo-600"
+              >
                 작성 완료
               </button>
             </div>
