@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Flex, Select, useToast } from "@chakra-ui/react";
+import { Button, Flex, Select, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -7,6 +7,7 @@ export function BoardWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [writer, setWriter] = useState("");
+  const [boardType, setBoardType] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toast = useToast();
@@ -19,6 +20,7 @@ export function BoardWrite() {
         title,
         content,
         writer,
+        boardType,
       })
       .then(() => {
         toast({
@@ -44,8 +46,6 @@ export function BoardWrite() {
       .finally(() => setIsSubmitting(false));
   }
 
-  function setAuth(value) {}
-
   return (
     <div>
       <form>
@@ -63,6 +63,8 @@ export function BoardWrite() {
                   type="text"
                   id="title"
                   placeholder="Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                   className="ml-2 outline-none py-1 p-2 w-3/5 text-md border-2 rounded-md"
                 />
               </div>
@@ -71,6 +73,8 @@ export function BoardWrite() {
                   id="description"
                   cols="30"
                   rows="10"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
                   className="w-full p-4 text-gray-  600 bg-indigo-50 outline-none rounded-md"
                 ></textarea>
               </div>
@@ -82,7 +86,9 @@ export function BoardWrite() {
                   <input
                     type="text"
                     placeholder="NickName"
-                    id="name"
+                    id="writer"
+                    value={writer}
+                    onChange={(e) => setWriter(e.target.value)}
                     className="ml-2 outline-none py-1 px-2 text-md border-2 rounded-md"
                   />
                 </div>
@@ -94,12 +100,13 @@ export function BoardWrite() {
                     <Flex ml="4">
                       <Select
                         defaultValue={"user"}
-                        onChange={(e) => setAuth(e.target.value)}
+                        onChange={(e) => setBoardType(e.target.value)}
                       >
-                        {/*TODO: 게시판유형 더 추가해야함..*/}
+                        {/*TODO: 게시판유형 더 추가해야함..?*/}
 
                         <option value={"ds"}>약국</option>
                         <option value={"hs"}>병원</option>
+                        <option value={"sp"}>쇼핑몰</option>
                       </Select>
                     </Flex>
                   </Flex>
@@ -114,14 +121,18 @@ export function BoardWrite() {
                   border-gray-300 rounded-lg cursor-pointer bg-gray-50"
                   id="file_input"
                   type="file"
+
+                  // TODO: 멀티파일 키밸류 추가해야댐.
                 />
               </div>
-              <button
-                class=" px-8 py-2 mx-auto block rounded-md
-              font-dongle text-3xl text-indigo-100 bg-indigo-600"
+              <Button
+                isDisabled={isSubmitting}
+                onClick={handleSubmit}
+                class=" px-8 py-2 mx-auto block rounded-md font-dongle text-3xl
+                text-indigo-100 bg-indigo-600"
               >
                 작성 완료
-              </button>
+              </Button>
             </div>
           </div>
         </div>
