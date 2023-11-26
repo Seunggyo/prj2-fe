@@ -57,8 +57,8 @@ export function BoardWrite() {
   return (
     <div>
       <form>
-        <div className="bg-indigo-50 min-h-screen md:px-20 pt-6">
-          <div className=" bg-white rounded-md px-6 py-10 max-w-4xl mx-auto">
+        <div className="bg-indigo-50 min-h-screen md:px-20 pt-2">
+          <div className=" bg-white rounded-md px-6 py-12 max-w-4xl mx-auto">
             <h1 className="text-center text-6xl font-dongle text-gray-500 mb-10">
               게시판 글 작성
             </h1>
