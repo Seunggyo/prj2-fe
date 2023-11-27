@@ -28,12 +28,14 @@ export function DrugChoice() {
             <h1>위 건강</h1>
           </Box>
         </Box>
+
         <Box width="200px" height="250px" border="1px solid #ffd6d1">
           <Box height="100px" width="100px" margin="50px">
             <img src="/images/firstScreen/i.jpg" height="100%" width="100%" />
             <h1>눈 건강</h1>
           </Box>
         </Box>
+
         <Box width="200px" height="250px" border="1px solid #ffd6d1">
           <Box height="100px" width="100px" margin="50px">
             <img
