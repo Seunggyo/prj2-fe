@@ -41,7 +41,9 @@ export function Hs() {
                         <Tbody>
                             {list &&
                                 list.map((h) => (
-                                    <Tr key={h.id}>
+                                    <Tr key={h.id} _hover={{
+                                        cursor: "pointer"
+                                    }} onClick={() => navigate("/hospitalEdit/" + h.id)}>
                                         <Td>{h.name}</Td>
                                         <Td>{h.phone}</Td>
                                     </Tr>

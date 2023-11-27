@@ -5,12 +5,14 @@ import {Drug} from "./page/Drug";
 import {Box} from "@chakra-ui/react";
 import {Hs} from "./page/hs/Hs";
 import {HsAdd} from "./page/hs/HsAdd";
+import {HsEdit} from "./page/hs/HsEdit";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<HomeLayout/>}>
             <Route path='hospital' element={<Hs/>}/>
             <Route path="hospitalAdd" element={<HsAdd/>}/>
+            <Route path="hospitalEdit/:id" element={<HsEdit/>}/>
             <Route path="nutraceutical" element={<Drug/>}/>
         </Route>
     )
