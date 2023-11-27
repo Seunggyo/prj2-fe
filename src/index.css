@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "gowun";
+  font-weight: normal;
+  src: url("assets/fonts/GowunDodum-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "dongle";
+  font-weight: normal;
+  src: url("assets/fonts/Dongle-Regular.ttf") format("truetype");
+}
