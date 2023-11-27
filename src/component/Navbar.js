@@ -1,15 +1,23 @@
-import { Button, Flex } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import {Button, Flex} from "@chakra-ui/react";
+import {faHospital} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useNavigate} from "react-router-dom";
 
-export function Navbar() {
-  const navigate = useNavigate();
+export function NavBar() {
+    const navigate = useNavigate();
 
-  return (
-    <Flex>
-      <Button onClick={() => navigate("/")}>메인화면</Button>
-      <Button onClick={() => navigate("/write")}>글쓰기</Button>
-      <Button onClick={() => navigate("/login")}>로그인</Button>
-      <Button onClick={() => navigate("/member/signup")}>회원가입</Button>
-    </Flex>
-  );
+    return (
+        <Flex direction="column" align="start">
+            <Button onClick={() => navigate("/")}>
+                <FontAwesomeIcon icon={faHospital}/>
+            </Button>
+            <Button onClick={() => navigate("hospital")}>
+                병원
+            </Button>
+            <Button onClick={() => navigate("nutraceutical")}>
+                영양제
+            </Button>
+
+        </Flex>
+    );
 }
