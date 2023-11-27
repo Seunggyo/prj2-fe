@@ -14,6 +14,9 @@ import { DrugWrite } from "./page/drug/DrugWrite";
 import { DrugList } from "./page/drug/DrugList";
 import { DrugView } from "./page/drug/DrugView";
 import { DrugEdit } from "./page/drug/DrugEdit";
+import {Drug} from "./page/Drug";
+import {Box} from "@chakra-ui/react";
+import {Hs} from "./page/Hs";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +31,12 @@ const router = createBrowserRouter(
       </Route>
     </Route>,
   ),
+    createRoutesFromElements(
+        <Route path="/" element={<HomeLayout/>}>
+            <Route path='hospital' element={<Hs/>}/>
+            <Route path="nutraceutical" element={<Drug/>}/>
+        </Route>
+    )
 );
 
 function App() {
