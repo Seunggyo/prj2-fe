@@ -5,6 +5,7 @@ import HomeLayout from "./layout/HomeLayout";
 import MemberView from "./page/member/MemberView";
 import LoginProvider from "./component/LoginProvider";
 import MemberLogin from "./page/member/MemberLogin";
+import MemberEdit from "./page/member/MemberEdit";
 
 
 const routes = createBrowserRouter(
@@ -14,6 +15,7 @@ const routes = createBrowserRouter(
             <Route path="member/list" element={<MemberList />} />
             <Route path="member/view" element={<MemberView />} />
             <Route path="member/login" element={<MemberLogin />} />
+            <Route path="member/edit" element={<MemberEdit />} />
         </ Route>
     )
 )
