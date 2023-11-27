@@ -16,14 +16,16 @@ import {
   useKakaoLoader,
   ZoomControl,
 } from "react-kakao-maps-sdk";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 export function DsList() {
-  const [list, setList] = useState(null);
-  const [position, setPosition] = useState();
-
+  const [dsList, setDsList] = useState([]);
   const [level, setLevel] = useState();
+
+  const navigate = useNavigate();
+
   useEffect(() => {
-    axios.get("/api/ds/list?category=drugStore").then((r) => setList(r.data));
+    axios.get("/api/ds/list").then((r) => setDsList(r.data));
   }, []);
   // const [loading, error] = useKakaoLoader({
   //   appkey: process.env.REACT_APP_KAKAO_KEY,
@@ -42,13 +44,16 @@ export function DsList() {
               </Tr>
             </Thead>
             <Tbody>
-              {list &&
-                list.map((ds) => (
-                  <Tr key={ds.id}>
-                    <Td>{ds.name}</Td>
-                    <Td>{ds.phone}</Td>
-                  </Tr>
-                ))}
+              {dsList.map((ds) => (
+                <Tr
+                  key={ds.id}
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() => navigate("/dsview/" + ds.id)}
+                >
+                  <Td>{ds.name}</Td>
+                  <Td>{ds.phone}</Td>
+                </Tr>
+              ))}
             </Tbody>
           </Table>
         </Box>

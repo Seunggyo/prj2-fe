@@ -12,12 +12,14 @@ import { Hs } from "./page/Hs";
 import axios from "axios";
 import DsWrite from "./page/DrugStore/DsWrite";
 import { DsList } from "./page/DrugStore/DsList";
+import DsView from "./page/DrugStore/DsView";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<HomeLayout />}>
-      <Route path="drugStore" element={<DsWrite />} />
-      <Route path="drugList" element={<DsList />} />
+      <Route path="dslist" element={<DsList />} />
+      <Route path="dswrite" element={<DsWrite />} />
+      <Route path="dsview/:id" element={<DsView />} />
       <Route path="hospital" element={<Hs />} />
       <Route path="nutraceutical" element={<Drug />} />
     </Route>,
