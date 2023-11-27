@@ -13,7 +13,7 @@ import {
     Spinner, useToast
 } from "@chakra-ui/react";
 import axios from "axios";
-import {useSearchParams} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 
 function MemberEdit(props) {
     const [member, setMember] = useState(null);
@@ -24,6 +24,7 @@ function MemberEdit(props) {
 
     const [params] = useSearchParams();
     const toast = useToast();
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios
@@ -43,7 +44,9 @@ function MemberEdit(props) {
                 toast({
                     description: "회원 정보가 수정되었습니다.",
                     status: "success",
-                })
+                });
+                navigate("/member/view?id="+member.id);
+            //     TODO: 회원 정보 수정 navigate 다시 지정해주기
             })
             .catch(error=> {
                 toast({
