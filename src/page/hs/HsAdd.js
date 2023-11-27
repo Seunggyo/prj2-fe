@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import {useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 export function HsAdd() {
     const [name, setName] = useState("");
@@ -32,6 +33,8 @@ export function HsAdd() {
 
     const toast = useToast();
 
+    const navigate = useNavigate();
+
     const hour = () => {
         const result = [];
         for (let i = 0; i < 25; i++) {
@@ -42,7 +45,12 @@ export function HsAdd() {
 
 
     function handleNightChange() {
-        setNightCare(1);
+        if (nightCare === 1) {
+            setNightCare(0);
+        } else {
+            setNightCare(1);
+        }
+
     }
 
     function handleClickSubmit() {
@@ -58,14 +66,17 @@ export function HsAdd() {
             content,
             homePage,
             nightCare
-        }).then(() => toast({
-            description: "전송 되었습니다.",
-            status: "success"
-        })).catch(() => toast({
+        }).then(() => {
+                toast({
+                    description: "전송 되었습니다.",
+                    status: "success"
+                });
+                navigate("/hospital");
+            }
+        ).catch(() => toast({
             description: "전송에 실패하였습니다.",
             status: "error"
         }))
-
 
     }
 
@@ -94,11 +105,12 @@ export function HsAdd() {
                         <Flex>
                             <FormLabel>시간</FormLabel>
                             <Select onChange={e => setOpenHour(e.target.value)} w={"sm"} placeholder="시간"
-                                    value={openHour}>
+                                    value={openHour} defaultValue={0}>
                                 {hour()}
                             </Select>
                             <FormLabel>분</FormLabel>
-                            <Select onChange={e => setOpenMin(e.target.value)} value={openMin} w={"sm"} placeholder="분">
+                            <Select defaultValue={0} onChange={e => setOpenMin(e.target.value)} value={openMin} w={"sm"}
+                                    placeholder="분">
                                 <option value={0}>00</option>
                                 <option value={10}>10</option>
                                 <option value={20}>20</option>
@@ -113,11 +125,13 @@ export function HsAdd() {
                         <FormLabel>마감시간</FormLabel>
                         <Flex>
                             <FormLabel>시간</FormLabel>
-                            <Select onChange={e => setCloseHour(e.target.value)} w={"sm"} placeholder="시간">
+                            <Select value={closeHour} defaultValue={0} onChange={e => setCloseHour(e.target.value)}
+                                    w={"sm"}
+                                    placeholder="시간">
                                 {hour()}
                             </Select>
                             <FormLabel>분</FormLabel>
-                            <Select value={closeHour} w={"sm"} placeholder="분"
+                            <Select value={closeMin} defaultValue={0} w={"sm"} placeholder="분"
                                     onChange={e => setCloseMin(e.target.value)}>
                                 <option value={0}>00</option>
                                 <option value={10}>10</option>
