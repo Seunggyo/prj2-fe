@@ -48,7 +48,7 @@ export function DsList() {
                 <Tr
                   key={ds.id}
                   _hover={{ cursor: "pointer" }}
-                  onClick={() => navigate("/dsview/" + ds.id)}
+                  onClick={() => navigate("/ds/view/" + ds.id)}
                 >
                   <Td>{ds.name}</Td>
                   <Td>{ds.phone}</Td>

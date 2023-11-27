@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {Box, Heading, Table, Tbody, Td, Th, Thead, Tr} from "@chakra-ui/react";
+import {Box, Button, Flex, Heading, Spacer, Table, Tbody, Td, Th, Thead, Tr} from "@chakra-ui/react";
 import axios from "axios";
 import {Map, MapMarker, useKakaoLoader, ZoomControl} from "react-kakao-maps-sdk";
+import {useNavigate} from "react-router-dom";
 
 export function Hs() {
+    const navigate = useNavigate();
 
     const [list, setList] = useState(null);
     const [position, setPosition] = useState();

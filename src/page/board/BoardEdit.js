@@ -35,18 +35,13 @@ export function BoardEdit() {
         <FormLabel>제 목</FormLabel>
         <Input
           value={board.title}
-          onChange={(draft) => (draft.title = e.target.value)}
         />
       </FormControl>
       <FormControl>
         <FormLabel>본 문</FormLabel>
         <Input
           value={board.content}
-          onChange={(e) =>
-            updateBoard((draft) => {
-              draft.content = e.target.value;
-            })
-          }
+
         />
       </FormControl>
       <FormControl>

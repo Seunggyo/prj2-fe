@@ -2,10 +2,10 @@ import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider,} f
 import {HomeLayout} from "./layout/HomeLayout";
 import React from "react";
 import {Hs} from "./page/hs/Hs";
-import DsWrite from "./page/DrugStore/DsWrite";
-import {DsList} from "./page/DrugStore/DsList";
-import DsView from "./page/DrugStore/DsView";
-import {DsEdit} from "./page/DrugStore/DsEdit";
+import DsWrite from "./page/ds/DsWrite";
+import {DsList} from "./page/ds/DsList";
+import DsView from "./page/ds/DsView";
+import {DsEdit} from "./page/ds/DsEdit";
 import {MemberSignup} from "./page/member/MemberSignup";
 import MemberList from "./page/member/MemberList";
 import MemberView from "./page/member/MemberView";
@@ -26,29 +26,19 @@ import {DrugView} from "./page/drug/DrugView";
 import {DrugEdit} from "./page/drug/DrugEdit";
 import {HsAdd} from "./page/hs/HsAdd";
 import {HsEdit} from "./page/hs/HsEdit";
-
-function Ds() {
-    return null;
-}
-
-function Member() {
-    return null;
-}
-
-function Board() {
-    return null;
-}
-
+import {Ds} from "./Ds";
+import {Member} from "./Member";
+import {Board} from "./Board";
 const routes = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<HomeLayout/>}>
             <Route path="ds" element={<Ds/>}>
 
-                <Route path="dslist" element={<DsList/>}/>
-                <Route path="dswrite" element={<DsWrite/>}/>
-                <Route path="dsview/:id" element={<DsView/>}/>
+                <Route path="list" element={<DsList/>}/>
+                <Route path="write" element={<DsWrite/>}/>
+                <Route path="view/:id" element={<DsView/>}/>
                 <Route path="edit/:id" element={<DsEdit/>}/>
-                <Route path="hospital" element={<Hs/>}/>
+
             </Route>
 
             <Route path="drug" element={<DrugLayout/>}>
@@ -56,7 +46,7 @@ const routes = createBrowserRouter(
                 <Route path="choiceList" element={<DrugChoiceList/>}/>
                 <Route path="write" element={<DrugWrite/>}/>
                 <Route path="drugList" element={<DrugList/>}/>
-                <Route path="/:id" element={<DrugView/>}/>
+                <Route path=":id" element={<DrugView/>}/>
                 <Route path="edit:id" element={<DrugEdit/>}/>
             </Route>
             <Route path='hospital' element={<Hs/>}>

@@ -1,12 +1,13 @@
-import {Box} from "@chakra-ui/react";
+import {Box, Flex} from "@chakra-ui/react";
 import {Outlet} from "react-router-dom";
-import {NavBar} from "../component/NavBar";
+import React from "react";
+import {NavBar} from "../component/Navbar";
 
 export function HomeLayout() {
     return (
-        <Box>
+        <Flex>
             <NavBar/>
             <Outlet/>
-        </Box>
+        </Flex>
     );
 }
