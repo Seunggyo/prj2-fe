@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import {useNavigate, useSearchParams} from "react-router-dom";
-
+//TODO 수정 조건 추가하기
 function MemberEdit(props) {
     const [member, setMember] = useState(null);
     const [nickName, setNickName] = useState("");
