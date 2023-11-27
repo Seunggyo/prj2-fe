@@ -92,39 +92,39 @@ export function BoardWrite() {
                     className="ml-2 outline-none py-1 px-2 text-md border-2 rounded-md"
                   />
                 </div>
-                <div>
-                  <Flex>
-                    <span className="font-dongle text-4xl text-gray-500">
-                      게시판:
-                    </span>
-                    <Flex ml="4">
-                      <Select
-                        defaultValue={"user"}
-                        onChange={(e) => setBoardType(e.target.value)}
-                      >
-                        {/*TODO: 게시판유형 더 추가해야함..?*/}
+                {/*<div>*/}
+                {/*  <Flex>*/}
+                {/*    <span className="font-dongle text-4xl text-gray-500">*/}
+                {/*      게시판:*/}
+                {/*    </span>*/}
+                {/*    <Flex ml="4">*/}
+                {/*      <Select*/}
+                {/*        defaultValue={"user"}*/}
+                {/*        onChange={(e) => setBoardType(e.target.value)}*/}
+                {/*      >*/}
+                {/*        /!*TODO: 게시판유형 더 추가해야함..?*!/*/}
 
-                        <option value={"ds"}>약국</option>
-                        <option value={"hs"}>병원</option>
-                        <option value={"sp"}>쇼핑몰</option>
-                      </Select>
-                    </Flex>
-                  </Flex>
-                </div>
+                {/*        <option value={"ds"}>약국</option>*/}
+                {/*        <option value={"hs"}>병원</option>*/}
+                {/*        <option value={"sp"}>쇼핑몰</option>*/}
+                {/*      </Select>*/}
+                {/*    </Flex>*/}
+                {/*  </Flex>*/}
+                {/*</div>*/}
               </div>
-              <div>
-                <span className="font-dongle text-4xl text-gray-500">
-                  첨부파일
-                </span>
-                <input
-                  className="block w-4/5 text-sm text-gray-900 border
-                  border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                  id="file_input"
-                  type="file"
+              {/*<div>*/}
+              {/*  <span className="font-dongle text-4xl text-gray-500">*/}
+              {/*    첨부파일*/}
+              {/*  </span>*/}
+              {/*  <input*/}
+              {/*    className="block w-4/5 text-sm text-gray-900 border*/}
+              {/*    border-gray-300 rounded-lg cursor-pointer bg-gray-50"*/}
+              {/*    id="file_input"*/}
+              {/*    type="file"*/}
 
-                  // TODO: 멀티파일 키밸류 추가해야댐.
-                />
-              </div>
+              {/*    // TODO: 멀티파일 키밸류 추가해야댐.*/}
+              {/*  />*/}
+              {/*</div>*/}
               <Button
                 isDisabled={isSubmitting}
                 onClick={handleSubmit}

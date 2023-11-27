@@ -1,9 +1,3 @@
-import React from 'react';
-
-function MemberLogin(props) {
-    return (
-        <div></div>
-    );
+export function MemberLogin(props) {
+  return <h1>로그인</h1>;
 }
-
-export default MemberLogin;
