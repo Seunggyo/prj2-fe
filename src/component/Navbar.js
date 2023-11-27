@@ -3,6 +3,7 @@ import {faHospital} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate} from "react-router-dom";
 import React from "react";
+// sdadas
 
 export function NavBar() {
     const navigate = useNavigate();
