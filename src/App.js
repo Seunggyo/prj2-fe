@@ -12,15 +12,19 @@ import { DrugLayout } from "./layout/DrugLayout";
 import DrugChoiceList from "./page/drug/DrugChoiceList";
 import { DrugWrite } from "./page/drug/DrugWrite";
 import { DrugList } from "./page/drug/DrugList";
+import { DrugView } from "./page/drug/DrugView";
+import { DrugEdit } from "./page/drug/DrugEdit";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<HomeLayout />}>
       <Route path="drug" element={<DrugLayout />}>
         <Route path="choice" element={<DrugChoice />} />
-        <Route path="list" element={<DrugChoiceList />} />
+        <Route path="choiceList" element={<DrugChoiceList />} />
         <Route path="write" element={<DrugWrite />} />
-        <Route path="druglist" element={<DrugList />} />
+        <Route path="drugList" element={<DrugList />} />
+        <Route path=":id" element={<DrugView />} />
+        <Route path="edit:id" element={<DrugEdit />} />
       </Route>
     </Route>,
   ),

@@ -6,7 +6,7 @@ export function NavBarDrug() {
 
   return (
     <Flex>
-      <Button onClick={() => navigate("/drug/list")}>HOME</Button>
+      <Button onClick={() => navigate("/drug/drugList")}>HOME</Button>
       <Button onClick={() => navigate("/drug/choice")}>기능성 영양제</Button>
       <Button onClick={() => navigate("/drug/write")}>write</Button>
     </Flex>

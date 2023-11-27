@@ -19,6 +19,7 @@ function DrugChoiceList(props) {
           <Box>{drug.id} </Box>
           <Box>{drug.name}</Box>
           <Box>{drug.price}</Box>
+          <Box>{drug.fileName}</Box>
         </Flex>
       ))}
     </div>

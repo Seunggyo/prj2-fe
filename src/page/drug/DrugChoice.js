@@ -6,13 +6,13 @@ import { useNavigate } from "react-router-dom";
 export function DrugChoice() {
   const navigate = useNavigate();
   function handleStomach() {
-    navigate("/drug/list", {
+    navigate("/drug/choiceList", {
       state: "stomach",
     });
   }
 
   return (
-    <Box>
+    <Box border="1px solid red" textAlign="center">
       <Box width="100%" height="50px">
         <h1>기능성 영양제</h1>
       </Box>
