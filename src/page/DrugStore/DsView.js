@@ -57,38 +57,39 @@ function DsView() {
 
       <FormControl>
         <FormLabel>업체 명</FormLabel>
-        <Input value={ds.name} readOnly />
+        <Input value={ds.name} isReadOnly />
       </FormControl>
 
       <FormControl>
         <FormLabel>주소</FormLabel>
-        <Input value={ds.address} readOnly />
+        <Input value={ds.address} isReadOnly />
       </FormControl>
 
       <FormControl>
         <FormLabel>번호</FormLabel>
-        <Input value={ds.phone} readOnly />
+        <Input value={ds.phone} isReadOnly />
       </FormControl>
 
       <FormControl>
         <FormLabel>오픈 시간</FormLabel>
         <Flex>
-          <Input value={ds.openHour} readOnly />
-          <Input value={ds.openMin} readOnly />
+          <Input value={ds.openHour} isReadOnly />
+          <Input value={ds.openMin} isReadOnly />
         </Flex>
       </FormControl>
 
       <FormControl>
         <FormLabel>마감 시간</FormLabel>
         <Flex>
-          <Input value={ds.closeHour} readOnly />
-          <Input value={ds.closeMin} readOnly />
+          <Input value={ds.closeHour} isReadOnly />
+          <Input value={ds.closeMin} isReadOnly />
         </Flex>
       </FormControl>
+      {/*TODO: 야간진료 하는지 확인 할 수 있는 칸 작성 필요*/}
 
       <FormControl>
         <FormLabel>약국 소개</FormLabel>
-        <Input value={ds.content} readOnly />
+        <Input value={ds.content} isReadOnly />
       </FormControl>
 
       <Box>
