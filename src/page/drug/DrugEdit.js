@@ -16,7 +16,7 @@ import { useParams } from "react-router-dom";
 export function DrugEdit() {
   const [drug, updateDrug] = useImmer(null);
 
-  const { name } = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
     axios
