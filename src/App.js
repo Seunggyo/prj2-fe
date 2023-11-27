@@ -1,7 +1,7 @@
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider,} from "react-router-dom";
 import {HomeLayout} from "./layout/HomeLayout";
 import React from "react";
-import {Hs} from "./page/Hs";
+import {Hs} from "./page/hs/Hs";
 import DsWrite from "./page/DrugStore/DsWrite";
 import {DsList} from "./page/DrugStore/DsList";
 import DsView from "./page/DrugStore/DsView";
