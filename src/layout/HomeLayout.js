@@ -1,15 +1,12 @@
-import React from "react";
-import { Box } from "@chakra-ui/react";
-import { Outlet } from "react-router-dom";
-import { Navbar } from "../component/Navbar";
+import {Box} from "@chakra-ui/react";
+import {Outlet} from "react-router-dom";
+import {NavBar} from "../component/NavBar";
 
-function HomeLayout(props) {
-  return (
-    <Box>
-      <Navbar />
-      <Outlet />
-    </Box>
-  );
+export function HomeLayout() {
+    return (
+        <Box>
+            <NavBar/>
+            <Outlet/>
+        </Box>
+    );
 }
-
-export default HomeLayout;

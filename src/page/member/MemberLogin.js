@@ -122,3 +122,5 @@ export function MemberLogin(props) {
     </div>
   );
 }
+
+export default MemberLogin;
