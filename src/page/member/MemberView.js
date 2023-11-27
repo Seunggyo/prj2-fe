@@ -11,7 +11,7 @@ function MemberView(props) {
 
     useEffect(() => {
         axios
-            .get("/api/member/view?" + params.toString())
+            .get("/api/member/info?" + params.toString())
             .then(({data}) => setMember(data))
     }, []);
 
