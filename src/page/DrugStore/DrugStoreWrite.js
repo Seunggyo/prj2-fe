@@ -20,10 +20,10 @@ export function DrugStoreWrite() {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [openHour, setOpenHour] = useState(1);
-  const [openMin, setOpenMin] = useState(1);
-  const [closeHour, setCloseHour] = useState(1);
-  const [closeMin, setCloseMin] = useState(1);
+  const [openHour, setOpenHour] = useState(7);
+  const [openMin, setOpenMin] = useState(0);
+  const [closeHour, setCloseHour] = useState(16);
+  const [closeMin, setCloseMin] = useState(0);
   const [uploadFile, setUploadFile] = useState(null);
   const [nightCare, setNightCare] = useState(false);
   const [content, setContent] = useState("");
@@ -32,9 +32,7 @@ export function DrugStoreWrite() {
   const toast = useToast();
   const navigate = useNavigate();
 
-  function handleCheckNight() {
-    setNightCare(true);
-  }
+  function handleCheckNight() {}
 
   function handleSubmit() {
     setIsSubmitting(true);
@@ -47,7 +45,7 @@ export function DrugStoreWrite() {
         openMin,
         closeHour,
         closeMin,
-        uploadFile,
+        // uploadFile,
         nightCare,
         content,
       })
@@ -56,6 +54,7 @@ export function DrugStoreWrite() {
           description: "정보가 잘 저장되었습니다",
           status: "success",
         });
+        navigate("/");
       })
       .catch((error) => {
         if (error.response.status === 400) {
@@ -72,6 +71,10 @@ export function DrugStoreWrite() {
       })
       .finally(() => setIsSubmitting(false));
   }
+
+  console.log(openHour);
+  console.log(openMin);
+  console.log(nightCare);
 
   return (
     <Box>
@@ -107,10 +110,10 @@ export function DrugStoreWrite() {
                     <option value="12">12시</option>
                   </Select>
                   <Select
-                    defaultValue="7"
+                    defaultValue="0"
                     onChange={(e) => setOpenMin(e.target.value)}
                   >
-                    <option value="00">0분</option>
+                    <option value="0">0분</option>
                     <option value="10">10분</option>
                     <option value="20">20분</option>
                     <option value="30">30분</option>
@@ -123,7 +126,7 @@ export function DrugStoreWrite() {
               <Box>
                 <Flex>
                   <Select
-                    defaultValue="6"
+                    defaultValue="16"
                     onChange={(e) => setCloseHour(e.target.value)}
                   >
                     <option value="16">16시</option>
@@ -136,7 +139,7 @@ export function DrugStoreWrite() {
                     defaultValue="00"
                     onChange={(e) => setCloseMin(e.target.value)}
                   >
-                    <option value="00">0분</option>
+                    <option value="0">0분</option>
                     <option value="10">10분</option>
                     <option value="20">20분</option>
                     <option value="30">30분</option>
@@ -148,21 +151,11 @@ export function DrugStoreWrite() {
               <FormLabel mx="20px">야간 업무</FormLabel>
               <Flex>
                 <Box>
-                  <Checkbox s onClick={handleCheckNight} value={nightCare} />
+                  <Checkbox onChange={(e) => setNightCare(e.target.checked)} />
                 </Box>
               </Flex>
             </Flex>
           </Box>
-        </FormControl>
-
-        <FormControl>
-          {/*{nightCare === true && (*/}
-          {/*  <Input*/}
-          {/*    type="text"*/}
-          {/*    placeholder="업무 마감 시간을 입력해주세요"*/}
-          {/*    onChange={(e) => setNightCare(e.target.value)}*/}
-          {/*  />*/}
-          {/*)}*/}
         </FormControl>
         <FormControl>
           <FormLabel>약국 소개</FormLabel>
@@ -172,18 +165,23 @@ export function DrugStoreWrite() {
             onChange={(e) => setContent(e.target.value)}
           />
         </FormControl>
-        <FormControl>
-          <FormLabel>사업자 등록증</FormLabel>
-          <Input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={(e) => setUploadFile(e.target.value)}
-          />
-          <FormHelperText>파일은 1MB 미만인 파일만 가능합니다</FormHelperText>
-        </FormControl>
+        {/*<FormControl>*/}
+        {/*  <FormLabel>사업자 등록증</FormLabel>*/}
+        {/*  <Input*/}
+        {/*    type="file"*/}
+        {/*    accept="image/*"*/}
+        {/*    multiple*/}
+        {/*    onChange={(e) => setUploadFile(e.target.value)}*/}
+        {/*  />*/}
+        {/*  <FormHelperText>파일은 1MB 미만인 파일만 가능합니다</FormHelperText>*/}
+        {/*</FormControl>*/}
       </Box>
-      <Button colorScheme="blue" marginX="5px" onClick={handleSubmit}>
+      <Button
+        colorScheme="blue"
+        marginX="5px"
+        onClick={handleSubmit}
+        isDisabled={isSubmitting}
+      >
         작성
       </Button>
       <Button colorScheme="red">취소</Button>
