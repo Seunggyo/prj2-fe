@@ -16,7 +16,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export function DrugStoreWrite() {
+export function DsWrite() {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
@@ -37,7 +37,7 @@ export function DrugStoreWrite() {
   function handleSubmit() {
     setIsSubmitting(true);
     axios
-      .postForm("/ds/add", {
+      .postForm("/api/ds/add", {
         name,
         address,
         phone,
@@ -71,10 +71,6 @@ export function DrugStoreWrite() {
       })
       .finally(() => setIsSubmitting(false));
   }
-
-  console.log(openHour);
-  console.log(openMin);
-  console.log(nightCare);
 
   return (
     <Box>
@@ -189,4 +185,4 @@ export function DrugStoreWrite() {
   );
 }
 
-export default DrugStoreWrite;
+export default DsWrite;
