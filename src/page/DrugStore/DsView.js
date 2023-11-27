@@ -92,7 +92,7 @@ function DsView() {
       </FormControl>
 
       <Box>
-        <Button colorScheme="blue" onClick={() => navigate("/edit")}>
+        <Button colorScheme="blue" onClick={() => navigate("/edit/" + id)}>
           수정
         </Button>
         <Button
