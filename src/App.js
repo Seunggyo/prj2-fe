@@ -31,7 +31,9 @@ import { DrugView } from "./page/drug/DrugView";
 import { DrugEdit } from "./page/drug/DrugEdit";
 import {Drug} from "./page/Drug";
 import {Box} from "@chakra-ui/react";
-import {Hs} from "./page/Hs";
+import {Hs} from "./page/hs/Hs";
+import {HsAdd} from "./page/hs/HsAdd";
+import {HsEdit} from "./page/hs/HsEdit";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -59,6 +61,8 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<HomeLayout/>}>
             <Route path='hospital' element={<Hs/>}/>
+            <Route path="hospitalAdd" element={<HsAdd/>}/>
+            <Route path="hospitalEdit/:id" element={<HsEdit/>}/>
             <Route path="nutraceutical" element={<Drug/>}/>
         </Route>
     )
@@ -113,11 +117,23 @@ const routes = createBrowserRouter(
 )
 
 function App() {
+    // const [key, setKey] = useState(null);
+    // useEffect(() => {
+    //     axios.get("/api/hospital")
+    //         .then(response => setKey(response.data));
+    // }, []);
+    //
+    // console.log(key);
+    // if (key === null) {
+    //     return null;
+    // }
     return (
         <LoginProvider>
             <RouterProvider router={routes} />
         </LoginProvider>
     );
 }
+
+// export const KakaoMapAppContext = createContext(null);
 
 export default App;
