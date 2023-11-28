@@ -1,4 +1,11 @@
-import { Box, FormControl, FormLabel, Input, Spinner } from "@chakra-ui/react";
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  Image,
+  Input,
+  Spinner,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -25,6 +32,11 @@ export function DrugView() {
 
       <FormControl>
         <FormLabel>사진</FormLabel>
+        {drug.files.map((file) => (
+          <Box key={file.id} my="5px" border="3px solid black">
+            <Image width="100%" src={file.url} alt={file.name} />
+          </Box>
+        ))}
       </FormControl>
 
       <FormControl>
