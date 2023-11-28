@@ -117,34 +117,34 @@ export function DsEdit() {
             <Box>
               <Flex>
                 <Select
-                  defaultValue="7"
+                  defaultValue="7시"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.openHour = e.target.value;
                     })
                   }
                 >
-                  <option value="7">7시</option>
-                  <option value="8">8시</option>
-                  <option value="9">9시</option>
-                  <option value="10">10시</option>
-                  <option value="11">11시</option>
-                  <option value="12">12시</option>
+                  <option value="7시">7시</option>
+                  <option value="8시">8시</option>
+                  <option value="9시">9시</option>
+                  <option value="10시">10시</option>
+                  <option value="11시">11시</option>
+                  <option value="12시">12시</option>
                 </Select>
                 <Select
-                  defaultValue="0"
+                  defaultValue="0분"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.openMin = e.target.value;
                     })
                   }
                 >
-                  <option value="0">0분</option>
-                  <option value="10">10분</option>
-                  <option value="20">20분</option>
-                  <option value="30">30분</option>
-                  <option value="40">40분</option>
-                  <option value="50">50분</option>
+                  <option value="0분">0분</option>
+                  <option value="10분">10분</option>
+                  <option value="20분">20분</option>
+                  <option value="30분">30분</option>
+                  <option value="40분">40분</option>
+                  <option value="50분">50분</option>
                 </Select>
               </Flex>
             </Box>
@@ -152,33 +152,33 @@ export function DsEdit() {
             <Box>
               <Flex>
                 <Select
-                  defaultValue="16"
+                  defaultValue="16시"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.closeHour = e.target.value;
                     })
                   }
                 >
-                  <option value="16">16시</option>
-                  <option value="17">17시</option>
-                  <option value="18">18시</option>
-                  <option value="19">19시</option>
-                  <option value="20">20시</option>
+                  <option value="16시">16시</option>
+                  <option value="17시">17시</option>
+                  <option value="18시">18시</option>
+                  <option value="19시">19시</option>
+                  <option value="20시">20시</option>
                 </Select>
                 <Select
-                  defaultValue="00"
+                  defaultValue="0분"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.closeMin = e.target.value;
                     })
                   }
                 >
-                  <option value="0">0분</option>
-                  <option value="10">10분</option>
-                  <option value="20">20분</option>
-                  <option value="30">30분</option>
-                  <option value="40">40분</option>
-                  <option value="50">50분</option>
+                  <option value="0분">0분</option>
+                  <option value="10분">10분</option>
+                  <option value="20분">20분</option>
+                  <option value="30분">30분</option>
+                  <option value="40분">40분</option>
+                  <option value="50분">50분</option>
                 </Select>
               </Flex>
             </Box>
