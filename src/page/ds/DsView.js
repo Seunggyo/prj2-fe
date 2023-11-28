@@ -88,13 +88,13 @@ function DsView() {
         <Flex>
           <Input w={"20%"} value={ds.closeHour} isReadOnly />
           <Input w={"40%"} mx={"30px"} value={ds.closeMin} isReadOnly />
-          <Checkbox value={ds.nightCare} isReadOnly />
+          <Checkbox isChecked={ds.nightCare} isReadOnly />
         </Flex>
       </FormControl>
-      {/*TODO: 야간진료 하는지 확인 할 수 있는 칸 작성 필요*/}
 
       {/*TODO : 지역 화폐 사용 가능 한지도 작성*/}
 
+      {/*TODO : 파일 명 말고 파일 자체가 보여지겠금 수정해야함*/}
       <FormControl>
         <FormLabel>사업자 등록증</FormLabel>
         <Input value={ds.businessLicense} isReadOnly />
