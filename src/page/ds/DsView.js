@@ -16,6 +16,7 @@ import {
   ModalOverlay,
   useDisclosure,
   useToast,
+  Image,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -93,6 +94,11 @@ function DsView() {
       {/*TODO: 야간진료 하는지 확인 할 수 있는 칸 작성 필요*/}
 
       {/*TODO : 지역 화폐 사용 가능 한지도 작성*/}
+
+      <FormControl>
+        <FormLabel>사업자 등록증</FormLabel>
+        <Input value={ds.businessLicense} isReadOnly />
+      </FormControl>
 
       <FormControl>
         <FormLabel>약국 소개</FormLabel>

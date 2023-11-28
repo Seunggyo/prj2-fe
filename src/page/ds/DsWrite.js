@@ -24,7 +24,7 @@ export function DsWrite() {
   const [openMin, setOpenMin] = useState(0);
   const [closeHour, setCloseHour] = useState(16);
   const [closeMin, setCloseMin] = useState(0);
-  const [uploadFile, setUploadFile] = useState(null);
+  const [businessLicense, setBusinessLicense] = useState(null);
   const [nightCare, setNightCare] = useState(false);
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,7 +45,7 @@ export function DsWrite() {
         openMin,
         closeHour,
         closeMin,
-        // uploadFile,
+        businessLicense,
         nightCare,
         content,
       })
@@ -80,14 +80,17 @@ export function DsWrite() {
           <FormLabel>업체 명</FormLabel>
           <Input value={name} onChange={(e) => setName(e.target.value)} />
         </FormControl>
+
         <FormControl>
           <FormLabel>주소</FormLabel>
           <Input value={address} onChange={(e) => setAddress(e.target.value)} />
         </FormControl>
+
         <FormControl>
           <FormLabel>번호</FormLabel>
           <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
         </FormControl>
+
         <FormControl>
           <Box>
             <Flex>
@@ -153,6 +156,7 @@ export function DsWrite() {
             </Flex>
           </Box>
         </FormControl>
+
         <FormControl>
           <FormLabel>약국 소개</FormLabel>
           <Textarea
@@ -161,17 +165,21 @@ export function DsWrite() {
             onChange={(e) => setContent(e.target.value)}
           />
         </FormControl>
-        {/*<FormControl>*/}
-        {/*  <FormLabel>사업자 등록증</FormLabel>*/}
-        {/*  <Input*/}
-        {/*    type="file"*/}
-        {/*    accept="image/*"*/}
-        {/*    multiple*/}
-        {/*    onChange={(e) => setUploadFile(e.target.value)}*/}
-        {/*  />*/}
-        {/*  <FormHelperText>파일은 1MB 미만인 파일만 가능합니다</FormHelperText>*/}
-        {/*</FormControl>*/}
+
+        <FormControl>
+          <FormLabel>사업자 등록증</FormLabel>
+          <Input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              setBusinessLicense(e.target.files[0]);
+              console.log(e.target.files[0]);
+            }}
+          />
+          <FormHelperText>파일은 1MB 미만인 파일만 가능합니다</FormHelperText>
+        </FormControl>
       </Box>
+
       <Button
         colorScheme="blue"
         marginX="5px"
