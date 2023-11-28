@@ -8,7 +8,6 @@ import {
   FormLabel,
   Input,
   Select,
-  Switch,
   Textarea,
   useToast,
 } from "@chakra-ui/react";
@@ -24,15 +23,13 @@ export function DsWrite() {
   const [openMin, setOpenMin] = useState(0);
   const [closeHour, setCloseHour] = useState(16);
   const [closeMin, setCloseMin] = useState(0);
-  const [businessLicense, setBusinessLicense] = useState(null);
+  const [businessLi, setBusinessLi] = useState(null);
   const [nightCare, setNightCare] = useState(false);
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toast = useToast();
   const navigate = useNavigate();
-
-  function handleCheckNight() {}
 
   function handleSubmit() {
     setIsSubmitting(true);
@@ -45,7 +42,7 @@ export function DsWrite() {
         openMin,
         closeHour,
         closeMin,
-        businessLicense,
+        businessLi,
         nightCare,
         content,
       })
@@ -150,7 +147,10 @@ export function DsWrite() {
               <FormLabel mx="20px">야간 업무</FormLabel>
               <Flex>
                 <Box>
-                  <Checkbox onChange={(e) => setNightCare(e.target.checked)} />
+                  <Checkbox
+                    size="lg"
+                    onChange={(e) => setNightCare(e.target.checked)}
+                  />
                 </Box>
               </Flex>
             </Flex>
@@ -172,7 +172,7 @@ export function DsWrite() {
             type="file"
             accept="image/*"
             onChange={(e) => {
-              setBusinessLicense(e.target.files[0]);
+              setBusinessLi(e.target.files[0]);
               console.log(e.target.files[0]);
             }}
           />
