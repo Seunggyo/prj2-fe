@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
+  Button,
   Heading,
   Table,
   Tbody,
@@ -31,6 +32,10 @@ export function DsList() {
   //   appkey: process.env.REACT_APP_KAKAO_KEY,
   // });
 
+  function handleMoveWrite() {
+    navigate("/ds/write");
+  }
+
   return (
     <Box>
       <Box>
@@ -41,6 +46,7 @@ export function DsList() {
               <Tr>
                 <Th>약국이름</Th>
                 <Th>전화번호</Th>
+                <Th>약국주소</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -52,12 +58,14 @@ export function DsList() {
                 >
                   <Td>{ds.name}</Td>
                   <Td>{ds.phone}</Td>
+                  <Td>{ds.address}</Td>
                 </Tr>
               ))}
             </Tbody>
           </Table>
         </Box>
       </Box>
+      <Button onClick={handleMoveWrite}>추가</Button>
 
       {/*<Box>*/}
       {/*  {list &&*/}
