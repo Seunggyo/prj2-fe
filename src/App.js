@@ -37,7 +37,7 @@ import { Board } from "./Board";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="" element={<HomeLayout />}>
+    <Route path="/" element={<HomeLayout />}>
       <Route path="ds" element={<Ds />}>
         <Route path="list" element={<DsList />} />
         <Route path="write" element={<DsWrite />} />
@@ -67,7 +67,7 @@ const routes = createBrowserRouter(
         <Route index element={<BoardList />} />
         <Route path="write" element={<BoardWrite />} />
         <Route path=":id" element={<BoardView />} />
-        <Route path="edit:id" element={<BoardEdit />}></Route>
+        <Route path="edit/:id" element={<BoardEdit />}></Route>
       </Route>
       ,
     </Route>,

@@ -11,10 +11,10 @@ export function SideBar() {
   const navigate = useNavigate();
 
   return (
-    <div className="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 bg-white h-full text-gray-600 transition-all duration-300 border-none z-10 sideba">
+    <div className="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 bg-white h-full text-gray-600 transition-all duration-300 border-none z-10 sidebar">
       <div className="fixed flex flex-col top-15 left-0 w-64 bg-white h-full border-r">
         <div className="overflow-y-auto overflow-x-hidden flex-grow">
-          <ul className="flex flex-col py-4 space-y-1">
+          <ul className="flex flex-col py-7 space-y-2">
             <li className="px-5">
               <div className="flex flex-row items-center h-8">
                 <div className="text-sm font-light tracking-wide text-gray-500">
