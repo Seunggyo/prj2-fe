@@ -34,7 +34,7 @@ import { HsEdit } from "./page/hs/HsEdit";
 import { Ds } from "./Ds";
 import { Member } from "./Member";
 import { Board } from "./Board";
-s;
+
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<HomeLayout />}>
