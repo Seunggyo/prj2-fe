@@ -163,6 +163,11 @@ export function MemberSignup() {
       });
   }
 
+  function SendMail() {
+    axios.get("/mail?email=" + email
+    )
+  }
+
   return (
     <div className="relative flex flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none">
       <Box>
@@ -283,6 +288,13 @@ export function MemberSignup() {
                 onClick={handleEmailCheck}
               >
                 중복 확인
+              </Button>
+              <Button
+                  colorScheme="teal"
+                  variant="outline"
+                  onClick={SendMail}
+              >
+                메일 인증
               </Button>
             </Flex>
 
