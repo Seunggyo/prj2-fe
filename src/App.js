@@ -37,7 +37,7 @@ import { Board } from "./Board";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<HomeLayout />}>
+    <Route path="" element={<HomeLayout />}>
       <Route path="ds" element={<Ds />}>
         <Route path="list" element={<DsList />} />
         <Route path="write" element={<DsWrite />} />
@@ -56,14 +56,14 @@ const routes = createBrowserRouter(
         <Route path="hospitalAdd" element={<HsAdd />} />
         <Route path="hospitalEdit/:id" element={<HsEdit />} />
       </Route>
-      <Route path={"member"} element={<Member />}>
+      <Route path="member" element={<Member />}>
         <Route path="signup" element={<MemberSignup />} />
         <Route path="list" element={<MemberList />} />
         <Route path="view" element={<MemberView />} />
         <Route path="login" element={<MemberLogin />} />
         <Route path="edit" element={<MemberEdit />} />
       </Route>
-      <Route path={"board"} element={<Board />}>
+      <Route path="board" element={<Board />}>
         <Route index element={<BoardList />} />
         <Route path="write" element={<BoardWrite />} />
         <Route path=":id" element={<BoardView />} />
