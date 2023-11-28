@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -6,6 +6,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Modal,
   ModalBody,
@@ -14,12 +15,40 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Spinner,
+  Text,
   useDisclosure,
   useToast,
-  Image,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { LoginContext } from "../../component/LoginProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as fullHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as emptyHeart } from "@fortawesome/free-solid-svg-icons";
+
+function LikeContainer({ like, onClick }) {
+  // const {isAuthenticated} = useContext(LoginContext);
+
+  // if (like === null) {
+  //   return <Spinner />;
+  // }
+
+  return (
+    <Flex>
+      <Button variant="ghost" size="xl" onClick={onClick}>
+        {like.like && (
+          <FontAwesomeIcon icon={emptyHeart} size="xl" color="red" />
+        )}
+        {like.like || (
+          <FontAwesomeIcon icon={fullHeart} size="xl" color="red" />
+        )}
+        <Text>{like.countLike}</Text>
+        <Heading size="lg">{like.countLike}</Heading>
+      </Button>
+    </Flex>
+  );
+}
 
 function DsView() {
   const navigate = useNavigate();
@@ -29,6 +58,8 @@ function DsView() {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const [ds, setDs] = useState("");
+  const [board, setBoard] = useState(null);
+  const [like, setLike] = useState("");
 
   useEffect(() => {
     axios.get("/api/ds/id/" + id).then((response) => setDs(response.data));
@@ -53,9 +84,22 @@ function DsView() {
       .finally(() => onClose());
   }
 
+  function handleLike() {
+    axios
+      .post("api/business/like", { boardId: board.id })
+      .then((response) => {
+        setLike(response.data);
+      })
+      .catch(() => {})
+      .finally(() => {});
+  }
+
   return (
     <Box>
-      <h1> 정보 입니다 </h1>
+      <Flex>
+        <Heading size="xl">{ds.name}글 보기</Heading>
+        <LikeContainer like={like} onClick={handleLike} />
+      </Flex>
 
       <FormControl>
         <FormLabel>업체 명</FormLabel>
