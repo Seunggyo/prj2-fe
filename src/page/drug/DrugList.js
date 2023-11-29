@@ -1,4 +1,4 @@
-import { Box, Button, Input, Spinner } from "@chakra-ui/react";
+import { Box, Button, Image, Input, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { TbReportMedical } from "react-icons/tb";
 export function DrugList() {
   const [drugList, setDrugList] = useState(null);
   const [files, setFiles] = useState("");
+  const [drug, setDrug] = useState(null);
 
   const navigate = useNavigate();
 
@@ -32,13 +33,9 @@ export function DrugList() {
               className="flex flex-col p-6 bg-white shadow-lg rounded-lg dark:bg-zinc-850 justify-between border border-gray-300"
             >
               <div>
-                {/*<div>*/}
-                {/*  {drug.files.map((file) => (*/}
-                {/*    <Box key={file.id} my="5px" border="3px solid black">*/}
-                {/*      <Image width="100%" src={file.url} alt={file.name} />*/}
-                {/*    </Box>*/}
-                {/*  ))}*/}
-                {/*</div>*/}
+                <div>
+                  <Image src={drug.files[0].url} />
+                </div>
                 <div className="mt-10 text-center text-zinc-600 dark:text-zinc-400">
                   <span className="text-4xl font-bold">{drug.name}</span>/{" "}
                   {drug.func}
