@@ -15,14 +15,16 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { LoginContext } from "../../component/LoginProvider";
 
 export function BoardView() {
   const [board, setBoard] = useState("");
 
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const { hasAccess, isAdmin } = useContext(LoginContext);
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -39,10 +41,10 @@ export function BoardView() {
 
   function handleDelete() {
     axios
-      .get("/api/board/remove" + id)
+      .delete("/api/board/remove" + id)
       .then((r) => {
         toast({
-          description: "삭제가 완료되었습니다",
+          description: id + "번 게시글이 삭제되었습니다",
           status: "success",
         });
         navigate("/board");
@@ -69,7 +71,7 @@ export function BoardView() {
       </FormControl>
       <FormControl>
         <FormLabel>작성자</FormLabel>
-        <Input value={board.writer} readOnly />
+        <Input value={board.nickName} readOnly />
       </FormControl>
       <FormControl>
         <FormLabel>커뮤니티</FormLabel>
@@ -79,8 +81,13 @@ export function BoardView() {
         <FormLabel>작성일시</FormLabel>
         <Input value={board.inserted} readOnly />
       </FormControl>
-      <Button onClick={() => navigate("/board/edit/" + id)}>수 정</Button>
-      <Button onClick={() => onOpen()}>삭 제</Button>
+
+      {(hasAccess(board.writer) || isAdmin()) && (
+        <Box>
+          <Button onClick={() => navigate("/board/edit/" + id)}>수 정</Button>
+          <Button onClick={onOpen}>삭 제</Button>
+        </Box>
+      )}
 
       {/*삭제 모달*/}
       <Modal isOpen={isOpen} onClose={onClose}>

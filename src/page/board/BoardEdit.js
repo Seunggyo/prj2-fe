@@ -42,7 +42,7 @@ export function BoardEdit() {
       .put("/api/board/edit", board)
       .then((r) => {
         toast({
-          description: "게시글이 수정되었습니다",
+          description: board.id + "번 게시글이 수정되었습니다",
           status: "success",
         });
         navigate("/board/" + id);
@@ -52,6 +52,11 @@ export function BoardEdit() {
           toast({
             description: "입력된 정보를 다시 확인해주세요",
             status: "warning",
+          });
+        } else {
+          toast({
+            description: "수정 중에 문제가 발생하였습니다.",
+            status: "error",
           });
         }
       })
