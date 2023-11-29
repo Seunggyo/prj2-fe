@@ -6,7 +6,6 @@ import axios from "axios";
 export function BoardWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [writer, setWriter] = useState("");
   const [boardType, setBoardType] = useState("병원");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -19,7 +18,6 @@ export function BoardWrite() {
       .post("/api/board/add", {
         title,
         content,
-        writer,
         category: boardType,
       })
       .then(() => {
@@ -79,19 +77,6 @@ export function BoardWrite() {
                 ></textarea>
               </div>
               <div className="flex space-x-24">
-                <div>
-                  <span className="font-dongle text-4xl text-gray-500">
-                    작성자:
-                  </span>
-                  <input
-                    type="text"
-                    placeholder="NickName"
-                    id="writer"
-                    value={writer}
-                    onChange={(e) => setWriter(e.target.value)}
-                    className="ml-2 outline-none py-1 px-2 text-md border-2 rounded-md"
-                  />
-                </div>
                 <div>
                   <Flex>
                     <span className="font-dongle text-4xl text-gray-500">

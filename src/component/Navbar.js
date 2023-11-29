@@ -1,10 +1,34 @@
-import React from "react";
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import React, { useContext } from "react";
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useToast,
+} from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { LoginContext } from "./LoginProvider";
 
 export function NavBar() {
   const navigate = useNavigate();
+  const toast = useToast();
+
+  const { fetchLogin, login } = useContext(LoginContext);
+  function handleLogout() {
+    axios
+      .post("/api/member/logout")
+      .then(() => {
+        toast({
+          description: "로그아웃 되었습니다.",
+          status: "info",
+        });
+        navigate("/");
+      })
+      .finally(() => fetchLogin());
+  }
 
   return (
     <div className="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
@@ -41,9 +65,9 @@ export function NavBar() {
 
           <button
             className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-            onClick={() => navigate("/member/list")}
+            onClick={handleLogout}
           >
-            공 백
+            로그아웃
           </button>
         </nav>
 
