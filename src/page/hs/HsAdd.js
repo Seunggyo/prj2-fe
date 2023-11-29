@@ -29,6 +29,7 @@ export function HsAdd() {
     const [closeMin, setCloseMin] = useState(0);
     const [content, setContent] = useState("");
     const [homePage, setHomePage] = useState("");
+    const [hsFiles, setHsFiles] = useState(null);
     const [nightCare, setNightCare] = useState(0);
 
     const toast = useToast();
@@ -55,7 +56,7 @@ export function HsAdd() {
 
     function handleClickSubmit() {
 
-        axios.post("/api/hospital/add", {
+        axios.postForm("/api/hospital/add", {
             name,
             address,
             phone,
@@ -65,6 +66,7 @@ export function HsAdd() {
             closeMin,
             content,
             homePage,
+            hsFiles,
             nightCare
         }).then(() => {
                 toast({
@@ -150,6 +152,10 @@ export function HsAdd() {
                     <FormControl>
                         <FormLabel>홈페이지</FormLabel>
                         <Input value={homePage} onChange={e => setHomePage(e.target.value)}/>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>병원 사진</FormLabel>
+                        <Input type="file" accept="image/*" multiple onChange={e => setHsFiles(e.target.files)}/>
                     </FormControl>
                     <FormControl>
                         <FormLabel>야간영업</FormLabel>

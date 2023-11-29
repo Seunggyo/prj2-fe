@@ -6,10 +6,12 @@ import {
     CardFooter,
     CardHeader,
     Checkbox,
+    Divider,
     Flex,
     FormControl,
     FormLabel,
     Heading,
+    Image,
     Input,
     Modal,
     ModalBody,
@@ -19,14 +21,17 @@ import {
     ModalHeader,
     ModalOverlay,
     Select,
+    Switch,
     Textarea,
     useDisclosure,
     useToast
 } from "@chakra-ui/react";
 import {useImmer} from "use-immer";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
 
 export function HsEdit() {
     const [list, updateList] = useImmer([]);
@@ -34,6 +39,7 @@ export function HsEdit() {
     const {isOpen, onClose, onOpen} = useDisclosure();
     const navigate = useNavigate();
     const toast = useToast();
+    const [removeFileIds, setRemoveFileIds] = useState();
 
     useEffect(() => {
         axios.get("/api/hospital/id/" + id).then((r) => updateList(r.data))
@@ -110,7 +116,7 @@ export function HsEdit() {
     console.log(list.nightCare)
 
     function handleSubmitClick() {
-        axios.put("/api/hospital/edit", {
+        axios.putForm("/api/hospital/edit", {
             id: list.id,
             name: list.name,
             address: list.address,
@@ -121,8 +127,8 @@ export function HsEdit() {
             closeMin: list.closeMin,
             content: list.content,
             homePage: list.homePage,
-            nightCare: list.nightCare
-
+            nightCare: list.nightCare,
+            removeFileIds,
 
         }).then(() => {
             toast({
@@ -138,6 +144,14 @@ export function HsEdit() {
         }).finally(() => onClose)
     }
 
+
+    function handleRemoveFileSwitch(e) {
+        if (e.target.checked) {
+            setRemoveFileIds([...removeFileIds, e.target.value]);
+        } else {
+            setRemoveFileIds(removeFileIds.filter((item) => item !== e.target.value));
+        }
+    }
 
     return (
         <Box>
@@ -208,6 +222,32 @@ export function HsEdit() {
                     <FormControl>
                         <FormLabel>홈페이지</FormLabel>
                         <Input value={list.homePage} onChange={handleHomePageChange}/>
+                    </FormControl>
+                    <FormControl>
+                        {list.files.length > 0 &&
+                            list.files.map((file) => (
+                                <Card
+                                    key={file.id}
+                                    sx={{marginTop: "20px", marginBottom: "20px"}}
+                                >
+                                    <CardBody>
+                                        <Image src={file.url} alt={file.name} width="100%"/>
+                                    </CardBody>
+                                    <Divider/>
+                                    <CardFooter>
+                                        <FormControl display="flex" alignItems={"center"} gap={2}>
+                                            <FormLabel colorScheme="red" m={0} p={0}>
+                                                <FontAwesomeIcon color="red" icon={faTrashCan}/>
+                                            </FormLabel>
+                                            <Switch
+                                                value={file.id}
+                                                onChange={handleRemoveFileSwitch}
+                                                colorScheme="red"
+                                            />
+                                        </FormControl>
+                                    </CardFooter>
+                                </Card>
+                            ))}
                     </FormControl>
                     <FormControl>
                         <FormLabel>야간영업</FormLabel>

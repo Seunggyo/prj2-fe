@@ -1,9 +1,9 @@
-import {Box, Button, Flex} from "@chakra-ui/react";
+import {Button, Flex} from "@chakra-ui/react";
 import {faHospital} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate} from "react-router-dom";
 import React from "react";
-// sdadas
+
 
 export function NavBar() {
     const navigate = useNavigate();
@@ -11,9 +11,9 @@ export function NavBar() {
     return (
         <Flex direction="column" align="start" width="150px" height="300px">
             <Button width="100%" bgColor="red.100" onClick={() => navigate("/")}>
-                <FontAwesomeIcon icon={faHospital} />
+                <FontAwesomeIcon icon={faHospital}/>
             </Button>
-            <Button width="100%" bgColor="red.200" onClick={() => navigate("map")}>
+            <Button width="100%" bgColor="red.200" onClick={() => navigate("/hospital/hospitalList")}>
                 병원
             </Button>
             <Button width="100%" bgColor="red.300" onClick={() => navigate("/drug")}>
