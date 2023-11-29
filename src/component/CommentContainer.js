@@ -36,18 +36,7 @@ function CommentForm({ boardId, isSubmitting, onSubmit }) {
   );
 }
 
-function CommentList({ boardId }) {
-  const [commentList, setCommentList] = useState([]);
-
-  useEffect(() => {
-    const params = new URLSearchParams();
-    params.set("id", boardId);
-
-    axios
-      .get("/api/comment/list?" + params)
-      .then((r) => setCommentList(r.data));
-  }, []);
-
+function CommentList({ commentList }) {
   return (
     <div>
       <Card>
@@ -76,6 +65,21 @@ function CommentList({ boardId }) {
 
 export function CommentContainer({ boardId }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [commentList, setCommentList] = useState([]);
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    params.set("id", boardId);
+
+    if (!isSubmitting) {
+      axios
+        .get("/api/comment/list?" + params)
+        .then((r) => setCommentList(r.data));
+    }
+  }, [isSubmitting]);
+  // 댓글을 쓰고나서 isSumitting 상태가 변경될때마다 useEffect 안에 있는 내용이
+  // re-rendering 되는 것이 목적이기에 디펜던시(deps) 에 isSubmitting 들어감.
+  // 다만, isSubmitting 변경값이 false일 때에만 필요하기에 if조건문으로 감쌈.
 
   function handleSubmit(comment) {
     setIsSubmitting(true);
@@ -93,7 +97,7 @@ export function CommentContainer({ boardId }) {
           isSubmitting={isSubmitting}
           onSubmit={handleSubmit}
         />
-        <CommentList boardId={boardId} />
+        <CommentList commentList={commentList} />
       </Box>
     </div>
   );
