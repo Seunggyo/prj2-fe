@@ -23,7 +23,6 @@ export function DsWrite() {
   const [openMin, setOpenMin] = useState(0);
   const [closeHour, setCloseHour] = useState(16);
   const [closeMin, setCloseMin] = useState(0);
-  const [businessLi, setBusinessLi] = useState(null);
   const [nightCare, setNightCare] = useState(false);
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,7 +42,6 @@ export function DsWrite() {
         openMin,
         closeHour,
         closeMin,
-        businessLi,
         nightCare,
         content,
         uploadFiles,
@@ -169,26 +167,13 @@ export function DsWrite() {
         </FormControl>
 
         <FormControl>
-          <FormLabel>사업자 등록증</FormLabel>
-          <Input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              setBusinessLi(e.target.files[0]);
-            }}
-          />
-          <FormHelperText>파일은 1MB 미만인 파일만 가능합니다</FormHelperText>
-        </FormControl>
-
-        <FormControl>
           <FormLabel>가게 사진</FormLabel>
           <Input
             type="file"
             accept="image/*"
             multiple
             onChange={(e) => {
-              setUploadFiles(e.target.value);
-              console.log(e.target.value[0]);
+              setUploadFiles(e.target.files);
             }}
           />
           <FormHelperText>
