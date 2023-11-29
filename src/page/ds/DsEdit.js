@@ -34,14 +34,23 @@ export function DsEdit() {
   const navigate = useNavigate();
   const { isOpen, onClose, onOpen } = useDisclosure();
 
+  // 바뀌고자 하는 사진을 미리 보여주는 코드
   useEffect(() => {
-    axios.get("/api/ds/id/" + id).then((response) => updateDs(response.data));
-  }, []);
+    axios.get("/api/ds/id/" + id).then((response) =>
+      updateDs({
+        ...response.data,
+        files: response.data.files.map((file) => ({
+          ...file,
+          preview: file.url,
+        })),
+      }),
+    );
+  }, [id, updateDs]);
 
   function handleSubmit() {
     // 수정 버튼 클릭시 해야할 일
     axios
-      .put("/api/ds/edit", {
+      .putForm("/api/ds/edit", {
         id: ds.id,
         name: ds.name,
         address: ds.address,
@@ -88,8 +97,13 @@ export function DsEdit() {
       {/*약국 사진*/}
       {ds.files.length > 0 &&
         ds.files.map((file) => (
-          <Box key={file.id} border="3px solid black">
-            <Image width="100%" height="300px" src={file.url} alt={file.name} />
+          <Box key={file.name} border="3px solid black">
+            <Image
+              width="100%"
+              height="300px"
+              src={file.preview}
+              alt={file.name}
+            />
           </Box>
         ))}
 
@@ -232,9 +246,14 @@ export function DsEdit() {
               type="file"
               accept="image/*"
               multiple
+              // 파일 업로드 시 미리 보여주는 코드
               onChange={(e) =>
                 updateDs((draft) => {
-                  draft.files = e.target.files;
+                  draft.files = Array.from(e.target.files).map((file) =>
+                    Object.assign(file, {
+                      preview: URL.createObjectURL(file),
+                    }),
+                  );
                 })
               }
             />
