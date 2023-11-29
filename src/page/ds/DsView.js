@@ -96,6 +96,8 @@ function DsView() {
 
   return (
     <Box>
+      {/*TODO : write에서 작성한 파일 화면에 뛰우기*/}
+
       <Flex>
         <Heading size="xl">{ds.name}글 보기</Heading>
         <LikeContainer like={like} onClick={handleLike} />

@@ -27,6 +27,7 @@ export function DsWrite() {
   const [nightCare, setNightCare] = useState(false);
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadFiles, setUploadFiles] = useState(null);
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ export function DsWrite() {
         businessLi,
         nightCare,
         content,
+        uploadFiles,
       })
       .then(() => {
         toast({
@@ -173,10 +175,25 @@ export function DsWrite() {
             accept="image/*"
             onChange={(e) => {
               setBusinessLi(e.target.files[0]);
-              console.log(e.target.files[0]);
             }}
           />
           <FormHelperText>파일은 1MB 미만인 파일만 가능합니다</FormHelperText>
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>가게 사진</FormLabel>
+          <Input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={(e) => {
+              setUploadFiles(e.target.value);
+              console.log(e.target.value[0]);
+            }}
+          />
+          <FormHelperText>
+            한 개 파일은 1MB 이내, 총 파일은 10MB 이내로 첨부 가능합니다
+          </FormHelperText>
         </FormControl>
       </Box>
 
