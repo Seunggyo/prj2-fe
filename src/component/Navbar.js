@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Button,
   Menu,
@@ -8,7 +8,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LoginContext } from "./LoginProvider";
 
@@ -20,6 +20,12 @@ export function NavBar() {
     useContext(LoginContext);
 
   const urlParams = new URLSearchParams();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    fetchLogin();
+  }, [location]);
 
   if (login !== null) {
     urlParams.set("id", login.id);

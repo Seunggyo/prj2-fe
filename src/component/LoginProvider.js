@@ -27,9 +27,21 @@ function LoginProvider({ children }) {
     return login.auth;
   }
 
+  // TODO: 임시 admin 추가함
+  function isAdmin() {
+    return false;
+  }
+
   return (
     <LoginContext.Provider
-      value={{ login, fetchLogin, isAuthenticated, hasAccess, authCheck }}
+      value={{
+        login,
+        fetchLogin,
+        isAuthenticated,
+        hasAccess,
+        authCheck,
+        isAdmin,
+      }}
     >
       {children}
     </LoginContext.Provider>
