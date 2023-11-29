@@ -147,12 +147,6 @@ function DsView() {
 
       {/*TODO : 지역 화폐 사용 가능 한지도 작성*/}
 
-      {/*TODO : 파일 명 말고 파일 자체가 보여지겠금 수정해야함*/}
-      <FormControl>
-        <FormLabel>사업자 등록증</FormLabel>
-        <Input value={ds.businessLicense} isReadOnly />
-      </FormControl>
-
       <FormControl>
         <FormLabel>약국 소개</FormLabel>
         <Input value={ds.content} isReadOnly />
