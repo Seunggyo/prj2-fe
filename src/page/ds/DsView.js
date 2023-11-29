@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -7,6 +7,7 @@ import {
   FormControl,
   FormLabel,
   Heading,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -22,7 +23,6 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { LoginContext } from "../../component/LoginProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fullHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as emptyHeart } from "@fortawesome/free-solid-svg-icons";
@@ -57,8 +57,7 @@ function DsView() {
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
-  const [ds, setDs] = useState("");
-  const [board, setBoard] = useState(null);
+  const [ds, setDs] = useState(null);
   const [like, setLike] = useState("");
 
   useEffect(() => {
@@ -86,7 +85,7 @@ function DsView() {
 
   function handleLike() {
     axios
-      .post("api/business/like", { boardId: board.id })
+      .post("api/business/like")
       .then((response) => {
         setLike(response.data);
       })
@@ -94,9 +93,17 @@ function DsView() {
       .finally(() => {});
   }
 
+  if (ds === null) {
+    return <Spinner />;
+  }
+
   return (
     <Box>
-      {/*TODO : write에서 작성한 파일 화면에 뛰우기*/}
+      {ds.files.map((file) => (
+        <Box key={file.id} border="3px solid black">
+          <Image width="100%" height="300px" src={file.url} alt={file.name} />
+        </Box>
+      ))}
 
       <Flex>
         <Heading size="xl">{ds.name}글 보기</Heading>
