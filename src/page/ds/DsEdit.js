@@ -17,6 +17,7 @@ import {
   ModalOverlay,
   Select,
   Spinner,
+  Switch,
   Textarea,
   useDisclosure,
   useToast,
@@ -25,10 +26,12 @@ import React, { useEffect, useState } from "react";
 import { useImmer } from "use-immer";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 export function DsEdit() {
   const [ds, updateDs] = useImmer(null);
-
+  const [uploadFile, setUploadFile] = useState(null);
   const [deleteFileIds, setDeleteFileIds] = useState([]);
 
   const toast = useToast();
@@ -36,18 +39,26 @@ export function DsEdit() {
   const navigate = useNavigate();
   const { isOpen, onClose, onOpen } = useDisclosure();
 
-  // 바뀌고자 하는 사진을 미리 보여주는 코드
   useEffect(() => {
-    axios.get("/api/ds/id/" + id).then((response) =>
-      updateDs({
-        ...response.data,
-        files: response.data.files.map((file) => ({
-          ...file,
-          preview: file.url,
-        })),
-      }),
-    );
-  }, [id, updateDs]);
+    axios.get("/api/ds/id/" + id).then((response) => updateDs(response.data));
+  }, []);
+
+  // 바뀌고자 하는 사진을 미리 보여주는 코드
+  // useEffect(() => {
+  //   axios.get("/api/ds/id/" + id).then((response) =>
+  //     updateDs({
+  //       ...response.data,
+  //       files: response.data.files.map((file) => ({
+  //         ...file,
+  //         preview: file.url,
+  //       })),
+  //     }),
+  //   );
+  // }, [id, updateDs]);
+
+  if (ds === null) {
+    return <Spinner />;
+  }
 
   function handleSubmit() {
     // 수정 버튼 클릭시 해야할 일
@@ -63,7 +74,7 @@ export function DsEdit() {
         closeMin: ds.closeMin,
         nightCare: ds.nightCare,
         content: ds.content,
-        uploadFiles: ds.files,
+        uploadFile,
         deleteFileIds,
       })
       .then(
@@ -90,28 +101,16 @@ export function DsEdit() {
       .finally(() => onClose());
   }
 
-  if (ds === null) {
-    return <Spinner />;
-  }
-
-  function handleChangeFile(e) {
-    // 기존 파일 삭제
-    // TODO : 나중이라도 파일 클릭시 현재 있는 파일 전부 선택하여 삭제 하고 새로 선택한 파일만 넣어보는 시도 해보자
-    if (e.target.value) {
-      setDeleteFileIds([...deleteFileIds, e.target.files]);
+  function handleDeleteFileSwitch(e) {
+    if (e.target.checked) {
+      // removeFileIds에 추가
+      setDeleteFileIds([...deleteFileIds, e.target.value]);
     } else {
+      // removeFileIds에서 삭제
       setDeleteFileIds(deleteFileIds.filter((item) => item !== e.target.value));
     }
 
-    console.log(e.target);
-    // 파일 업로드
-    updateDs((draft) => {
-      draft.files = Array.from(e.target.files).map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        }),
-      );
-    });
+    console.log(e.target.value);
   }
 
   return (
@@ -121,13 +120,18 @@ export function DsEdit() {
       {/*약국 사진*/}
       {ds.files.length > 0 &&
         ds.files.map((file) => (
-          <Box key={file.name} border="3px solid black">
-            <Image
-              width="100%"
-              height="300px"
-              src={file.preview}
-              alt={file.name}
-            />
+          <Box key={file.id} border="3px solid black">
+            <FormControl display="flex" alignItems="center">
+              <FormLabel>
+                <FontAwesomeIcon icon={faTrashCan} color="red" />
+              </FormLabel>
+              <Switch
+                value={file.id}
+                colorScheme="red"
+                onChange={handleDeleteFileSwitch}
+              />
+            </FormControl>
+            <Image width="100%" height="300px" src={file.url} alt={file.name} />
           </Box>
         ))}
 
@@ -270,9 +274,8 @@ export function DsEdit() {
               type="file"
               accept="image/*"
               multiple
+              onChange={(e) => setUploadFile(e.target.files)}
               // 파일 업로드 시 미리 보여 주기
-              // TODO : 파일 변경 시 기존 파일 삭제 + 바뀌는 파일 프리뷰
-              onChange={handleChangeFile}
               // onChange={(e) =>
               //   updateDs((draft) => {
               //     draft.files = Array.from(e.target.files).map((file) =>
