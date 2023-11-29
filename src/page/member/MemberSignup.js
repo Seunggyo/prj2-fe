@@ -59,7 +59,7 @@ export function MemberSignup() {
         setIdAvailable(false);
         toast({
           position: "bottom-left",
-          description: "이미 사용중인 ID 입니다.",
+          description: "이미 사용중인 아이디 입니다.",
           status: "warning",
         });
       })
@@ -68,7 +68,7 @@ export function MemberSignup() {
           setIdAvailable(true);
           toast({
             position: "bottom-left",
-            description: "사용 가능한 ID 입니다.",
+            description: "사용 가능한 아이디 입니다.",
             status: "success",
           });
         }
@@ -85,7 +85,7 @@ export function MemberSignup() {
         setNickNameAvailable(false);
         toast({
           position: "bottom-left",
-          description: "이미 사용중인 nickName 입니다.",
+          description: "이미 사용중인 닉네임 입니다.",
           status: "warning",
         });
       })
@@ -94,7 +94,7 @@ export function MemberSignup() {
           setNickNameAvailable(true);
           toast({
             position: "bottom-left",
-            description: "사용 가능한 nickName 입니다.",
+            description: "사용 가능한 닉네임 입니다.",
             status: "success",
           });
         }
@@ -111,7 +111,7 @@ export function MemberSignup() {
         setEmailAvailable(false);
         toast({
           position: "bottom-left",
-          description: "이미 사용중인 Email 입니다.",
+          description: "이미 사용중인 이메일 입니다.",
           status: "warning",
         });
       })
@@ -120,7 +120,7 @@ export function MemberSignup() {
           setEmailAvailable(true);
           toast({
             position: "bottom-left",
-            description: "사용 가능한 Email 입니다.",
+            description: "사용 가능한 이메일 입니다.",
             status: "success",
           });
         }
