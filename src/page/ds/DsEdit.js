@@ -4,7 +4,9 @@ import {
   Checkbox,
   Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -14,17 +16,18 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Spinner,
   Textarea,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useImmer } from "use-immer";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 export function DsEdit() {
-  const [ds, updateDs] = useImmer("");
+  const [ds, updateDs] = useImmer(null);
 
   const toast = useToast();
   const { id } = useParams();
@@ -74,9 +77,22 @@ export function DsEdit() {
       .finally(() => onClose());
   }
 
+  if (ds === null) {
+    return <Spinner />;
+  }
+
   return (
     <Box>
-      <h1>{ds.id}번 글 수정</h1>
+      <h1>{ds.id} 수정</h1>
+
+      {/*약국 사진*/}
+      {ds.files.length > 0 &&
+        ds.files.map((file) => (
+          <Box key={file.id} border="3px solid black">
+            <Image width="100%" height="300px" src={file.url} alt={file.name} />
+          </Box>
+        ))}
+
       <FormControl>
         <FormLabel>업체 명</FormLabel>
         <Input
@@ -88,6 +104,7 @@ export function DsEdit() {
           }
         />
       </FormControl>
+
       <FormControl>
         <FormLabel>주소</FormLabel>
         <Textarea
@@ -99,6 +116,7 @@ export function DsEdit() {
           }
         />
       </FormControl>
+
       <FormControl>
         <FormLabel>번호</FormLabel>
         <Input
@@ -110,6 +128,7 @@ export function DsEdit() {
           }
         />
       </FormControl>
+
       <FormControl>
         <Box>
           <Flex>
@@ -195,6 +214,7 @@ export function DsEdit() {
               </Box>
             </Flex>
           </Flex>
+
           <FormControl>
             <FormLabel>약국 소개</FormLabel>
             <Textarea
@@ -204,6 +224,23 @@ export function DsEdit() {
                 })
               }
             />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>가게 사진</FormLabel>
+            <Input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(e) =>
+                updateDs((draft) => {
+                  draft.files = e.target.files;
+                })
+              }
+            />
+            <FormHelperText>
+              한 개 파일은 1MB 이내, 총 파일은 10MB 이내로 첨부 가능합니다
+            </FormHelperText>
           </FormControl>
         </Box>
       </FormControl>
