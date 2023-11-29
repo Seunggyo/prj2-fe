@@ -36,6 +36,7 @@ function MemberList(props) {
                     <Th>id</Th>
                     <Th>password</Th>
                     <Th>nickName</Th>
+                    <Th>birthday</Th>
                     <Th>phone</Th>
                     <Th>email</Th>
                     <Th>auth</Th>
@@ -49,6 +50,7 @@ function MemberList(props) {
                         <Td>{member.id}</Td>
                         <Td>{member.password}</Td>
                         <Td>{member.nickName}</Td>
+                        <Td>{member.birthday}</Td>
                         <Td>{member.phone}</Td>
                         <Td>{member.email}</Td>
                         <Td>{member.auth}</Td>
