@@ -19,6 +19,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { LoginContext } from "../../component/LoginProvider";
+import { CommentContainer } from "../../component/CommentContainer";
 
 export function BoardView() {
   const [board, setBoard] = useState("");
@@ -104,6 +105,8 @@ export function BoardView() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      <CommentContainer boardId={id} />
     </Box>
   );
 }
