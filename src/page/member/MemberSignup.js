@@ -2,12 +2,23 @@ import {
   Box,
   Button,
   Flex,
-  FormControl, FormLabel, Input,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Select,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
+import {useNavigate} from "react-router-dom";
 
 export function MemberSignup() {
   const [id, setId] = useState("");
@@ -28,6 +39,8 @@ export function MemberSignup() {
   const [emailAvailable, setEmailAvailable] = useState(false);
 
   const toast = useToast();
+  const {isOpen, onOpen, onClose} = useDisclosure();
+  const navigate = useNavigate();
 
   let submitAvailable = true;
 
@@ -189,7 +202,7 @@ export function MemberSignup() {
         <p className="mt-1 block font-sans text-center text-base font-normal leading-relaxed text-gray-700 antialiased">
           세부 정보를 입력해 주세요.
         </p>
-        <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-xl sm:w-96">
+        <div className="mt-8 mb-2 mx-auto w-80 max-w-screen-xl sm:w-96">
           <div className="mb-4 flex flex-col gap-6">
             {/*id 아이디*/}
             <Flex>
@@ -422,12 +435,12 @@ export function MemberSignup() {
               <p className="flex items-center font-sans text-sm font-normal leading-normal text-gray-700 antialiased">
                 이용약관에 동의하시나요?
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a
+                <button
                   className="font-medium transition-colors hover:text-pink-500"
-                  href="#"
+                  onClick={onOpen}
                 >
                   (이용약관 바로가기)
-                </a>
+                </button>
               </p>
             </label>
           </div>
@@ -444,15 +457,31 @@ export function MemberSignup() {
           <p class="mt-4 block text-center font-sans text-base font-normal leading-relaxed text-gray-700 antialiased">
             이미 계정이 있나요?
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a
+            <button
               class="font-medium text-pink-500 transition-colors hover:text-blue-700"
-              href="#"
+              onClick={()=> navigate("/member/login")}
             >
               로그인
-            </a>
+            </button>
           </p>
-        </form>
+        </div>
       </Box>
+
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>이용 약관</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              약관 내용
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme={"blue"} mr={3} onClick={onClose}>
+                닫기
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
     </div>
   );
 }

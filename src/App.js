@@ -1,29 +1,24 @@
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
-import { HomeLayout } from "./layout/HomeLayout";
+import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider,} from "react-router-dom";
+import {HomeLayout} from "./layout/HomeLayout";
 import React from "react";
 
 import DsWrite from "./page/ds/DsWrite";
-import { DsList } from "./page/ds/DsList";
+import {DsList} from "./page/ds/DsList";
 import DsView from "./page/ds/DsView";
-import { DsEdit } from "./page/ds/DsEdit";
-import { MemberSignup } from "./page/member/MemberSignup";
+import {DsEdit} from "./page/ds/DsEdit";
+import {MemberSignup} from "./page/member/MemberSignup";
 import MemberList from "./page/member/MemberList";
 import MemberView from "./page/member/MemberView";
 import LoginProvider from "./component/LoginProvider";
-import { MemberLogin } from "./page/member/MemberLogin";
+import {MemberLogin} from "./page/member/MemberLogin";
 import MemberEdit from "./page/member/MemberEdit";
 
-import { BoardWrite } from "./page/board/BoardWrite";
-import { BoardView } from "./page/board/BoardView";
-import { BoardList } from "./page/board/BoardList";
-import { BoardEdit } from "./page/board/BoardEdit";
-import { DrugChoice } from "./page/drug/DrugChoice";
-import { DrugLayout } from "./layout/DrugLayout";
+import {BoardWrite} from "./page/board/BoardWrite";
+import {BoardView} from "./page/board/BoardView";
+import {BoardList} from "./page/board/BoardList";
+import {BoardEdit} from "./page/board/BoardEdit";
+import {DrugChoice} from "./page/drug/DrugChoice";
+import {DrugLayout} from "./layout/DrugLayout";
 import DrugChoiceList from "./page/drug/DrugChoiceList";
 import {DrugWrite} from "./page/drug/DrugWrite";
 import {DrugList} from "./page/drug/DrugList";
@@ -36,6 +31,8 @@ import {Member} from "./Member";
 import {Board} from "./Board";
 import {Hs} from "./Hs";
 import {HsList} from "./page/hs/HsList";
+import {MemberFindId} from "./page/member/MemberFindId";
+import {MemberFindPassword} from "./page/member/MemberFindPassword";
 
 const routes = createBrowserRouter(
     createRoutesFromElements(
@@ -70,6 +67,8 @@ const routes = createBrowserRouter(
                 <Route path="view" element={<MemberView/>}/>
                 <Route path="login" element={<MemberLogin/>}/>
                 <Route path="edit" element={<MemberEdit/>}/>
+                <Route path="findId" element={<MemberFindId/>}/>
+                <Route path="findPassword" element={<MemberFindPassword/>}/>
             </ Route>
 
             <Route path={"board"} element={<Board/>}>
