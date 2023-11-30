@@ -68,12 +68,11 @@ export function DsView() {
     axios.get("/api/ds/id/" + id).then((response) => setDs(response.data));
   }, []);
 
-  // TODO: 주소 오류 해결해야 함!!
-  // useEffect(() => {
-  //   axios
-  //     .get("/api/business/like/view/" + ds.id)
-  //     .then((response) => setLike(response.data));
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("/api/business/like/dsId/" + ds.id)
+      .then((response) => setLike(response.data));
+  }, []);
 
   if (ds === null) {
     return <Spinner />;
@@ -100,7 +99,7 @@ export function DsView() {
 
   function handleLike() {
     axios
-      .post("/api/business/like", { dsId: ds.id })
+      .post("/api/business/like", { businessId: ds.id })
       .then((response) => {
         setLike(response.data);
       })
