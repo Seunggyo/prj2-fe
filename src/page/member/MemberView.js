@@ -27,6 +27,7 @@ function MemberView(props) {
                 </CardHeader>
                 <CardBody>
                     <Box>nickName : {member.nickName}</Box>
+                    <Box>birthday : {member.birthday}</Box>
                     <Box>phone : {member.phone}</Box>
                     <Box>email : {member.email}</Box>
                     <Box>address : {member.address}</Box>

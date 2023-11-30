@@ -2,7 +2,7 @@ import {
   Box,
   Button,
   Flex,
-  FormControl,
+  FormControl, FormLabel, Input,
   Select,
   useToast,
 } from "@chakra-ui/react";
@@ -14,10 +14,14 @@ export function MemberSignup() {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [nickName, setNickName] = useState("");
+  const [birthday, setBirthday] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [auth, setAuth] = useState("user");
+  const [uploadFile, setUploadFile] = useState(null);
+  const [mailNum, setMailNum] = useState("");
+  const [authenticationNum, setAuthenticationNum] = useState(null);
 
   const [idAvailable, setIdAvailable] = useState(false);
   const [nickNameAvailable, setNickNameAvailable] = useState(false);
@@ -31,6 +35,9 @@ export function MemberSignup() {
     submitAvailable = false;
   }
   if (!nickNameAvailable) {
+    submitAvailable = false;
+  }
+  if (birthday.length === 0) {
     submitAvailable = false;
   }
   if (phone.length === 0) {
@@ -48,6 +55,9 @@ export function MemberSignup() {
   if (password.length === 0) {
     submitAvailable = false;
   }
+  if (parseInt(mailNum) !== authenticationNum) {
+    submitAvailable = false;
+  }
 
   function handleIdCheck() {
     const params = new URLSearchParams();
@@ -59,7 +69,7 @@ export function MemberSignup() {
         setIdAvailable(false);
         toast({
           position: "bottom-left",
-          description: "이미 사용중인 ID 입니다.",
+          description: "이미 사용중인 아이디 입니다.",
           status: "warning",
         });
       })
@@ -68,7 +78,7 @@ export function MemberSignup() {
           setIdAvailable(true);
           toast({
             position: "bottom-left",
-            description: "사용 가능한 ID 입니다.",
+            description: "사용 가능한 아이디 입니다.",
             status: "success",
           });
         }
@@ -85,7 +95,7 @@ export function MemberSignup() {
         setNickNameAvailable(false);
         toast({
           position: "bottom-left",
-          description: "이미 사용중인 nickName 입니다.",
+          description: "이미 사용중인 닉네임 입니다.",
           status: "warning",
         });
       })
@@ -94,7 +104,7 @@ export function MemberSignup() {
           setNickNameAvailable(true);
           toast({
             position: "bottom-left",
-            description: "사용 가능한 nickName 입니다.",
+            description: "사용 가능한 닉네임 입니다.",
             status: "success",
           });
         }
@@ -111,7 +121,7 @@ export function MemberSignup() {
         setEmailAvailable(false);
         toast({
           position: "bottom-left",
-          description: "이미 사용중인 Email 입니다.",
+          description: "이미 사용중인 이메일 입니다.",
           status: "warning",
         });
       })
@@ -120,7 +130,7 @@ export function MemberSignup() {
           setEmailAvailable(true);
           toast({
             position: "bottom-left",
-            description: "사용 가능한 Email 입니다.",
+            description: "사용 가능한 이메일 입니다.",
             status: "success",
           });
         }
@@ -129,14 +139,16 @@ export function MemberSignup() {
 
   function handleSubmit() {
     axios
-      .post("/api/member/signup", {
+      .postForm("/api/member/signup", {
         id,
         password,
         nickName,
+        birthday,
         phone,
         email,
         address,
         auth,
+        uploadFile
       })
       .then(() => {
         toast({
@@ -161,6 +173,11 @@ export function MemberSignup() {
           });
         }
       });
+  }
+
+  function SendMail() {
+    axios.get("/mail?email=" + email)
+        .then(({data}) => setAuthenticationNum(data))
   }
 
   return (
@@ -260,6 +277,22 @@ export function MemberSignup() {
               </Button>
             </Flex>
 
+            {/* 생년월일 */}
+            <div
+                className="relative h-11 w-full min-w-[200px] mb-2"
+                isInvalid={birthday.length === 0}
+            >
+              <input
+                  value={birthday}
+                  onChange={(e) => setBirthday(e.target.value)}
+                  className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                  placeHolder=" "
+              />
+              <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                생년월일
+              </label>
+            </div>
+
             {/*email 이메일*/}
             <Flex>
               <div
@@ -284,7 +317,30 @@ export function MemberSignup() {
               >
                 중복 확인
               </Button>
+              <Button
+                  colorScheme="teal"
+                  variant="outline"
+                  onClick={SendMail}
+              >
+                메일 인증
+              </Button>
             </Flex>
+
+            {/* 이메일 인증 */}
+            <div
+                className="relative h-11 w-full min-w-[200px] mb-2"
+                isInvalid={mailNum.length === 0}
+            >
+              <input
+                  value={mailNum}
+                  onChange={(e) => setMailNum(e.target.value)}
+                  className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                  placeHolder=" "
+              />
+              <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                인증번호
+              </label>
+            </div>
 
             {/*phone 전화번호*/}
             <div
@@ -334,6 +390,18 @@ export function MemberSignup() {
             </FormControl>
           </div>
 
+          {(auth==="ds" || auth==="hs") &&
+              <div>
+                <FormControl>
+                  <FormLabel>사업자 등록증</FormLabel>
+                  <Input
+                      type={"file"}
+                      onChange={e=> setUploadFile(e.target.files)}
+                  />
+                </FormControl>
+              </div>
+          }
+
           <div className="inline-flex items-center">
             <label
               className="relative -ml-2.5 flex cursor-pointer items-center rounded-full p-3"
@@ -363,14 +431,16 @@ export function MemberSignup() {
               </p>
             </label>
           </div>
-          <button
-            onClick={handleSubmit}
-            className="mt-6 block w-full select-none rounded-lg bg-pink-500 py-3 px-6 text-center align-middle font-sans text-xl font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            type="button"
-            data-ripple-light="true"
-          >
-            가입하기
-          </button>
+          {submitAvailable &&
+              <button
+                  onClick={handleSubmit}
+                  className="mt-6 block w-full select-none rounded-lg bg-pink-500 py-3 px-6 text-center align-middle font-sans text-xl font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button"
+                  data-ripple-light="true">
+                가입하기
+              </button>
+          }
+
           <p class="mt-4 block text-center font-sans text-base font-normal leading-relaxed text-gray-700 antialiased">
             이미 계정이 있나요?
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}

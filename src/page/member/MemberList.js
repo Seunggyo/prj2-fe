@@ -1,7 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Spinner, Table, Tbody, Td, Th, Thead, Tr} from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Flex,
+    FormControl,
+    FormLabel,
+    Input,
+    Spinner,
+    Table,
+    Tbody,
+    Td,
+    Th,
+    Thead,
+    Tr
+} from "@chakra-ui/react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 function MemberList(props) {
     const [memberList, setMemberList] = useState(null);
@@ -30,12 +44,14 @@ function MemberList(props) {
     return (
         <Box>
             <h1>memberList</h1>
+            {/*<MemberSearchComp />*/}
             <Table>
                 <Thead>
                 <Tr>
                     <Th>id</Th>
                     <Th>password</Th>
                     <Th>nickName</Th>
+                    <Th>birthday</Th>
                     <Th>phone</Th>
                     <Th>email</Th>
                     <Th>auth</Th>
@@ -49,6 +65,7 @@ function MemberList(props) {
                         <Td>{member.id}</Td>
                         <Td>{member.password}</Td>
                         <Td>{member.nickName}</Td>
+                        <Td>{member.birthday}</Td>
                         <Td>{member.phone}</Td>
                         <Td>{member.email}</Td>
                         <Td>{member.auth}</Td>
@@ -59,6 +76,29 @@ function MemberList(props) {
             </Table>
         </Box>
     );
+}
+
+function MemberSearchComp() {
+    const [keyword, setKeyword] = useState("");
+
+    const navigate = useNavigate();
+
+    function handleMemberSearch() {
+        const params = new URLSearchParams();
+        params.set("k", keyword)
+
+        navigate("/member/list?"+params)
+    }
+
+    return <Box>
+        <FormControl>
+            <FormLabel>멤버 조회</FormLabel>
+            <Flex>
+                <Input />
+                <Button>검색</Button>
+            </Flex>
+        </FormControl>
+    </Box>;
 }
 
 export default MemberList;
