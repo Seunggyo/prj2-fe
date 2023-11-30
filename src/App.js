@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { HomeLayout } from "./layout/HomeLayout";
 import React from "react";
-import { Hs } from "./page/hs/Hs";
+
 import DsWrite from "./page/ds/DsWrite";
 import { DsList } from "./page/ds/DsList";
 import DsView from "./page/ds/DsView";
@@ -25,17 +25,17 @@ import { BoardEdit } from "./page/board/BoardEdit";
 import { DrugChoice } from "./page/drug/DrugChoice";
 import { DrugLayout } from "./layout/DrugLayout";
 import DrugChoiceList from "./page/drug/DrugChoiceList";
-import { DrugWrite } from "./page/drug/DrugWrite";
-import { DrugList } from "./page/drug/DrugList";
-import { DrugView } from "./page/drug/DrugView";
-import { HsAdd } from "./page/hs/HsAdd";
-import { HsEdit } from "./page/hs/HsEdit";
-import { Ds } from "./Ds";
-import { Member } from "./Member";
-import { Board } from "./Board";
-import { DrugEdit } from "./page/drug/DrugEdit";
-
-
+import {DrugWrite} from "./page/drug/DrugWrite";
+import {DrugList} from "./page/drug/DrugList";
+import {DrugView} from "./page/drug/DrugView";
+import {DrugEdit} from "./page/drug/DrugEdit";
+import {HsAdd} from "./page/hs/HsAdd";
+import {HsEdit} from "./page/hs/HsEdit";
+import {Ds} from "./Ds";
+import {Member} from "./Member";
+import {Board} from "./Board";
+import {Hs} from "./Hs";
+import {HsList} from "./page/hs/HsList";
 
 const routes = createBrowserRouter(
     createRoutesFromElements(
@@ -57,20 +57,21 @@ const routes = createBrowserRouter(
                 <Route path=":id" element={<DrugView/>}/>
                 <Route path="edit/:id" element={<DrugEdit/>}/>
             </Route>
+
             <Route path='hospital' element={<Hs/>}>
-
-
+                <Route path="hospitalList" element={<HsList/>}/>
                 <Route path="hospitalAdd" element={<HsAdd/>}/>
                 <Route path="hospitalEdit/:id" element={<HsEdit/>}/>
             </Route>
-            <Route path={"member"} element={<Member/>}>
 
+            <Route path={"member"} element={<Member/>}>
                 <Route path="signup" element={<MemberSignup/>}/>
                 <Route path="list" element={<MemberList/>}/>
                 <Route path="view" element={<MemberView/>}/>
                 <Route path="login" element={<MemberLogin/>}/>
                 <Route path="edit" element={<MemberEdit/>}/>
             </ Route>
+
             <Route path={"board"} element={<Board/>}>
                 <Route index element={<BoardList/>}/>
                 <Route path="write" element={<BoardWrite/>}/>
