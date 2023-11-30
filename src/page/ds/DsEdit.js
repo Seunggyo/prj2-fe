@@ -4,7 +4,9 @@ import {
   Checkbox,
   Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -14,17 +16,23 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Spinner,
+  Switch,
   Textarea,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useImmer } from "use-immer";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 export function DsEdit() {
-  const [ds, updateDs] = useImmer("");
+  const [ds, updateDs] = useImmer(null);
+  const [uploadFile, setUploadFile] = useState(null);
+  const [deleteFileIds, setDeleteFileIds] = useState([]);
 
   const toast = useToast();
   const { id } = useParams();
@@ -35,10 +43,27 @@ export function DsEdit() {
     axios.get("/api/ds/id/" + id).then((response) => updateDs(response.data));
   }, []);
 
+  // 바뀌고자 하는 사진을 미리 보여주는 코드
+  // useEffect(() => {
+  //   axios.get("/api/ds/id/" + id).then((response) =>
+  //     updateDs({
+  //       ...response.data,
+  //       files: response.data.files.map((file) => ({
+  //         ...file,
+  //         preview: file.url,
+  //       })),
+  //     }),
+  //   );
+  // }, [id, updateDs]);
+
+  if (ds === null) {
+    return <Spinner />;
+  }
+
   function handleSubmit() {
     // 수정 버튼 클릭시 해야할 일
     axios
-      .put("/api/ds/edit", {
+      .putForm("/api/ds/edit", {
         id: ds.id,
         name: ds.name,
         address: ds.address,
@@ -49,12 +74,16 @@ export function DsEdit() {
         closeMin: ds.closeMin,
         nightCare: ds.nightCare,
         content: ds.content,
+        uploadFile,
+        deleteFileIds,
       })
-      .then(() =>
-        toast({
-          description: ds.id + "번 게시글이 수정되었습니다",
-          status: "success",
-        }),
+      .then(
+        () =>
+          toast({
+            description: ds.id + "번 게시글이 수정되었습니다",
+            status: "success",
+          }),
+        navigate("/ds/list"),
       )
       .catch((error) => {
         if (error.response.status === 400) {
@@ -72,9 +101,38 @@ export function DsEdit() {
       .finally(() => onClose());
   }
 
+  function handleDeleteFileSwitch(e) {
+    if (e.target.checked) {
+      // removeFileIds에 추가
+      setDeleteFileIds([...deleteFileIds, e.target.value]);
+    } else {
+      // removeFileIds에서 삭제
+      setDeleteFileIds(deleteFileIds.filter((item) => item !== e.target.value));
+    }
+  }
+
   return (
     <Box>
-      <h1>{ds.id}번 글 수정</h1>
+      <h1>{ds.id} 수정</h1>
+
+      {/*약국 사진*/}
+      {ds.files.length > 0 &&
+        ds.files.map((file) => (
+          <Box key={file.id} border="3px solid black">
+            <FormControl display="flex" alignItems="center">
+              <FormLabel>
+                <FontAwesomeIcon icon={faTrashCan} color="red" />
+              </FormLabel>
+              <Switch
+                value={file.id}
+                colorScheme="red"
+                onChange={handleDeleteFileSwitch}
+              />
+            </FormControl>
+            <Image width="100%" height="300px" src={file.url} alt={file.name} />
+          </Box>
+        ))}
+
       <FormControl>
         <FormLabel>업체 명</FormLabel>
         <Input
@@ -86,6 +144,7 @@ export function DsEdit() {
           }
         />
       </FormControl>
+
       <FormControl>
         <FormLabel>주소</FormLabel>
         <Textarea
@@ -97,6 +156,7 @@ export function DsEdit() {
           }
         />
       </FormControl>
+
       <FormControl>
         <FormLabel>번호</FormLabel>
         <Input
@@ -108,6 +168,7 @@ export function DsEdit() {
           }
         />
       </FormControl>
+
       <FormControl>
         <Box>
           <Flex>
@@ -115,34 +176,34 @@ export function DsEdit() {
             <Box>
               <Flex>
                 <Select
-                  defaultValue="7"
+                  defaultValue="7시"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.openHour = e.target.value;
                     })
                   }
                 >
-                  <option value="7">7시</option>
-                  <option value="8">8시</option>
-                  <option value="9">9시</option>
-                  <option value="10">10시</option>
-                  <option value="11">11시</option>
-                  <option value="12">12시</option>
+                  <option value="7시">7시</option>
+                  <option value="8시">8시</option>
+                  <option value="9시">9시</option>
+                  <option value="10시">10시</option>
+                  <option value="11시">11시</option>
+                  <option value="12시">12시</option>
                 </Select>
                 <Select
-                  defaultValue="0"
+                  defaultValue="0분"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.openMin = e.target.value;
                     })
                   }
                 >
-                  <option value="0">0분</option>
-                  <option value="10">10분</option>
-                  <option value="20">20분</option>
-                  <option value="30">30분</option>
-                  <option value="40">40분</option>
-                  <option value="50">50분</option>
+                  <option value="0분">0분</option>
+                  <option value="10분">10분</option>
+                  <option value="20분">20분</option>
+                  <option value="30분">30분</option>
+                  <option value="40분">40분</option>
+                  <option value="50분">50분</option>
                 </Select>
               </Flex>
             </Box>
@@ -150,33 +211,33 @@ export function DsEdit() {
             <Box>
               <Flex>
                 <Select
-                  defaultValue="16"
+                  defaultValue="16시"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.closeHour = e.target.value;
                     })
                   }
                 >
-                  <option value="16">16시</option>
-                  <option value="17">17시</option>
-                  <option value="18">18시</option>
-                  <option value="19">19시</option>
-                  <option value="20">20시</option>
+                  <option value="16시">16시</option>
+                  <option value="17시">17시</option>
+                  <option value="18시">18시</option>
+                  <option value="19시">19시</option>
+                  <option value="20시">20시</option>
                 </Select>
                 <Select
-                  defaultValue="00"
+                  defaultValue="0분"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.closeMin = e.target.value;
                     })
                   }
                 >
-                  <option value="0">0분</option>
-                  <option value="10">10분</option>
-                  <option value="20">20분</option>
-                  <option value="30">30분</option>
-                  <option value="40">40분</option>
-                  <option value="50">50분</option>
+                  <option value="0분">0분</option>
+                  <option value="10분">10분</option>
+                  <option value="20분">20분</option>
+                  <option value="30분">30분</option>
+                  <option value="40분">40분</option>
+                  <option value="50분">50분</option>
                 </Select>
               </Flex>
             </Box>
@@ -193,6 +254,7 @@ export function DsEdit() {
               </Box>
             </Flex>
           </Flex>
+
           <FormControl>
             <FormLabel>약국 소개</FormLabel>
             <Textarea
@@ -202,6 +264,29 @@ export function DsEdit() {
                 })
               }
             />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>가게 사진</FormLabel>
+            <Input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(e) => setUploadFile(e.target.files)}
+              // 파일 업로드 시 미리 보여 주기
+              // onChange={(e) =>
+              //   updateDs((draft) => {
+              //     draft.files = Array.from(e.target.files).map((file) =>
+              //       Object.assign(file, {
+              //         preview: URL.createObjectURL(file),
+              //       }),
+              //     );
+              //   })
+              // }
+            />
+            <FormHelperText>
+              한 개 파일은 1MB 이내, 총 파일은 10MB 이내로 첨부 가능합니다
+            </FormHelperText>
           </FormControl>
         </Box>
       </FormControl>
