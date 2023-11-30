@@ -80,9 +80,9 @@ export function DrugComment({ drugId }) {
       .finally(() => setIsSubmitting(false));
   }
 
-  if (drugCommentList === null) {
-    return <Spinner />;
-  }
+  // if (drugCommentList === null) {
+  //   return <Spinner />;
+  // }
 
   return (
     <Box>
