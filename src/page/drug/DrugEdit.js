@@ -5,19 +5,34 @@ import {
   FormLabel,
   Image,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Select,
   Spinner,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export function DrugEdit() {
-  const [drug, updateDrug] = useImmer(null);
   // /edit/:id
-  const { id } = useParams();
+  const [drug, updateDrug] = useImmer(null);
+  const [removeFileIds, setRemoveFileIds] = useState([]);
+  const [uploadFiles, setUploadFiles] = useState(null);
 
   const navigate = useNavigate();
+  const toast = useToast();
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const { id } = useParams();
 
   useEffect(() => {
     axios
@@ -30,13 +45,45 @@ export function DrugEdit() {
   }
 
   function handleSubmit() {
-    // 저장 버튼
-    //api/drug/edit
     axios
-      .put("/api/drug/edit", drug)
-      .then(() => console.log("굿"))
-      .catch(() => console.log("잘안됨"))
-      .finally(() => console.log("끝"));
+      .putForm("/api/drug/edit", {
+        id: drug.id,
+        name: drug.name,
+        func: drug.func,
+        content: drug.content,
+        price: drug.price,
+        removeFileIds,
+        uploadFiles,
+      })
+      .then(() => {
+        toast({
+          description: drug.id + "번 게시글이 수정 되었소",
+          status: "success",
+        });
+        navigate("/drug/" + id);
+      })
+      .catch((error) => {
+        if (error.response.status === 400) {
+          toast({
+            description: "요청이 잘못 되었소",
+            status: "error",
+          });
+        } else {
+          toast({
+            description: "수정 중 문제가 생겼소",
+            status: "error",
+          });
+        }
+      })
+      .finally(() => onClose());
+  }
+
+  function handleRemoveFileSwitch(e) {
+    if (e.target.checked) {
+      setRemoveFileIds([...removeFileIds, e.target.value]);
+    } else {
+      setRemoveFileIds(removeFileIds.filter((item) => item !== e.target.value));
+    }
   }
 
   return (
@@ -53,17 +100,43 @@ export function DrugEdit() {
           }
         />
       </FormControl>
+      {/*이미지*/}
+      {drug.files.length > 0 &&
+        drug.files.map((file) => (
+          <Box key={file.id} my="5px" border="3px solid black">
+            <FormControl display="flex" alignItems="center">
+              <FormLabel>
+                <FontAwesomeIcon color="red" icon={faTrashCan} />
+              </FormLabel>
+              <Switch
+                value={file.id}
+                colorScheme="red"
+                onChange={handleRemoveFileSwitch}
+              />
+            </FormControl>
+            <Box>
+              <Image src={file.url} alt={file.name} width="100%" />
+            </Box>
+          </Box>
+        ))}
 
       <FormControl>
         <FormLabel>기능</FormLabel>
-        <Input
-          value={drug.func}
+        <Select
+          defaultValue="위 건강"
           onChange={(e) =>
-            updateDrug((draft) => {
-              draft.func = e.target.value;
+            updateDrug((drug) => {
+              drug.func = e.target.value;
             })
           }
-        />
+        >
+          <option value="위 건강">위</option>
+          <option value="눈 건강">눈</option>
+          <option value="간 건강">간</option>
+          <option value="피로 개선">피로 개선</option>
+          <option value="어린이 성장">어린이 성장</option>
+          <option value="수면질 개선">수면질 개선</option>
+        </Select>
       </FormControl>
 
       <FormControl>
@@ -89,10 +162,27 @@ export function DrugEdit() {
           }
         />
       </FormControl>
-      <Button colorScheme="pink" onClick={handleSubmit}>
+      <Button colorScheme="pink" onClick={onOpen}>
         저장
       </Button>
       <Button onClick={() => navigate(-1)}>취소</Button>
+
+      {/* 수정 모달 */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>저장 확인</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>저장 하시겠습니까?</ModalBody>
+
+          <ModalFooter>
+            <Button onClick={onClose}>닫기</Button>
+            <Button onClick={handleSubmit} colorScheme="blue">
+              저장
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }
