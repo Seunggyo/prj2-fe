@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   FormLabel,
   Image,
   Input,
@@ -90,7 +91,7 @@ export function DrugEdit() {
   }
 
   return (
-    <Box>
+    <Box marginLeft="256px">
       <h1>{drug.id}영양제 수정</h1>
       <FormControl>
         <FormLabel>제품</FormLabel>
@@ -164,6 +165,20 @@ export function DrugEdit() {
             })
           }
         />
+      </FormControl>
+
+      {/* 추가할 파일*/}
+      <FormControl>
+        <FormLabel>이미지</FormLabel>
+        <Input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={(e) => setUploadFiles(e.target.files)}
+        />
+        <FormHelperText>
+          한 개 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부하시오.
+        </FormHelperText>
       </FormControl>
       <Button colorScheme="pink" onClick={onOpen}>
         저장
