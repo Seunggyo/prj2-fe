@@ -116,7 +116,7 @@ export function HsList() {
                             </MapMarker>
                         )
                     )}
-                    <ZoomControl/>
+                    <ZoomControl position={"TOPRIGHT"}/>
                 </Map>
 
             </Box>
