@@ -2,16 +2,38 @@ import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Map, MapMarker, useKakaoLoader, ZoomControl} from "react-kakao-maps-sdk";
-import {Box, Button, Flex, Heading, Spacer, Table, Tbody, Td, Th, Thead, Tr} from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Flex,
+    Heading,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Spacer,
+    Table,
+    Tbody,
+    Td,
+    Th,
+    Thead,
+    Tr,
+    useDisclosure,
+    useToast
+} from "@chakra-ui/react";
 
 export function HsList() {
     const navigate = useNavigate();
+    const toast = useToast();
 
     const [list, setList] = useState([]);
-
-    const [isOpen, setIsOpen] = useState(false);
+    const {isOpen, onClose, onOpen} = useDisclosure();
 
     const [position, setPosition] = useState();
+
 
     const [level, setLevel] = useState();
     useEffect(() => {
@@ -21,6 +43,28 @@ export function HsList() {
         appkey: process.env.REACT_APP_KAKAO_KEY,
     });
 
+
+    function handleDeleteClick() {
+        if (!position) {
+            return;
+        }
+        axios.delete(`/api/hospital/delete/${position}`)
+            .then(() => {
+                toast({
+                    description: "삭제가 완료되었습니다.",
+                    status: "success"
+                })
+            }).catch(() => {
+            toast({
+                description: "실패하였습니다.",
+                status: "error"
+            })
+        })
+            .finally(() => {
+                setPosition(null);
+                onClose();
+            })
+    }
 
     return (
         <Box>
@@ -37,6 +81,7 @@ export function HsList() {
                             <Tr>
                                 <Th>병원이름</Th>
                                 <Th>전화번호</Th>
+                                <Th>임시 삭제</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
@@ -47,6 +92,14 @@ export function HsList() {
                                     }} onClick={() => navigate("/hospital/hospitalEdit/" + h.id)}>
                                         <Td>{h.name}</Td>
                                         <Td>{h.phone}</Td>
+
+                                        <Td>
+                                            <Button colorScheme="red" id={h.id} onClick={e => {
+                                                e.stopPropagation();
+                                                onOpen();
+                                                setPosition(h.id)
+                                            }}>삭제</Button>
+                                        </Td>
                                     </Tr>
                                 ))}
                         </Tbody>
@@ -67,6 +120,22 @@ export function HsList() {
                 </Map>
 
             </Box>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay/>
+                <ModalContent>
+                    <ModalHeader>삭제</ModalHeader>
+                    <ModalCloseButton/>
+
+                    <ModalBody>삭제 하시겠습니까?</ModalBody>
+
+                    <ModalFooter>
+                        <Button onClick={onClose}>닫기</Button>
+                        <Button onClick={handleDeleteClick} colorScheme="red">
+                            삭제
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Box>
     );
 }

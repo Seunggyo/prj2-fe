@@ -73,7 +73,7 @@ export function HsAdd() {
                     description: "전송 되었습니다.",
                     status: "success"
                 });
-                navigate("/hospital");
+                navigate("/hospital/hospitalList");
             }
         ).catch(() => toast({
             description: "전송에 실패하였습니다.",
