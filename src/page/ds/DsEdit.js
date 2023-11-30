@@ -109,8 +109,6 @@ export function DsEdit() {
       // removeFileIds에서 삭제
       setDeleteFileIds(deleteFileIds.filter((item) => item !== e.target.value));
     }
-
-    console.log(e.target.value);
   }
 
   return (
