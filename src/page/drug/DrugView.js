@@ -57,7 +57,7 @@ export function DrugView() {
   }
 
   return (
-    <Box>
+    <Box marginLeft="256px">
       <h1>{drug.id}영양제 보기</h1>
       <FormControl>
         <FormLabel>제품</FormLabel>

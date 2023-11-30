@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Center, Flex } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,11 +12,16 @@ export function DrugChoice() {
   }
 
   return (
-    <Box border="1px solid red" textAlign="center">
+    <Box
+      border="1px solid red"
+      textAlign="center"
+      margin="200px"
+      marginLeft="400px"
+    >
       <Box width="100%" height="50px">
         <h1>기능성 영양제</h1>
       </Box>
-      <Flex>
+      <Flex justifyContent="center">
         <Box width="200px" height="250px" border="1px solid #ffd6d1">
           <Box
             height="100px"

@@ -90,7 +90,7 @@ export function DrugEdit() {
   }
 
   return (
-    <Box>
+    <Box marginLeft="256px">
       <h1>{drug.id}영양제 수정</h1>
       <FormControl>
         <FormLabel>제품</FormLabel>
