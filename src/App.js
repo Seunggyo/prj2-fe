@@ -1,23 +1,29 @@
-import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider,} from "react-router-dom";
-import {HomeLayout} from "./layout/HomeLayout";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import { HomeLayout } from "./layout/HomeLayout";
 import React from "react";
+
 import DsWrite from "./page/ds/DsWrite";
-import {DsList} from "./page/ds/DsList";
+import { DsList } from "./page/ds/DsList";
 import DsView from "./page/ds/DsView";
-import {DsEdit} from "./page/ds/DsEdit";
-import {MemberSignup} from "./page/member/MemberSignup";
+import { DsEdit } from "./page/ds/DsEdit";
+import { MemberSignup } from "./page/member/MemberSignup";
 import MemberList from "./page/member/MemberList";
 import MemberView from "./page/member/MemberView";
 import LoginProvider from "./component/LoginProvider";
-import {MemberLogin} from "./page/member/MemberLogin";
+import { MemberLogin } from "./page/member/MemberLogin";
 import MemberEdit from "./page/member/MemberEdit";
 
-import {BoardWrite} from "./page/board/BoardWrite";
-import {BoardView} from "./page/board/BoardView";
-import {BoardList} from "./page/board/BoardList";
-import {BoardEdit} from "./page/board/BoardEdit";
-import {DrugChoice} from "./page/drug/DrugChoice";
-import {DrugLayout} from "./layout/DrugLayout";
+import { BoardWrite } from "./page/board/BoardWrite";
+import { BoardView } from "./page/board/BoardView";
+import { BoardList } from "./page/board/BoardList";
+import { BoardEdit } from "./page/board/BoardEdit";
+import { DrugChoice } from "./page/drug/DrugChoice";
+import { DrugLayout } from "./layout/DrugLayout";
 import DrugChoiceList from "./page/drug/DrugChoiceList";
 import {DrugWrite} from "./page/drug/DrugWrite";
 import {DrugList} from "./page/drug/DrugList";
@@ -49,7 +55,7 @@ const routes = createBrowserRouter(
                 <Route path="write" element={<DrugWrite/>}/>
                 <Route path="drugList" element={<DrugList/>}/>
                 <Route path=":id" element={<DrugView/>}/>
-                <Route path="edit:id" element={<DrugEdit/>}/>
+                <Route path="edit/:id" element={<DrugEdit/>}/>
             </Route>
 
             <Route path='hospital' element={<Hs/>}>
@@ -70,7 +76,8 @@ const routes = createBrowserRouter(
                 <Route index element={<BoardList/>}/>
                 <Route path="write" element={<BoardWrite/>}/>
                 <Route path=":id" element={<BoardView/>}/>
-                <Route path="edit:id" element={<BoardEdit/>}></Route>
+                <Route path="edit/:id" element={<BoardEdit/>}></Route>
+
             </Route>,
         </Route>,
     ),
@@ -78,11 +85,11 @@ const routes = createBrowserRouter(
 
 
 function App() {
-    return (
-        <LoginProvider>
-            <RouterProvider router={routes}/>
-        </LoginProvider>
-    );
+  return (
+    <LoginProvider>
+      <RouterProvider router={routes} />
+    </LoginProvider>
+  );
 }
 
 

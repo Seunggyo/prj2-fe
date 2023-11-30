@@ -99,21 +99,21 @@ export function MemberLogin(props) {
                 </button>
               </div>
 
-              <a
-                href="#"
+              <button
+                onClick={() => navigate("")}
                 className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline"
               >
                 암호를 잊어버리셨나요?
-              </a>
+              </button>
 
               <p className="mt-6 text-sm text-center text-gray-400">
                 아직 가입을 안하셨나요?{" "}
-                <a
-                  href="#"
+                <button
+                  onClick={() => navigate("")}
                   className="text-blue-500 focus:outline-none focus:underline hover:underline"
                 >
                   가입하기
-                </a>
+                </button>
               </p>
             </div>
           </div>

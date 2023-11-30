@@ -16,7 +16,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 export function DrugWrite() {
   const [name, setName] = useState("");
-  const [func, setFunc] = useState("stomach");
+  const [func, setFunc] = useState("위 건강");
   const [content, setContent] = useState("");
   const [price, setPrice] = useState("");
   const [uploadFiles, setUploadFiles] = useState(null);
@@ -66,13 +66,16 @@ export function DrugWrite() {
 
       <FormControl>
         <FormLabel>기능</FormLabel>
-        <Select defaultValue="위" onChange={(e) => setFunc(e.target.value)}>
-          <option value="stomach">위</option>
-          <option value="eye">눈</option>
-          <option value="liver">간</option>
-          <option value="fatigue">피로 개선</option>
-          <option value="child">어린이 성장</option>
-          <option value="sleep">수면질 개선</option>
+        <Select
+          defaultValue="위 건강"
+          onChange={(e) => setFunc(e.target.value)}
+        >
+          <option value="위 건강">위</option>
+          <option value="눈 건강">눈</option>
+          <option value="간 건강">간</option>
+          <option value="피로 개선">피로 개선</option>
+          <option value="어린이 성장">어린이 성장</option>
+          <option value="수면질 개선">수면질 개선</option>
         </Select>
       </FormControl>
 
