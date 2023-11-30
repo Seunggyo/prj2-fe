@@ -19,6 +19,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { DrugComment } from "./DrugComment";
 
 export function DrugView() {
   const [drug, setDrug] = useState(null);
@@ -115,6 +116,7 @@ export function DrugView() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <DrugComment drugId={drug.id} />
     </Box>
   );
 }
