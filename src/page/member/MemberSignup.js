@@ -322,7 +322,7 @@ export function MemberSignup() {
                   variant="outline"
                   onClick={SendMail}
               >
-                메일 인증 {authenticationNum && <span>{authenticationNum}</span>}
+                메일 인증
               </Button>
             </Flex>
 
