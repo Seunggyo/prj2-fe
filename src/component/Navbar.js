@@ -151,54 +151,51 @@ export function NavBar() {
   );
 }
 
-{
-  /*// <div>*/
-}
-{
-  /*//   <Flex direction="column" align="start" width="150px" height="300px">*/
-}
-{
-  /*//     <Button width="100%" bgColor="red.100" onClick={() => navigate("/")}>*/
-}
-{
-  /*//       <FontAwesomeIcon icon={faHospital} />*/
-}
-{
-  /*//     </Button>*/
-}
-{
-  /*//     <Button width="100%" bgColor="red.200" onClick={() => navigate("map")}>*/
-}
-{
-  /*//       병원*/
-}
-{
-  /*//     </Button>*/
-}
-{
-  /*//     <Button*/
-}
-{
-  /*//         width="100%"*/
-}
-{
-  /*//         bgColor="red.300"*/
-}
-{
-  /*//         onClick={() => navigate("/drug")}*/
-}
-{
-  /*//     >*/
-}
-{
-  /*//       영양제*/
-}
-{
-  /*//     </Button>*/
-}
-{
-  /*//   </Flex>*/
-}
-{
-  /*// </div>*/
-}
+// {
+//      <Flex direction="column" align="start" width="150px" height="300px">
+// }
+// {
+//        <Button width="100%" bgColor="red.100" onClick={() => navigate("/")}>
+// }
+// {
+//          <FontAwesomeIcon icon={faHospital} />
+// }
+// {
+//        </Button>
+// }
+// {
+//        <Button width="100%" bgColor="red.200" onClick={() => navigate("map")}>
+// }
+// {
+//          병원
+// }
+// {
+//        </Button>
+// }
+// {
+//        <Button
+// }
+// {
+//            width="100%"
+// }
+// {
+//            bgColor="red.300"
+// }
+// {
+//            onClick={() => navigate("/drug")}
+// }
+// {
+//        >
+// }
+// {
+//          영양제
+// }
+// {
+//        </Button>
+// }
+// {
+//      </Flex>
+// }
+// {
+//    </div>
+// }
