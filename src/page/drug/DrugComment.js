@@ -32,12 +32,7 @@ function CommentForm({ drugId, isSubmitting, onSubmit }) {
   );
 }
 
-function CommentList({ drugCommentList }) {
-  function handleDelete(id) {
-    // console.log(id + "댓글 삭제");
-    axios.delete("/api/drug/comment/" + id);
-  }
-
+function CommentList({ drugCommentList, onDelete, isSubmitting }) {
   return (
     <Card>
       <CardHeader>
@@ -59,7 +54,8 @@ function CommentList({ drugCommentList }) {
                   {drugComment.comment}
                 </Text>
                 <Button
-                  onClick={() => handleDelete(drugComment.id)}
+                  isDisabled={isSubmitting}
+                  onClick={() => onDelete(drugComment.id)}
                   size="xs"
                   colorScheme="red"
                 >
@@ -97,9 +93,13 @@ export function DrugComment({ drugId }) {
       .finally(() => setIsSubmitting(false));
   }
 
-  // if (drugCommentList === null) {
-  //   return <Spinner />;
-  // }
+  function handleDelete(id) {
+    // console.log(id + "댓글 삭제");
+    setIsSubmitting(true);
+    axios
+      .delete("/api/drug/comment/" + id)
+      .finally(() => setIsSubmitting(false));
+  }
 
   return (
     <Box>
@@ -108,7 +108,12 @@ export function DrugComment({ drugId }) {
         isSubmitting={isSubmitting}
         onSubmit={handleSubmit}
       />
-      <CommentList drugId={drugId} drugCommentList={drugCommentList} />
+      <CommentList
+        drugId={drugId}
+        isSubmitting={isSubmitting}
+        drugCommentList={drugCommentList}
+        onDelete={handleDelete}
+      />
     </Box>
   );
 }
