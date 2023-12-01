@@ -48,6 +48,9 @@ function CommentList({ drugCommentList }) {
                 <Heading size="xs">{drugComment.memberId}</Heading>
                 <Text fontSize="xs">{drugComment.inserted}</Text>
               </Flex>
+              <Text pt="2" fontSize="sm">
+                {drugComment.comment}
+              </Text>
             </Box>
           ))}
         </Stack>
