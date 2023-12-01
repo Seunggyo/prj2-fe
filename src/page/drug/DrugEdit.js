@@ -25,7 +25,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { DrugComment } from "./DrugComment";
 
 export function DrugEdit() {
   // /edit/:id
@@ -202,8 +201,6 @@ export function DrugEdit() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-
-      <DrugComment drugId={id} />
     </Box>
   );
 }

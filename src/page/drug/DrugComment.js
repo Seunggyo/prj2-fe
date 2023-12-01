@@ -6,11 +6,19 @@ import {
   CardHeader,
   Flex,
   Heading,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Spinner,
   Stack,
   StackDivider,
   Text,
   Textarea,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -32,7 +40,7 @@ function CommentForm({ drugId, isSubmitting, onSubmit }) {
   );
 }
 
-function CommentList({ drugCommentList, onDelete, isSubmitting }) {
+function CommentList({ drugCommentList, onDeleteModalOpen, isSubmitting }) {
   return (
     <Card>
       <CardHeader>
@@ -55,7 +63,7 @@ function CommentList({ drugCommentList, onDelete, isSubmitting }) {
                 </Text>
                 <Button
                   isDisabled={isSubmitting}
-                  onClick={() => onDelete(drugComment.id)}
+                  onClick={() => onDeleteModalOpen(drugComment.id)}
                   size="xs"
                   colorScheme="red"
                 >
@@ -72,7 +80,10 @@ function CommentList({ drugCommentList, onDelete, isSubmitting }) {
 
 export function DrugComment({ drugId }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [id, setId] = useState(0);
   const [drugCommentList, setDrugCommentList] = useState([]);
+
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   useEffect(() => {
     if (!isSubmitting) {
@@ -93,14 +104,22 @@ export function DrugComment({ drugId }) {
       .finally(() => setIsSubmitting(false));
   }
 
-  function handleDelete(id) {
+  function handleDelete() {
     // console.log(id + "댓글 삭제");
+
     setIsSubmitting(true);
-    axios
-      .delete("/api/drug/comment/" + id)
-      .finally(() => setIsSubmitting(false));
+    axios.delete("/api/drug/comment/" + id).finally(() => {
+      onClose();
+      setIsSubmitting(false);
+    });
   }
 
+  function handleDeleteModalOpen(id) {
+    //id 를 저장해야 함
+    setId(id);
+    //모달 열고
+    onOpen();
+  }
   return (
     <Box>
       <CommentForm
@@ -112,8 +131,29 @@ export function DrugComment({ drugId }) {
         drugId={drugId}
         isSubmitting={isSubmitting}
         drugCommentList={drugCommentList}
-        onDelete={handleDelete}
+        onDeleteModalOpen={handleDeleteModalOpen}
       />
+
+      {/* 삭제 모달 */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>삭제 확인</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>삭제 하시겠소?</ModalBody>
+
+          <ModalFooter>
+            <Button onClick={onClose}>닫기</Button>
+            <Button
+              isDisabled={isSubmitting}
+              onClick={handleDelete}
+              colorScheme="red"
+            >
+              삭제
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }
