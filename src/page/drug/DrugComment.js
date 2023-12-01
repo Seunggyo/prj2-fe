@@ -33,6 +33,11 @@ function CommentForm({ drugId, isSubmitting, onSubmit }) {
 }
 
 function CommentList({ drugCommentList }) {
+  function handleDelete(id) {
+    // console.log(id + "댓글 삭제");
+    axios.delete("/api/drug/comment/" + id);
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -42,15 +47,25 @@ function CommentList({ drugCommentList }) {
       </CardHeader>
       <CardBody>
         <Stack divider={<StackDivider />} spacing="4">
+          {/*TODO: 댓글 작성후 re render*/}
           {drugCommentList.map((drugComment) => (
             <Box key={drugComment.id}>
               <Flex justifyContent="space-between">
                 <Heading size="xs">{drugComment.memberId}</Heading>
                 <Text fontSize="xs">{drugComment.inserted}</Text>
               </Flex>
-              <Text pt="2" fontSize="sm">
-                {drugComment.comment}
-              </Text>
+              <Flex justifyContent="space-between" alignItems="center">
+                <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="sm">
+                  {drugComment.comment}
+                </Text>
+                <Button
+                  onClick={() => handleDelete(drugComment.id)}
+                  size="xs"
+                  colorScheme="red"
+                >
+                  삭제
+                </Button>
+              </Flex>
             </Box>
           ))}
         </Stack>
@@ -61,7 +76,6 @@ function CommentList({ drugCommentList }) {
 
 export function DrugComment({ drugId }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [drugCommentList, setDrugCommentList] = useState([]);
 
   useEffect(() => {
