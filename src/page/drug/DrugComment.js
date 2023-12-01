@@ -20,8 +20,9 @@ import {
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { LoginContext } from "../../component/LoginProvider";
 
 function CommentForm({ drugId, isSubmitting, onSubmit }) {
   const [comment, setComment] = useState("");
@@ -41,6 +42,8 @@ function CommentForm({ drugId, isSubmitting, onSubmit }) {
 }
 
 function CommentList({ drugCommentList, onDeleteModalOpen, isSubmitting }) {
+  const { hasAccess } = useContext(LoginContext);
+
   return (
     <Card>
       <CardHeader>
@@ -61,14 +64,17 @@ function CommentList({ drugCommentList, onDeleteModalOpen, isSubmitting }) {
                 <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="sm">
                   {drugComment.comment}
                 </Text>
-                <Button
-                  isDisabled={isSubmitting}
-                  onClick={() => onDeleteModalOpen(drugComment.id)}
-                  size="xs"
-                  colorScheme="red"
-                >
-                  삭제
-                </Button>
+                {/*내가 쓴 댓글만 버튼 보이게 하기*/}
+                {hasAccess(drugComment.memberId) && (
+                  <Button
+                    isDisabled={isSubmitting}
+                    onClick={() => onDeleteModalOpen(drugComment.id)}
+                    size="xs"
+                    colorScheme="red"
+                  >
+                    삭제
+                  </Button>
+                )}
               </Flex>
             </Box>
           ))}
@@ -84,6 +90,8 @@ export function DrugComment({ drugId }) {
   const [drugCommentList, setDrugCommentList] = useState([]);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const { isAuthenticated } = useContext(LoginContext);
 
   useEffect(() => {
     if (!isSubmitting) {
@@ -122,11 +130,13 @@ export function DrugComment({ drugId }) {
   }
   return (
     <Box>
-      <CommentForm
-        drugId={drugId}
-        isSubmitting={isSubmitting}
-        onSubmit={handleSubmit}
-      />
+      {isAuthenticated() && (
+        <CommentForm
+          drugId={drugId}
+          isSubmitting={isSubmitting}
+          onSubmit={handleSubmit}
+        />
+      )}
       <CommentList
         drugId={drugId}
         isSubmitting={isSubmitting}
