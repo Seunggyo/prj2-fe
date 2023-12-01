@@ -19,8 +19,9 @@ import {
   Text,
   Textarea,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { LoginContext } from "../../component/LoginProvider";
 
@@ -86,12 +87,17 @@ function CommentList({ drugCommentList, onDeleteModalOpen, isSubmitting }) {
 
 export function DrugComment({ drugId }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [id, setId] = useState(0);
   const [drugCommentList, setDrugCommentList] = useState([]);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
+  // const [id, setId] = useState(0);
+  // useRef: 컴포넌트에서 임시로 값을 저장하는 용도로 사용
+  const commentIdRef = useRef(0);
+
   const { isAuthenticated } = useContext(LoginContext);
+
+  const toast = useToast();
 
   useEffect(() => {
     if (!isSubmitting) {
@@ -109,6 +115,18 @@ export function DrugComment({ drugId }) {
 
     axios
       .post("/api/drug/comment/add", comment)
+      .then(() => {
+        toast({
+          description: "댓글 등록이 되었소",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        toast({
+          description: "댓글 등록 중 문제가 발생하였소",
+          status: "error",
+        });
+      })
       .finally(() => setIsSubmitting(false));
   }
 
@@ -116,15 +134,37 @@ export function DrugComment({ drugId }) {
     // console.log(id + "댓글 삭제");
 
     setIsSubmitting(true);
-    axios.delete("/api/drug/comment/" + id).finally(() => {
-      onClose();
-      setIsSubmitting(false);
-    });
+    axios
+      .delete("/api/drug/comment/" + commentIdRef.current)
+      .then(() => {
+        toast({
+          description: "댓글이 삭제되었소",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        if (error.response.status === 401 || error.response.status === 403) {
+          toast({
+            description: "권한이 업소",
+            status: "warning",
+          });
+        } else {
+          toast({
+            description: "댓글 삭제 중 문제가 발생하였소",
+            status: "error",
+          });
+        }
+      })
+      .finally(() => {
+        onClose();
+        setIsSubmitting(false);
+      });
   }
 
   function handleDeleteModalOpen(id) {
     //id 를 저장해야 함
-    setId(id);
+    // setId(id);
+    commentIdRef.current = id;
     //모달 열고
     onOpen();
   }
