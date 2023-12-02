@@ -17,7 +17,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
-  Text,
   Tooltip,
   useDisclosure,
   useToast,
@@ -28,6 +27,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fullHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as emptyHeart } from "@fortawesome/free-solid-svg-icons";
 import { LoginContext } from "../../component/LoginProvider";
+import { DsComment } from "./DsComment";
 
 function LikeContainer({ like, onClick }) {
   const { isAuthenticated } = useContext(LoginContext);
@@ -46,10 +46,11 @@ function LikeContainer({ like, onClick }) {
           {like.like || (
             <FontAwesomeIcon icon={fullHeart} size="xl" color="red" />
           )}
-          <Text>{like.countLike}</Text>
         </Button>
       </Tooltip>
-      <Heading size="lg">{like.countLike}</Heading>
+      <Heading color={"red"} size="lg">
+        {like.countLike}
+      </Heading>
     </Flex>
   );
 }
@@ -70,7 +71,7 @@ export function DsView() {
 
   useEffect(() => {
     axios
-      .get("/api/business/like/dsId/" + ds.id)
+      .get("/api/business/like/dsId/" + id)
       .then((response) => setLike(response.data));
   }, []);
 
@@ -194,6 +195,7 @@ export function DsView() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <DsComment businessId={id} />
     </Box>
   );
 }
