@@ -42,6 +42,34 @@ function CommentForm({ drugId, isSubmitting, onSubmit }) {
   );
 }
 
+function CommentItem({ drugComment, onDeleteModalOpen }) {
+  const { hasAccess } = useContext(LoginContext);
+
+  return (
+    <Box>
+      <Flex justifyContent="space-between">
+        <Heading size="xs">{drugComment.memberId}</Heading>
+        <Text fontSize="xs">{drugComment.inserted}</Text>
+      </Flex>
+      <Flex justifyContent="space-between" alignItems="center">
+        <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="sm">
+          {drugComment.comment}
+        </Text>
+        {/*내가 쓴 댓글만 버튼 보이게 하기*/}
+        {hasAccess(drugComment.memberId) && (
+          <Button
+            onClick={() => onDeleteModalOpen(drugComment.id)}
+            size="xs"
+            colorScheme="red"
+          >
+            삭제
+          </Button>
+        )}
+      </Flex>
+    </Box>
+  );
+}
+
 function CommentList({ drugCommentList, onDeleteModalOpen, isSubmitting }) {
   const { hasAccess } = useContext(LoginContext);
 
@@ -54,30 +82,12 @@ function CommentList({ drugCommentList, onDeleteModalOpen, isSubmitting }) {
       </CardHeader>
       <CardBody>
         <Stack divider={<StackDivider />} spacing="4">
-          {/*TODO: 댓글 작성후 re render*/}
           {drugCommentList.map((drugComment) => (
-            <Box key={drugComment.id}>
-              <Flex justifyContent="space-between">
-                <Heading size="xs">{drugComment.memberId}</Heading>
-                <Text fontSize="xs">{drugComment.inserted}</Text>
-              </Flex>
-              <Flex justifyContent="space-between" alignItems="center">
-                <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="sm">
-                  {drugComment.comment}
-                </Text>
-                {/*내가 쓴 댓글만 버튼 보이게 하기*/}
-                {hasAccess(drugComment.memberId) && (
-                  <Button
-                    isDisabled={isSubmitting}
-                    onClick={() => onDeleteModalOpen(drugComment.id)}
-                    size="xs"
-                    colorScheme="red"
-                  >
-                    삭제
-                  </Button>
-                )}
-              </Flex>
-            </Box>
+            <CommentItem
+              key={drugComment.id}
+              drugComment={drugComment}
+              onDeleteModalOpen={onDeleteModalOpen}
+            />
           ))}
         </Stack>
       </CardBody>
