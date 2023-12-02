@@ -53,7 +53,7 @@ function CommentItem({ drugComment, onDeleteModalOpen }) {
     axios
       .put("/api/drug/comment/edit", {
         id: drugComment.id,
-        drugComment: commentEdited,
+        comment: commentEdited,
       })
       .then(() => console.log("잘됨"))
       .catch(() => console.log("안됨"))
