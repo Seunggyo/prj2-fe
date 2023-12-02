@@ -43,21 +43,53 @@ function CommentForm({ drugId, isSubmitting, onSubmit }) {
   );
 }
 
-function CommentItem({ drugComment, onDeleteModalOpen }) {
+function CommentItem({
+  drugComment,
+  onDeleteModalOpen,
+  setIsSubmitting,
+  isSubmitting,
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [commentEdited, setCommentEdited] = useState(drugComment.comment);
 
   const { hasAccess } = useContext(LoginContext);
 
+  const toast = useToast();
+
   function handleSubmit() {
+    // TODO: 응답 코드에 따른 기능들 추가
+
+    setIsSubmitting(true);
+
     axios
       .put("/api/drug/comment/edit", {
         id: drugComment.id,
         comment: commentEdited,
       })
-      .then(() => console.log("잘됨"))
-      .catch(() => console.log("안됨"))
-      .catch(() => console.log("끝"));
+      .then(() => {
+        toast({
+          description: "댓글이 잘 달렸소",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        if (error.response.status === 401 || error.response.status === 403) {
+          toast({
+            description: "권한이 없소",
+            status: "warning",
+          });
+        }
+        if (error.response.status === 400) {
+          toast({
+            description: "입력값을 확인 해주시오",
+            status: "warning",
+          });
+        }
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+        setIsEditing(false);
+      });
   }
 
   return (
@@ -78,7 +110,11 @@ function CommentItem({ drugComment, onDeleteModalOpen }) {
                 value={commentEdited}
                 onChange={(e) => setCommentEdited(e.target.value)}
               />
-              <Button colorScheme="blue" onClick={handleSubmit}>
+              <Button
+                isDisabled={isSubmitting}
+                colorScheme="blue"
+                onClick={handleSubmit}
+              >
                 저장
               </Button>
             </Box>
@@ -121,7 +157,12 @@ function CommentItem({ drugComment, onDeleteModalOpen }) {
   );
 }
 
-function CommentList({ drugCommentList, onDeleteModalOpen, isSubmitting }) {
+function CommentList({
+  drugCommentList,
+  onDeleteModalOpen,
+  isSubmitting,
+  setIsSubmitting,
+}) {
   const { hasAccess } = useContext(LoginContext);
 
   return (
@@ -136,6 +177,8 @@ function CommentList({ drugCommentList, onDeleteModalOpen, isSubmitting }) {
           {drugCommentList.map((drugComment) => (
             <CommentItem
               key={drugComment.id}
+              isSubmitting={isSubmitting}
+              setIsSubmitting={setIsSubmitting}
               drugComment={drugComment}
               onDeleteModalOpen={onDeleteModalOpen}
             />
@@ -241,6 +284,7 @@ export function DrugComment({ drugId }) {
       <CommentList
         drugId={drugId}
         isSubmitting={isSubmitting}
+        setIsSubmitting={setIsSubmitting}
         drugCommentList={drugCommentList}
         onDeleteModalOpen={handleDeleteModalOpen}
       />
