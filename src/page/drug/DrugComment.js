@@ -24,6 +24,7 @@ import {
 import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { LoginContext } from "../../component/LoginProvider";
+import { DeleteIcon, EditIcon, NotAllowedIcon } from "@chakra-ui/icons";
 
 function CommentForm({ drugId, isSubmitting, onSubmit }) {
   const [comment, setComment] = useState("");
@@ -43,7 +44,21 @@ function CommentForm({ drugId, isSubmitting, onSubmit }) {
 }
 
 function CommentItem({ drugComment, onDeleteModalOpen }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [commentEdited, setCommentEdited] = useState(drugComment.comment);
+
   const { hasAccess } = useContext(LoginContext);
+
+  function handleSubmit() {
+    axios
+      .put("/api/drug/comment/edit", {
+        id: drugComment.id,
+        drugComment: commentEdited,
+      })
+      .then(() => console.log("잘됨"))
+      .catch(() => console.log("안됨"))
+      .catch(() => console.log("끝"));
+  }
 
   return (
     <Box>
@@ -52,18 +67,54 @@ function CommentItem({ drugComment, onDeleteModalOpen }) {
         <Text fontSize="xs">{drugComment.inserted}</Text>
       </Flex>
       <Flex justifyContent="space-between" alignItems="center">
-        <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="sm">
-          {drugComment.comment}
-        </Text>
+        <Box flex={1}>
+          <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="sm">
+            {drugComment.comment}
+          </Text>
+
+          {isEditing && (
+            <Box>
+              <Textarea
+                value={commentEdited}
+                onChange={(e) => setCommentEdited(e.target.value)}
+              />
+              <Button colorScheme="blue" onClick={handleSubmit}>
+                저장
+              </Button>
+            </Box>
+          )}
+        </Box>
+
         {/*내가 쓴 댓글만 버튼 보이게 하기*/}
         {hasAccess(drugComment.memberId) && (
-          <Button
-            onClick={() => onDeleteModalOpen(drugComment.id)}
-            size="xs"
-            colorScheme="red"
-          >
-            삭제
-          </Button>
+          <Box>
+            {isEditing || (
+              <Button
+                size="xs"
+                colorScheme="purple"
+                onClick={() => setIsEditing(true)}
+              >
+                <EditIcon />
+              </Button>
+            )}
+            {isEditing && (
+              <Button
+                size="xs"
+                colorScheme="gray"
+                onClick={() => setIsEditing(false)}
+              >
+                <NotAllowedIcon />
+              </Button>
+            )}
+
+            <Button
+              onClick={() => onDeleteModalOpen(drugComment.id)}
+              size="xs"
+              colorScheme="red"
+            >
+              <DeleteIcon />
+            </Button>
+          </Box>
         )}
       </Flex>
     </Box>
