@@ -14,7 +14,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
-  Tooltip,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";

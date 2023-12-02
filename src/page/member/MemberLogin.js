@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useToast } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Box, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 

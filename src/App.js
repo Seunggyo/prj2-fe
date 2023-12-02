@@ -34,10 +34,12 @@ import { HsEdit } from "./page/hs/HsEdit";
 import { Ds } from "./Ds";
 import { Member } from "./Member";
 import { Board } from "./Board";
+import { MapScreen } from "./MapScreen";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<HomeLayout />}>
+      <Route path="main" element={<MapScreen />} />
       <Route path="ds" element={<Ds />}>
         <Route path="list" element={<DsList />} />
         <Route path="write" element={<DsWrite />} />

@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from "react";
 import {
   Box,
   Button,
-  Flex,
   Menu,
   MenuButton,
   MenuItem,
@@ -13,8 +12,6 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LoginContext } from "./LoginProvider";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHospital } from "@fortawesome/free-regular-svg-icons";
 
 export function NavBar() {
   const navigate = useNavigate();
