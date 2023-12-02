@@ -1,7 +1,7 @@
 import { Box, Button, Image, Input, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { GiMedicines } from "react-icons/gi";
 import { TbReportMedical } from "react-icons/tb";
 
@@ -10,13 +10,14 @@ export function DrugList() {
   const [files, setFiles] = useState("");
   const [drug, setDrug] = useState(null);
 
+  const [params] = useSearchParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get("/api/drug/drugList")
+      .get("/api/drug/drugList?" + params)
       .then((response) => setDrugList(response.data));
-  }, []);
+  }, [params]);
 
   if (drugList === null) {
     return <Spinner />;
@@ -65,6 +66,19 @@ export function DrugList() {
           </div>
         </div>
       </section>
+
+      <Box>
+        <Button onClick={() => navigate("/drug/drugList/?p=1")}>1</Button>
+        <Button onClick={() => navigate("/drug/drugList/?p=2")}>2</Button>
+        <Button onClick={() => navigate("/drug/drugList/?p=3")}>3</Button>
+        <Button onClick={() => navigate("/drug/drugList/?p=4")}>4</Button>
+        <Button onClick={() => navigate("/drug/drugList/?p=5")}>5</Button>
+        <Button onClick={() => navigate("/drug/drugList/?p=6")}>6</Button>
+        <Button onClick={() => navigate("/drug/drugList/?p=7")}>7</Button>
+        <Button onClick={() => navigate("/drug/drugList/?p=8")}>8</Button>
+        <Button onClick={() => navigate("/drug/drugList/?p=9")}>9</Button>
+        <Button onClick={() => navigate("/drug/drugList/?p=10")}>10</Button>
+      </Box>
     </Box>
   );
 }
