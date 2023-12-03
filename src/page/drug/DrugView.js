@@ -23,9 +23,23 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { DrugComment } from "./DrugComment";
 import { IoIosCart } from "react-icons/io";
+import * as PropTypes from "prop-types";
+
+function CartContainer({ cart, onClick }) {
+  if (cart === null) {
+    return <Spinner />;
+  }
+
+  return (
+    <Button variant="ghost" onClick={onClick}>
+      <IoIosCart size="xl" />
+    </Button>
+  );
+}
 
 export function DrugView() {
   const [drug, setDrug] = useState(null);
+  const [cart, setCart] = useState(null);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
   const toast = useToast();
@@ -35,6 +49,12 @@ export function DrugView() {
 
   useEffect(() => {
     axios.get("/api/drug/id/" + id).then((response) => setDrug(response.data));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("/api/drug/cart/drugId/" + id)
+      .then((response) => setDrug(response.data));
   }, []);
 
   if (drug === null) {
@@ -63,7 +83,7 @@ export function DrugView() {
   function handleCart() {
     axios
       .post("/api/drug/cart", { drugId: drug.id })
-      .then(() => console.log("잘됨"))
+      .then((response) => setCart(response.data))
       .catch(() => console.log("안됨"))
       .finally(() => console.log("끝"));
   }
@@ -112,10 +132,8 @@ export function DrugView() {
         <FormLabel>등록 일자</FormLabel>
         <Input value={drug.inserted} readOnly />
       </FormControl>
-
-      <Button variant="ghost" bg="red.300" color="white" onClick={handleCart}>
-        <IoIosCart size="xl" />
-      </Button>
+      {/*장바구니*/}
+      <CartContainer cart={cart} onClick={handleCart} />
 
       <Button colorScheme="pink" onClick={() => navigate("/drug/edit/" + id)}>
         수정
