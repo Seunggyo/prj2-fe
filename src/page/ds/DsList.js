@@ -3,8 +3,10 @@ import {
   Badge,
   Box,
   Button,
+  Flex,
   Heading,
   Input,
+  Select,
   Spinner,
   Table,
   Tbody,
@@ -90,18 +92,29 @@ function Pagination({ pageInfo }) {
 
 function SearchComponent() {
   const [keyword, setKeyword] = useState("");
+  const [category, setCategory] = useState("all");
   const navigate = useNavigate();
   function handleSearch() {
     const params = new URLSearchParams();
+
     params.set("k", keyword);
-    // params.set("c", category);
+    params.set("c", category);
+
     navigate("/ds/list?" + params);
   }
 
   return (
     <Box>
-      <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
-      <Button onClick={handleSearch}>검색</Button>
+      <Flex>
+        <Select onChange={(e) => setCategory(e.target.value)}>
+          <option value="all">전체</option>
+          <option value="name">이름</option>
+          <option value="business">기관</option>
+          <option value="medicalCourse">진료 과목</option>
+        </Select>
+        <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
+        <Button onClick={handleSearch}>검색</Button>
+      </Flex>
     </Box>
   );
 }
