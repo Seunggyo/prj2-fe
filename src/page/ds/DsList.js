@@ -19,27 +19,92 @@ import {
   useKakaoLoader,
   ZoomControl,
 } from "react-kakao-maps-sdk";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChatIcon } from "@chakra-ui/icons";
 import * as PropTypes from "prop-types";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+
+function PageButton({ variant, pageNumber, children }) {
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
+
+  function handleClick() {
+    params.set("p", pageNumber);
+
+    navigate("/ds/list?" + params);
+  }
+
+  return (
+    <Button variant={variant} onClick={handleClick}>
+      {children}
+    </Button>
+  );
+}
+
+function Pagination({ pageInfo }) {
+  const pageNumbers = [];
+  const navigate = useNavigate();
+
+  for (let i = pageInfo.startPageNumber; i <= pageInfo.endPageNumber; i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <Box>
+      {/* 뒤로가기*/}
+      {pageInfo.prevPageNumber && (
+        <PageButton variant="ghost" pageNumber={pageInfo.prevPageNumber}>
+          <FontAwesomeIcon icon={faAngleLeft} />
+        </PageButton>
+      )}
+
+      {pageNumbers.map((pageNumber) => (
+        <PageButton
+          key={pageNumber}
+          variant={
+            pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
+          }
+          pageNumber={pageNumber}
+        >
+          {pageNumber}
+        </PageButton>
+      ))}
+
+      {/*앞으로 가기*/}
+      {pageInfo.nextPageNumber && (
+        <PageButton variant="ghost" pageNumber={pageInfo.nextPageNumber}>
+          <FontAwesomeIcon icon={faAngleRight} />
+        </PageButton>
+      )}
+    </Box>
+  );
+}
 
 export function DsList() {
   const [dsList, setDsList] = useState([]);
-  const [pageInfo, setPageInfo] = useState(null);
+  const [pageInfo, setPageInfo] = useState("");
   const [level, setLevel] = useState();
 
   const [params] = useSearchParams();
 
   const navigate = useNavigate();
 
+  // react 사용서에서 useEffect의 dependency가 변경될 시 값이 유지될려면 location 사용 권장
+  const location = useLocation();
+
   useEffect(() => {
     axios.get("/api/ds/list?" + params).then((r) => {
       setDsList(r.data.dsList);
       setPageInfo(r.data.pageInfo);
     });
-  }, [params]);
+  }, [location]);
 
   if (dsList === null) {
     return <Spinner />;
@@ -87,6 +152,11 @@ export function DsList() {
             </Tbody>
           </Table>
         </Box>
+      </Box>
+
+      {/*페이지 번호칸*/}
+      <Box>
+        <Pagination pageInfo={pageInfo} />
       </Box>
 
       {/*<Box>*/}
