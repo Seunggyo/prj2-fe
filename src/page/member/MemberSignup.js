@@ -353,7 +353,6 @@ export function MemberSignup() {
             >
               <p className="flex items-center font-sans text-sm font-normal leading-normal text-gray-700 antialiased">
                 이용약관에 동의하시나요?
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a
                   className="font-medium transition-colors hover:text-pink-500"
                   href="#"
@@ -373,7 +372,6 @@ export function MemberSignup() {
           </button>
           <p class="mt-4 block text-center font-sans text-base font-normal leading-relaxed text-gray-700 antialiased">
             이미 계정이 있나요?
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a
               class="font-medium text-pink-500 transition-colors hover:text-blue-700"
               href="#"
