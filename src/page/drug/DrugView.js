@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   FormLabel,
   Image,
   Input,
@@ -60,10 +61,6 @@ export function DrugView() {
   return (
     <Box marginLeft="256px">
       <h1>{drug.id}영양제 보기</h1>
-      <FormControl>
-        <FormLabel>제품</FormLabel>
-        <Input value={drug.name} readOnly />
-      </FormControl>
 
       <FormControl>
         <FormLabel>사진</FormLabel>
@@ -81,13 +78,14 @@ export function DrugView() {
       </FormControl>
 
       <FormControl>
-        <FormLabel>기능</FormLabel>
-        <Input value={drug.func} readOnly />
+        <FormLabel>제품명</FormLabel>
+        <Input value={drug.name} readOnly />
+        <FormHelperText>{drug.content}</FormHelperText>
       </FormControl>
 
       <FormControl>
-        <FormLabel>상세 정보</FormLabel>
-        <Input value={drug.content} readOnly />
+        <FormLabel>기능</FormLabel>
+        <Input value={drug.func} readOnly />
       </FormControl>
 
       <FormControl>
@@ -96,9 +94,15 @@ export function DrugView() {
       </FormControl>
 
       <FormControl>
+        <FormLabel>배송비</FormLabel>
+        <Input value={drug.shipping} readOnly />
+      </FormControl>
+
+      <FormControl>
         <FormLabel>등록 일자</FormLabel>
         <Input value={drug.inserted} readOnly />
       </FormControl>
+
       <Button colorScheme="pink" onClick={() => navigate("/drug/edit/" + id)}>
         수정
       </Button>

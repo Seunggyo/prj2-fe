@@ -56,6 +56,7 @@ export function DrugEdit() {
         func: drug.func,
         content: drug.content,
         price: drug.price,
+        shipping: drug.shipping,
         removeFileIds,
         uploadFiles,
       })
@@ -162,6 +163,18 @@ export function DrugEdit() {
           onChange={(e) =>
             updateDrug((draft) => {
               draft.price = e.target.value;
+            })
+          }
+        />
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>배송비</FormLabel>
+        <Input
+          value={drug.shipping}
+          onChange={(e) =>
+            updateDrug((draft) => {
+              draft.shipping = e.target.value;
             })
           }
         />

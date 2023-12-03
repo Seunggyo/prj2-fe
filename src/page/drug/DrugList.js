@@ -43,11 +43,11 @@ export function DrugList() {
                     {drug.func}
                   </div>
 
-                  <ul className="mt-4 space-y-2">
-                    <li className="flex items-center">
+                  <ul className="mt-4 space-y-2 ">
+                    <li className=" flex items-center text-4xl font-dongle ">
                       {/*<IconCheck className="text-white text-xs bg-green-500 rounded-full mr-2 p-1" />*/}
                       <TbReportMedical />
-                      {drug.content}
+                      {drug.price}원
                     </li>
                   </ul>
                 </div>
@@ -58,7 +58,7 @@ export function DrugList() {
                     color="white"
                     onClick={() => navigate("/drug/" + drug.id)}
                   >
-                    자세히 보기
+                    주문하기
                   </Button>
                 </div>
               </div>
