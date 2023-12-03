@@ -12,6 +12,7 @@ function DrugChoiceList(props) {
       .get("/api/drug/list?function=" + location.state)
       .then((response) => setDrugList(response.data));
   }, []);
+
   return (
     <div>
       {drugList.map((drug) => (

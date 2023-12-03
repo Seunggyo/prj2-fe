@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export function DrugChoice() {
   const navigate = useNavigate();
   function handleStomach() {
-    navigate("/drug/choiceList", {
+    navigate("/drug/choiceList/?function=", {
       state: "stomach",
     });
   }
