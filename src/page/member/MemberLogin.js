@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Carousel } from "@material-tailwind/react";
 
 export function MemberLogin(props) {
   const [id, setId] = useState("");
@@ -32,14 +33,25 @@ export function MemberLogin(props) {
     <div className="bg-white dark:bg-gray-900">
       <div className="flex justify-center h-screen">
         <div className="hidden bg-cover lg:block lg:w-2/3">
-          //TODO: 왜 백그라운드 이미지가 안되지?
-          <div className="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
-            <div>
-              <h2 className="text-4xl font-bold text-white">아프지마!</h2>
-
-              <p className="max-w-xl mt-3 text-gray-300"></p>
+          <Carousel className="rounded-xl">
+            <div className="h-full w-full object-cover bg-opacity-40">
+              <img
+                src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
+                alt="image 1"
+                className="h-full w-full object-cover"
+              />
             </div>
-          </div>
+            <img
+              src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
+              alt="image 2"
+              className="h-full w-full object-cover"
+            />
+            <img
+              src="https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80"
+              alt="image 3"
+              className="h-full w-full object-cover"
+            />
+          </Carousel>
         </div>
 
         <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
