@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Heading,
+  Input,
   Spinner,
   Table,
   Tbody,
@@ -87,6 +88,24 @@ function Pagination({ pageInfo }) {
   );
 }
 
+function SearchComponent() {
+  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
+  function handleSearch() {
+    const params = new URLSearchParams();
+    params.set("k", keyword);
+    // params.set("c", category);
+    navigate("/ds/list?" + params);
+  }
+
+  return (
+    <Box>
+      <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
+      <Button onClick={handleSearch}>검색</Button>
+    </Box>
+  );
+}
+
 export function DsList() {
   const [dsList, setDsList] = useState([]);
   const [pageInfo, setPageInfo] = useState("");
@@ -153,6 +172,8 @@ export function DsList() {
           </Table>
         </Box>
       </Box>
+      {/*검색 창*/}
+      <SearchComponent />
 
       {/*페이지 번호칸*/}
       <Box>
