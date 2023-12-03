@@ -39,7 +39,7 @@ import { WelcomePage } from "./WelcomePage";
 const routes = createBrowserRouter(
   createRoutesFromElements(
     // <Route path="/" element={<WelcomePage />}>
-    <Route path="home" element={<HomeLayout />}>
+    <Route path="/" element={<HomeLayout />}>
       <Route path="ds" element={<Ds />}>
         <Route path="list" element={<DsList />} />
         <Route path="write" element={<DsWrite />} />
