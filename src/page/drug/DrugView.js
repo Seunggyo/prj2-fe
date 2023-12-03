@@ -1,4 +1,5 @@
 import {
+  border,
   Box,
   Button,
   FormControl,
@@ -21,6 +22,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { DrugComment } from "./DrugComment";
+import { IoIosCart } from "react-icons/io";
 
 export function DrugView() {
   const [drug, setDrug] = useState(null);
@@ -56,6 +58,14 @@ export function DrugView() {
         });
       })
       .finally(() => onClose());
+  }
+
+  function handleCart() {
+    axios
+      .post("/api/drug/cart", { drugId: drug.id })
+      .then(() => console.log("잘됨"))
+      .catch(() => console.log("안됨"))
+      .finally(() => console.log("끝"));
   }
 
   return (
@@ -102,6 +112,10 @@ export function DrugView() {
         <FormLabel>등록 일자</FormLabel>
         <Input value={drug.inserted} readOnly />
       </FormControl>
+
+      <Button variant="ghost" bg="red.300" color="white" onClick={handleCart}>
+        <IoIosCart size="xl" />
+      </Button>
 
       <Button colorScheme="pink" onClick={() => navigate("/drug/edit/" + id)}>
         수정
