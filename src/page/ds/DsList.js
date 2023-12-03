@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Heading,
+  Spinner,
   Table,
   Tbody,
   Td,
@@ -22,16 +23,27 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChatIcon } from "@chakra-ui/icons";
+import * as PropTypes from "prop-types";
 
 export function DsList() {
   const [dsList, setDsList] = useState([]);
+  const [pageInfo, setPageInfo] = useState(null);
   const [level, setLevel] = useState();
+
+  const [params] = useSearchParams();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("/api/ds/list").then((r) => setDsList(r.data));
-  }, []);
+    axios.get("/api/ds/list?" + params).then((r) => {
+      setDsList(r.data.dsList);
+      setPageInfo(r.data.pageInfo);
+    });
+  }, [params]);
+
+  if (dsList === null) {
+    return <Spinner />;
+  }
   // const [loading, error] = useKakaoLoader({
   //   appkey: process.env.REACT_APP_KAKAO_KEY,
   // });
@@ -44,6 +56,7 @@ export function DsList() {
     <Box>
       <Box>
         <Heading>약국 리스트</Heading>
+        <Button onClick={handleMoveWrite}>추가</Button>
         <Box>
           <Table>
             <Thead>
@@ -75,7 +88,10 @@ export function DsList() {
           </Table>
         </Box>
       </Box>
-      <Button onClick={handleMoveWrite}>추가</Button>
+
+      {/*<Box>*/}
+      {/*  <Pagination pageInfo={pageInfo} />*/}
+      {/*</Box>*/}
 
       {/*<Box>*/}
       {/*  {list &&*/}
