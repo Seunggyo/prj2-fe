@@ -92,7 +92,7 @@ function CommentItem({
     <Box>
       <Flex justifyContent="space-between">
         <Heading>{DsComment.memberNickName}</Heading>
-        <Text>{DsComment.inserted}</Text>
+        <Text>{DsComment.ago}</Text>
       </Flex>
       <Flex>
         <Box flex={1}>
