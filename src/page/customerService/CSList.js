@@ -1,20 +1,7 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Flex,
-  Input,
-  Select,
-  Spinner,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
+import { Box, Spinner, Table, Tbody, Td, Thead, Tr } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+
 import axios from "axios";
 
 export function CSList() {
