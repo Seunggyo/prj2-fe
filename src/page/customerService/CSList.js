@@ -16,6 +16,18 @@ export function CSList() {
     return <Spinner />;
   }
 
+  function handleRowClick(id) {
+    axios
+      .put("/api/cs/" + id)
+      .then((r) => console.log("good"))
+      .catch((error) => {
+        console.error("bad");
+      });
+    navigate("/cs/" + id);
+  }
+
+  function sortCount() {}
+
   return (
     <div>
       <button className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl">
@@ -39,7 +51,9 @@ export function CSList() {
               <th>제목</th>
               <th>작성자</th>
               <th>작성일</th>
-              <th>조회수</th>
+              <th onClick={sortCount} style={{ cursor: "pointer" }}>
+                조회수
+              </th>
               <th>수정 / 삭제</th>
             </Tr>
           </Thead>
@@ -50,13 +64,14 @@ export function CSList() {
                   cursor: "pointer",
                 }}
                 key={cs.id}
-                onClick={() => navigate("/cs/" + cs.id)}
+                onClick={() => handleRowClick(cs.id)}
               >
                 <Td>{cs.id}</Td>
                 <Td>{cs.csCategory}</Td>
                 <Td>{cs.csTitle}</Td>
                 <Td>{cs.csWriter}</Td>
                 <Td>{cs.inserted}</Td>
+                <Td>{cs.csHit}</Td>
               </Tr>
             ))}
           </Tbody>
