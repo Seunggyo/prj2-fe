@@ -1,16 +1,37 @@
-import { Box, Spinner, Table, Tbody, Td, Thead, Tr } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Flex,
+  Input,
+  Select,
+  Spinner,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 export function CSList() {
   const [csList, setCsList] = useState(null);
+  const [orderByHit, setOrderByHit] = useState(null);
+  const [orderByTitle, setOrderByTitle] = useState(null);
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const navigate = useNavigate();
+  const [params, setParams] = useSearchParams();
 
   useEffect(() => {
-    axios.get("/api/cs/list").then((r) => setCsList(r.data));
-  }, []);
+    axios
+      .get("/api/cs/list?" + params.toString())
+      .then((r) => setCsList(r.data));
+  }, [params]);
 
   if (csList == null) {
     return <Spinner />;
@@ -26,41 +47,115 @@ export function CSList() {
     navigate("/cs/" + id);
   }
 
-  function sortCount() {}
+  function sortTitle() {
+    const urlSearchParams = new URLSearchParams(params.toString());
+    let nextOrderByTitle = null;
+    urlSearchParams.delete("h");
+    if (orderByTitle === false) {
+      urlSearchParams.set("t", true);
+      nextOrderByTitle = true;
+    } else if (orderByTitle === true) {
+      urlSearchParams.delete("t");
+      nextOrderByTitle = null;
+    } else {
+      urlSearchParams.set("t", false);
+      nextOrderByTitle = false;
+    }
+
+    setParams(urlSearchParams);
+    setOrderByTitle(nextOrderByTitle);
+  }
+
+  function sortCount() {
+    const urlSearchParams = new URLSearchParams(params.toString());
+    let nextOrderByHit = null;
+    urlSearchParams.delete("t");
+    if (orderByHit === false) {
+      urlSearchParams.set("h", true);
+      nextOrderByHit = true;
+    } else if (orderByHit === true) {
+      urlSearchParams.delete("h");
+      nextOrderByHit = null;
+    } else {
+      urlSearchParams.set("h", false);
+      nextOrderByHit = false;
+    }
+
+    setParams(urlSearchParams);
+    setOrderByHit(nextOrderByHit);
+  }
+
+  function handleCategoryChange(event) {
+    setCategoryFilter(event.target.value);
+  }
+
+  function handleSearchChange(event) {
+    setSearchQuery(event.target.value);
+  }
 
   return (
-    <div>
-      <button className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl">
-        <span className="relative z-10">여기 공지사항</span>
-      </button>
-      <button className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl">
-        <span className="relative z-10">인기 글</span>
-      </button>
-      <button
-        className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
-        onClick={() => navigate("/cs/csWrite")}
-      >
-        <span className="relative z-10">글 쓰 기</span>
-      </button>
-      <Box>
-        <Table>
+    <Box p={8} bg="gray.100">
+      <Box bg="white" borderRadius="xl" boxShadow="lg" p={6}>
+        <Flex justify="space-between" align="center">
+          <ButtonGroup>
+            <Button variant="solid" colorScheme="green">
+              여기 공지사항
+            </Button>
+            <Button variant="solid" colorScheme="green">
+              인기 글
+            </Button>
+            <Button
+              variant="solid"
+              colorScheme="green"
+              onClick={() => navigate("/cs/csWrite")}
+            >
+              글 쓰 기
+            </Button>
+          </ButtonGroup>
+
+          <Flex>
+            <Select
+              mr={4}
+              placeholder="카테고리 선택"
+              defaultvalue={""}
+              onChange={handleCategoryChange}
+            >
+              <option value="">전체</option>
+              <option value={"안내사항"}>안내사항</option>
+              <option value={"긴급안내"}>긴급안내</option>
+              <option value={"출시소식"}>출시소식</option>
+              <option value={"이벤트"}>이벤트</option>
+              <option value={"당첨자발표"}>당첨자발표</option>
+            </Select>
+            <Input
+              type="text"
+              placeholder="검색어 입력"
+              defaultvalue={""}
+              onChange={handleSearchChange}
+            />
+          </Flex>
+        </Flex>
+        <Table mt={8} variant="simple">
           <Thead>
             <Tr>
-              <th>번호</th>
-              <th>카테고리</th>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>작성일</th>
-              <th onClick={sortCount} style={{ cursor: "pointer" }}>
+              <Th>번호</Th>
+              <Th>카테고리</Th>
+              <Th onClick={sortTitle} style={{ cursor: "pointer" }}>
+                제목
+              </Th>
+              <Th>작성자</Th>
+              <Th>작성일</Th>
+              <Th onClick={sortCount} style={{ cursor: "pointer" }}>
                 조회수
-              </th>
-              <th>수정 / 삭제</th>
+              </Th>
+              <Th>수정 / 삭제</Th>
             </Tr>
           </Thead>
           <Tbody>
             {csList.map((cs) => (
               <Tr
                 _hover={{
+                  bg: "gray.200",
                   cursor: "pointer",
                 }}
                 key={cs.id}
@@ -76,39 +171,33 @@ export function CSList() {
             ))}
           </Tbody>
         </Table>
-      </Box>
 
-      <div class="flex justify-center p-6">
-        <nav class="flex space-x-2">
-          <a
-            href="#"
-            class="items-center px-6 py-2 text-lg bg-gradient-to-r from-violet-300 to-indigo-300 border border-fuchsia-100 hover:border-violet-100 text-white font-semibold cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
-          >
-            이 전
-          </a>
-          <a
-            href="#"
-            class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
-          >
-            1
-          </a>
-          <a
-            href="#"
-            class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
-          >
-            2
-          </a>
-          <a
-            href="#"
-            class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
-          >
-            3
-          </a>
-          <button class="relative inline-flex items-center px-6 py-2 text-lg bg-gradient-to-r from-violet-300 to-indigo-300 border border-fuchsia-100 hover:border-violet-100 text-white font-semibold cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10">
-            다 음
-          </button>
-        </nav>
-      </div>
-    </div>
+        <Flex justify="center" mt={8}>
+          <ButtonGroup spacing={4}>
+            <Button
+              bgGradient="linear(to-r, violet.300, indigo.300)"
+              color="white"
+              _hover={{
+                bgGradient: "linear(to-r, violet.400, indigo.400)",
+              }}
+            >
+              이 전
+            </Button>
+            <Button variant="outline">1</Button>
+            <Button variant="outline">2</Button>
+            <Button variant="outline">3</Button>
+            <Button
+              bgGradient="linear(to-r, violet.300, indigo.300)"
+              color="white"
+              _hover={{
+                bgGradient: "linear(to-r, violet.400, indigo.400)",
+              }}
+            >
+              다 음
+            </Button>
+          </ButtonGroup>
+        </Flex>
+      </Box>
+    </Box>
   );
 }
