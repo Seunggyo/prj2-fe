@@ -33,8 +33,12 @@ import { HsAdd } from "./page/hs/HsAdd";
 import { HsEdit } from "./page/hs/HsEdit";
 import { Ds } from "./Ds";
 import { Member } from "./Member";
-import { Board } from "./Board";
-import { WelcomePage } from "./WelcomePage";
+import { Board } from "./page/board/Board";
+import { CS } from "./page/customerService/CS";
+import { CSList } from "./page/customerService/CSList";
+import { CSWrite } from "./page/customerService/CSWrite";
+import { CSView } from "./page/customerService/CSView";
+import { CSEdit } from "./page/customerService/CSEdit";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -70,6 +74,12 @@ const routes = createBrowserRouter(
         <Route path="write" element={<BoardWrite />} />
         <Route path=":id" element={<BoardView />} />
         <Route path="edit/:id" element={<BoardEdit />}></Route>
+      </Route>
+      <Route path="cs" element={<CS />}>
+        <Route index element={<CSList />} />
+        <Route path="csWrite" element={<CSWrite />}></Route>
+        <Route path=":id" element={<CSView />}></Route>
+        <Route path="csEdit/:id" element={<CSEdit />}></Route>
       </Route>
       {/*</Route>*/},
     </Route>,

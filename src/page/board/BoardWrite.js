@@ -120,6 +120,7 @@ export function BoardWrite() {
               >
                 작성 완료
               </Button>
+              <Button onClick={() => navigate(-1)}>취소</Button>
             </div>
           </div>
         </div>
