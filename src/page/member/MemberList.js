@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     Box,
     Button,
@@ -16,17 +16,23 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
+import {LoginContext} from "../../component/LoginProvider";
 
 function MemberList(props) {
     const [memberList, setMemberList] = useState(null);
 
     const navigate = useNavigate();
+    const {authCheck} = useContext(LoginContext);
 
     useEffect(() => {
+        if (authCheck() !== "admin") {
+            navigate("/")
+        }
+
         axios.get("/api/member/list")
             .then(({data})=> {
                 setMemberList(data);
-            })
+            });
     }, []);
 
 
