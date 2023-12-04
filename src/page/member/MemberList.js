@@ -15,25 +15,30 @@ import {
     Tr
 } from "@chakra-ui/react";
 import axios from "axios";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {LoginContext} from "../../component/LoginProvider";
+
 
 function MemberList(props) {
     const [memberList, setMemberList] = useState(null);
+    const [pageInfo, setPageInfo] = useState(null);
 
+    const [params] = useSearchParams();
     const navigate = useNavigate();
     const {authCheck} = useContext(LoginContext);
+    const location = useLocation();
 
     useEffect(() => {
         if (authCheck() !== "admin") {
             navigate("/")
         }
 
-        axios.get("/api/member/list")
+        axios.get("/api/member/list?" + params)
             .then(({data})=> {
-                setMemberList(data);
+                setMemberList(data.memberList);
+                setPageInfo(data.pageInfo);
             });
-    }, []);
+    }, [location]);
 
 
     if (memberList === null) {
@@ -50,7 +55,7 @@ function MemberList(props) {
     return (
         <Box>
             <h1>memberList</h1>
-            {/*<MemberSearchComp />*/}
+            <MemberSearchComp />
             <Table>
                 <Thead>
                 <Tr>
@@ -80,6 +85,7 @@ function MemberList(props) {
                 ))}
                 </Tbody>
             </Table>
+            <MemberPagination pageInfo={pageInfo}/>
         </Box>
     );
 }
@@ -99,12 +105,16 @@ function MemberSearchComp() {
     return <Box>
         <FormControl>
             <FormLabel>멤버 조회</FormLabel>
-            <Flex>
-                <Input />
-                <Button>검색</Button>
+            <Flex width={"300px"}>
+                <Input onChange={e=> setKeyword(e.target.value)}/>
+                <Button onClick={handleMemberSearch}>검색</Button>
             </Flex>
         </FormControl>
     </Box>;
+}
+
+function MemberPagination() {
+    return null;
 }
 
 export default MemberList;
