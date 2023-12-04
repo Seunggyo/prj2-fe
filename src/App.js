@@ -81,7 +81,6 @@ const routes = createBrowserRouter(
         <Route path=":id" element={<CSView />}></Route>
         <Route path="csEdit/:id" element={<CSEdit />}></Route>
       </Route>
-      {/*</Route>*/},
     </Route>,
   ),
 );
