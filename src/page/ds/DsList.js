@@ -152,8 +152,10 @@ export function DsList() {
   return (
     <Box>
       <Box>
-        <Heading>약국 리스트</Heading>
-        <Button onClick={handleMoveWrite}>추가</Button>
+        <Flex>
+          <Heading>약국 리스트</Heading>
+          <Button onClick={handleMoveWrite}>추가</Button>
+        </Flex>
         <Box>
           <Table>
             <Thead>

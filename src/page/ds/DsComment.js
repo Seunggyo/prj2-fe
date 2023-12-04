@@ -265,7 +265,7 @@ export function DsComment({ businessId }) {
         commentList={commentList}
         onDeleteModalOpen={handleDeleteModalOpen}
       />
-      삭제 모달
+      {/*삭제 모달*/}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
