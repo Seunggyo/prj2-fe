@@ -1,16 +1,22 @@
 import { Box, Spinner, Table, Tbody, Td, Thead, Tr } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 export function CSList() {
   const [csList, setCsList] = useState(null);
+  const [orderByHit, setOrderByHit] = useState(null);
+  const [orderByTitle, setOrderByTitle] = useState(null);
 
   const navigate = useNavigate();
 
+  const [params, setParams] = useSearchParams();
+
   useEffect(() => {
-    axios.get("/api/cs/list").then((r) => setCsList(r.data));
-  }, []);
+    axios
+      .get("/api/cs/list?" + params.toString())
+      .then((r) => setCsList(r.data));
+  }, [params]);
 
   if (csList == null) {
     return <Spinner />;
@@ -26,7 +32,43 @@ export function CSList() {
     navigate("/cs/" + id);
   }
 
-  function sortCount() {}
+  function sortTitle() {
+    const urlSearchParams = new URLSearchParams(params.toString());
+    let nextOrderByTitle = null;
+    urlSearchParams.delete("h");
+    if (orderByTitle === false) {
+      urlSearchParams.set("t", true);
+      nextOrderByTitle = true;
+    } else if (orderByTitle === true) {
+      urlSearchParams.delete("t");
+      nextOrderByTitle = null;
+    } else {
+      urlSearchParams.set("t", false);
+      nextOrderByTitle = false;
+    }
+
+    setParams(urlSearchParams);
+    setOrderByTitle(nextOrderByTitle);
+  }
+
+  function sortCount() {
+    const urlSearchParams = new URLSearchParams(params.toString());
+    let nextOrderByHit = null;
+    urlSearchParams.delete("t");
+    if (orderByHit === false) {
+      urlSearchParams.set("h", true);
+      nextOrderByHit = true;
+    } else if (orderByHit === true) {
+      urlSearchParams.delete("h");
+      nextOrderByHit = null;
+    } else {
+      urlSearchParams.set("h", false);
+      nextOrderByHit = false;
+    }
+
+    setParams(urlSearchParams);
+    setOrderByHit(nextOrderByHit);
+  }
 
   return (
     <div>
@@ -48,7 +90,9 @@ export function CSList() {
             <Tr>
               <th>번호</th>
               <th>카테고리</th>
-              <th>제목</th>
+              <th onClick={sortTitle} style={{ cursor: "pointer" }}>
+                제목
+              </th>
               <th>작성자</th>
               <th>작성일</th>
               <th onClick={sortCount} style={{ cursor: "pointer" }}>
