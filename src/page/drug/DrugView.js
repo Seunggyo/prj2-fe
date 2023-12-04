@@ -5,6 +5,7 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
+  HStack,
   Image,
   Input,
   Modal,
@@ -16,6 +17,7 @@ import {
   ModalOverlay,
   Spinner,
   useDisclosure,
+  useNumberInput,
   useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -26,14 +28,33 @@ import { IoIosCart } from "react-icons/io";
 import * as PropTypes from "prop-types";
 
 function CartContainer({ cart, onClick }) {
+  const { getInputProps, getDecrementButtonProps, getIncrementButtonProps } =
+    useNumberInput({
+      step: 1,
+      defaultValue: 0,
+      min: 0,
+      max: 10,
+    });
+
+  const inc = getIncrementButtonProps();
+  const dec = getDecrementButtonProps();
+  const input = getInputProps();
+
   if (cart === null) {
     return <Spinner />;
   }
 
   return (
-    <Button variant="ghost" onClick={onClick}>
-      <IoIosCart size="xl" />
-    </Button>
+    <Box>
+      <HStack maxW="320px">
+        <Button {...dec}>-</Button>
+        <Input {...input} />
+        <Button {...inc}>+</Button>
+      </HStack>
+      <Button variant="ghost" onClick={() => onClick(input.value)}>
+        <IoIosCart size="xl" />
+      </Button>
+    </Box>
   );
 }
 
@@ -54,7 +75,7 @@ export function DrugView() {
   useEffect(() => {
     axios
       .get("/api/drug/cart/drugId/" + id)
-      .then((response) => setDrug(response.data));
+      .then((response) => setCart(response.data));
   }, []);
 
   if (drug === null) {
@@ -80,9 +101,9 @@ export function DrugView() {
       .finally(() => onClose());
   }
 
-  function handleCart() {
+  function handleCart(quantity) {
     axios
-      .post("/api/drug/cart", { drugId: drug.id })
+      .post("/api/drug/cart", { drugId: drug.id, quantity })
       .then((response) => setCart(response.data))
       .catch(() => console.log("안됨"))
       .finally(() => console.log("끝"));
