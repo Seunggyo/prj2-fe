@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CheckboxGroup,
   Flex,
   FormControl,
   FormHelperText,
@@ -74,6 +75,11 @@ export function DsEdit() {
         closeMin: ds.closeMin,
         nightCare: ds.nightCare,
         content: ds.content,
+        restHour: ds.restHour,
+        restMin: ds.restMin,
+        restCloseHour: ds.restCloseHour,
+        restCloseMin: ds.restCloseMin,
+        info: ds.info,
         uploadFile,
         deleteFileIds,
       })
@@ -118,7 +124,7 @@ export function DsEdit() {
       {/*약국 사진*/}
       {ds.files.length > 0 &&
         ds.files.map((file) => (
-          <Box key={file.id} border="3px solid black">
+          <Box key={file.id} border="3px solid black" width="50%">
             <FormControl display="flex" alignItems="center">
               <FormLabel>
                 <FontAwesomeIcon icon={faTrashCan} color="red" />
@@ -167,6 +173,26 @@ export function DsEdit() {
             })
           }
         />
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>휴무일</FormLabel>
+        <CheckboxGroup
+          defaultValue="none"
+          onChange={(e) =>
+            updateDs((draft) => {
+              draft.holiday = e;
+            })
+          }
+        >
+          <Checkbox value="월요일">월요일</Checkbox>
+          <Checkbox value="화요일">화요일</Checkbox>
+          <Checkbox value="수요일">수요일</Checkbox>
+          <Checkbox value="목요일">목요일</Checkbox>
+          <Checkbox value="금요일">금요일</Checkbox>
+          <Checkbox value="토요일">토요일</Checkbox>
+          <Checkbox value="일요일">일요일</Checkbox>
+        </CheckboxGroup>
       </FormControl>
 
       <FormControl>
@@ -261,6 +287,17 @@ export function DsEdit() {
               onChange={(e) =>
                 updateDs((draft) => {
                   draft.content = e.target.value;
+                })
+              }
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>약국 정보</FormLabel>
+            <Textarea
+              onChange={(e) =>
+                updateDs((draft) => {
+                  draft.info = e.target.value;
                 })
               }
             />
