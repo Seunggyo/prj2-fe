@@ -60,6 +60,8 @@ export function DsView() {
   const toast = useToast();
   const { id } = useParams();
 
+  const { hasAccess, isAdmin } = useContext(LoginContext);
+
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const [ds, setDs] = useState("");
@@ -164,20 +166,22 @@ export function DsView() {
         <Input value={ds.content} isReadOnly />
       </FormControl>
 
-      <Box>
-        <Button colorScheme="blue" onClick={() => navigate("/ds/edit/" + id)}>
-          수정
-        </Button>
-        <Button
-          colorScheme="red"
-          mx="30px"
-          onClick={() => {
-            onOpen();
-          }}
-        >
-          삭제
-        </Button>
-      </Box>
+      {(hasAccess(ds.name) || isAdmin()) && (
+        <Box>
+          <Button colorScheme="blue" onClick={() => navigate("/ds/edit/" + id)}>
+            수정
+          </Button>
+          <Button
+            colorScheme="red"
+            mx="30px"
+            onClick={() => {
+              onOpen();
+            }}
+          >
+            삭제
+          </Button>
+        </Box>
+      )}
 
       {/*삭제 클릭시 모달*/}
       <Modal isOpen={isOpen} onClose={onClose}>
