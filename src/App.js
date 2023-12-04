@@ -22,9 +22,7 @@ import { BoardWrite } from "./page/board/BoardWrite";
 import { BoardView } from "./page/board/BoardView";
 import { BoardList } from "./page/board/BoardList";
 import { BoardEdit } from "./page/board/BoardEdit";
-import { DrugChoice } from "./page/drug/DrugChoice";
 import { DrugLayout } from "./layout/DrugLayout";
-import DrugChoiceList from "./page/drug/DrugChoiceList";
 import { DrugWrite } from "./page/drug/DrugWrite";
 import { DrugList } from "./page/drug/DrugList";
 import { DrugView } from "./page/drug/DrugView";
@@ -37,7 +35,7 @@ import { Board } from "./Board";
 import { Hs } from "./Hs";
 import { HsList } from "./page/hs/HsList";
 import { Cart } from "./page/drug/Cart";
-import { Aaa } from "./page/drug/Aaa";
+import { DrugStomach } from "./page/drug/DrugStomach";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -49,14 +47,12 @@ const routes = createBrowserRouter(
         <Route path="edit/:id" element={<DsEdit />} />
       </Route>
       <Route path="drug" element={<DrugLayout />}>
-        <Route path="choice" element={<DrugChoice />} />
-        <Route path="choiceList" element={<DrugChoiceList />} />
         <Route path="write" element={<DrugWrite />} />
         <Route path="drugList" element={<DrugList />} />
         <Route path=":id" element={<DrugView />} />
         <Route path="edit/:id" element={<DrugEdit />} />
         <Route path="cart" element={<Cart />} />
-        <Route path="aaa" element={<Aaa />} />
+        <Route path="func/:func" element={<DrugStomach />} />
       </Route>
       <Route path="hospital" element={<Hs />}>
         <Route path="hospitalList" element={<HsList />} />

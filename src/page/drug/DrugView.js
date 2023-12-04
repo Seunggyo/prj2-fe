@@ -112,6 +112,7 @@ export function DrugView() {
         });
       })
       .catch((error) => {
+        //TODO: 로그인 안하고 누르면 로그인 페이지로 보내기
         toast({
           description: " 장바구니에 넣는 중 문제가 발생하였습니다.",
           status: "error",

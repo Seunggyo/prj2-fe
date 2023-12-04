@@ -42,7 +42,7 @@ export function DrugList() {
   return (
     <Box marginLeft="256px">
       <div>
-        <div>
+        <div className="flex items-center justify-end w-full">
           {/*TODO: 우측 상단 메뉴버튼*/}
           <Button
             ref={btnRef}
