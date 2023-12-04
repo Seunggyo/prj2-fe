@@ -104,9 +104,20 @@ export function DrugView() {
   function handleCart(quantity) {
     axios
       .post("/api/drug/cart", { drugId: drug.id, quantity })
-      .then((response) => setCart(response.data))
-      .catch(() => console.log("안됨"))
-      .finally(() => console.log("끝"));
+      .then((response) => {
+        setCart(response.data);
+        toast({
+          description: "장바구니에 담는중입니다.",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        toast({
+          description: " 장바구니에 넣는 중 문제가 발생하였습니다.",
+          status: "error",
+        });
+      })
+      .finally(() => onClose);
   }
 
   return (
