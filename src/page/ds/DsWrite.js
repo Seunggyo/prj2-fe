@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CheckboxGroup,
   Flex,
   FormControl,
   FormHelperText,
@@ -9,6 +10,7 @@ import {
   Input,
   Select,
   Textarea,
+  Text,
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -21,10 +23,16 @@ export function DsWrite() {
   const [phone, setPhone] = useState("");
   const [openHour, setOpenHour] = useState(7);
   const [openMin, setOpenMin] = useState(0);
-  const [closeHour, setCloseHour] = useState(16);
+  const [closeHour, setCloseHour] = useState(7);
   const [closeMin, setCloseMin] = useState(0);
+  const [restHour, setRestHour] = useState(0);
+  const [restMin, setRestMin] = useState(0);
+  const [restCloseHour, setRestCloseHour] = useState(0);
+  const [restCloseMin, setRestCloseMin] = useState(0);
+  const [holiday, setHoliday] = useState([]);
   const [nightCare, setNightCare] = useState(false);
   const [content, setContent] = useState("");
+  const [info, setInfo] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadFiles, setUploadFiles] = useState(null);
 
@@ -42,8 +50,14 @@ export function DsWrite() {
         openMin,
         closeHour,
         closeMin,
+        restHour,
+        restMin,
+        restCloseHour,
+        restCloseMin,
+        holiday,
         nightCare,
         content,
+        info,
         uploadFiles,
       })
       .then(() => {
@@ -104,6 +118,20 @@ export function DsWrite() {
                     <option value="10">10시</option>
                     <option value="11">11시</option>
                     <option value="12">12시</option>
+                    <option value="13">13시</option>
+                    <option value="14">14시</option>
+                    <option value="15">15시</option>
+                    <option value="16">16시</option>
+                    <option value="17">17시</option>
+                    <option value="18">18시</option>
+                    <option value="19">19시</option>
+                    <option value="20">20시</option>
+                    <option value="21">21시</option>
+                    <option value="22">22시</option>
+                    <option value="23">23시</option>
+                    <option value="24">24시</option>
+                    <option value="01">01시</option>
+                    <option value="02">02시</option>
                   </Select>
                   <Select
                     defaultValue="0"
@@ -125,11 +153,26 @@ export function DsWrite() {
                     defaultValue="16"
                     onChange={(e) => setCloseHour(e.target.value)}
                   >
+                    <option value="7">7시</option>
+                    <option value="8">8시</option>
+                    <option value="9">9시</option>
+                    <option value="10">10시</option>
+                    <option value="11">11시</option>
+                    <option value="12">12시</option>
+                    <option value="13">13시</option>
+                    <option value="14">14시</option>
+                    <option value="15">15시</option>
                     <option value="16">16시</option>
                     <option value="17">17시</option>
                     <option value="18">18시</option>
                     <option value="19">19시</option>
                     <option value="20">20시</option>
+                    <option value="21">21시</option>
+                    <option value="22">22시</option>
+                    <option value="23">23시</option>
+                    <option value="00">00시</option>
+                    <option value="01">01시</option>
+                    <option value="02">02시</option>
                   </Select>
                   <Select
                     defaultValue="0"
@@ -147,13 +190,110 @@ export function DsWrite() {
               <FormLabel mx="20px">야간 업무</FormLabel>
               <Flex>
                 <Box>
-                  <Checkbox
-                    size="lg"
-                    onChange={(e) => setNightCare(e.target.checked)}
-                  />
+                  <Flex>
+                    <Checkbox
+                      size="lg"
+                      onChange={(e) => setNightCare(e.target.checked)}
+                    />
+                    <Text>야간 업무 진행시 체크해 주세요</Text>
+                  </Flex>
                 </Box>
               </Flex>
             </Flex>
+            <FormControl>
+              <Box>
+                <Flex>
+                  <FormLabel>휴식 시간</FormLabel>
+                  <Box>
+                    <Flex>
+                      <Select
+                        defaultValue="0"
+                        onChange={(e) => setRestHour(e.target.value)}
+                      >
+                        <option value="7">7시</option>
+                        <option value="8">8시</option>
+                        <option value="9">9시</option>
+                        <option value="10">10시</option>
+                        <option value="11">11시</option>
+                        <option value="12">12시</option>
+                        <option value="13">13시</option>
+                        <option value="14">14시</option>
+                        <option value="15">15시</option>
+                        <option value="16">16시</option>
+                        <option value="17">17시</option>
+                        <option value="18">18시</option>
+                        <option value="19">19시</option>
+                        <option value="20">20시</option>
+                        <option value="21">21시</option>
+                        <option value="22">22시</option>
+                        <option value="23">23시</option>
+                        <option value="00">00시</option>
+                        <option value="01">01시</option>
+                        <option value="02">02시</option>
+                      </Select>
+                      <Select
+                        defaultValue="0"
+                        onChange={(e) => setRestMin(e.target.value)}
+                      >
+                        <option value="0">0분</option>
+                        <option value="10">10분</option>
+                        <option value="20">20분</option>
+                        <option value="30">30분</option>
+                        <option value="40">40분</option>
+                        <option value="50">50분</option>
+                      </Select>
+                      ~
+                      <Select
+                        defaultValue="0"
+                        onChange={(e) => setRestCloseHour(e.target.value)}
+                      >
+                        <option value="7">7시</option>
+                        <option value="8">8시</option>
+                        <option value="9">9시</option>
+                        <option value="10">10시</option>
+                        <option value="11">11시</option>
+                        <option value="12">12시</option>
+                        <option value="13">13시</option>
+                        <option value="14">14시</option>
+                        <option value="15">15시</option>
+                        <option value="16">16시</option>
+                        <option value="17">17시</option>
+                        <option value="18">18시</option>
+                        <option value="19">19시</option>
+                        <option value="20">20시</option>
+                        <option value="21">21시</option>
+                        <option value="22">22시</option>
+                        <option value="23">23시</option>
+                        <option value="00">00시</option>
+                        <option value="01">01시</option>
+                        <option value="02">02시</option>
+                      </Select>
+                      <Select
+                        defaultValue="0"
+                        onChange={(e) => setRestCloseMin(e.target.value)}
+                      >
+                        <option value="0">0분</option>
+                        <option value="10">10분</option>
+                        <option value="20">20분</option>
+                        <option value="30">30분</option>
+                        <option value="40">40분</option>
+                        <option value="50">50분</option>
+                      </Select>
+                    </Flex>
+                  </Box>
+                </Flex>
+                <FormLabel>휴무일</FormLabel>
+                <CheckboxGroup value={holiday} onChange={(e) => setHoliday(e)}>
+                  <Checkbox value="월요일">월요일</Checkbox>
+                  <Checkbox value="화요일">화요일</Checkbox>
+                  <Checkbox value="수요일">수요일</Checkbox>
+                  <Checkbox value="목요일">목요일</Checkbox>
+                  <Checkbox value="금요일">금요일</Checkbox>
+                  <Checkbox value="토요일">토요일</Checkbox>
+                  <Checkbox value="일요일">일요일</Checkbox>
+                </CheckboxGroup>
+              </Box>
+            </FormControl>
           </Box>
         </FormControl>
 
@@ -163,6 +303,15 @@ export function DsWrite() {
             value={content}
             placeholder="300글자 이내로 작성해주세요"
             onChange={(e) => setContent(e.target.value)}
+          />
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>약국 정보</FormLabel>
+          <Textarea
+            value={info}
+            placeholder="300글자 이내로 작성해주세요"
+            onChange={(e) => setInfo(e.target.value)}
           />
         </FormControl>
 

@@ -17,6 +17,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
+  Text,
   Tooltip,
   useDisclosure,
   useToast,
@@ -114,75 +115,81 @@ export function DsView() {
     <Box>
       {ds.files &&
         ds.files.map((file) => (
-          <Box key={file.id} border="3px solid black">
+          <Box key={file.id} border="3px solid black" width="50%">
             <Image width="100%" height="300px" src={file.url} alt={file.name} />
           </Box>
         ))}
-
       <Flex>
         <Heading size="xl">{ds.name}글 보기</Heading>
         <LikeContainer like={like} onClick={handleLike} />
       </Flex>
-
       <FormControl>
         <FormLabel>업체 명</FormLabel>
-        <Input value={ds.name} isReadOnly />
+        <Input border="none" value={ds.name} isReadOnly />
       </FormControl>
-
       <FormControl>
         <FormLabel>주소</FormLabel>
-        <Input value={ds.address} isReadOnly />
+        <Input border="none" value={ds.address} isReadOnly />
       </FormControl>
-
       <FormControl>
         <FormLabel>번호</FormLabel>
-        <Input value={ds.phone} isReadOnly />
+        <Input border="none" value={ds.phone} isReadOnly />
       </FormControl>
 
-      <FormControl>
-        <FormLabel>오픈 시간</FormLabel>
+      <FormControl display={ds.holidays === null ? "none" : "block"}>
+        <FormLabel>휴무일</FormLabel>
+        <Input
+          border="none"
+          value={
+            ds.holidays != null && ds.holidays.map((holiday) => holiday.holiday)
+          }
+          isReadOnly
+        />
+      </FormControl>
+
+      <Box>
         <Flex>
-          <Input w={"20%"} value={ds.openHour} isReadOnly />
-          <Input w={"40%"} mx={"30px"} value={ds.openMin} isReadOnly />
-        </Flex>
-      </FormControl>
+          <FormControl>
+            <Flex>
+              <FormLabel>오픈 시간</FormLabel>
+              <Input w={"100px"} value={ds.openHour} isReadOnly />
+              <Input w={"100px"} mx={"30px"} value={ds.openMin} isReadOnly />
+            </Flex>
 
-      <FormControl>
-        <Flex justifyContent="space-between">
-          <FormLabel>마감 시간</FormLabel>
-          <FormLabel>야간 진료</FormLabel>
+            <Flex>
+              <FormLabel>마감 시간</FormLabel>
+              <Input w={"100px"} value={ds.closeHour} isReadOnly />
+              <Input w={"100px"} mx={"30px"} value={ds.closeMin} isReadOnly />
+              <FormLabel>야간 진료</FormLabel>
+              <Checkbox isChecked={ds.nightCare} isReadOnly />
+            </Flex>
+          </FormControl>
         </Flex>
-        <Flex>
-          <Input w={"20%"} value={ds.closeHour} isReadOnly />
-          <Input w={"40%"} mx={"30px"} value={ds.closeMin} isReadOnly />
-          <Checkbox isChecked={ds.nightCare} isReadOnly />
-        </Flex>
-      </FormControl>
-
-      {/*TODO : 지역 화폐 사용 가능 한지도 작성*/}
-
+      </Box>
       <FormControl>
         <FormLabel>약국 소개</FormLabel>
-        <Input value={ds.content} isReadOnly />
+        <Input border="none" value={ds.content} isReadOnly />
       </FormControl>
-
-      {(hasAccess(ds.name) || isAdmin()) && (
-        <Box>
-          <Button colorScheme="blue" onClick={() => navigate("/ds/edit/" + id)}>
-            수정
-          </Button>
-          <Button
-            colorScheme="red"
-            mx="30px"
-            onClick={() => {
-              onOpen();
-            }}
-          >
-            삭제
-          </Button>
-        </Box>
-      )}
-
+      <FormControl>
+        <FormLabel>약국 정보</FormLabel>
+        <Input border="none" value={ds.info} isReadOnly />
+      </FormControl>
+      {/*{(hasAccess(ds.id) || isAdmin()) && (*/}
+      <Box>
+        <Button colorScheme="blue" onClick={() => navigate("/ds/edit/" + id)}>
+          수정
+        </Button>
+        <Button
+          colorScheme="red"
+          mx="30px"
+          onClick={() => {
+            onOpen();
+          }}
+        >
+          삭제
+        </Button>
+      </Box>
+      {/*}*/}
       {/*삭제 클릭시 모달*/}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
