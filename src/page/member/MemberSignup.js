@@ -169,7 +169,7 @@ export function MemberSignup() {
           description: "회원가입이 완료되엇습니다.",
           status: "success",
         });
-        // TODO: navigate
+        navigate("/");
       })
       .catch((error) => {
         if (error.response.status === 400) {
@@ -335,7 +335,7 @@ export function MemberSignup() {
                   variant="outline"
                   onClick={SendMail}
               >
-                메일 인증
+                메일 인증 {authenticationNum}
               </Button>
             </Flex>
 

@@ -33,6 +33,7 @@ import {Hs} from "./Hs";
 import {HsList} from "./page/hs/HsList";
 import {MemberFindId} from "./page/member/MemberFindId";
 import {MemberFindPassword} from "./page/member/MemberFindPassword";
+import {MemberJoinList} from "./page/member/MemberJoinList";
 
 const routes = createBrowserRouter(
     createRoutesFromElements(
@@ -64,6 +65,7 @@ const routes = createBrowserRouter(
             <Route path={"member"} element={<Member/>}>
                 <Route path="signup" element={<MemberSignup/>}/>
                 <Route path="list" element={<MemberList/>}/>
+                <Route path={"joinList"} element={<MemberJoinList />} />
                 <Route path="view" element={<MemberView/>}/>
                 <Route path="login" element={<MemberLogin/>}/>
                 <Route path="edit" element={<MemberEdit/>}/>
