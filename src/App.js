@@ -39,7 +39,8 @@ import { CSList } from "./page/customerService/CSList";
 import { CSWrite } from "./page/customerService/CSWrite";
 import { CSView } from "./page/customerService/CSView";
 import { CSEdit } from "./page/customerService/CSEdit";
-import { CS_QA } from "./CS_QA";
+import { QA_List } from "./page/customerService/QA/QA_List";
+import { QA_Write } from "./page/customerService/QA/QA_Write";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -81,7 +82,8 @@ const routes = createBrowserRouter(
         <Route path="csWrite" element={<CSWrite />}></Route>
         <Route path=":id" element={<CSView />}></Route>
         <Route path="csEdit/:id" element={<CSEdit />}></Route>
-        <Route path="qa" element={<CS_QA />}></Route>
+        <Route path="qa_list" element={<QA_List />}></Route>
+        <Route path="qa_write" element={<QA_Write />}></Route>
       </Route>
     </Route>,
   ),

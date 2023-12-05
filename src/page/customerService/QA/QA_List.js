@@ -3,7 +3,7 @@ import { Button, Flex, Select, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export function CS_QA() {
+export function QA_List() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [boardType, setBoardType] = useState("병원");
