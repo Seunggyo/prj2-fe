@@ -28,10 +28,10 @@ export function CSList() {
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
 
+  console.log(params);
+
   useEffect(() => {
-    axios
-      .get("/api/cs/list?" + params.toString())
-      .then((r) => setCsList(r.data));
+    axios.get("/api/cs/list?" + params).then((r) => setCsList(r.data));
   }, [params]);
 
   if (csList == null) {
@@ -173,31 +173,52 @@ export function CSList() {
           </Tbody>
         </Table>
 
-        <Flex justify="center" mt={8}>
-          <ButtonGroup spacing={4}>
-            <Button
-              bgGradient="linear(to-r, violet.300, indigo.300)"
-              color="white"
-              _hover={{
-                bgGradient: "linear(to-r, violet.400, indigo.400)",
-              }}
-            >
+        <div class="flex justify-center p-6">
+          <nav class="flex space-x-2" aria-label="Pagination">
+            <button class="items-center px-6 py-2 text-lg bg-gradient-to-r from-violet-300 to-indigo-300 border border-fuchsia-100 hover:border-violet-100 text-white font-semibold cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10">
               이 전
-            </Button>
-            <Button variant="outline">1</Button>
-            <Button variant="outline">2</Button>
-            <Button variant="outline">3</Button>
-            <Button
-              bgGradient="linear(to-r, violet.300, indigo.300)"
-              color="white"
-              _hover={{
-                bgGradient: "linear(to-r, violet.400, indigo.400)",
-              }}
+            </button>
+            <button
+              onClick={() => navigate("/cs/?p=1")}
+              class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
             >
+              1
+            </button>
+            <button
+              onClick={() => navigate("/cs/?p=2")}
+              class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
+            >
+              2
+            </button>
+            <button
+              onClick={() => navigate("/cs/?p=3")}
+              class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
+            >
+              3
+            </button>
+            <button
+              onClick={() => navigate("/cs/?p=4")}
+              className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
+            >
+              4
+            </button>
+            <button
+              onClick={() => navigate("/cs/?p=5")}
+              className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
+            >
+              5
+            </button>
+            <button
+              onClick={() => navigate("/cs/?p=6")}
+              className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
+            >
+              6
+            </button>
+            <button class="relative inline-flex items-center px-6 py-2 text-lg bg-gradient-to-r from-violet-300 to-indigo-300 border border-fuchsia-100 hover:border-violet-100 text-white font-semibold cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10">
               다 음
-            </Button>
-          </ButtonGroup>
-        </Flex>
+            </button>
+          </nav>
+        </div>
       </Box>
     </Box>
   );

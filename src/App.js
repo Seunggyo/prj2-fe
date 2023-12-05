@@ -39,7 +39,6 @@ import { CSList } from "./page/customerService/CSList";
 import { CSWrite } from "./page/customerService/CSWrite";
 import { CSView } from "./page/customerService/CSView";
 import { CSEdit } from "./page/customerService/CSEdit";
-import { MapPage } from "./MapPage";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -82,7 +81,6 @@ const routes = createBrowserRouter(
         <Route path=":id" element={<CSView />}></Route>
         <Route path="csEdit/:id" element={<CSEdit />}></Route>
       </Route>
-      <MapPage />
     </Route>,
   ),
 );
