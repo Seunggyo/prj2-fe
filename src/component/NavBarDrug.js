@@ -27,31 +27,35 @@ export function NavBarDrug() {
               위건강
             </a>
             <a
-              onClick={() => navigate("/drug/func/수면질 개선")}
+              onClick={() => navigate("/drug/func/눈 건강")}
               className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
               href="#"
             >
               눈건강
             </a>
             <a
+              onClick={() => navigate("/drug/func/간 건강")}
               className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
               href="#"
             >
               간건강
             </a>
             <a
+              onClick={() => navigate("/drug/func/피로 개선")}
               className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
               href="#"
             >
               피로개선
             </a>
             <a
+              onClick={() => navigate("/drug/func/어린이 성장")}
               className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
               href="#"
             >
               어린이성장
             </a>
             <a
+              onClick={() => navigate("/drug/func/수면질 개선")}
               className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
               href="#"
             >
