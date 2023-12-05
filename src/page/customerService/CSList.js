@@ -101,7 +101,11 @@ function SearchComponent() {
   }
   return (
     <Flex>
-      <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
+      <Input
+        w="300px"
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
+      />
       <Button onClick={handleSearch}>검색</Button>
     </Flex>
   );
@@ -143,13 +147,10 @@ export function CSList() {
   function sortNum() {
     const urlSearchParams = new URLSearchParams(params.toString());
     let nextOrderByNum = null;
-    urlSearchParams.delete("h");
+
     if (orderByNum === false) {
       urlSearchParams.set("n", true);
       nextOrderByNum = true;
-    } else if (orderByNum === true) {
-      urlSearchParams.delete("n");
-      nextOrderByNum = null;
     } else {
       urlSearchParams.set("n", false);
       nextOrderByNum = false;
@@ -162,13 +163,10 @@ export function CSList() {
   function sortCount() {
     const urlSearchParams = new URLSearchParams(params.toString());
     let nextOrderByHit = null;
-    urlSearchParams.delete("n");
+
     if (orderByHit === false) {
       urlSearchParams.set("h", true);
       nextOrderByHit = true;
-    } else if (orderByHit === true) {
-      urlSearchParams.delete("h");
-      nextOrderByHit = null;
     } else {
       urlSearchParams.set("h", false);
       nextOrderByHit = false;
@@ -183,92 +181,94 @@ export function CSList() {
   }
 
   return (
-    <Box p={8} bg="gray.100">
-      <Box bg="white" borderRadius="xl" boxShadow="lg" p={6}>
-        <Flex justify="space-between" align="center">
-          <ButtonGroup>
-            <Button variant="solid" colorScheme="green">
-              여기 공지사항
-            </Button>
-            <Button variant="solid" colorScheme="green">
-              인기 글
-            </Button>
-            <Button
-              variant="solid"
-              colorScheme="green"
-              onClick={() => navigate("/cs/csWrite")}
-            >
-              글 쓰 기
-            </Button>
-          </ButtonGroup>
-
-          <Flex>
-            <Select
-              mr={4}
-              placeholder="카테고리 선택"
-              defaultvalue={""}
-              onChange={handleCategoryChange}
-            >
-              <option value="">전체</option>
-              <option value={"안내사항"}>안내사항</option>
-              <option value={"긴급안내"}>긴급안내</option>
-              <option value={"출시소식"}>출시소식</option>
-              <option value={"이벤트"}>이벤트</option>
-              <option value={"당첨자발표"}>당첨자발표</option>
-            </Select>
-            <SearchComponent />
-          </Flex>
-        </Flex>
-        <Table mt={8} variant="simple">
-          <Thead>
-            <Tr>
-              <Th onClick={sortNum} style={{ cursor: "pointer" }}>
-                번호
-                <FontAwesomeIcon icon={faAngleDown} />
-              </Th>
-              <Th>카테고리</Th>
-              <Th>제목</Th>
-              <Th>작성자</Th>
-              <Th>작성일</Th>
-              <Th onClick={sortCount} style={{ cursor: "pointer" }}>
-                조회수
-                <FontAwesomeIcon icon={faAngleDown} />
-              </Th>
-              <Th>수정 / 삭제</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {csList
-              .filter(
-                (item) =>
-                  categoryFilter === "" || item.csCategory === categoryFilter,
-              )
-              .map((cs) => (
-                <Tr
-                  _hover={{
-                    bg: "gray.200",
-                    cursor: "pointer",
-                  }}
-                  key={cs.id}
-                  onClick={() => handleRowClick(cs.id)}
+    <Box>
+      <Flex>
+        <Box p={8} bg="orange.100">
+          <Box bg="white" borderRadius="xl" boxShadow="lg" p={6}>
+            <Flex justify="space-between" align="center">
+              <ButtonGroup>
+                <Button variant="solid" colorScheme="blue">
+                  인기 글
+                </Button>
+                <Button
+                  variant="solid"
+                  colorScheme="green"
+                  onClick={() => navigate("/cs/csWrite")}
                 >
-                  <Td>{cs.id}</Td>
-                  <Td>{cs.csCategory}</Td>
-                  <Td>{cs.csTitle}</Td>
-                  <Td>{cs.csWriter}</Td>
-                  <Td>{cs.inserted}</Td>
-                  <Td>{cs.csHit}</Td>
-                </Tr>
-              ))}
-          </Tbody>
-        </Table>
+                  글 쓰 기
+                </Button>
+              </ButtonGroup>
 
-        <div class="flex justify-center p-6">
-          <nav class="flex space-x-2" aria-label="Pagination">
-            <Pagination pageInfo={pageInfo} />
-          </nav>
-        </div>
-      </Box>
+              <Flex>
+                <Select
+                  mr={4}
+                  placeholder="카테고리 선택"
+                  defaultvalue={""}
+                  onChange={handleCategoryChange}
+                >
+                  <option value="">전체</option>
+                  <option value={"안내사항"}>안내사항</option>
+                  <option value={"긴급안내"}>긴급안내</option>
+                  <option value={"출시소식"}>출시소식</option>
+                  <option value={"이벤트"}>이벤트</option>
+                  <option value={"당첨자발표"}>당첨자발표</option>
+                </Select>
+                <SearchComponent />
+              </Flex>
+            </Flex>
+            <Table mt={8} variant="simple">
+              <Thead>
+                <Tr>
+                  <Th onClick={sortNum} style={{ cursor: "pointer" }}>
+                    번호
+                    <FontAwesomeIcon icon={faAngleDown} />
+                  </Th>
+                  <Th>카테고리</Th>
+                  <Th>제목</Th>
+                  <Th>작성자</Th>
+                  <Th>작성일</Th>
+                  <Th onClick={sortCount} style={{ cursor: "pointer" }}>
+                    조회수
+                    <FontAwesomeIcon icon={faAngleDown} />
+                  </Th>
+                  <Th>수정 / 삭제</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {csList
+                  .filter(
+                    (item) =>
+                      categoryFilter === "" ||
+                      item.csCategory === categoryFilter,
+                  )
+                  .map((cs) => (
+                    <Tr
+                      _hover={{
+                        bg: "gray.200",
+                        cursor: "pointer",
+                      }}
+                      key={cs.id}
+                      onClick={() => handleRowClick(cs.id)}
+                    >
+                      <Td>{cs.id}</Td>
+                      <Td>{cs.csCategory}</Td>
+                      <Td>{cs.csTitle}</Td>
+                      <Td>{cs.csWriter}</Td>
+                      <Td>{cs.inserted}</Td>
+                      <Td>{cs.csHit}</Td>
+                    </Tr>
+                  ))}
+              </Tbody>
+            </Table>
+
+            <div class="flex justify-center p-6">
+              <nav class="flex space- x-2" aria-label="Pagination">
+                <Pagination pageInfo={pageInfo} />
+              </nav>
+            </div>
+          </Box>
+        </Box>
+      </Flex>
     </Box>
   );
 }
