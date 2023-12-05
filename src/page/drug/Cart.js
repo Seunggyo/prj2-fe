@@ -18,24 +18,24 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 export function Cart() {
   const [cartList, setCartList] = useState(null);
 
+  const idRef = useRef(null);
+
   const { isOpen, onClose, onOpen } = useDisclosure();
   const toast = useToast();
   const navigate = useNavigate();
-
-  const { id } = useParams();
 
   useEffect(() => {
     axios
       .get("/api/drug/cart/cartList")
       .then((response) => setCartList(response.data));
-  }, []);
+  }, [isOpen]);
 
   if (cartList === null) {
     return <Spinner />;
@@ -43,10 +43,10 @@ export function Cart() {
 
   function handleDelete() {
     axios
-      .delete("/api/durg/cart/remove/" + id)
+      .delete("/api/drug/cart/remove/" + idRef.current)
       .then((response) => {
         toast({
-          description: id + "번 장바구니가 삭제되었습니다",
+          description: idRef.current + "번 장바구니가 삭제되었습니다",
           status: "success",
         });
       })
@@ -80,7 +80,13 @@ export function Cart() {
               <Button colorScheme="teal" variant="solid">
                 주문
               </Button>
-              <Button colorScheme="pink" onClick={onclose}>
+              <Button
+                colorScheme="pink"
+                onClick={() => {
+                  idRef.current = cart.id;
+                  onOpen();
+                }}
+              >
                 삭제
               </Button>
             </Tr>

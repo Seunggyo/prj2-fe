@@ -18,6 +18,7 @@ import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { GiMedicines } from "react-icons/gi";
 import { TbReportMedical } from "react-icons/tb";
+import { Cart } from "./Cart";
 
 export function DrugList() {
   const [drugList, setDrugList] = useState(null);
@@ -80,6 +81,7 @@ export function DrugList() {
 
               {/*본문내용*/}
               <DrawerBody>
+                <Cart />
                 <div className="flex justify-between mt-6">
                   <div className="flex">
                     <div className="mx-3">
