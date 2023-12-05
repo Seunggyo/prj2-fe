@@ -6,6 +6,7 @@ import {
     CardFooter,
     CardHeader,
     Checkbox,
+    CheckboxGroup,
     Divider,
     Flex,
     FormControl,
@@ -22,17 +23,43 @@ import {
     ModalHeader,
     ModalOverlay,
     Select,
+    Spinner,
     Switch,
     Textarea,
+    Tooltip,
     useDisclosure,
     useToast
 } from "@chakra-ui/react";
 import {useImmer} from "use-immer";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
-import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import {faHeart as fullHeart, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import {faHeart as emptyHeart} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {LoginContext} from "../../component/LoginProvider";
+import {HsComment} from "./HsComment";
+
+
+function LikeContainer({like, onClick}) {
+    const {isAuthenticated} = useContext(LoginContext);
+    if (like === null) {
+        return <Spinner/>
+    }
+
+    return (
+        <Flex>
+            <Tooltip isDisabled={isAuthenticated()} hasArrow label={"로그인 하세요"}>
+                <Button variant="ghost" size="xl" onClick={onClick}>
+                    {/*<FontAwesomeIcon icon={faHeart} size="xl" />*/}
+                    {like.like && <FontAwesomeIcon icon={fullHeart} size="xl"/>}
+                    {like.like || <FontAwesomeIcon icon={emptyHeart} size="xl"/>}
+                </Button>
+            </Tooltip>
+            <Heading size="lg">{like.countLike}</Heading>
+        </Flex>
+    )
+}
 
 
 export function HsEdit() {
@@ -43,9 +70,14 @@ export function HsEdit() {
     const toast = useToast();
     const [removeFileIds, setRemoveFileIds] = useState([]);
     const [uploadFiles, setUploadFiles] = useState(null);
+    const [like, setLike] = useState(null);
+    const {isAuthenticated} = useContext(LoginContext);
 
     useEffect(() => {
         axios.get("/api/hospital/id/" + id).then((r) => updateList(r.data))
+    }, []);
+    useEffect(() => {
+        axios.get("/api/hospital/like/hospital/" + id).then(r => setLike(r.data));
     }, []);
 
 
@@ -78,6 +110,18 @@ export function HsEdit() {
     function handleOpenHourChange(e) {
         updateList(r => {
             r.openHour = e.target.value
+        })
+    }
+
+    function handleRestHourChange(e) {
+        updateList(r => {
+            r.restHour = e.target.value
+        })
+    }
+
+    function handleRestMinChange(e) {
+        updateList(r => {
+            r.restMin = e.target.value
         })
     }
 
@@ -127,6 +171,8 @@ export function HsEdit() {
             phone: list.phone,
             openHour: list.openHour,
             openMin: list.openMin,
+            restHour: list.restHour,
+            restMin: list.restMin,
             closeHour: list.closeHour,
             closeMin: list.closeMin,
             content: list.content,
@@ -158,11 +204,21 @@ export function HsEdit() {
         }
     }
 
+    function handleLikeClick() {
+        axios
+            .post("/api/hospital/like", {businessId: list.id})
+            .then(r => setLike(r.data))
+            .catch(() => console.log("bad"))
+            .finally(() => console.log("done"));
+    }
+
+
     return (
         <Box>
             <Card>
                 <CardHeader>
                     <Heading>병원 정보 수정</Heading>
+                    <LikeContainer like={like} onClick={handleLikeClick}/>
                 </CardHeader>
                 <CardBody>
                     <FormControl>
@@ -187,6 +243,28 @@ export function HsEdit() {
                             </Select>
                             <FormLabel>분</FormLabel>
                             <Select defaultValue={0} onChange={handleOpenMinChange} value={list.openMin} w={"sm"}
+                                    placeholder="분">
+                                <option value={0}>00</option>
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={30}>30</option>
+                                <option value={40}>40</option>
+                                <option value={50}>50</option>
+                                <option value={60}>60</option>
+                            </Select>
+                        </Flex>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>휴게시간</FormLabel>
+                        <Flex>
+                            <FormLabel>시간</FormLabel>
+                            <Select onChange={handleRestHourChange} w={"sm"} placeholder="시간"
+                                    value={list.restHour} defaultValue={0}>
+                                {hour()}
+                            </Select>
+                            <FormLabel>분</FormLabel>
+                            <Select defaultValue={0} onChange={handleRestMinChange} value={list.restMin}
+                                    w={"sm"}
                                     placeholder="분">
                                 <option value={0}>00</option>
                                 <option value={10}>10</option>
@@ -228,6 +306,12 @@ export function HsEdit() {
                         <FormLabel>홈페이지</FormLabel>
                         <Input value={list.homePage} onChange={handleHomePageChange}/>
                     </FormControl>
+                    <FormControl>
+                        <FormLabel>과목</FormLabel>
+                        <CheckboxGroup value={list.medicalCourse}>
+
+                        </CheckboxGroup>
+                    </FormControl>
                     {list.files?.length > 0 &&
                         list.files.map((file) => (
                             <Card
@@ -266,14 +350,20 @@ export function HsEdit() {
                     </FormControl>
                     <FormControl>
                         <FormLabel>야간영업</FormLabel>
-                        <Checkbox value={list.nightCare} onChange={handleNightChange}>야간영업을 하시면 체크 해주세요</Checkbox>
+                        <Checkbox isChecked={list.nightCare} value={list.nightCare} onChange={handleNightChange}>야간영업을
+                            하시면 체크 해주세요</Checkbox>
                     </FormControl>
                 </CardBody>
                 <CardFooter>
+                    {isAuthenticated() && (
+                        <Button onClick={() => navigate("/hospital/hospitalReservation/" + id)}>예약</Button>
+                    )}
                     <Button onClick={onOpen} colorScheme="twitter">저장</Button>
                     <Button onClick={() => navigate(-1)}>취소</Button>
                 </CardFooter>
             </Card>
+
+            <HsComment businessId={id}/>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay/>

@@ -1,8 +1,9 @@
 import {useNavigate} from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {Map, MapMarker, useKakaoLoader, ZoomControl} from "react-kakao-maps-sdk";
 import {
+    Badge,
     Box,
     Button,
     Flex,
@@ -24,8 +25,10 @@ import {
     useDisclosure,
     useToast
 } from "@chakra-ui/react";
+import {LoginContext} from "../../component/LoginProvider";
 
 export function HsList() {
+    const {isAuthenticated, isAdmin} = useContext(LoginContext);
     const navigate = useNavigate();
     const toast = useToast();
 
@@ -72,7 +75,9 @@ export function HsList() {
                 <Flex align="center">
                     <Heading>병원 리스트</Heading>
                     <Spacer/>
-                    <Button onClick={() => navigate("/hospital/hospitalAdd")}>병원 추가</Button>
+                    {(isAuthenticated() || isAdmin()) && (
+                        <Button onClick={() => navigate("/hospital/hospitalAdd")}>병원 추가</Button>
+                    )}
                 </Flex>
 
                 <Box>
@@ -90,7 +95,14 @@ export function HsList() {
                                     <Tr key={h.id} _hover={{
                                         cursor: "pointer"
                                     }} onClick={() => navigate("/hospital/hospitalEdit/" + h.id)}>
-                                        <Td>{h.name}</Td>
+                                        <Td>
+                                            {h.name}
+                                            {h.countLike > 0 && (
+                                                <Badge>
+                                                    {h.countLike}
+                                                </Badge>
+                                            )}
+                                        </Td>
                                         <Td>{h.phone}</Td>
 
                                         <Td>

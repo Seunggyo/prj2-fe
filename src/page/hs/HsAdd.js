@@ -6,6 +6,7 @@ import {
     CardHeader,
     Center,
     Checkbox,
+    CheckboxGroup,
     Flex,
     FormControl,
     FormLabel,
@@ -25,8 +26,11 @@ export function HsAdd() {
     const [phone, setPhone] = useState("");
     const [openHour, setOpenHour] = useState(0);
     const [openMin, setOpenMin] = useState(0);
+    const [restHour, setRestHour] = useState(0);
+    const [restMin, setRestMin] = useState(0);
     const [closeHour, setCloseHour] = useState(0);
     const [closeMin, setCloseMin] = useState(0);
+    const [course, setCourse] = useState([]);
     const [content, setContent] = useState("");
     const [homePage, setHomePage] = useState("");
     const [hsFiles, setHsFiles] = useState(null);
@@ -45,15 +49,6 @@ export function HsAdd() {
     }
 
 
-    function handleNightChange() {
-        if (nightCare === 1) {
-            setNightCare(0);
-        } else {
-            setNightCare(1);
-        }
-
-    }
-
     function handleClickSubmit() {
 
         axios.postForm("/api/hospital/add", {
@@ -62,8 +57,11 @@ export function HsAdd() {
             phone,
             openHour,
             openMin,
+            restHour,
+            restMin,
             closeHour,
             closeMin,
+            course,
             content,
             homePage,
             hsFiles,
@@ -80,6 +78,10 @@ export function HsAdd() {
             status: "error"
         }))
 
+    }
+
+    function handleCourseChange(e) {
+        setCourse(e)
     }
 
     return (
@@ -124,6 +126,28 @@ export function HsAdd() {
                         </Flex>
                     </FormControl>
                     <FormControl>
+                        <FormLabel>휴게시간</FormLabel>
+                        <Flex>
+                            <FormLabel>시간</FormLabel>
+                            <Select onChange={e => setRestHour(e.target.value)} w={"sm"} placeholder="시간"
+                                    value={restHour} defaultValue={0}>
+                                {hour()}
+                            </Select>
+                            <FormLabel>분</FormLabel>
+                            <Select defaultValue={0} onChange={e => setRestMin(e.target.value)} value={restMin}
+                                    w={"sm"}
+                                    placeholder="분">
+                                <option value={0}>00</option>
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={30}>30</option>
+                                <option value={40}>40</option>
+                                <option value={50}>50</option>
+                                <option value={60}>60</option>
+                            </Select>
+                        </Flex>
+                    </FormControl>
+                    <FormControl>
                         <FormLabel>마감시간</FormLabel>
                         <Flex>
                             <FormLabel>시간</FormLabel>
@@ -146,6 +170,17 @@ export function HsAdd() {
                         </Flex>
                     </FormControl>
                     <FormControl>
+                        <FormLabel>진료과목</FormLabel>
+                        <Flex>
+                            <CheckboxGroup value={course} onChange={handleCourseChange}>
+                                <Checkbox value="이비인후과">이비인후과</Checkbox>
+                                <Checkbox value="내과">내과</Checkbox>
+                                <Checkbox value="외과">외과</Checkbox>
+                                <Checkbox value="치과">치과</Checkbox>
+                            </CheckboxGroup>
+                        </Flex>
+                    </FormControl>
+                    <FormControl>
                         <FormLabel>상세정보</FormLabel>
                         <Textarea value={content} onChange={e => setContent(e.target.value)}/>
                     </FormControl>
@@ -159,7 +194,8 @@ export function HsAdd() {
                     </FormControl>
                     <FormControl>
                         <FormLabel>야간영업</FormLabel>
-                        <Checkbox value={nightCare} onChange={handleNightChange}>야간영업을 하시면 체크 해주세요</Checkbox>
+                        <Checkbox value={nightCare} onChange={e => setNightCare(e.target.checked)}>야간영업을 하시면 체크
+                            해주세요</Checkbox>
                     </FormControl>
                 </CardBody>
                 <CardFooter>
