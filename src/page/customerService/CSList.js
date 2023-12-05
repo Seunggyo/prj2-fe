@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -13,26 +14,117 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-
 import axios from "axios";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
+function PageButton({ variant, pageNumber, children }) {
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
+
+  function handleClick() {
+    params.set("p", pageNumber);
+    navigate("/cs/?" + params);
+  }
+
+  return (
+    <Button variant={variant} onClick={handleClick}>
+      {children}
+    </Button>
+  );
+}
+
+function Pagination({ pageInfo }) {
+  const pageNumbers = [];
+
+  const navigate = useNavigate();
+
+  for (let i = pageInfo.startPageNumber; i <= pageInfo.endPageNumber; i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <Box>
+      {pageInfo.prevPageNumber && (
+        <button
+          pageNumber={pageInfo.prevPageNumber}
+          className="items-center px-6 py-2 text-lg bg-gradient-to-r from-violet-300
+          to-indigo-300 border border-fuchsia-100 hover:border-violet-100 text-white
+          font-semibold cursor-pointer leading-5 rounded-md transition duration-150
+          ease-in-out focus:outline-none focus:shadow-outline-blue
+          focus:border-blue-300 focus:z-10"
+        >
+          이 전
+        </button>
+      )}
+
+      {pageNumbers.map((pageNumber) => (
+        <PageButton
+          key={pageNumber}
+          variant={
+            pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
+          }
+          pageNumber={pageNumber}
+          className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
+        >
+          {pageNumber}
+        </PageButton>
+      ))}
+
+      {pageInfo.nextPageNumber && (
+        <button
+          pageNumber={pageInfo.nextPageNumber}
+          className="relative inline-flex items-center px-6 py-2 text-lg bg-gradient-to-r
+            from-violet-300 to-indigo-300 border border-fuchsia-100 hover:border-violet-100
+            text-white font-semibold cursor-pointer leading-5 rounded-md transition
+            duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue
+            focus:border-blue-300 focus:z-10"
+        >
+          다 음
+        </button>
+      )}
+    </Box>
+  );
+}
+
+function SearchComponent() {
+  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
+
+  function handleSearch() {
+    // /?k=keyword
+    const params = new URLSearchParams();
+    params.set("k", keyword);
+
+    navigate("/cs/?" + params);
+  }
+  return (
+    <Flex>
+      <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
+      <Button onClick={handleSearch}>검색</Button>
+    </Flex>
+  );
+}
 export function CSList() {
   const [csList, setCsList] = useState(null);
+  const [pageInfo, setPageInfo] = useState(null);
   const [orderByHit, setOrderByHit] = useState(null);
-  const [orderByTitle, setOrderByTitle] = useState(null);
+  const [orderByNum, setOrderByNum] = useState(null);
   const [categoryFilter, setCategoryFilter] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
 
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
+  const location = useLocation();
 
   console.log(params);
 
   useEffect(() => {
-    axios.get("/api/cs/list?" + params).then((r) => setCsList(r.data));
-  }, [params]);
+    axios.get("/api/cs/list?" + params).then((r) => {
+      setCsList(r.data.csList);
+      setPageInfo(r.data.pageInfo);
+    });
+  }, [location]);
 
   if (csList == null) {
     return <Spinner />;
@@ -48,29 +140,29 @@ export function CSList() {
     navigate("/cs/" + id);
   }
 
-  function sortTitle() {
+  function sortNum() {
     const urlSearchParams = new URLSearchParams(params.toString());
-    let nextOrderByTitle = null;
+    let nextOrderByNum = null;
     urlSearchParams.delete("h");
-    if (orderByTitle === false) {
-      urlSearchParams.set("t", true);
-      nextOrderByTitle = true;
-    } else if (orderByTitle === true) {
-      urlSearchParams.delete("t");
-      nextOrderByTitle = null;
+    if (orderByNum === false) {
+      urlSearchParams.set("n", true);
+      nextOrderByNum = true;
+    } else if (orderByNum === true) {
+      urlSearchParams.delete("n");
+      nextOrderByNum = null;
     } else {
-      urlSearchParams.set("t", false);
-      nextOrderByTitle = false;
+      urlSearchParams.set("n", false);
+      nextOrderByNum = false;
     }
 
     setParams(urlSearchParams);
-    setOrderByTitle(nextOrderByTitle);
+    setOrderByNum(nextOrderByNum);
   }
 
   function sortCount() {
     const urlSearchParams = new URLSearchParams(params.toString());
     let nextOrderByHit = null;
-    urlSearchParams.delete("t");
+    urlSearchParams.delete("n");
     if (orderByHit === false) {
       urlSearchParams.set("h", true);
       nextOrderByHit = true;
@@ -86,12 +178,8 @@ export function CSList() {
     setOrderByHit(nextOrderByHit);
   }
 
-  function handleCategoryChange(event) {
-    setCategoryFilter(event.target.value);
-  }
-
-  function handleSearchChange(event) {
-    setSearchQuery(event.target.value);
+  function handleCategoryChange(e) {
+    setCategoryFilter(e.target.value);
   }
 
   return (
@@ -128,95 +216,56 @@ export function CSList() {
               <option value={"이벤트"}>이벤트</option>
               <option value={"당첨자발표"}>당첨자발표</option>
             </Select>
-            <Input
-              type="text"
-              placeholder="검색어 입력"
-              defaultvalue={""}
-              onChange={handleSearchChange}
-            />
+            <SearchComponent />
           </Flex>
         </Flex>
         <Table mt={8} variant="simple">
           <Thead>
             <Tr>
-              <Th>번호</Th>
-              <Th>카테고리</Th>
-              <Th onClick={sortTitle} style={{ cursor: "pointer" }}>
-                제목
+              <Th onClick={sortNum} style={{ cursor: "pointer" }}>
+                번호
+                <FontAwesomeIcon icon={faAngleDown} />
               </Th>
+              <Th>카테고리</Th>
+              <Th>제목</Th>
               <Th>작성자</Th>
               <Th>작성일</Th>
               <Th onClick={sortCount} style={{ cursor: "pointer" }}>
                 조회수
+                <FontAwesomeIcon icon={faAngleDown} />
               </Th>
               <Th>수정 / 삭제</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {csList.map((cs) => (
-              <Tr
-                _hover={{
-                  bg: "gray.200",
-                  cursor: "pointer",
-                }}
-                key={cs.id}
-                onClick={() => handleRowClick(cs.id)}
-              >
-                <Td>{cs.id}</Td>
-                <Td>{cs.csCategory}</Td>
-                <Td>{cs.csTitle}</Td>
-                <Td>{cs.csWriter}</Td>
-                <Td>{cs.inserted}</Td>
-                <Td>{cs.csHit}</Td>
-              </Tr>
-            ))}
+            {csList
+              .filter(
+                (item) =>
+                  categoryFilter === "" || item.csCategory === categoryFilter,
+              )
+              .map((cs) => (
+                <Tr
+                  _hover={{
+                    bg: "gray.200",
+                    cursor: "pointer",
+                  }}
+                  key={cs.id}
+                  onClick={() => handleRowClick(cs.id)}
+                >
+                  <Td>{cs.id}</Td>
+                  <Td>{cs.csCategory}</Td>
+                  <Td>{cs.csTitle}</Td>
+                  <Td>{cs.csWriter}</Td>
+                  <Td>{cs.inserted}</Td>
+                  <Td>{cs.csHit}</Td>
+                </Tr>
+              ))}
           </Tbody>
         </Table>
 
         <div class="flex justify-center p-6">
           <nav class="flex space-x-2" aria-label="Pagination">
-            <button class="items-center px-6 py-2 text-lg bg-gradient-to-r from-violet-300 to-indigo-300 border border-fuchsia-100 hover:border-violet-100 text-white font-semibold cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10">
-              이 전
-            </button>
-            <button
-              onClick={() => navigate("/cs/?p=1")}
-              class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
-            >
-              1
-            </button>
-            <button
-              onClick={() => navigate("/cs/?p=2")}
-              class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
-            >
-              2
-            </button>
-            <button
-              onClick={() => navigate("/cs/?p=3")}
-              class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
-            >
-              3
-            </button>
-            <button
-              onClick={() => navigate("/cs/?p=4")}
-              className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
-            >
-              4
-            </button>
-            <button
-              onClick={() => navigate("/cs/?p=5")}
-              className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
-            >
-              5
-            </button>
-            <button
-              onClick={() => navigate("/cs/?p=6")}
-              className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
-            >
-              6
-            </button>
-            <button class="relative inline-flex items-center px-6 py-2 text-lg bg-gradient-to-r from-violet-300 to-indigo-300 border border-fuchsia-100 hover:border-violet-100 text-white font-semibold cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10">
-              다 음
-            </button>
+            <Pagination pageInfo={pageInfo} />
           </nav>
         </div>
       </Box>

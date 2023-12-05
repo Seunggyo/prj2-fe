@@ -13,6 +13,7 @@ import {
   ModalOverlay,
   Spinner,
   Textarea,
+  Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -30,7 +31,7 @@ export function CSView() {
 
   const { id } = useParams();
 
-  const { hasAccess, isAdmin } = useContext(LoginContext);
+  const { hasAccess, authCheck } = useContext(LoginContext);
 
   useEffect(() => {
     axios.get("/api/cs/id/" + id).then((response) => setCs(response.data));
@@ -60,57 +61,60 @@ export function CSView() {
   }
 
   return (
-    <div>
-      <Box>
-        <h1>{cs.id}번 글 보기</h1>
-        <FormControl>
-          <FormLabel>제목</FormLabel>
-          <Input value={cs.csTitle} readOnly />
-        </FormControl>
-        <FormControl>
-          <FormLabel>본문</FormLabel>
-          <Textarea value={cs.csContent} readOnly />
-        </FormControl>
-        <FormControl>
-          <FormLabel>작성자</FormLabel>
-          <Input value={cs.csWriter} readOnly />
-        </FormControl>
-        <FormControl>
-          <FormLabel>작성일시</FormLabel>
-          <Input value={cs.inserted} readOnly />
-        </FormControl>
+    <Box p={8}>
+      <Text fontSize="3xl" fontWeight="bold" mb={4}>
+        {cs.id}번 글 보기
+      </Text>
+      <FormControl mb={4}>
+        <FormLabel>제목</FormLabel>
+        <Input value={cs.csTitle} readOnly />
+      </FormControl>
+      <FormControl mb={4}>
+        <FormLabel>본문</FormLabel>
+        <Textarea value={cs.csContent} readOnly />
+      </FormControl>
+      <FormControl mb={4}>
+        <FormLabel>작성자</FormLabel>
+        <Input value={cs.csWriter} readOnly />
+      </FormControl>
+      <FormControl mb={4}>
+        <FormLabel>작성일시</FormLabel>
+        <Input value={cs.inserted} readOnly />
+      </FormControl>
 
-        {(hasAccess(cs.csWriter) || isAdmin()) && (
-          <Box>
-            <Button
-              colorScheme="purple"
-              onClick={() => navigate("/csEdit/" + id)}
-            >
-              수정
-            </Button>
-            <Button colorScheme="red" onClick={onOpen}>
+      {(hasAccess(cs.csWriter) || authCheck() === "admin") && (
+        <Box mt={4}>
+          <Button
+            colorScheme="purple"
+            onClick={() => navigate("/csEdit/" + id)}
+            mr={2}
+          >
+            수정
+          </Button>
+          <Button colorScheme="red" onClick={onOpen}>
+            삭제
+          </Button>
+        </Box>
+      )}
+
+      {/* 공지글 삭제 모달 */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>삭제 확인</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>삭제 하시겠습니까?</ModalBody>
+
+          <ModalFooter>
+            <Button onClick={onClose}>닫기</Button>
+            <Button onClick={handleDelete} colorScheme="red">
               삭제
             </Button>
-          </Box>
-        )}
-
-        {/* 공지글 삭제 모달 */}
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>삭제 확인</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>삭제 하시겠습니까?</ModalBody>
-
-            <ModalFooter>
-              <Button onClick={onClose}>닫기</Button>
-              <Button onClick={handleDelete} colorScheme="red">
-                삭제
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </Box>
-    </div>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </Box>
   );
 }
+
+export default CSView;
