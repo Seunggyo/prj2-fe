@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
     Box,
-    Button,
+    Button, Center,
     Flex,
     FormControl,
     FormLabel,
@@ -17,6 +17,8 @@ import {
 import axios from "axios";
 import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {LoginContext} from "../../component/LoginProvider";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faAngleLeft, faAngleRight} from "@fortawesome/free-solid-svg-icons";
 
 
 function MemberList(props) {
@@ -113,8 +115,56 @@ function MemberSearchComp() {
     </Box>;
 }
 
-function MemberPagination() {
-    return null;
+function PageButton({variant, pageNumber, children}) {
+    const [params] = useSearchParams();
+    const navigate = useNavigate();
+
+    function handleClick() {
+        params.set("p", pageNumber);
+        navigate("/member/list?"+params);
+    }
+
+    return <Button variant={variant} onClick={handleClick}>
+        {children}
+    </Button>;
+}
+
+function MemberPagination({pageInfo}) {
+    const pageNumbers = [];
+    const navigate = useNavigate();
+
+    for (let i = pageInfo.startPageNumber; i <= pageInfo.endPageNumber; i++) {
+        pageNumbers.push(i);
+    }
+
+    return <Center>
+        <Box>
+            {pageInfo.prevPageNumber && (
+                <PageButton variant={"ghost"} pageNumber={pageInfo.prevPageNumber}>
+                    <FontAwesomeIcon icon={faAngleLeft} />
+                </PageButton>
+            )}
+        </Box>
+
+        {pageNumbers.map((pageNumber) => (
+            <PageButton
+            key={pageNumber}
+            variant={pageNumber === pageInfo.currentNumber ? "solid" : "ghost"}
+            pageNumber={pageNumber}
+            >
+                {pageNumber}
+            </PageButton>
+        ))}
+
+        <Box>
+            {pageInfo.nextPageNumber && (
+                <PageButton variant={"ghost"} pageNumber={pageInfo.nextPageNumber}>
+                    <FontAwesomeIcon icon={faAngleRight} />
+                </PageButton>
+            )}
+        </Box>
+
+    </Center>
 }
 
 export default MemberList;
