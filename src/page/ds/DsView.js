@@ -136,7 +136,7 @@ export function DsView() {
         <Input border="none" value={ds.phone} isReadOnly />
       </FormControl>
 
-      <FormControl display={ds.holidays === null ? "none" : "block"}>
+      <FormControl display={ds.holidays.length === 0 ? "none" : "block"}>
         <FormLabel>휴무일</FormLabel>
         <Input
           border="none"
@@ -163,6 +163,16 @@ export function DsView() {
               <FormLabel>야간 진료</FormLabel>
               <Checkbox isChecked={ds.nightCare} isReadOnly />
             </Flex>
+            <Box display={ds.restHour === 0 ? "none" : "block"}>
+              <Flex>
+                <FormLabel>휴식 시간</FormLabel>
+                <Input w={"100px"} value={ds.restHour} isReadOnly />
+                <Input w={"100px"} value={ds.restMin} isReadOnly />
+                ~
+                <Input w={"100px"} value={ds.restCloseHour} isReadOnly />
+                <Input w={"100px"} value={ds.restCloseMin} isReadOnly />
+              </Flex>
+            </Box>
           </FormControl>
         </Flex>
       </Box>
@@ -170,26 +180,26 @@ export function DsView() {
         <FormLabel>약국 소개</FormLabel>
         <Input border="none" value={ds.content} isReadOnly />
       </FormControl>
-      <FormControl>
+      <FormControl display={ds.info === "" ? "none" : "block"}>
         <FormLabel>약국 정보</FormLabel>
         <Input border="none" value={ds.info} isReadOnly />
       </FormControl>
-      {/*{(hasAccess(ds.id) || isAdmin()) && (*/}
-      <Box>
-        <Button colorScheme="blue" onClick={() => navigate("/ds/edit/" + id)}>
-          수정
-        </Button>
-        <Button
-          colorScheme="red"
-          mx="30px"
-          onClick={() => {
-            onOpen();
-          }}
-        >
-          삭제
-        </Button>
-      </Box>
-      {/*}*/}
+      {(hasAccess(ds.id) || isAdmin()) && (
+        <Box>
+          <Button colorScheme="blue" onClick={() => navigate("/ds/edit/" + id)}>
+            수정
+          </Button>
+          <Button
+            colorScheme="red"
+            mx="30px"
+            onClick={() => {
+              onOpen();
+            }}
+          >
+            삭제
+          </Button>
+        </Box>
+      )}
       {/*삭제 클릭시 모달*/}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
