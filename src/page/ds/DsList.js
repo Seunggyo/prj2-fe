@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
-  Badge,
   Box,
   Button,
   Flex,
   Heading,
+  Image,
   Input,
   Select,
   Spinner,
@@ -16,22 +16,9 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import axios from "axios";
-import {
-  Map,
-  MapMarker,
-  useKakaoLoader,
-  ZoomControl,
-} from "react-kakao-maps-sdk";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChatIcon } from "@chakra-ui/icons";
-import * as PropTypes from "prop-types";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 function PageButton({ variant, pageNumber, children }) {
@@ -109,8 +96,7 @@ function SearchComponent() {
         <Select onChange={(e) => setCategory(e.target.value)}>
           <option value="all">전체</option>
           <option value="name">이름</option>
-          <option value="business">기관</option>
-          <option value="medicalCourse">진료 과목</option>
+          <option value="address">주소</option>
         </Select>
         <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
         <Button onClick={handleSearch}>검색</Button>
@@ -128,7 +114,6 @@ export function DsList() {
 
   const navigate = useNavigate();
 
-  // react 사용서에서 useEffect의 dependency가 변경될 시 값이 유지될려면 location 사용 권장
   const location = useLocation();
 
   useEffect(() => {
@@ -141,9 +126,6 @@ export function DsList() {
   if (dsList === null) {
     return <Spinner />;
   }
-  // const [loading, error] = useKakaoLoader({
-  //   appkey: process.env.REACT_APP_KAKAO_KEY,
-  // });
 
   function handleMoveWrite() {
     navigate("/ds/write");
@@ -165,9 +147,11 @@ export function DsList() {
                 <Th>
                   <FontAwesomeIcon icon={faHeart} color="red" />
                 </Th>
-                <Th>댓글 수</Th>
+                <Th>리뷰</Th>
                 <Th>전화번호</Th>
                 <Th>약국주소</Th>
+                <Th>운영시간</Th>
+                <Th>가게사진</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -182,6 +166,23 @@ export function DsList() {
                   <Td>{ds.commentCount > 0 && ds.commentCount}</Td>
                   <Td>{ds.phone}</Td>
                   <Td>{ds.address}</Td>
+                  <Td>
+                    {
+                      <Box>
+                        {ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}~
+                        {ds.closeHour}:{ds.closeMin === 0 ? "00" : ds.closeMin}
+                        <Box display={ds.restHour === 0 ? "none" : "block"}>
+                          ※휴게시간
+                          {ds.restHour}:{ds.restMin === 0 ? "00" : ds.restMin}~
+                          {ds.restCloseHour}:
+                          {ds.restCloseMin === 0 ? "00" : ds.restCloseMin}
+                        </Box>
+                      </Box>
+                    }
+                  </Td>
+                  <Td>
+                    <Image w={"100px"} h={"100px"} src={ds.files[0].url} />
+                  </Td>
                 </Tr>
               ))}
             </Tbody>
@@ -190,37 +191,10 @@ export function DsList() {
       </Box>
       {/*검색 창*/}
       <SearchComponent />
-
       {/*페이지 번호칸*/}
       <Box>
         <Pagination pageInfo={pageInfo} />
       </Box>
-
-      {/*<Box>*/}
-      {/*  <Pagination pageInfo={pageInfo} />*/}
-      {/*</Box>*/}
-
-      {/*<Box>*/}
-      {/*  {list &&*/}
-      {/*    list.map((m) => (*/}
-      {/*      <Map*/}
-      {/*        key={m.id}*/}
-      {/*        center={{ lat: 36.503232, lng: 127.269971 }}*/}
-      {/*        style={{ width: "100%", height: "900px" }}*/}
-      {/*        level={5}*/}
-      {/*        onZoomChanged={(m) => setLevel(m.getLevel())}*/}
-      {/*        onDragEnd={(m) =>*/}
-      {/*          setPosition({*/}
-      {/*            lat: m.getCenter().getLat(),*/}
-      {/*            lng: m.getCenter().getLng(),*/}
-      {/*          })*/}
-      {/*        }*/}
-      {/*      >*/}
-      {/*        <MapMarker position={{ lat: m.lat, lng: m.lng }} />*/}
-      {/*        <ZoomControl />*/}
-      {/*      </Map>*/}
-      {/*    ))}*/}
-      {/*</Box>*/}
     </Box>
   );
 }
