@@ -9,19 +9,20 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Image,
-  Input,
   Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { GiMedicines } from "react-icons/gi";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { TbReportMedical } from "react-icons/tb";
 import { Cart } from "./Cart";
+import { DrugPagination } from "./DrugPagination";
 
 export function DrugList() {
   const [drugList, setDrugList] = useState(null);
+  const [pageInfo, setPageInfo] = useState(null);
+
   const { isOpen, onClose, onOpen } = useDisclosure();
   const btnRef = React.useRef();
   const [files, setFiles] = useState("");
@@ -29,12 +30,14 @@ export function DrugList() {
 
   const [params] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    axios
-      .get("/api/drug/drugList?" + params)
-      .then((response) => setDrugList(response.data));
-  }, [params]);
+    axios.get("/api/drug/drugList?" + params).then((response) => {
+      setDrugList(response.data.drugList);
+      setPageInfo(response.data.pageInfo);
+    });
+  }, [location]);
 
   if (drugList === null) {
     return <Spinner />;
@@ -138,18 +141,7 @@ export function DrugList() {
         </div>
       </section>
 
-      <Box>
-        <Button onClick={() => navigate("/drug/drugList/?p=1")}>1</Button>
-        <Button onClick={() => navigate("/drug/drugList/?p=2")}>2</Button>
-        <Button onClick={() => navigate("/drug/drugList/?p=3")}>3</Button>
-        <Button onClick={() => navigate("/drug/drugList/?p=4")}>4</Button>
-        <Button onClick={() => navigate("/drug/drugList/?p=5")}>5</Button>
-        <Button onClick={() => navigate("/drug/drugList/?p=6")}>6</Button>
-        <Button onClick={() => navigate("/drug/drugList/?p=7")}>7</Button>
-        <Button onClick={() => navigate("/drug/drugList/?p=8")}>8</Button>
-        <Button onClick={() => navigate("/drug/drugList/?p=9")}>9</Button>
-        <Button onClick={() => navigate("/drug/drugList/?p=10")}>10</Button>
-      </Box>
+      <DrugPagination pageInfo={pageInfo} />
     </Box>
   );
 }

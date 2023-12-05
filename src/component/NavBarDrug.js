@@ -1,10 +1,12 @@
 import { Box, Button, Flex, Select, Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { SideBar } from "./SideBar";
-import React from "react";
+import React, { useContext } from "react";
+import { LoginContext } from "./LoginProvider";
 
 export function NavBarDrug() {
   const navigate = useNavigate();
+  const { isAdmin } = useContext(LoginContext);
 
   return (
     <Flex marginLeft="256px">
@@ -68,19 +70,17 @@ export function NavBarDrug() {
             >
               OrderList
             </a>
-            <a
-              onClick={() => navigate("/drug/write")}
-              className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
-              href="#"
-            >
-              write
-            </a>
+            {isAdmin() && (
+              <a
+                onClick={() => navigate("/drug/write")}
+                className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
+                href="#"
+              >
+                write
+              </a>
+            )}
           </div>
         </nav>
-
-        {/*<Button onClick={() => navigate("/drug/write")}>상품 등록</Button>*/}
-        {/*<Button onClick={() => navigate("/drug/choice")}>ㅇㅇ</Button>*/}
-        {/*<Button onClick={() => navigate("/drug/cart")}>장바구니</Button>*/}
       </Box>
     </Flex>
   );

@@ -29,7 +29,7 @@ function LoginProvider({ children }) {
 
   // TODO: 임시 admin 추가함
   function isAdmin() {
-    return false;
+    return login.auth === "admin";
   }
 
   return (
