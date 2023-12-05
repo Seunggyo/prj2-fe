@@ -2,6 +2,7 @@ import {
   border,
   Box,
   Button,
+  Flex,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -46,7 +47,7 @@ function CartContainer({ cart, onClick }) {
   }
 
   return (
-    <Box>
+    <Flex>
       <HStack maxW="320px">
         <Button {...dec}>-</Button>
         <Input {...input} />
@@ -55,7 +56,7 @@ function CartContainer({ cart, onClick }) {
       <Button variant="ghost" onClick={() => onClick(input.value)}>
         <IoIosCart size="xl" />
       </Button>
-    </Box>
+    </Flex>
   );
 }
 
@@ -67,6 +68,7 @@ export function DrugView() {
   const toast = useToast();
   const navigate = useNavigate();
 
+  const { isAdmin } = useContext(LoginContext);
   const { id } = useParams();
 
   useEffect(() => {
@@ -168,15 +170,23 @@ export function DrugView() {
       </FormControl>
 
       {/*장바구니*/}
-
-      <CartContainer cart={cart} onClick={handleCart} />
-
-      <Button colorScheme="pink" onClick={() => navigate("/drug/edit/" + id)}>
-        수정
-      </Button>
-      <Button colorScheme="purple" onClick={onOpen}>
-        삭제
-      </Button>
+      <Flex>
+        <CartContainer cart={cart} onClick={handleCart} />
+        <Button colorScheme="pink">구매하기</Button>
+      </Flex>
+      {isAdmin() && (
+        <>
+          <Button
+            colorScheme="pink"
+            onClick={() => navigate("/drug/edit/" + id)}
+          >
+            수정
+          </Button>
+          <Button colorScheme="purple" onClick={onOpen}>
+            삭제
+          </Button>
+        </>
+      )}
 
       {/* 삭제 모달 */}
       <Modal isOpen={isOpen} onClose={onClose}>
