@@ -204,6 +204,10 @@ export function DsWrite() {
               <Box>
                 <Flex>
                   <FormLabel>휴식 시간</FormLabel>
+                  <FormHelperText>
+                    {/*TODO : 휴식 시간 체크 시 작성 칸 뜨게끔 수정해야 함*/}
+                    휴식 시간이 없으시 선택안하시면 됩니다
+                  </FormHelperText>
                   <Box>
                     <Flex>
                       <Select
@@ -291,6 +295,7 @@ export function DsWrite() {
                   <Checkbox value="금요일">금요일</Checkbox>
                   <Checkbox value="토요일">토요일</Checkbox>
                   <Checkbox value="일요일">일요일</Checkbox>
+                  <Checkbox value="공휴일">공휴일</Checkbox>
                 </CheckboxGroup>
               </Box>
             </FormControl>
