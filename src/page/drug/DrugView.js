@@ -20,12 +20,13 @@ import {
   useNumberInput,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { DrugComment } from "./DrugComment";
 import { IoIosCart } from "react-icons/io";
 import * as PropTypes from "prop-types";
+import { LoginContext } from "../../component/LoginProvider";
 
 function CartContainer({ cart, onClick }) {
   const { getInputProps, getDecrementButtonProps, getIncrementButtonProps } =
@@ -165,7 +166,9 @@ export function DrugView() {
         <FormLabel>등록 일자</FormLabel>
         <Input value={drug.inserted} readOnly />
       </FormControl>
+
       {/*장바구니*/}
+
       <CartContainer cart={cart} onClick={handleCart} />
 
       <Button colorScheme="pink" onClick={() => navigate("/drug/edit/" + id)}>
