@@ -34,6 +34,7 @@ export function DsEdit() {
   const [ds, updateDs] = useImmer(null);
   const [uploadFile, setUploadFile] = useState(null);
   const [deleteFileIds, setDeleteFileIds] = useState([]);
+  const [holidays, setHolidays] = useState([]);
 
   const toast = useToast();
   const { id } = useParams();
@@ -41,7 +42,10 @@ export function DsEdit() {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   useEffect(() => {
-    axios.get("/api/ds/id/" + id).then((response) => updateDs(response.data));
+    axios.get("/api/ds/id/" + id).then((response) => {
+      setHolidays(response.data.holidays.map((item) => item.holiday));
+      updateDs(response.data);
+    });
   }, []);
 
   // 바뀌고자 하는 사진을 미리 보여주는 코드
@@ -79,6 +83,7 @@ export function DsEdit() {
         restMin: ds.restMin,
         restCloseHour: ds.restCloseHour,
         restCloseMin: ds.restCloseMin,
+        updateHolidays: holidays,
         info: ds.info,
         uploadFile,
         deleteFileIds,
@@ -177,14 +182,7 @@ export function DsEdit() {
 
       <FormControl>
         <FormLabel>휴무일</FormLabel>
-        <CheckboxGroup
-          defaultValue="none"
-          onChange={(e) =>
-            updateDs((draft) => {
-              draft.holiday = e;
-            })
-          }
-        >
+        <CheckboxGroup value={holidays} onChange={(e) => setHolidays(e)}>
           <Checkbox value="월요일">월요일</Checkbox>
           <Checkbox value="화요일">화요일</Checkbox>
           <Checkbox value="수요일">수요일</Checkbox>
@@ -271,6 +269,8 @@ export function DsEdit() {
             <Flex>
               <Box>
                 <Checkbox
+                  value={ds.nightCare}
+                  isChecked={ds.nightCare}
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.nightCare = e.target.checked;
@@ -284,6 +284,7 @@ export function DsEdit() {
           <FormControl>
             <FormLabel>약국 소개</FormLabel>
             <Textarea
+              value={ds.content}
               onChange={(e) =>
                 updateDs((draft) => {
                   draft.content = e.target.value;
@@ -295,6 +296,7 @@ export function DsEdit() {
           <FormControl>
             <FormLabel>약국 정보</FormLabel>
             <Textarea
+              value={ds.info}
               onChange={(e) =>
                 updateDs((draft) => {
                   draft.info = e.target.value;
