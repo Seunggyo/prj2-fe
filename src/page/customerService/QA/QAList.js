@@ -119,13 +119,11 @@ export function QAList() {
   const location = useLocation();
 
   useEffect(() => {
-    axios.get("/api/qa/list?" + params).then((r) => {
+    axios.get("/api/qa/qaList?" + params).then((r) => {
       setQaList(r.data.qaList);
       setPageInfo(r.data.pageInfo);
     });
   }, [location]);
-
-  console.log("111");
 
   if (qaList == null) {
     return <Spinner />;
