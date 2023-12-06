@@ -3,7 +3,7 @@ import { Button, Flex, Select, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export function BoardWrite() {
+export function QA_List() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [boardType, setBoardType] = useState("병원");
@@ -47,10 +47,10 @@ export function BoardWrite() {
   return (
     <div>
       <form>
-        <div className="bg-indigo-50 min-h-screen md:px-20 pt-2">
-          <div className=" bg-white rounded-md px-6 py-12 max-w-4xl mx-auto">
+        <div className="bg-orange-50 min-h-screen rounded-xl md:px-20 pt-2">
+          <div className=" bg-white rounded-xl px-6 py-24 max-w-4xl mx-auto">
             <h1 className="text-center text-6xl font-dongle text-gray-500 mb-10">
-              게시판 글 작성
+              원하시는 질문을 적어주세요!
             </h1>
             <div className="space-y-4">
               <div>
@@ -73,7 +73,7 @@ export function BoardWrite() {
                   rows="10"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  className="w-full p-4 text-gray-  600 bg-indigo-50 outline-none rounded-md"
+                  className="w-full p-4 text-gray-  600 bg-orange-50 outline-none rounded-md"
                 ></textarea>
               </div>
               <div className="flex space-x-24">

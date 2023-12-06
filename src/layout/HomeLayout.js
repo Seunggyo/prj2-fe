@@ -9,7 +9,7 @@ export function HomeLayout() {
     <div>
       <Box>
         <NavBar />
-        <SideBar />
+        {/*<SideBar />*/}
         <Outlet />
       </Box>
     </div>

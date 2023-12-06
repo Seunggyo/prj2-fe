@@ -1,7 +1,5 @@
-/** @type {(function(Object): unknown)|{}} */
-
 module.exports = {
-  content: ["./src/**/*.{html,js,jsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {},
     fontFamily: {
