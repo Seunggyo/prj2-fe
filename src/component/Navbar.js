@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import {
+  Box,
   Button,
   Menu,
   MenuButton,
@@ -16,7 +17,7 @@ export function NavBar() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const { fetchLogin, login, isAuthenticated, isAdmin } =
+  const { fetchLogin, login, isAuthenticated, authCheck } =
     useContext(LoginContext);
 
   const urlParams = new URLSearchParams();
