@@ -44,6 +44,7 @@ import {MemberFindPassword} from "./page/member/MemberFindPassword";
 import {MemberJoinList} from "./page/member/MemberJoinList";
 import { Cart } from "./page/drug/Cart";
 import { DrugFuncList } from "./page/drug/DrugFuncList";
+import KakaoContainer from "./layout/KakaoContainer";
 
 
 const routes = createBrowserRouter(
@@ -51,6 +52,7 @@ const routes = createBrowserRouter(
     // <Route path="/" element={<WelcomePage />}>
     <Route path="/" element={<HomeLayout />}>
       <Route path="ds" element={<Ds />}>
+        <Route index element={<KakaoContainer />} />
         <Route path="list" element={<DsList />} />
         <Route path="write" element={<DsWrite />} />
         <Route path="view/:id" element={<DsView />} />

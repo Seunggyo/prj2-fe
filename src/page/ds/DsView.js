@@ -28,6 +28,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fullHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as emptyHeart } from "@fortawesome/free-solid-svg-icons";
 import { LoginContext } from "../../component/LoginProvider";
+import { DsComment } from "./DsComment";
 
 function LikeContainer({ like, onClick }) {
   const { isAuthenticated } = useContext(LoginContext);
@@ -46,10 +47,11 @@ function LikeContainer({ like, onClick }) {
           {like.like || (
             <FontAwesomeIcon icon={fullHeart} size="xl" color="red" />
           )}
-          <Text>{like.countLike}</Text>
         </Button>
       </Tooltip>
-      <Heading size="lg">{like.countLike}</Heading>
+      <Heading color={"red"} size="lg">
+        {like.countLike}
+      </Heading>
     </Flex>
   );
 }
@@ -58,6 +60,8 @@ export function DsView() {
   const navigate = useNavigate();
   const toast = useToast();
   const { id } = useParams();
+
+  const { hasAccess, isAdmin } = useContext(LoginContext);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -68,12 +72,11 @@ export function DsView() {
     axios.get("/api/ds/id/" + id).then((response) => setDs(response.data));
   }, []);
 
-  // TODO: 주소 오류 해결해야 함!!
-  // useEffect(() => {
-  //   axios
-  //     .get("/api/business/like/view/" + ds.id)
-  //     .then((response) => setLike(response.data));
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("/api/business/like/dsId/" + id)
+      .then((response) => setLike(response.data));
+  }, []);
 
   if (ds === null) {
     return <Spinner />;
@@ -100,7 +103,7 @@ export function DsView() {
 
   function handleLike() {
     axios
-      .post("/api/business/like", { dsId: ds.id })
+      .post("/api/business/like", { businessId: ds.id })
       .then((response) => {
         setLike(response.data);
       })
@@ -112,58 +115,78 @@ export function DsView() {
     <Box>
       {ds.files &&
         ds.files.map((file) => (
-          <Box key={file.id} border="3px solid black">
+          <Box key={file.id} border="3px solid black" width="50%">
             <Image width="100%" height="300px" src={file.url} alt={file.name} />
           </Box>
         ))}
-
       <Flex>
         <Heading size="xl">{ds.name}글 보기</Heading>
         <LikeContainer like={like} onClick={handleLike} />
       </Flex>
-
       <FormControl>
         <FormLabel>업체 명</FormLabel>
-        <Input value={ds.name} isReadOnly />
+        <Input border="none" value={ds.name} isReadOnly />
       </FormControl>
-
       <FormControl>
         <FormLabel>주소</FormLabel>
-        <Input value={ds.address} isReadOnly />
+        <Input border="none" value={ds.address} isReadOnly />
       </FormControl>
-
       <FormControl>
         <FormLabel>번호</FormLabel>
-        <Input value={ds.phone} isReadOnly />
+        <Input border="none" value={ds.phone} isReadOnly />
       </FormControl>
 
-      <FormControl>
-        <FormLabel>오픈 시간</FormLabel>
+      <FormControl
+        display={ds.holidays > 0 && ds.holidays.length === 0 ? "none" : "block"}
+      >
+        <FormLabel>휴무일</FormLabel>
+        <Input
+          border="none"
+          value={
+            ds.holidays != null && ds.holidays.map((holiday) => holiday.holiday)
+          }
+          isReadOnly
+        />
+      </FormControl>
+
+      <Box>
         <Flex>
-          <Input w={"20%"} value={ds.openHour} isReadOnly />
-          <Input w={"40%"} mx={"30px"} value={ds.openMin} isReadOnly />
-        </Flex>
-      </FormControl>
+          <FormControl>
+            <Flex>
+              <FormLabel>오픈 시간</FormLabel>
+              <Input w={"100px"} value={ds.openHour} isReadOnly />
+              <Input w={"100px"} mx={"30px"} value={ds.openMin} isReadOnly />
+            </Flex>
 
-      <FormControl>
-        <Flex justifyContent="space-between">
-          <FormLabel>마감 시간</FormLabel>
-          <FormLabel>야간 진료</FormLabel>
+            <Flex>
+              <FormLabel>마감 시간</FormLabel>
+              <Input w={"100px"} value={ds.closeHour} isReadOnly />
+              <Input w={"100px"} mx={"30px"} value={ds.closeMin} isReadOnly />
+              <FormLabel>야간 진료</FormLabel>
+              <Checkbox isChecked={ds.nightCare} isReadOnly />
+            </Flex>
+            <Box display={ds.restHour === 0 ? "none" : "block"}>
+              <Flex>
+                <FormLabel>휴식 시간</FormLabel>
+                <Input w={"100px"} value={ds.restHour} isReadOnly />
+                <Input w={"100px"} value={ds.restMin} isReadOnly />
+                ~
+                <Input w={"100px"} value={ds.restCloseHour} isReadOnly />
+                <Input w={"100px"} value={ds.restCloseMin} isReadOnly />
+              </Flex>
+            </Box>
+          </FormControl>
         </Flex>
-        <Flex>
-          <Input w={"20%"} value={ds.closeHour} isReadOnly />
-          <Input w={"40%"} mx={"30px"} value={ds.closeMin} isReadOnly />
-          <Checkbox isChecked={ds.nightCare} isReadOnly />
-        </Flex>
-      </FormControl>
-
-      {/*TODO : 지역 화폐 사용 가능 한지도 작성*/}
-
+      </Box>
       <FormControl>
         <FormLabel>약국 소개</FormLabel>
-        <Input value={ds.content} isReadOnly />
+        <Input border="none" value={ds.content} isReadOnly />
       </FormControl>
-
+      <FormControl display={ds.info === "" ? "none" : "block"}>
+        <FormLabel>약국 정보</FormLabel>
+        <Input border="none" value={ds.info} isReadOnly />
+      </FormControl>
+      {/*{(hasAccess(ds.id) || isAdmin()) && (*/}
       <Box>
         <Button colorScheme="blue" onClick={() => navigate("/ds/edit/" + id)}>
           수정
@@ -178,7 +201,7 @@ export function DsView() {
           삭제
         </Button>
       </Box>
-
+      {/*)}*/}
       {/*삭제 클릭시 모달*/}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -195,6 +218,7 @@ export function DsView() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <DsComment businessId={id} />
     </Box>
   );
 }
