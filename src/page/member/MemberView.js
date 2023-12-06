@@ -1,23 +1,32 @@
-import React, {useEffect, useState} from 'react';
-import {useNavigate, useSearchParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
-import {Box, Button, Card, CardBody, CardFooter, CardHeader, Center, Flex, Heading, Spinner} from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Center,
+  Flex,
+  Heading,
+  Spinner,
+} from "@chakra-ui/react";
 
 function MemberView(props) {
-    const [member, setMember] = useState(null);
-    const [params] = useSearchParams();
+  const [member, setMember] = useState(null);
+  const [params] = useSearchParams();
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        axios
-            .get("/api/member/info?" + params.toString())
-            .then(({data}) => setMember(data))
-    }, []);
+  useEffect(() => {
+    axios.get("/api/member/info?" + params).then(({ data }) => setMember(data));
+  }, []);
 
-    if (member === null) {
-        return <Spinner />;
-    }
+  if (member === null) {
+    return <Spinner />;
+  }
 
     return (
         <Center>
