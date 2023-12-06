@@ -30,15 +30,18 @@ export function MemberJoinList() {
 
   const toast = useToast();
   const navigate = useNavigate();
-  const { authCheck } = useContext(LoginContext);
+  const { authCheck, fetched } = useContext(LoginContext);
 
   useEffect(() => {
     console.log(authCheck());
-    if (authCheck() !== "admin") {
-      // navigate("/");
+    if (fetched && authCheck() !== "admin") {
+      navigate("/");
     }
-    updateList();
-  }, [location]);
+
+    if (fetched) {
+      updateList();
+    }
+  }, [fetched, location]);
 
   function updateList() {
     axios.get("/api/member/joinList?" + params).then(({ data }) => {

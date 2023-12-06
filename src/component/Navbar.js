@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import {
+  Box,
   Button,
   Menu,
   MenuButton,
@@ -16,7 +17,7 @@ export function NavBar() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const { fetchLogin, login, isAuthenticated, isAdmin } =
+  const { fetchLogin, login, isAuthenticated, authCheck } =
     useContext(LoginContext);
 
   const urlParams = new URLSearchParams();
@@ -65,6 +66,15 @@ export function NavBar() {
                 로그인
               </button>
             )}
+
+            {authCheck() === "admin" && (
+              <button
+                className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                onClick={() => navigate("/member/joinList")}
+              >
+                가입 대기
+              </button>
+            )}
             <button
               className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
               onClick={() => navigate("/member/signup")}
@@ -87,7 +97,7 @@ export function NavBar() {
             {isAuthenticated() && (
               <button
                 className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                onClick={() => navigate("/member?" + urlParams)}
+                onClick={() => navigate("/member/view?" + urlParams)}
               >
                 회원정보
               </button>
