@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   FormLabel,
   Image,
   Input,
@@ -14,6 +15,7 @@ import {
   ModalOverlay,
   Select,
   Spinner,
+  Switch,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -21,6 +23,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 export function DrugEdit() {
   // /edit/:id
@@ -52,6 +56,7 @@ export function DrugEdit() {
         func: drug.func,
         content: drug.content,
         price: drug.price,
+        shipping: drug.shipping,
         removeFileIds,
         uploadFiles,
       })
@@ -87,7 +92,7 @@ export function DrugEdit() {
   }
 
   return (
-    <Box>
+    <Box marginLeft="256px">
       <h1>{drug.id}영양제 수정</h1>
       <FormControl>
         <FormLabel>제품</FormLabel>
@@ -161,6 +166,32 @@ export function DrugEdit() {
             })
           }
         />
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>배송비</FormLabel>
+        <Input
+          value={drug.shipping}
+          onChange={(e) =>
+            updateDrug((draft) => {
+              draft.shipping = e.target.value;
+            })
+          }
+        />
+      </FormControl>
+
+      {/* 추가할 파일*/}
+      <FormControl>
+        <FormLabel>이미지</FormLabel>
+        <Input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={(e) => setUploadFiles(e.target.files)}
+        />
+        <FormHelperText>
+          한 개 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부하시오.
+        </FormHelperText>
       </FormControl>
       <Button colorScheme="pink" onClick={onOpen}>
         저장

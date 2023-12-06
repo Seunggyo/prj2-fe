@@ -1,8 +1,12 @@
 import {
+  border,
   Box,
   Button,
+  Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
+  HStack,
   Image,
   Input,
   Modal,
@@ -14,23 +18,67 @@ import {
   ModalOverlay,
   Spinner,
   useDisclosure,
+  useNumberInput,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { DrugComment } from "./DrugComment";
+import { IoIosCart } from "react-icons/io";
+import * as PropTypes from "prop-types";
+import { LoginContext } from "../../component/LoginProvider";
+
+function CartContainer({ cart, onClick }) {
+  const { getInputProps, getDecrementButtonProps, getIncrementButtonProps } =
+    useNumberInput({
+      step: 1,
+      defaultValue: 0,
+      min: 0,
+      max: 10,
+    });
+
+  const inc = getIncrementButtonProps();
+  const dec = getDecrementButtonProps();
+  const input = getInputProps();
+
+  if (cart === null) {
+    return <Spinner />;
+  }
+
+  return (
+    <Flex>
+      <HStack maxW="320px">
+        <Button {...dec}>-</Button>
+        <Input {...input} />
+        <Button {...inc}>+</Button>
+      </HStack>
+      <Button variant="ghost" onClick={() => onClick(input.value)}>
+        <IoIosCart size="xl" />
+      </Button>
+    </Flex>
+  );
+}
 
 export function DrugView() {
   const [drug, setDrug] = useState(null);
+  const [cart, setCart] = useState(null);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
   const toast = useToast();
   const navigate = useNavigate();
 
+  const { isAdmin } = useContext(LoginContext);
   const { id } = useParams();
 
   useEffect(() => {
     axios.get("/api/drug/id/" + id).then((response) => setDrug(response.data));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("/api/drug/cart/drugId/" + id)
+      .then((response) => setCart(response.data));
   }, []);
 
   if (drug === null) {
@@ -56,21 +104,49 @@ export function DrugView() {
       .finally(() => onClose());
   }
 
+  function handleCart(quantity) {
+    axios
+      .post("/api/drug/cart", { drugId: drug.id, quantity })
+      .then((response) => {
+        setCart(response.data);
+        toast({
+          description: "장바구니에 담는중입니다.",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        //TODO: 로그인 안하고 누르면 로그인 페이지로 보내기
+        toast({
+          description: " 장바구니에 넣는 중 문제가 발생하였습니다.",
+          status: "error",
+        });
+      })
+      .finally(() => onClose);
+  }
+
   return (
-    <Box>
+    <Box marginLeft="256px">
       <h1>{drug.id}영양제 보기</h1>
-      <FormControl>
-        <FormLabel>제품</FormLabel>
-        <Input value={drug.name} readOnly />
-      </FormControl>
 
       <FormControl>
         <FormLabel>사진</FormLabel>
         {drug.files.map((file) => (
-          <Box key={file.id} my="5px" border="3px solid black">
+          <Box
+            key={file.id}
+            my="5px"
+            border="3px solid black"
+            width="500px"
+            height="500px"
+          >
             <Image width="100%" src={file.url} alt={file.name} />
           </Box>
         ))}
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>제품명</FormLabel>
+        <Input value={drug.name} readOnly />
+        <FormHelperText>{drug.content}</FormHelperText>
       </FormControl>
 
       <FormControl>
@@ -79,25 +155,38 @@ export function DrugView() {
       </FormControl>
 
       <FormControl>
-        <FormLabel>상세 정보</FormLabel>
-        <Input value={drug.content} readOnly />
+        <FormLabel>가격</FormLabel>
+        <Input value={drug.price} readOnly />
       </FormControl>
 
       <FormControl>
-        <FormLabel>가격</FormLabel>
-        <Input value={drug.price} readOnly />
+        <FormLabel>배송비</FormLabel>
+        <Input value={drug.shipping} readOnly />
       </FormControl>
 
       <FormControl>
         <FormLabel>등록 일자</FormLabel>
         <Input value={drug.inserted} readOnly />
       </FormControl>
-      <Button colorScheme="pink" onClick={() => navigate("/drug/edit/" + id)}>
-        수정
-      </Button>
-      <Button colorScheme="purple" onClick={onOpen}>
-        삭제
-      </Button>
+
+      {/*장바구니*/}
+      <Flex>
+        <CartContainer cart={cart} onClick={handleCart} />
+        <Button colorScheme="pink">구매하기</Button>
+      </Flex>
+      {isAdmin() && (
+        <>
+          <Button
+            colorScheme="pink"
+            onClick={() => navigate("/drug/edit/" + id)}
+          >
+            수정
+          </Button>
+          <Button colorScheme="purple" onClick={onOpen}>
+            삭제
+          </Button>
+        </>
+      )}
 
       {/* 삭제 모달 */}
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -115,6 +204,7 @@ export function DrugView() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <DrugComment drugId={drug.id} />
     </Box>
   );
 }
