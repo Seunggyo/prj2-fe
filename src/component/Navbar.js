@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import {
-  Box,
   Button,
   Menu,
   MenuButton,
@@ -33,13 +32,16 @@ export function NavBar() {
   }
 
   function handleLogout() {
-    axios.post("/api/member/logout").then(() => {
-      toast({
-        description: "로그아웃 되었습니다.",
-        status: "info",
-      });
-      navigate("/");
-    });
+    axios
+      .post("/api/member/logout")
+      .then(() => {
+        toast({
+          description: "로그아웃 되었습니다.",
+          status: "info",
+        });
+        navigate("/");
+      })
+      .finally(() => fetchLogin());
   }
 
   return (
@@ -152,4 +154,56 @@ export function NavBar() {
       </div>
     </Box>
   );
+}
+
+{
+  /*// <div>*/
+}
+{
+  /*//   <Flex direction="column" align="start" width="150px" height="300px">*/
+}
+{
+  /*//     <Button width="100%" bgColor="red.100" onClick={() => navigate("/")}>*/
+}
+{
+  /*//       <FontAwesomeIcon icon={faHospital} />*/
+}
+{
+  /*//     </Button>*/
+}
+{
+  /*//     <Button width="100%" bgColor="red.200" onClick={() => navigate("map")}>*/
+}
+{
+  /*//       병원*/
+}
+{
+  /*//     </Button>*/
+}
+{
+  /*//     <Button*/
+}
+{
+  /*//         width="100%"*/
+}
+{
+  /*//         bgColor="red.300"*/
+}
+{
+  /*//         onClick={() => navigate("/drug")}*/
+}
+{
+  /*//     >*/
+}
+{
+  /*//       영양제*/
+}
+{
+  /*//     </Button>*/
+}
+{
+  /*//   </Flex>*/
+}
+{
+  /*// </div>*/
 }

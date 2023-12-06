@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     Box,
-    Button,
+    Button, Center,
     Flex,
     FormControl,
     FormLabel,
@@ -15,19 +15,32 @@ import {
     Tr
 } from "@chakra-ui/react";
 import axios from "axios";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {LoginContext} from "../../component/LoginProvider";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faAngleLeft, faAngleRight} from "@fortawesome/free-solid-svg-icons";
+
 
 function MemberList(props) {
     const [memberList, setMemberList] = useState(null);
+    const [pageInfo, setPageInfo] = useState(null);
 
+    const [params] = useSearchParams();
     const navigate = useNavigate();
+    const {authCheck} = useContext(LoginContext);
+    const location = useLocation();
 
     useEffect(() => {
-        axios.get("/api/member/list")
+        if (authCheck() !== "admin") {
+            navigate("/")
+        }
+
+        axios.get("/api/member/list?" + params)
             .then(({data})=> {
-                setMemberList(data);
-            })
-    }, []);
+                setMemberList(data.memberList);
+                setPageInfo(data.pageInfo);
+            });
+    }, [location]);
 
 
     if (memberList === null) {
@@ -44,7 +57,7 @@ function MemberList(props) {
     return (
         <Box>
             <h1>memberList</h1>
-            {/*<MemberSearchComp />*/}
+            <MemberSearchComp />
             <Table>
                 <Thead>
                 <Tr>
@@ -74,6 +87,7 @@ function MemberList(props) {
                 ))}
                 </Tbody>
             </Table>
+            <MemberPagination pageInfo={pageInfo}/>
         </Box>
     );
 }
@@ -93,12 +107,64 @@ function MemberSearchComp() {
     return <Box>
         <FormControl>
             <FormLabel>멤버 조회</FormLabel>
-            <Flex>
-                <Input />
-                <Button>검색</Button>
+            <Flex width={"300px"}>
+                <Input onChange={e=> setKeyword(e.target.value)}/>
+                <Button onClick={handleMemberSearch}>검색</Button>
             </Flex>
         </FormControl>
     </Box>;
+}
+
+function PageButton({variant, pageNumber, children}) {
+    const [params] = useSearchParams();
+    const navigate = useNavigate();
+
+    function handleClick() {
+        params.set("p", pageNumber);
+        navigate("/member/list?"+params);
+    }
+
+    return <Button variant={variant} onClick={handleClick}>
+        {children}
+    </Button>;
+}
+
+function MemberPagination({pageInfo}) {
+    const pageNumbers = [];
+    const navigate = useNavigate();
+
+    for (let i = pageInfo.startPageNumber; i <= pageInfo.endPageNumber; i++) {
+        pageNumbers.push(i);
+    }
+
+    return <Center>
+        <Box>
+            {pageInfo.prevPageNumber && (
+                <PageButton variant={"ghost"} pageNumber={pageInfo.prevPageNumber}>
+                    <FontAwesomeIcon icon={faAngleLeft} />
+                </PageButton>
+            )}
+        </Box>
+
+        {pageNumbers.map((pageNumber) => (
+            <PageButton
+            key={pageNumber}
+            variant={pageNumber === pageInfo.currentNumber ? "solid" : "ghost"}
+            pageNumber={pageNumber}
+            >
+                {pageNumber}
+            </PageButton>
+        ))}
+
+        <Box>
+            {pageInfo.nextPageNumber && (
+                <PageButton variant={"ghost"} pageNumber={pageInfo.nextPageNumber}>
+                    <FontAwesomeIcon icon={faAngleRight} />
+                </PageButton>
+            )}
+        </Box>
+
+    </Center>
 }
 
 export default MemberList;
