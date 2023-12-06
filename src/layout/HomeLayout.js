@@ -8,6 +8,7 @@ export function HomeLayout() {
     <div>
       <Box>
         <NavBar />
+        {/*<SideBar />*/}
         <Outlet />
       </Box>
     </div>

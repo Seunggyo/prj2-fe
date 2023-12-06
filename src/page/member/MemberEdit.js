@@ -21,6 +21,7 @@ function MemberEdit(props) {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [address, setAddress] = useState("");
+    const [birthday, setBirthday] = useState()
 
     const [params] = useSearchParams();
     const toast = useToast();
@@ -29,7 +30,13 @@ function MemberEdit(props) {
     useEffect(() => {
         axios
             .get("/api/member/info?" + params.toString())
-            .then(({data}) => setMember(data))
+            .then(({data}) => {
+                setMember(data);
+                setNickName(data.nickName);
+                setPhone(data.phone);
+                setBirthday(data.birthday)
+                setAddress(data.address);
+            })
     }, []);
 
     if (member === null) {
@@ -39,7 +46,7 @@ function MemberEdit(props) {
     function handleEditClick() {
         axios.put("/api/member/edit", {
             id : member.id,
-            nickName, phone, email, address})
+            nickName, phone, birthday, address})
             .then(() => {
                 toast({
                     description: "회원 정보가 수정되었습니다.",
@@ -75,9 +82,9 @@ function MemberEdit(props) {
                         />
                     </FormControl>
                     <FormControl>
-                        <FormLabel>email</FormLabel>
-                        <Input defaultValue={member.email}
-                               onChange={e=> setEmail(e.target.value)}
+                        <FormLabel>birthday</FormLabel>
+                        <Input defaultValue={member.birthday}
+                               onChange={e=> setBirthday(e.target.value)}
                         />
                     </FormControl>
                     <FormControl>

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useToast } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Box, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -16,9 +16,8 @@ export function MemberLogin(props) {
       .then(() => {
         toast({
           description: "로그인 되었습니다.",
-          status: "success",
+          status: "info",
         });
-        console.log("ddd");
         navigate("/");
       })
       .catch(() => {
@@ -26,9 +25,6 @@ export function MemberLogin(props) {
           description: "아이디와 암호를 다시 확인해주세요.",
           status: "warning",
         });
-      })
-      .finally(() => {
-        console.log("done");
       });
   }
 
@@ -36,13 +32,15 @@ export function MemberLogin(props) {
     <div className="bg-white dark:bg-gray-900">
       <div className="flex justify-center h-screen">
         <div className="hidden bg-cover lg:block lg:w-2/3">
-          //TODO: 왜 백그라운드 이미지가 안되지?
-          <div className="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
-            <div>
-              <h2 className="text-4xl font-bold text-white">아프지마!</h2>
+          <div className="rounded-xl">
+            <div className="h-full w-full object-cover bg-opacity-40"></div>
 
-              <p className="max-w-xl mt-3 text-gray-300"></p>
-            </div>
+            {/*TODO : 백그라운드 이미지 넣고 좌우 크기 수정해야함..*/}
+            <img
+              src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
+              alt="image 2"
+              className="h-full w-full object-cover"
+            />
           </div>
         </div>
 
@@ -100,16 +98,23 @@ export function MemberLogin(props) {
               </div>
 
               <button
-                onClick={() => navigate("")}
-                className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline"
+                onClick={() => navigate("/member/findId")}
+                className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline ml-2"
               >
-                암호를 잊어버리셨나요?
+                아이디 찾기
+              </button>
+
+              <button
+                  onClick={() => navigate("/member/findPassword")}
+                  className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline ml-2"
+              >
+                비밀번호 찾기
               </button>
 
               <p className="mt-6 text-sm text-center text-gray-400">
                 아직 가입을 안하셨나요?{" "}
                 <button
-                  onClick={() => navigate("")}
+                  onClick={() => navigate("/member/signup")}
                   className="text-blue-500 focus:outline-none focus:underline hover:underline"
                 >
                   가입하기
