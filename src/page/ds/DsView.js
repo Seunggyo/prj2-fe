@@ -80,7 +80,7 @@ export function DsView() {
     if (isNaN(id)) {
       axios
         .get("/api/business/like/dsName/" + id)
-        .then((response) => setDs(response.data));
+        .then((response) => setLike(response.data));
     } else {
       axios
         .get("/api/business/like/dsId/" + id)
@@ -228,7 +228,7 @@ export function DsView() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <DsComment businessId={id} memberId={name} />
+      <DsComment businessId={id} businessName={name} />
     </Box>
   );
 }
