@@ -1,22 +1,27 @@
 import {
   Box,
+  Button,
+  ButtonGroup,
   Card,
   CardBody,
+  CardFooter,
   CardHeader,
   Center,
+  Divider,
   Flex,
   Heading,
   Square,
   Stack,
   StackDivider,
   Text,
+  Tr,
 } from "@chakra-ui/react";
 import React from "react";
 
 export function DrugBuy() {
   return (
     <Box
-      marginLeft="600px"
+      marginLeft="300px"
       marginTop="30px"
       border="1px solid black"
       width="900px"
@@ -31,39 +36,16 @@ export function DrugBuy() {
       >
         <Flex color="white">
           <Center w="700px" h="800px">
-            <Card>
-              <CardHeader>
-                <Heading size="md">Client Report</Heading>
-              </CardHeader>
-
+            <Card maxW="sm">
               <CardBody>
-                <Stack divider={<StackDivider />} spacing="4">
-                  <Box>
-                    <Heading size="xs" textTransform="uppercase">
-                      Summary
-                    </Heading>
-                    <Text pt="2" fontSize="sm">
-                      View a summary of all your clients over the last month.
-                    </Text>
-                  </Box>
-                  <Box>
-                    <Heading size="xs" textTransform="uppercase">
-                      Overview
-                    </Heading>
-                    <Text pt="2" fontSize="sm">
-                      Check out the overview of your clients.
-                    </Text>
-                  </Box>
-                  <Box>
-                    <Heading size="xs" textTransform="uppercase">
-                      Analysis
-                    </Heading>
-                    <Text pt="2" fontSize="sm">
-                      See a detailed analysis of all your business clients.
-                    </Text>
-                  </Box>
+                <Stack mt="6" spacing="3">
+                  <Heading size="md">주문 상품 정보</Heading>
+                  <Text>제풍명 : 알로엘</Text>
+                  <Text>갯수 : 2개</Text>
+                  <Text>금액 : 19000원</Text>
                 </Stack>
               </CardBody>
+              <Divider />
             </Card>
           </Center>
           <Square h="800px" size="300px"></Square>

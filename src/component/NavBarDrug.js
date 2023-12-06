@@ -9,7 +9,7 @@ export function NavBarDrug() {
   const { isAdmin } = useContext(LoginContext);
 
   return (
-    <Flex marginLeft="256px">
+    <Flex marginLeft="370px">
       <SideBar />
       <Box border="1px solid black">
         <nav className="sm:flex sm:justify-center sm:items-center mt-4">
