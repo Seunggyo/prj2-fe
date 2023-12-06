@@ -6,6 +6,7 @@ import {
   Button,
   Flex,
   Input,
+  Select,
   Spinner,
   Table,
   Tbody,
@@ -107,27 +108,31 @@ function SearchComponent() {
   );
 }
 
-export function QA_List() {
-  const [qa_List, setQa_List] = useState(null);
+export function QAList() {
+  const [qaList, setQaList] = useState(null);
   const [pageInfo, setPageInfo] = useState(null);
+  const [categoryFilter, setCategoryFilter] = useState("");
 
   const navigate = useNavigate();
+
   const [params, setParams] = useSearchParams();
   const location = useLocation();
 
-  console.log(params);
-
   useEffect(() => {
-    axios.get("/api/qa/qaList?" + params).then((r) => {
-      setQa_List(r.data.qa_List);
+    axios.get("/api/qa/list?" + params).then((r) => {
+      setQaList(r.data.qaList);
       setPageInfo(r.data.pageInfo);
     });
   }, [location]);
 
   console.log("111");
 
-  if (qa_List == null) {
+  if (qaList == null) {
     return <Spinner />;
+  }
+
+  function handleCategoryChange(e) {
+    setCategoryFilter(e.target.value);
   }
 
   return (
@@ -139,12 +144,24 @@ export function QA_List() {
               <Button
                 variant="solid"
                 colorScheme="green"
-                onClick={() => navigate("/cs/qa_Write")}
+                onClick={() => navigate("/cs/qaWrite")}
               >
                 글 쓰 기
               </Button>
 
               <Flex>
+                <Select
+                  mr={4}
+                  placeholder="카테고리 선택"
+                  defaultvalue={""}
+                  onChange={handleCategoryChange}
+                >
+                  <option value="">전체</option>
+                  <option value={"건의사항"}>건의사항</option>
+                  <option value={"개인정보관련"}>개인정보관련</option>
+                  <option value={"이벤트관련"}>이벤트관련</option>
+                  <option value={"기타"}>기 타</option>
+                </Select>
                 <SearchComponent />
               </Flex>
             </Flex>
@@ -159,20 +176,27 @@ export function QA_List() {
                 </Tr>
               </Thead>
               <Tbody>
-                {qa_List.map((qa) => (
-                  <Tr
-                    _hover={{
-                      cursor: "pointer",
-                    }}
-                    key={qa.qa_Id}
-                    onClick={() => navigate("/cs/" + qa.qa_Id)}
-                  >
-                    <Td>{qa.qa_Id}</Td>
-                    <Td>{qa.qa_Title}</Td>
-                    <Td>{qa.qa_Writer}</Td>
-                    <Td>{qa.inserted}</Td>
-                  </Tr>
-                ))}
+                {qaList
+                  .filter(
+                    (item) =>
+                      categoryFilter === "" ||
+                      item.csCategory === categoryFilter,
+                  )
+                  .map((qa) => (
+                    <Tr
+                      _hover={{
+                        cursor: "pointer",
+                      }}
+                      key={qa.id}
+                      onClick={() => navigate("/cs/qa/" + qa.id)}
+                    >
+                      <Td>{qa.id}</Td>
+                      <Td>{qa.qaCategory}</Td>
+                      <Td>{qa.qaTitle}</Td>
+                      <Td>{qa.qaWriter}</Td>
+                      <Td>{qa.inserted}</Td>
+                    </Tr>
+                  ))}
               </Tbody>
             </Table>
 

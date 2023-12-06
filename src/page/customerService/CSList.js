@@ -25,7 +25,7 @@ function PageButton({ variant, pageNumber, children }) {
 
   function handleClick() {
     params.set("p", pageNumber);
-    navigate("/cs/?" + params);
+    navigate("/cs/csList?" + params);
   }
 
   return (
@@ -97,7 +97,7 @@ function SearchComponent() {
     const params = new URLSearchParams();
     params.set("k", keyword);
 
-    navigate("/cs/?" + params);
+    navigate("/cs/csList?" + params);
   }
   return (
     <Flex>
@@ -141,7 +141,7 @@ export function CSList() {
       .catch((error) => {
         console.error("bad");
       });
-    navigate("/cs/" + id);
+    navigate("/cs/csList" + id);
   }
 
   function sortNum() {

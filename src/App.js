@@ -37,8 +37,8 @@ import { CSList } from "./page/customerService/CSList";
 import { CSWrite } from "./page/customerService/CSWrite";
 import { CSView } from "./page/customerService/CSView";
 import { CSEdit } from "./page/customerService/CSEdit";
-import { QA_List } from "./page/customerService/QA/QA_List";
-import { QA_Write } from "./page/customerService/QA/QA_Write";
+import { QAList } from "./page/customerService/QA/QAList";
+import { QAWrite } from "./page/customerService/QA/QAWrite";
 import { MemberFindId } from "./page/member/MemberFindId";
 import { MemberFindPassword } from "./page/member/MemberFindPassword";
 import { MemberJoinList } from "./page/member/MemberJoinList";
@@ -91,12 +91,12 @@ const routes = createBrowserRouter(
         <Route path="edit/:id" element={<BoardEdit />}></Route>
       </Route>
       <Route path="cs" element={<CS />}>
-        <Route index element={<CSList />} />
+        <Route path="cslist" element={<CSList />} />
         <Route path="csWrite" element={<CSWrite />}></Route>
         <Route path=":id" element={<CSView />}></Route>
         <Route path="csEdit/:id" element={<CSEdit />}></Route>
-        <Route path="qa_List" element={<QA_List />}></Route>
-        <Route path="qa_Write" element={<QA_Write />}></Route>
+        <Route path="qaList" element={<QAList />}></Route>
+        <Route path="qaWrite" element={<QAWrite />}></Route>
       </Route>
     </Route>,
   ),

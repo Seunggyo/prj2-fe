@@ -50,7 +50,7 @@ export function CS_SideBar() {
           border="1px"
           borderColor="white"
           cursor="pointer"
-          onClick={() => navigate("/cs/qa_list")}
+          onClick={() => navigate("/cs/qaList")}
           p={2}
         >
           1:1 응답

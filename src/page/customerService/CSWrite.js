@@ -31,7 +31,7 @@ export function CSWrite() {
           description: "새 공지글이 저장되었습니다.",
           status: "success",
         });
-        navigate("/cs");
+        navigate("/cs/csList");
       })
       .catch((error) => {
         console.log(error.response.status);

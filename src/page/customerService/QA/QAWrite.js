@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export function QA_Write() {
+export function QAWrite() {
   const [qa_Title, setQa_Title] = useState("");
   const [qa_Content, setQa_Content] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
