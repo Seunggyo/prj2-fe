@@ -53,7 +53,6 @@ export function MemberJoinList() {
   if (memberList === null) {
     return <Spinner />;
   }
-
   function handleAcceptClick(member) {
     axios
       .post("/api/member/accept", {
@@ -80,7 +79,8 @@ export function MemberJoinList() {
           description: "오류가 발생했습니다.",
           status: "error",
         });
-      });
+      })
+      .finally(() => updateList());
   }
 
   function handleCancelClick(member) {

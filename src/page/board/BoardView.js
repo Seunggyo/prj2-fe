@@ -41,7 +41,9 @@ function LikeContainer({ like, onClick }) {
             {like.like && <FontAwesomeIcon icon={fullHeart} size="xl" />}
             {like.like || <FontAwesomeIcon icon={emptyHeart} size="xl" />}
           </Button>
-          <Heading size="lg">{like.countLike}</Heading>
+          <Heading size="lg">
+            {like.countLike} {like.like}
+          </Heading>
         </Flex>
       )}
     </Box>
@@ -49,8 +51,8 @@ function LikeContainer({ like, onClick }) {
 }
 
 export function BoardView() {
-  const [board, setBoard] = useState("");
-  const [like, setLike] = useState("");
+  const [board, setBoard] = useState(null);
+  const [like, setLike] = useState(null);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { hasAccess, authCheck } = useContext(LoginContext);
