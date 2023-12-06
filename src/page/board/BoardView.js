@@ -49,8 +49,8 @@ function LikeContainer({ like, onClick }) {
 }
 
 export function BoardView() {
-  const [board, setBoard] = useState("");
-  const [like, setLike] = useState("");
+  const [board, setBoard] = useState(null);
+  const [like, setLike] = useState(null);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { hasAccess, authCheck } = useContext(LoginContext);
