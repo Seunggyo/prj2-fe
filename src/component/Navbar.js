@@ -15,6 +15,7 @@ import {
   ModalOverlay,
   useDisclosure,
   useToast,
+  Box,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useLocation, useNavigate } from "react-router-dom";

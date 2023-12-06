@@ -18,9 +18,10 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { LoginContext } from "../../component/LoginProvider";
 
 export function Cart() {
   const [cartList, setCartList] = useState(null);
@@ -30,11 +31,15 @@ export function Cart() {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const toast = useToast();
   const navigate = useNavigate();
+  const { isAuthenticated } = useContext(LoginContext);
 
   useEffect(() => {
-    axios
-      .get("/api/drug/cart/cartList")
-      .then((response) => setCartList(response.data));
+    axios.get("/api/drug/cart/cartList").then((response) => {
+      setCartList(response.data);
+      if (!isAuthenticated()) {
+        navigate("/member/login");
+      }
+    });
   }, [isOpen]);
 
   if (cartList === null) {

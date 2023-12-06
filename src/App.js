@@ -18,11 +18,11 @@ import LoginProvider from "./component/LoginProvider";
 import { MemberLogin } from "./page/member/MemberLogin";
 import MemberEdit from "./page/member/MemberEdit";
 
-import {BoardWrite} from "./page/board/BoardWrite";
-import {BoardView} from "./page/board/BoardView";
-import {BoardList} from "./page/board/BoardList";
-import {BoardEdit} from "./page/board/BoardEdit";
-import {DrugLayout} from "./layout/DrugLayout";
+import { BoardWrite } from "./page/board/BoardWrite";
+import { BoardView } from "./page/board/BoardView";
+import { BoardList } from "./page/board/BoardList";
+import { BoardEdit } from "./page/board/BoardEdit";
+import { DrugLayout } from "./layout/DrugLayout";
 import { DrugWrite } from "./page/drug/DrugWrite";
 import { DrugList } from "./page/drug/DrugList";
 import { DrugView } from "./page/drug/DrugView";
@@ -39,16 +39,16 @@ import { CSView } from "./page/customerService/CSView";
 import { CSEdit } from "./page/customerService/CSEdit";
 import { QA_List } from "./page/customerService/QA/QA_List";
 import { QA_Write } from "./page/customerService/QA/QA_Write";
-import {MemberFindId} from "./page/member/MemberFindId";
-import {MemberFindPassword} from "./page/member/MemberFindPassword";
-import {MemberJoinList} from "./page/member/MemberJoinList";
+import { MemberFindId } from "./page/member/MemberFindId";
+import { MemberFindPassword } from "./page/member/MemberFindPassword";
+import { MemberJoinList } from "./page/member/MemberJoinList";
 import { Cart } from "./page/drug/Cart";
 import { DrugFuncList } from "./page/drug/DrugFuncList";
 import KakaoContainer from "./layout/KakaoContainer";
-import {Hs} from "./Hs";
-import {HsList} from "./page/hs/HsList";
-import {HsReservation} from "./page/hs/HsReservation";
-
+import { Hs } from "./Hs";
+import { HsList } from "./page/hs/HsList";
+import { HsReservation } from "./page/hs/HsReservation";
+import { DrugBuy } from "./page/drug/DrugBuy";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -68,22 +68,23 @@ const routes = createBrowserRouter(
         <Route path="edit/:id" element={<DrugEdit />} />
         <Route path="cart" element={<Cart />} />
         <Route path="func/:func" element={<DrugFuncList />} />
+        <Route path="buy/:id" element={<DrugBuy />} />
       </Route>
       <Route path="hospital" element={<Hs />}>
-          <Route path="hospitalList" element={<HsList/>}/>
-          <Route path="hospitalAdd" element={<HsAdd/>}/>
-          <Route path="hospitalEdit/:id" element={<HsEdit/>}/>
-          <Route path="hospitalReservation/:id" element={<HsReservation/>}/>
+        <Route path="hospitalList" element={<HsList />} />
+        <Route path="hospitalAdd" element={<HsAdd />} />
+        <Route path="hospitalEdit/:id" element={<HsEdit />} />
+        <Route path="hospitalReservation/:id" element={<HsReservation />} />
       </Route>
       <Route path="member" element={<Member />}>
-          <Route path="signup" element={<MemberSignup/>}/>
-          <Route path="list" element={<MemberList/>}/>
-          <Route path={"joinList"} element={<MemberJoinList />} />
-          <Route path="view" element={<MemberView/>}/>
-          <Route path="login" element={<MemberLogin/>}/>
-          <Route path="edit" element={<MemberEdit/>}/>
-          <Route path="findId" element={<MemberFindId/>}/>
-          <Route path="findPassword" element={<MemberFindPassword/>}/>
+        <Route path="signup" element={<MemberSignup />} />
+        <Route path="list" element={<MemberList />} />
+        <Route path={"joinList"} element={<MemberJoinList />} />
+        <Route path="view" element={<MemberView />} />
+        <Route path="login" element={<MemberLogin />} />
+        <Route path="edit" element={<MemberEdit />} />
+        <Route path="findId" element={<MemberFindId />} />
+        <Route path="findPassword" element={<MemberFindPassword />} />
       </Route>
       <Route path="board" element={<Board />}>
         <Route index element={<BoardList />} />
@@ -103,7 +104,6 @@ const routes = createBrowserRouter(
   ),
 );
 
-
 function App() {
   return (
     <LoginProvider>
@@ -111,6 +111,5 @@ function App() {
     </LoginProvider>
   );
 }
-
 
 export default App;
