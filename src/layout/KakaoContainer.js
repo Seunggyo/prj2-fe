@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "../kakaomap.css";
 import { MapMarker, Map, MapTypeId, Roadview } from "react-kakao-maps-sdk";
 import { Box, Input, VStack, Text } from "@chakra-ui/react";
+import axios from "axios";
 
 const MainPage = () => {
   const [markers, setMarkers] = useState([]);
@@ -13,6 +14,8 @@ const MainPage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const mapRef = useRef();
   const roadviewRef = useRef();
+
+  const [ds, setDs] = useState(null);
 
   const [center, setCenter] = useState({
     lat: 33.450422139819736,
@@ -83,6 +86,14 @@ const MainPage = () => {
       setTimeout(() => map.setCenter(currentCenter), 100);
     }
   };
+
+  useEffect(() => {
+    axios.get("/api/ds/kakao").then((response) => setDs(response.data));
+  }, []);
+
+  console.log(markers.map((marker) => marker));
+  console.log(markers.map((index) => index));
+  console.log(markers.map((array) => array));
 
   useEffect(() => {
     if (!map) return;
@@ -157,20 +168,23 @@ const MainPage = () => {
           bg="black"
           color="white"
         >
-          {markers.map((marker, index) => (
-            <Box
-              key={index}
-              p={4}
-              border="1px solid #ddd"
-              borderRadius="md"
-              mb={2}
-              _hover={{ bg: "gray.100" }}
-              cursor="pointer"
-              onClick={() => handleListItemClick(index)}
-            >
-              <Text fontSize="lg">{marker.content}</Text>
-            </Box>
-          ))}
+          {/*{markers.map((marker, index) => (*/}
+          {/*  <Box*/}
+          {/*    key={index}*/}
+          {/*    p={4}*/}
+          {/*    border="1px solid #ddd"*/}
+          {/*    borderRadius="md"*/}
+          {/*    mb={2}*/}
+          {/*    _hover={{ bg: "gray.100" }}*/}
+          {/*    cursor="pointer"*/}
+          {/*    onClick={() => handleListItemClick(index)}*/}
+          {/*  >*/}
+          {/*    <Text fontSize="lg">{ds.name}</Text>*/}
+          {/*  </Box>*/}
+          {/*))}*/}
+          {/*{ds.map((ds.name, index) =>)(*/}
+          {/*  <Box*/}
+          {/*  )}*/}
         </VStack>
 
         <div
