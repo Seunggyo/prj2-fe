@@ -41,7 +41,13 @@ export function HsReservation() {
 
 
     function handleDayChange(e) {
-        setDateValue(e);
+        const year = e.getFullYear();
+        const month = (e.getMonth() + 1).toString().padStart(2, "0");
+        const day = e.getDate().toString().padStart(2, "0");
+
+        const formatDate = `${year}-${month}-${day}`;
+
+        setDateValue(formatDate);
         setChangeDay(true);
 
     }
@@ -60,7 +66,9 @@ export function HsReservation() {
     }
 
     function handleReservationClick() {
-        axios.post("/api/hospital/reservation", {
+        axios.post("/api/hospital/reservation/add", {
+            businessId: id,
+            reservationDate: dateValue,
             reservationHour,
             reservationMin,
             comment
@@ -88,6 +96,11 @@ export function HsReservation() {
         const today = new Date();
         return date < today;
     };
+
+    function handleCommentChange(e) {
+        setComment(e.target.value);
+    }
+
     return (
         <Box>
             <Heading>예약하실 날짜를 선택해주세요</Heading>
@@ -146,7 +159,8 @@ export function HsReservation() {
             )}
             {changeTime && (
                 <Box>
-                    <Textarea placeholder={"예약시 특이사항을 적어주세요\n ex)진단서가 필요합니다.\n 실비보험청구내역서가 필요합니다."}/>
+                    <Textarea onChange={handleCommentChange}
+                              placeholder={"예약시 특이사항을 적어주세요\n ex)진단서가 필요합니다.\n 실비보험청구내역서가 필요합니다."}/>
                     <Card>
                         <CardHeader>
                             예약하신
