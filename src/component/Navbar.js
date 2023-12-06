@@ -6,6 +6,7 @@ import {
   MenuItem,
   MenuList,
   useToast,
+  Box,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,7 +17,7 @@ export function NavBar() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const { fetchLogin, login, isAuthenticated, isAdmin } =
+  const { fetchLogin, login, isAuthenticated, authCheck } =
     useContext(LoginContext);
 
   const urlParams = new URLSearchParams();
