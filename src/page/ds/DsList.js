@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
+  Flex,
   Heading,
+  Image,
+  Input,
+  Select,
+  Spinner,
   Table,
   Tbody,
   Td,
@@ -11,26 +16,116 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import axios from "axios";
-import {
-  Map,
-  MapMarker,
-  useKakaoLoader,
-  ZoomControl,
-} from "react-kakao-maps-sdk";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+
+function PageButton({ variant, pageNumber, children }) {
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
+
+  function handleClick() {
+    params.set("p", pageNumber);
+
+    navigate("/ds/list?" + params);
+  }
+
+  return (
+    <Button variant={variant} onClick={handleClick}>
+      {children}
+    </Button>
+  );
+}
+
+function Pagination({ pageInfo }) {
+  const pageNumbers = [];
+  const navigate = useNavigate();
+
+  for (let i = pageInfo.startPageNumber; i <= pageInfo.endPageNumber; i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <Box>
+      {/* 뒤로가기*/}
+      {pageInfo.prevPageNumber && (
+        <PageButton variant="ghost" pageNumber={pageInfo.prevPageNumber}>
+          <FontAwesomeIcon icon={faAngleLeft} />
+        </PageButton>
+      )}
+
+      {pageNumbers.map((pageNumber) => (
+        <PageButton
+          key={pageNumber}
+          variant={
+            pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
+          }
+          pageNumber={pageNumber}
+        >
+          {pageNumber}
+        </PageButton>
+      ))}
+
+      {/*앞으로 가기*/}
+      {pageInfo.nextPageNumber && (
+        <PageButton variant="ghost" pageNumber={pageInfo.nextPageNumber}>
+          <FontAwesomeIcon icon={faAngleRight} />
+        </PageButton>
+      )}
+    </Box>
+  );
+}
+
+function SearchComponent() {
+  const [keyword, setKeyword] = useState("");
+  const [category, setCategory] = useState("all");
+  const navigate = useNavigate();
+  function handleSearch() {
+    const params = new URLSearchParams();
+
+    params.set("k", keyword);
+    params.set("c", category);
+
+    navigate("/ds/list?" + params);
+  }
+
+  return (
+    <Box>
+      <Flex>
+        <Select onChange={(e) => setCategory(e.target.value)}>
+          <option value="all">전체</option>
+          <option value="name">이름</option>
+          <option value="address">주소</option>
+        </Select>
+        <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
+        <Button onClick={handleSearch}>검색</Button>
+      </Flex>
+    </Box>
+  );
+}
 
 export function DsList() {
   const [dsList, setDsList] = useState([]);
+  const [pageInfo, setPageInfo] = useState("");
   const [level, setLevel] = useState();
+
+  const [params] = useSearchParams();
 
   const navigate = useNavigate();
 
+  const location = useLocation();
+
   useEffect(() => {
-    axios.get("/api/ds/list").then((r) => setDsList(r.data));
-  }, []);
-  // const [loading, error] = useKakaoLoader({
-  //   appkey: process.env.REACT_APP_KAKAO_KEY,
-  // });
+    axios.get("/api/ds/list?" + params).then((r) => {
+      setDsList(r.data.dsList);
+      setPageInfo(r.data.pageInfo);
+    });
+  }, [location]);
+
+  if (dsList === null) {
+    return <Spinner />;
+  }
 
   function handleMoveWrite() {
     navigate("/ds/write");
@@ -39,14 +134,24 @@ export function DsList() {
   return (
     <Box>
       <Box>
-        <Heading>약국 리스트</Heading>
+        <Flex>
+          <Heading>약국 리스트</Heading>
+          {/* TODO : 리스트에서 추가하는게 아니라 비지니스 유저 정보창에서 추가 하는 식으로 가는게 좋을뜻*/}
+          <Button onClick={handleMoveWrite}>추가</Button>
+        </Flex>
         <Box>
           <Table>
             <Thead>
               <Tr>
                 <Th>약국이름</Th>
+                <Th>
+                  <FontAwesomeIcon icon={faHeart} color="red" />
+                </Th>
+                <Th>리뷰</Th>
                 <Th>전화번호</Th>
                 <Th>약국주소</Th>
+                <Th>운영시간</Th>
+                <Th>가게사진</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -57,37 +162,39 @@ export function DsList() {
                   onClick={() => navigate("/ds/view/" + ds.id)}
                 >
                   <Td>{ds.name}</Td>
+                  <Td>{ds.likeCount}</Td>
+                  <Td>{ds.commentCount > 0 && ds.commentCount}</Td>
                   <Td>{ds.phone}</Td>
                   <Td>{ds.address}</Td>
+                  <Td>
+                    {
+                      <Box>
+                        {ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}~
+                        {ds.closeHour}:{ds.closeMin === 0 ? "00" : ds.closeMin}
+                        <Box display={ds.restHour === 0 ? "none" : "block"}>
+                          ※휴게시간
+                          {ds.restHour}:{ds.restMin === 0 ? "00" : ds.restMin}~
+                          {ds.restCloseHour}:
+                          {ds.restCloseMin === 0 ? "00" : ds.restCloseMin}
+                        </Box>
+                      </Box>
+                    }
+                  </Td>
+                  <Td>
+                    <Image w={"100px"} h={"100px"} src={ds.files[0].url} />
+                  </Td>
                 </Tr>
               ))}
             </Tbody>
           </Table>
         </Box>
       </Box>
-      <Button onClick={handleMoveWrite}>추가</Button>
-
-      {/*<Box>*/}
-      {/*  {list &&*/}
-      {/*    list.map((m) => (*/}
-      {/*      <Map*/}
-      {/*        key={m.id}*/}
-      {/*        center={{ lat: 36.503232, lng: 127.269971 }}*/}
-      {/*        style={{ width: "100%", height: "900px" }}*/}
-      {/*        level={5}*/}
-      {/*        onZoomChanged={(m) => setLevel(m.getLevel())}*/}
-      {/*        onDragEnd={(m) =>*/}
-      {/*          setPosition({*/}
-      {/*            lat: m.getCenter().getLat(),*/}
-      {/*            lng: m.getCenter().getLng(),*/}
-      {/*          })*/}
-      {/*        }*/}
-      {/*      >*/}
-      {/*        <MapMarker position={{ lat: m.lat, lng: m.lng }} />*/}
-      {/*        <ZoomControl />*/}
-      {/*      </Map>*/}
-      {/*    ))}*/}
-      {/*</Box>*/}
+      {/*검색 창*/}
+      <SearchComponent />
+      {/*페이지 번호칸*/}
+      <Box>
+        <Pagination pageInfo={pageInfo} />
+      </Box>
     </Box>
   );
 }

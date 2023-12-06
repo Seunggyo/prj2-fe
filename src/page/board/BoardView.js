@@ -1,8 +1,10 @@
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Modal,
   ModalBody,
@@ -15,17 +17,43 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { LoginContext } from "../../component/LoginProvider";
 import { CommentContainer } from "../../component/CommentContainer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
+
+function LikeContainer({ like, onClick }) {
+  const { isAuthenticated } = useContext(LoginContext);
+
+  if (like === null) {
+    return <Spinner />;
+  }
+
+  return (
+    <Box>
+      {isAuthenticated() && (
+        <Flex gap={2}>
+          <Button variant="ghost" size="xl" onClick={onClick}>
+            {like.like && <FontAwesomeIcon icon={fullHeart} size="xl" />}
+            {like.like || <FontAwesomeIcon icon={emptyHeart} size="xl" />}
+          </Button>
+          <Heading size="lg">{like.countLike}</Heading>
+        </Flex>
+      )}
+    </Box>
+  );
+}
 
 export function BoardView() {
   const [board, setBoard] = useState("");
+  const [like, setLike] = useState("");
 
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { hasAccess, isAdmin } = useContext(LoginContext);
+  const { hasAccess, authCheck } = useContext(LoginContext);
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -34,6 +62,10 @@ export function BoardView() {
 
   useEffect(() => {
     axios.get("/api/board/id/" + id).then((r) => setBoard(r.data));
+  }, []);
+
+  useEffect(() => {
+    axios.get("/api/like/board/" + id).then((r) => setLike(r.data));
   }, []);
 
   if (board == null) {
@@ -59,9 +91,16 @@ export function BoardView() {
       .finally(() => onClose());
   }
 
+  function handleLike() {
+    axios.post("/api/like", { boardId: board.id }).then((r) => setLike(r.data));
+  }
+
   return (
     <Box>
-      <h1>{board.id}번 글 보기</h1>
+      <Flex>
+        <Heading size="xl">{board.id}번 글 보기</Heading>
+        <LikeContainer like={like} onClick={handleLike} />
+      </Flex>
       <FormControl>
         <FormLabel>제 목</FormLabel>
         <Input value={board.title} readOnly />
@@ -83,7 +122,7 @@ export function BoardView() {
         <Input value={board.inserted} readOnly />
       </FormControl>
 
-      {(hasAccess(board.writer) || isAdmin()) && (
+      {(hasAccess(board.writer) || authCheck() === "admin") && (
         <Box>
           <Button onClick={() => navigate("/board/edit/" + id)}>수 정</Button>
           <Button onClick={onOpen}>삭 제</Button>

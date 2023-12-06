@@ -19,6 +19,7 @@ export function DrugWrite() {
   const [func, setFunc] = useState("위 건강");
   const [content, setContent] = useState("");
   const [price, setPrice] = useState("");
+  const [shipping, setShipping] = useState("");
   const [uploadFiles, setUploadFiles] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -32,6 +33,7 @@ export function DrugWrite() {
         func,
         content,
         price,
+        shipping,
         uploadFiles,
       })
       .then(() => {
@@ -58,7 +60,7 @@ export function DrugWrite() {
       .finally(() => setIsSubmitting(false));
   }
   return (
-    <Box>
+    <Box marginLeft="256px">
       <FormControl>
         <FormLabel>제품명</FormLabel>
         <Input value={name} onChange={(e) => setName(e.target.value)} />
@@ -88,8 +90,13 @@ export function DrugWrite() {
       </FormControl>
 
       <FormControl>
-        <FormLabel>가격</FormLabel>
+        <FormLabel>판매가</FormLabel>
         <Input value={price} onChange={(e) => setPrice(e.target.value)} />
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>배송비</FormLabel>
+        <Input value={shipping} onChange={(e) => setShipping(e.target.value)} />
       </FormControl>
 
       <FormControl>
@@ -101,7 +108,7 @@ export function DrugWrite() {
           onChange={(e) => setUploadFiles(e.target.files)}
         />
         <FormHelperText>
-          등록 할 파일을 1MB이내, 총 10MB 이내로 첨부하세요.
+          등록 할 파일을 3MB이내, 총 30MB 이내로 첨부하세요.
         </FormHelperText>
       </FormControl>
 
