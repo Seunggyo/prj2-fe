@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import {
   Button,
-  Flex,
   Menu,
   MenuButton,
   MenuItem,
@@ -12,14 +11,12 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LoginContext } from "./LoginProvider";
-import { faHospital } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function NavBar() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const { fetchLogin, login, isAuthenticated, authCheck } =
+  const { fetchLogin, login, isAuthenticated, isAdmin } =
     useContext(LoginContext);
 
   const urlParams = new URLSearchParams();
@@ -157,4 +154,56 @@ export function NavBar() {
       </div>
     </Box>
   );
+}
+
+{
+  /*// <div>*/
+}
+{
+  /*//   <Flex direction="column" align="start" width="150px" height="300px">*/
+}
+{
+  /*//     <Button width="100%" bgColor="red.100" onClick={() => navigate("/")}>*/
+}
+{
+  /*//       <FontAwesomeIcon icon={faHospital} />*/
+}
+{
+  /*//     </Button>*/
+}
+{
+  /*//     <Button width="100%" bgColor="red.200" onClick={() => navigate("map")}>*/
+}
+{
+  /*//       병원*/
+}
+{
+  /*//     </Button>*/
+}
+{
+  /*//     <Button*/
+}
+{
+  /*//         width="100%"*/
+}
+{
+  /*//         bgColor="red.300"*/
+}
+{
+  /*//         onClick={() => navigate("/drug")}*/
+}
+{
+  /*//     >*/
+}
+{
+  /*//       영양제*/
+}
+{
+  /*//     </Button>*/
+}
+{
+  /*//   </Flex>*/
+}
+{
+  /*// </div>*/
 }

@@ -45,6 +45,9 @@ import {MemberJoinList} from "./page/member/MemberJoinList";
 import { Cart } from "./page/drug/Cart";
 import { DrugFuncList } from "./page/drug/DrugFuncList";
 import KakaoContainer from "./layout/KakaoContainer";
+import {Hs} from "./Hs";
+import {HsList} from "./page/hs/HsList";
+import {HsReservation} from "./page/hs/HsReservation";
 
 
 const routes = createBrowserRouter(
@@ -67,8 +70,10 @@ const routes = createBrowserRouter(
         <Route path="func/:func" element={<DrugFuncList />} />
       </Route>
       <Route path="hospital" element={<Hs />}>
-        <Route path="hospitalAdd" element={<HsAdd />} />
-        <Route path="hospitalEdit/:id" element={<HsEdit />} />
+          <Route path="hospitalList" element={<HsList/>}/>
+          <Route path="hospitalAdd" element={<HsAdd/>}/>
+          <Route path="hospitalEdit/:id" element={<HsEdit/>}/>
+          <Route path="hospitalReservation/:id" element={<HsReservation/>}/>
       </Route>
       <Route path="member" element={<Member />}>
           <Route path="signup" element={<MemberSignup/>}/>
