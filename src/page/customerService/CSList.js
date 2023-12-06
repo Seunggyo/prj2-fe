@@ -151,6 +151,9 @@ export function CSList() {
     if (orderByNum === false) {
       urlSearchParams.set("n", true);
       nextOrderByNum = true;
+    } else if (orderByNum === true) {
+      urlSearchParams.delete("n");
+      nextOrderByNum = null;
     } else {
       urlSearchParams.set("n", false);
       nextOrderByNum = false;
@@ -167,6 +170,9 @@ export function CSList() {
     if (orderByHit === false) {
       urlSearchParams.set("h", true);
       nextOrderByHit = true;
+    } else if (orderByNum === true) {
+      urlSearchParams.delete("h");
+      nextOrderByHit = null;
     } else {
       urlSearchParams.set("h", false);
       nextOrderByHit = false;
