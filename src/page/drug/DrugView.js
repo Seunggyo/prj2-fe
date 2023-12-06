@@ -124,6 +124,10 @@ export function DrugView() {
       .finally(() => onClose);
   }
 
+  function handleBuy() {
+    navigate("/drug/buy");
+  }
+
   return (
     <Box marginLeft="256px">
       <h1>{drug.id}영양제 보기</h1>
@@ -172,7 +176,9 @@ export function DrugView() {
       {/*장바구니*/}
       <Flex>
         <CartContainer cart={cart} onClick={handleCart} />
-        <Button colorScheme="pink">구매하기</Button>
+        <Button colorScheme="pink" onClick={handleBuy}>
+          주문하기
+        </Button>
       </Flex>
       {isAdmin() && (
         <>
