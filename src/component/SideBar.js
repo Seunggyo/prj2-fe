@@ -6,11 +6,32 @@ import {
   faSquarePlus,
 } from "@fortawesome/free-regular-svg-icons";
 import { faCapsules } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
 
 export function SideBar() {
   const navigate = useNavigate();
 
   return (
+    // <div>
+    //   <Flex direction="column" align="start" width="150px" height="300px">
+    //     <Button width="100%" bgColor="red.100" onClick={() => navigate("/")}>
+    //       <FontAwesomeIcon icon={faHospital} />
+    //     </Button>
+    //
+    //     <Button width="100%" bgColor="red.200" onClick={() => navigate("map")}>
+    //       병원
+    //     </Button>
+    //
+    //     <Button
+    //       width="100%"
+    //       bgColor="red.300"
+    //       onClick={() => navigate("/drug")}
+    //     >
+    //       영양제
+    //     </Button>
+    //   </Flex>
+    // </div>
+
     <div className="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 bg-white h-full text-gray-600 transition-all duration-300 border-none z-10 sidebar">
       <div className="fixed flex flex-col top-15 left-0 w-64 bg-white h-full border-r">
         <div className="overflow-y-auto overflow-x-hidden flex-grow">
@@ -129,35 +150,36 @@ export function SideBar() {
             {/*    </span>*/}
             {/*  </a>*/}
             {/*</li>*/}
-            {/*<li>*/}
-            {/*  <a*/}
-            {/*    href="#"*/}
-            {/*    className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"*/}
-            {/*  >*/}
-            {/*    <span className="inline-flex justify-center items-center ml-4">*/}
-            {/*      <svg*/}
-            {/*        className="w-5 h-5"*/}
-            {/*        fill="none"*/}
-            {/*        stroke="currentColor"*/}
-            {/*        viewBox="0 0 24 24"*/}
-            {/*        xmlns="http://www.w3.org/2000/svg"*/}
-            {/*      >*/}
-            {/*        <path*/}
-            {/*          stroke-linecap="round"*/}
-            {/*          stroke-linejoin="round"*/}
-            {/*          stroke-width="2"*/}
-            {/*          d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"*/}
-            {/*        ></path>*/}
-            {/*      </svg>*/}
-            {/*    </span>*/}
-            {/*    <span className="ml-2 text-sm tracking-wide truncate">*/}
-            {/*      Clients*/}
-            {/*    </span>*/}
-            {/*    <span className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-500 bg-green-50 rounded-full">*/}
-            {/*      15*/}
-            {/*    </span>*/}
-            {/*  </a>*/}
-            {/*</li>*/}
+            <li>
+              <a
+                href="#"
+                className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
+              >
+                <span className="inline-flex justify-center items-center ml-4">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                    ></path>
+                  </svg>
+                </span>
+                <span className="ml-2 text-sm tracking-wide truncate">
+                  Clients
+                </span>
+                <span className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-500 bg-green-50 rounded-full">
+                  15
+                </span>
+              </a>
+            </li>
+
             <li className="px-5">
               <div className="flex flex-row items-center h-8">
                 <div className="text-sm font-light tracking-wide text-gray-500">
