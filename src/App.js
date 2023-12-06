@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { HomeLayout } from "./layout/HomeLayout";
 import React from "react";
-import { Hs } from "./page/hs/Hs";
+
 import DsWrite from "./page/ds/DsWrite";
 import { DsList } from "./page/ds/DsList";
 import DsView from "./page/ds/DsView";
@@ -58,7 +58,7 @@ const routes = createBrowserRouter(
         <Route path="write" element={<DrugWrite />} />
         <Route path="drugList" element={<DrugList />} />
         <Route path=":id" element={<DrugView />} />
-        <Route path="edit:id" element={<DrugEdit />} />
+        <Route path="edit/:id" element={<DrugEdit />} />
       </Route>
       <Route path="hospital" element={<Hs />}>
         <Route path="hospitalAdd" element={<HsAdd />} />
