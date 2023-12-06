@@ -1,130 +1,189 @@
-import React, { useState } from "react";
-import { Button, Flex, Select, useToast } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import {
+  Box,
+  Button,
+  Flex,
+  Input,
+  Spinner,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 
-export function QA_List() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [boardType, setBoardType] = useState("병원");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const toast = useToast();
+function PageButton({ variant, pageNumber, children }) {
+  const [params] = useSearchParams();
   const navigate = useNavigate();
 
-  function handleSubmit() {
-    setIsSubmitting(true);
-    axios
-      .post("/api/board/add", {
-        title,
-        content,
-        category: boardType,
-      })
-      .then(() => {
-        toast({
-          description: "새 글이 저장되었습니다.",
-          status: "success",
-        });
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error.response.status);
-        if (error.response.status === 400) {
-          toast({
-            description: "작성한 내용을 확인해주세요.",
-            status: "error",
-          });
-        } else {
-          toast({
-            description: "저장 중에 문제가 발생하였습니다.",
-            status: "error",
-          });
-        }
-      })
-      .finally(() => setIsSubmitting(false));
+  function handleClick() {
+    params.set("p", pageNumber);
+    navigate("/cs/qa/?" + params);
   }
 
   return (
-    <div>
-      <form>
-        <div className="bg-orange-50 min-h-screen rounded-xl md:px-20 pt-2">
-          <div className=" bg-white rounded-xl px-6 py-24 max-w-4xl mx-auto">
-            <h1 className="text-center text-6xl font-dongle text-gray-500 mb-10">
-              원하시는 질문을 적어주세요!
-            </h1>
-            <div className="space-y-4">
-              <div>
-                <span className="font-dongle text-4xl text-gray-500">
-                  제 목:
-                </span>
-                <input
-                  type="text"
-                  id="title"
-                  placeholder="Title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="ml-2 outline-none py-1 p-2 w-3/5 text-md border-2 rounded-md"
-                />
-              </div>
-              <div>
-                <textarea
-                  id="description"
-                  cols="30"
-                  rows="10"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  className="w-full p-4 text-gray-  600 bg-orange-50 outline-none rounded-md"
-                ></textarea>
-              </div>
-              <div className="flex space-x-24">
-                <div>
-                  <Flex>
-                    <span className="font-dongle text-4xl text-gray-500">
-                      게시판:
-                    </span>
-                    <Flex ml="4">
-                      <Select
-                        defaultValue={"병원"}
-                        onChange={(e) => {
-                          setBoardType(e.target.value);
-                        }}
-                      >
-                        {/*TODO: 게시판유형 더 추가해야함..?*/}
+    <Button variant={variant} onClick={handleClick}>
+      {children}
+    </Button>
+  );
+}
 
-                        <option value={"병원"}>병원</option>
-                        <option value={"약국"}>약국</option>
-                        <option value={"쇼핑몰"}>쇼핑몰</option>
-                      </Select>
-                    </Flex>
-                  </Flex>
-                </div>
-              </div>
-              <div>
-                <span className="font-dongle text-4xl text-gray-500">
-                  첨부파일
-                </span>
-                <input
-                  className="block w-4/5 text-sm text-gray-900 border
-                  border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                  id="file_input"
-                  type="file"
+function Pagination({ pageInfo }) {
+  const pageNumbers = [];
 
-                  // TODO: 멀티파일업로드 키밸류 추가해야댐.
-                />
-              </div>
+  const navigate = useNavigate();
+
+  for (let i = pageInfo.startPageNumber; i <= pageInfo.endPageNumber; i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <Box>
+      {pageInfo.prevPageNumber && (
+        <button
+          pageNumber={pageInfo.prevPageNumber}
+          className="items-center px-6 py-2 text-lg bg-gradient-to-r from-violet-300
+          to-indigo-300 border border-fuchsia-100 hover:border-violet-100 text-white
+          font-semibold cursor-pointer leading-5 rounded-md transition duration-150
+          ease-in-out focus:outline-none focus:shadow-outline-blue
+          focus:border-blue-300 focus:z-10"
+        >
+          이 전
+        </button>
+      )}
+
+      {pageNumbers.map((pageNumber) => (
+        <PageButton
+          key={pageNumber}
+          variant={
+            pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
+          }
+          pageNumber={pageNumber}
+          className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
+        >
+          {pageNumber}
+        </PageButton>
+      ))}
+
+      {pageInfo.nextPageNumber && (
+        <button
+          pageNumber={pageInfo.nextPageNumber}
+          className="relative inline-flex items-center px-6 py-2 text-lg bg-gradient-to-r
+            from-violet-300 to-indigo-300 border border-fuchsia-100 hover:border-violet-100
+            text-white font-semibold cursor-pointer leading-5 rounded-md transition
+            duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue
+            focus:border-blue-300 focus:z-10"
+        >
+          다 음
+        </button>
+      )}
+    </Box>
+  );
+}
+
+function SearchComponent() {
+  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
+
+  function handleSearch() {
+    // /?k=keyword
+    const params = new URLSearchParams();
+    params.set("k", keyword);
+
+    navigate("/cs/qa/?" + params);
+  }
+  return (
+    <Flex>
+      <Input
+        w="300px"
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
+      />
+      <Button onClick={handleSearch}>검색</Button>
+    </Flex>
+  );
+}
+
+export function QA_List() {
+  const [qa_List, setQa_List] = useState(null);
+  const [pageInfo, setPageInfo] = useState(null);
+
+  const navigate = useNavigate();
+  const [params, setParams] = useSearchParams();
+  const location = useLocation();
+
+  console.log(params);
+
+  useEffect(() => {
+    axios.get("/api/qa/qaList?" + params).then((r) => {
+      setQa_List(r.data.qa_List);
+      setPageInfo(r.data.pageInfo);
+    });
+  }, [location]);
+
+  console.log("111");
+
+  if (qa_List == null) {
+    return <Spinner />;
+  }
+
+  return (
+    <Box>
+      <Flex>
+        <Box p={8} bg="orange.100">
+          <Box bg="white" borderRadius="xl" boxShadow="lg" p={6}>
+            <Flex justify="space-between" align="center">
               <Button
-                isDisabled={isSubmitting}
-                onClick={handleSubmit}
-                class=" px-8 py-2 mx-auto block rounded-md font-dongle text-3xl
-                text-indigo-100 bg-indigo-600"
+                variant="solid"
+                colorScheme="green"
+                onClick={() => navigate("/cs/qa_Write")}
               >
-                작성 완료
+                글 쓰 기
               </Button>
-              <Button onClick={() => navigate(-1)}>취소</Button>
+
+              <Flex>
+                <SearchComponent />
+              </Flex>
+            </Flex>
+            <Table mt={8} variant="simple">
+              <Thead>
+                <Tr>
+                  <Th>번호</Th>
+                  <Th>제목</Th>
+                  <Th>작성자</Th>
+                  <Th>작성일</Th>
+                  <Th>수정 / 삭제</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {qa_List.map((qa) => (
+                  <Tr
+                    _hover={{
+                      cursor: "pointer",
+                    }}
+                    key={qa.qa_Id}
+                    onClick={() => navigate("/cs/" + qa.qa_Id)}
+                  >
+                    <Td>{qa.qa_Id}</Td>
+                    <Td>{qa.qa_Title}</Td>
+                    <Td>{qa.qa_Writer}</Td>
+                    <Td>{qa.inserted}</Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+
+            <div class="flex justify-center p-6">
+              <nav class="flex space- x-2" aria-label="Pagination">
+                <Pagination pageInfo={pageInfo} />
+              </nav>
             </div>
-          </div>
-        </div>
-      </form>
-    </div>
+          </Box>
+        </Box>
+      </Flex>
+    </Box>
   );
 }

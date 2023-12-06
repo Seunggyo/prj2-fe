@@ -13,9 +13,6 @@ export function HomeLayout() {
       </Box>
       <div>
         <Box>
-          <SideBarExp />
-        </Box>
-        <Box>
           <SideBar />
         </Box>
         <Box ml="250px">
