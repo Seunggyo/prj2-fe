@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -65,6 +66,7 @@ export function Cart() {
         <Thead>
           <Tr>
             <Th>상품 번호</Th>
+            <Th>사진</Th>
             <Th>상품 이름</Th>
             <Th>상품 갯수</Th>
             <Th>상품 금액</Th>
@@ -74,6 +76,9 @@ export function Cart() {
           {cartList.map((cart) => (
             <Tr key={cart.id}>
               <Td>{cart.id}</Td>
+              <Td>
+                <Image w={"50px"} src={cart.url} alt={cart.url} />
+              </Td>
               <Td>{cart.drugName}</Td>
               <Td>{cart.quantity}</Td>
               <Td>{cart.total}</Td>
