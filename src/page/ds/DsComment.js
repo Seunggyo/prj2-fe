@@ -25,7 +25,7 @@ import { LoginContext } from "../../component/LoginProvider";
 import axios from "axios";
 import { DeleteIcon, EditIcon, NotAllowedIcon } from "@chakra-ui/icons";
 
-function CommentForm({ businessId, isSubmitting, onSubmit }) {
+function CommentForm({ businessId, isSubmitting, onSubmit, memberId }) {
   const [comment, setComment] = useState("");
 
   function handleSubmit() {
@@ -167,7 +167,7 @@ function CommentList({
   );
 }
 
-export function DsComment({ businessId }) {
+export function DsComment({ businessId, memberId }) {
   const { isAuthenticated } = useContext(LoginContext);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -183,11 +183,19 @@ export function DsComment({ businessId }) {
   useEffect(() => {
     if (!isSubmitting) {
       const params = new URLSearchParams();
+      const params1 = new URLSearchParams();
       params.set("id", businessId);
+      params1.set("name", memberId);
 
-      axios
-        .get("/api/ds/comment/list?" + params)
-        .then((response) => setCommentList(response.data));
+      if (isNaN(businessId)) {
+        axios
+          .get("/api/ds/comment/listName?" + params1)
+          .then((response) => setCommentList(response.data));
+      } else {
+        axios
+          .get("/api/ds/comment/list?" + params)
+          .then((response) => setCommentList(response.data));
+      }
     }
   }, [isSubmitting]);
 
@@ -253,6 +261,7 @@ export function DsComment({ businessId }) {
       {isAuthenticated() && (
         <CommentForm
           businessId={businessId}
+          memberId={memberId}
           isSubmitting={isSubmitting}
           onSubmit={handleOnSubmit}
         />

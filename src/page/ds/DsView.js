@@ -22,7 +22,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fullHeart } from "@fortawesome/free-regular-svg-icons";
@@ -59,7 +59,7 @@ function LikeContainer({ like, onClick }) {
 export function DsView() {
   const navigate = useNavigate();
   const toast = useToast();
-  const { id } = useParams();
+  const { id, name } = useParams();
 
   const { hasAccess, isAdmin } = useContext(LoginContext);
 
@@ -69,13 +69,23 @@ export function DsView() {
   const [like, setLike] = useState("");
 
   useEffect(() => {
-    axios.get("/api/ds/id/" + id).then((response) => setDs(response.data));
+    if (isNaN(id)) {
+      axios.get("/api/ds/name/" + id).then((response) => setDs(response.data));
+    } else {
+      axios.get("/api/ds/id/" + id).then((response) => setDs(response.data));
+    }
   }, []);
 
   useEffect(() => {
-    axios
-      .get("/api/business/like/dsId/" + id)
-      .then((response) => setLike(response.data));
+    if (isNaN(id)) {
+      axios
+        .get("/api/business/like/dsName/" + id)
+        .then((response) => setDs(response.data));
+    } else {
+      axios
+        .get("/api/business/like/dsId/" + id)
+        .then((response) => setLike(response.data));
+    }
   }, []);
 
   if (ds === null) {
@@ -218,7 +228,7 @@ export function DsView() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <DsComment businessId={id} />
+      <DsComment businessId={id} memberId={name} />
     </Box>
   );
 }

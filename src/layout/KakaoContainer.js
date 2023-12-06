@@ -3,6 +3,7 @@ import "../kakaomap.css";
 import { MapMarker, Map, MapTypeId, Roadview } from "react-kakao-maps-sdk";
 import { Box, Input, VStack, Text } from "@chakra-ui/react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
   const [markers, setMarkers] = useState([]);
@@ -14,6 +15,7 @@ const MainPage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const mapRef = useRef();
   const roadviewRef = useRef();
+  const navigate = useNavigate();
 
   const [ds, setDs] = useState(null);
 
@@ -45,15 +47,18 @@ const MainPage = () => {
   };
   const handleListItemClick = (index) => {
     const selected = markers[index];
+    console.log(markers);
+    console.log(selected);
     // 선택된 마커 정보를 업데이트합니다.
     setSelectedMarker(index);
     // 선택된 마커 위치로 지도 중심을 이동합니다.
-    map.setCenter(
-      new window.kakao.maps.LatLng(
-        selected.position.lat,
-        selected.position.lng,
-      ),
-    );
+    navigate(`/ds/view/${selected.content}`);
+    // map.setCenter(
+    //   new window.kakao.maps.LatLng(
+    //     selected.position.lat,
+    //     selected.position.lng,
+    //   ),
+    // );
   };
 
   // 장소 리스트의 표시 상태를 관리하는 상태 변수
@@ -131,6 +136,7 @@ const MainPage = () => {
       map.relayout();
     }
   }, [isVisible, center, mapRef, roadviewRef]);
+
   return (
     <Box>
       <div>
@@ -168,23 +174,20 @@ const MainPage = () => {
           bg="black"
           color="white"
         >
-          {/*{markers.map((marker, index) => (*/}
-          {/*  <Box*/}
-          {/*    key={index}*/}
-          {/*    p={4}*/}
-          {/*    border="1px solid #ddd"*/}
-          {/*    borderRadius="md"*/}
-          {/*    mb={2}*/}
-          {/*    _hover={{ bg: "gray.100" }}*/}
-          {/*    cursor="pointer"*/}
-          {/*    onClick={() => handleListItemClick(index)}*/}
-          {/*  >*/}
-          {/*    <Text fontSize="lg">{ds.name}</Text>*/}
-          {/*  </Box>*/}
-          {/*))}*/}
-          {/*{ds.map((ds.name, index) =>)(*/}
-          {/*  <Box*/}
-          {/*  )}*/}
+          {markers.map((marker, index) => (
+            <Box
+              key={index}
+              p={4}
+              border="1px solid #ddd"
+              borderRadius="md"
+              mb={2}
+              _hover={{ bg: "gray.100" }}
+              cursor="pointer"
+              onClick={() => handleListItemClick(index)}
+            >
+              <Text fontSize="lg">{marker.content}</Text>
+            </Box>
+          ))}
         </VStack>
 
         <div
