@@ -148,6 +148,7 @@ export function CSList() {
     const urlSearchParams = new URLSearchParams(params.toString());
     let nextOrderByNum = null;
 
+    urlSearchParams.delete("h");
     if (orderByNum === false) {
       urlSearchParams.set("n", true);
       nextOrderByNum = true;
@@ -167,6 +168,7 @@ export function CSList() {
     const urlSearchParams = new URLSearchParams(params.toString());
     let nextOrderByHit = null;
 
+    urlSearchParams.delete("n");
     if (orderByHit === false) {
       urlSearchParams.set("h", true);
       nextOrderByHit = true;
