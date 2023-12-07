@@ -6,6 +6,14 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -21,6 +29,7 @@ export function NavBar() {
     useContext(LoginContext);
 
   const urlParams = new URLSearchParams();
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   const location = useLocation();
 
@@ -42,7 +51,7 @@ export function NavBar() {
         });
         navigate("/");
       })
-      .finally(() => fetchLogin());
+      .finally(() => onClose());
   }
 
   return (
@@ -58,14 +67,6 @@ export function NavBar() {
             </button>
           </div>
           <nav class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row">
-            {isAuthenticated() || (
-              <button
-                className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                onClick={() => navigate("/member/login")}
-              >
-                로그인
-              </button>
-            )}
             <button
               className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
               onClick={() => navigate("/member/signup")}
@@ -85,12 +86,12 @@ export function NavBar() {
               고객센터
             </button>
 
-            {isAuthenticated() && (
+            {isAuthenticated() || (
               <button
                 className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                onClick={() => navigate("/member?" + urlParams)}
+                onClick={() => navigate("/member/login")}
               >
-                회원정보
+                로그인
               </button>
             )}
             {authCheck() === "admin" && (
@@ -103,108 +104,30 @@ export function NavBar() {
             )}
             {isAuthenticated() && (
               <button
+                onClick={onOpen}
                 className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                onClick={handleLogout}
               >
                 로그아웃
               </button>
             )}
+            {/*수정 모달*/}
+            <Modal isOpen={isOpen} onClose={onClose}>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>로그아웃 확인</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>로그아웃 하시겠습니까?</ModalBody>
+                <ModalFooter>
+                  <Button onClick={onClose}>취소</Button>
+                  <Button onClick={handleLogout} colorScheme="blue">
+                    확인
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
           </nav>
-
-          <Menu>
-            <MenuButton
-              as={Button}
-              rightIcon={<ChevronDownIcon />}
-              colorScheme="teal"
-              variant="link"
-              className="px-4 py-2 mt-2 text-xl font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-            >
-              메뉴
-            </MenuButton>
-            <MenuList>
-              <MenuItem>
-                {" "}
-                <a
-                  className="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                  href="#"
-                >
-                  영양제쇼핑몰
-                </a>
-              </MenuItem>
-              <MenuItem>
-                {" "}
-                <a
-                  className="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                  href="#"
-                >
-                  공 백
-                </a>
-              </MenuItem>
-              <MenuItem>
-                {" "}
-                <a
-                  className="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                  href="#"
-                >
-                  공 백
-                </a>
-              </MenuItem>
-            </MenuList>
-          </Menu>
         </div>
       </div>
     </Box>
   );
-}
-
-{
-  /*// <div>*/
-}
-{
-  /*//   <Flex direction="column" align="start" width="150px" height="300px">*/
-}
-{
-  /*//     <Button width="100%" bgColor="red.100" onClick={() => navigate("/")}>*/
-}
-{
-  /*//       <FontAwesomeIcon icon={faHospital} />*/
-}
-{
-  /*//     </Button>*/
-}
-{
-  /*//     <Button width="100%" bgColor="red.200" onClick={() => navigate("map")}>*/
-}
-{
-  /*//       병원*/
-}
-{
-  /*//     </Button>*/
-}
-{
-  /*//     <Button*/
-}
-{
-  /*//         width="100%"*/
-}
-{
-  /*//         bgColor="red.300"*/
-}
-{
-  /*//         onClick={() => navigate("/drug")}*/
-}
-{
-  /*//     >*/
-}
-{
-  /*//       영양제*/
-}
-{
-  /*//     </Button>*/
-}
-{
-  /*//   </Flex>*/
-}
-{
-  /*// </div>*/
 }

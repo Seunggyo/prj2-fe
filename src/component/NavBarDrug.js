@@ -1,8 +1,8 @@
 import { Box, Button, Flex, Select, Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { SideBar } from "./SideBar";
 import React, { useContext } from "react";
 import { LoginContext } from "./LoginProvider";
+import { SideBar } from "./SideBar";
 
 export function NavBarDrug() {
   const navigate = useNavigate();
