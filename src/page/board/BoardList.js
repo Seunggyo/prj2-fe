@@ -45,8 +45,6 @@ function PageButton({ variant, pageNumber, children }) {
 function Pagination({ pageInfo }) {
   const pageNumbers = [];
 
-  const navigate = useNavigate();
-
   for (let i = pageInfo.startPageNumber; i <= pageInfo.endPageNumber; i++) {
     pageNumbers.push(i);
   }

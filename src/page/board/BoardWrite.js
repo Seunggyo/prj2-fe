@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Button, Flex, Select, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  FormHelperText,
+  Select,
+  useToast,
+} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -7,7 +13,7 @@ export function BoardWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [boardType, setBoardType] = useState("병원");
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toast = useToast();
@@ -20,7 +26,7 @@ export function BoardWrite() {
         title,
         content,
         category: boardType,
-        file,
+        files,
       })
       .then(() => {
         toast({
@@ -111,9 +117,12 @@ export function BoardWrite() {
                   border-gray-300 rounded-lg cursor-pointer bg-gray-50"
                   type="file"
                   accept="image/*"
-                  onChange={(e) => console.log(e.target.files[0])}
-                  // TODO: 멀티파일업로드 키밸류 추가해야댐.
+                  multiple
+                  onChange={(e) => setFiles(e.target.files)}
                 />
+                <FormHelperText>
+                  한 개의 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부해주세요.
+                </FormHelperText>
               </div>
               <Button
                 isDisabled={isSubmitting}
