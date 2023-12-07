@@ -77,17 +77,20 @@ function Pagination({ pageInfo }) {
   );
 }
 
-function SearchComponent() {
+function SearchComponent({ setDsList }) {
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("all");
   const navigate = useNavigate();
   function handleSearch() {
-    const params = new URLSearchParams();
-
-    params.set("k", keyword);
-    params.set("c", category);
-
-    navigate("/ds/list?" + params);
+    // const params = new URLSearchParams();
+    //
+    // params.set("k", keyword);
+    // params.set("c", category);
+    //
+    // navigate("/ds/list?" + params);
+    axios
+      .get("/api/ds/listByCK?k=" + keyword + "&c=" + category)
+      .then(({ data }) => setDsList(data));
   }
 
   return (
@@ -98,7 +101,13 @@ function SearchComponent() {
           <option value="name">이름</option>
           <option value="address">주소</option>
         </Select>
-        <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
+        <Input
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSearch();
+          }}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
         <Button onClick={handleSearch}>검색</Button>
       </Flex>
     </Box>
@@ -192,7 +201,7 @@ export function DsList() {
         </Box>
       </Box>
       {/*검색 창*/}
-      <SearchComponent />
+      <SearchComponent setDsList={setDsList} />
       {/*페이지 번호칸*/}
       <Box>
         <Pagination pageInfo={pageInfo} />

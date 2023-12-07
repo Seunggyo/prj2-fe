@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import "../kakaomap.css";
 import { MapMarker, Map, MapTypeId, Roadview } from "react-kakao-maps-sdk";
-import { Box, Input, VStack, Text } from "@chakra-ui/react";
+import { Box, Input, VStack, Text, Button } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
   const [markers, setMarkers] = useState([]);
+  const [businessList, setBusinessList] = useState([]);
   const [map, setMap] = useState();
   const [keyword, setKeyword] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -29,11 +30,23 @@ const MainPage = () => {
     setInputValue(event.target.value);
   };
 
+  const handleDsChange = (e) => {
+    setKeyword("%세종시%" + "%약국%");
+    setTimeout(() => setCenter({ lat: "36.500077", lng: "127.259168" }), 300);
+  };
+  const handleHsChange = (e) => {
+    setKeyword("%세종시%" + "병원");
+    setTimeout(() => setCenter({ lat: "36.500077", lng: "127.259168" }), 300);
+  };
+
   // 검색 버튼이 클릭될 때 호출될 함수입니다.
   const handleSearch = () => {
     // inputValue 상태를 사용하여 keyword 상태를 업데이트합니다.
     setKeyword(inputValue);
   };
+  // 버튼 클릭 될 시 호출될 함수
+  const handleButtonSearch = () => {};
+
   // 마커 클릭 핸들러
   const handleMarkerClick = (markerId) => {
     // 선택된 마커 ID를 업데이트합니다.
@@ -50,6 +63,8 @@ const MainPage = () => {
     // 선택된 마커 정보를 업데이트합니다.
     setSelectedMarker(index);
     // 선택된 마커 위치로 지도 중심을 이동합니다.
+
+    // 리스트 클릭스 작성한 기관 정보로 이동
     navigate(`/ds/view/${selected.content}`);
     // map.setCenter(
     //   new window.kakao.maps.LatLng(
@@ -131,11 +146,15 @@ const MainPage = () => {
     }
   }, [isVisible, center, mapRef, roadviewRef]);
 
+  console.log(markers.map((marker) => marker));
+
   return (
     <Box>
       <div>
-        <Input type="text" onChange={handleInputChange} value={inputValue} />
-        <button onClick={handleSearch}>검색</button>
+        {/*<Input type="text" onChange={handleInputChange} value={inputValue} />*/}
+        {/*<button onClick={handleSearch}>검색</button>*/}
+        <Button onClick={handleHsChange}>병원</Button>
+        <Button onClick={handleDsChange}>약국</Button>
       </div>
       <Box display="flex" position="relative">
         {/* 토글 버튼 */}
@@ -179,7 +198,9 @@ const MainPage = () => {
               cursor="pointer"
               onClick={() => handleListItemClick(index)}
             >
-              <Text fontSize="lg">{marker.content}</Text>
+              <Box>
+                <Text fontSize="lg">{marker.content}</Text>
+              </Box>
             </Box>
           ))}
         </VStack>
@@ -200,6 +221,7 @@ const MainPage = () => {
               height: "600px",
             }}
             level={4}
+            maxLevel={7}
             ref={mapRef}
             onCreate={setMap}
           >
@@ -228,6 +250,8 @@ const MainPage = () => {
               </>
             )}
             {markers.map((marker, index) => (
+              // 마커 이름을 추출하고, business 이름을 가져와서 둘이 일치하면 나오게끔 설정해야 한다
+
               <MapMarker
                 key={`${marker.position}-${index}`}
                 position={marker.position}
@@ -256,7 +280,7 @@ const MainPage = () => {
                     />
                     {/*TODO : 리스트 정보들을 content에 이식해서 넘기기*/}
                     <div style={{ padding: "5px", color: "#000" }}>
-                      {marker.content}
+                      <Text fontSize="small">{marker.content}</Text>
                     </div>
                   </div>
                 )}
