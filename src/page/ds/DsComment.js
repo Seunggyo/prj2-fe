@@ -45,8 +45,8 @@ function CommentForm({ businessId, isSubmitting, onSubmit, memberId }) {
 function CommentItem({
   DsComment,
   isSubmitting,
-  setIsSubmitting,
   onDeleteModalOpen,
+  setIsSubmitting,
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [commentEdited, setCommentEdited] = useState(DsComment.comment);
@@ -54,9 +54,10 @@ function CommentItem({
   const toast = useToast();
 
   const { hasAccess } = useContext(LoginContext);
-
+  console.log(DsComment);
   function handleCommentSubmit() {
-    // setIsSubmitting(true);
+    console.log(setIsSubmitting);
+    setIsSubmitting(true);
 
     axios
       .put("/api/ds/comment/edit", { id: DsComment.id, comment: commentEdited })
@@ -82,8 +83,7 @@ function CommentItem({
         }
       })
       .finally(() => {
-        // TODO : setIsSubmitting 오류 해결해야함
-        // setIsSubmitting(false);
+        setIsSubmitting(false);
         setIsEditing(false);
       });
   }
@@ -92,7 +92,7 @@ function CommentItem({
     <Box>
       <Flex justifyContent="space-between">
         <Heading>{DsComment.memberNickName}</Heading>
-        <Text>{DsComment.ago}</Text>
+        <Text fontSize="xs">{DsComment.ago}</Text>
       </Flex>
       <Flex>
         <Box flex={1}>
@@ -142,8 +142,8 @@ function CommentItem({
 function CommentList({
   commentList,
   isSubmitting,
-  setIsSubmitting,
   onDeleteModalOpen,
+  setIsSubmitting,
 }) {
   return (
     <Card>
@@ -167,7 +167,7 @@ function CommentList({
   );
 }
 
-export function DsComment({ businessId, memberId }) {
+export function DsComment({ businessId }) {
   const { isAuthenticated } = useContext(LoginContext);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -179,26 +179,23 @@ export function DsComment({ businessId, memberId }) {
   const commentIdRef = useRef(0);
 
   const toast = useToast();
-
+  // commentList.length === 0 ||
   useEffect(() => {
-    if (!isSubmitting) {
+    if (commentList.length === 0 || !isSubmitting) {
       const params = new URLSearchParams();
-      const params1 = new URLSearchParams();
       params.set("id", businessId);
-      params1.set("name", memberId);
 
-      if (isNaN(businessId)) {
+      if (!isNaN(businessId)) {
         axios
-          .get("/api/ds/comment/listName?" + params1)
+          .get("/api/ds/comment/list?" + params)
           .then((response) => setCommentList(response.data));
       } else {
         axios
-          .get("/api/ds/comment/list?" + params)
+          .get("/api/ds/comment/listName?" + params)
           .then((response) => setCommentList(response.data));
       }
     }
   }, [isSubmitting]);
-
   // 클릭시 해야 하는 기능들
   function handleOnSubmit(comment) {
     setIsSubmitting(true);
@@ -251,17 +248,18 @@ export function DsComment({ businessId, memberId }) {
 
   function handleDeleteModalOpen(id) {
     commentIdRef.current = id;
+    console.log(id);
     // 삭제 모달 열기
     onOpen();
   }
 
+  console.log(setIsSubmitting);
   return (
     <Box>
       {/*댓글 쓰는 부분 (create) */}
       {isAuthenticated() && (
         <CommentForm
           businessId={businessId}
-          memberId={memberId}
           isSubmitting={isSubmitting}
           onSubmit={handleOnSubmit}
         />
@@ -270,7 +268,7 @@ export function DsComment({ businessId, memberId }) {
       <CommentList
         businessId={businessId}
         isSubmitting={isSubmitting}
-        setIsSubmitiing={setIsSubmitting}
+        setIsSubmitting={setIsSubmitting}
         commentList={commentList}
         onDeleteModalOpen={handleDeleteModalOpen}
       />
