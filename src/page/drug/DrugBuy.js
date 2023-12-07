@@ -1,24 +1,17 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Card,
   CardBody,
-  CardFooter,
-  CardHeader,
-  Center,
   Divider,
   Flex,
   Heading,
   Spinner,
-  Square,
   Stack,
-  StackDivider,
   Text,
   Tr,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Radio, RadioGroup } from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
