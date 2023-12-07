@@ -20,8 +20,8 @@ const MainPage = () => {
   const [ds, setDs] = useState(null);
 
   const [center, setCenter] = useState({
-    lat: 33.450422139819736,
-    lng: 126.5709139924533,
+    lat: 36.505362,
+    lng: 127.264341,
   });
   const [isAtive, setIsAtive] = useState(false);
   const handleInputChange = (event) => {
@@ -47,8 +47,6 @@ const MainPage = () => {
   };
   const handleListItemClick = (index) => {
     const selected = markers[index];
-    console.log(markers);
-    console.log(selected);
     // 선택된 마커 정보를 업데이트합니다.
     setSelectedMarker(index);
     // 선택된 마커 위치로 지도 중심을 이동합니다.
@@ -95,10 +93,6 @@ const MainPage = () => {
   useEffect(() => {
     axios.get("/api/ds/kakao").then((response) => setDs(response.data));
   }, []);
-
-  console.log(markers.map((marker) => marker));
-  console.log(markers.map((index) => index));
-  console.log(markers.map((array) => array));
 
   useEffect(() => {
     if (!map) return;
