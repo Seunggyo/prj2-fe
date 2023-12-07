@@ -54,9 +54,7 @@ function CommentItem({
   const toast = useToast();
 
   const { hasAccess } = useContext(LoginContext);
-  console.log(DsComment);
   function handleCommentSubmit() {
-    console.log(setIsSubmitting);
     setIsSubmitting(true);
 
     axios
@@ -248,12 +246,10 @@ export function DsComment({ businessId }) {
 
   function handleDeleteModalOpen(id) {
     commentIdRef.current = id;
-    console.log(id);
     // 삭제 모달 열기
     onOpen();
   }
 
-  console.log(setIsSubmitting);
   return (
     <Box>
       {/*댓글 쓰는 부분 (create) */}
