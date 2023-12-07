@@ -4,6 +4,7 @@ import axios from "axios";
 import {
   Box,
   Button,
+  ButtonGroup,
   Flex,
   Input,
   Select,
@@ -15,6 +16,8 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 function PageButton({ variant, pageNumber, children }) {
   const [params] = useSearchParams();
@@ -22,7 +25,7 @@ function PageButton({ variant, pageNumber, children }) {
 
   function handleClick() {
     params.set("p", pageNumber);
-    navigate("/cs/qa/?" + params);
+    navigate("/cs/qaList/?" + params);
   }
 
   return (
@@ -111,7 +114,7 @@ function SearchComponent() {
 export function QAList() {
   const [qaList, setQaList] = useState(null);
   const [pageInfo, setPageInfo] = useState(null);
-  const [categoryFilter, setCategoryFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("건의사항");
 
   const navigate = useNavigate();
 
@@ -127,6 +130,16 @@ export function QAList() {
 
   if (qaList == null) {
     return <Spinner />;
+  }
+
+  function handleRowClick(id) {
+    axios
+      .put("/api/qa/" + id)
+      .then((r) => console.log("good"))
+      .catch((error) => {
+        console.error("bad");
+      });
+    navigate("/cs/qaList/" + id);
   }
 
   function handleCategoryChange(e) {
@@ -151,50 +164,44 @@ export function QAList() {
                 <Select
                   mr={4}
                   placeholder="카테고리 선택"
-                  defaultvalue={""}
+                  defaultvalue={"건의사항"}
                   onChange={handleCategoryChange}
                 >
-                  <option value="">전체</option>
                   <option value={"건의사항"}>건의사항</option>
-                  <option value={"개인정보관련"}>개인정보관련</option>
                   <option value={"이벤트관련"}>이벤트관련</option>
-                  <option value={"기타"}>기 타</option>
+                  <option value={"물품관련"}>물품관련</option>
+                  <option value={"기타"}>기타</option>
                 </Select>
                 <SearchComponent />
               </Flex>
             </Flex>
             <Table mt={8} variant="simple">
-              <Thead>
+              <Thead className="bg-red-100 min-h-screen">
                 <Tr>
                   <Th>번호</Th>
+                  <Th>카테고리</Th>
                   <Th>제목</Th>
                   <Th>작성자</Th>
-                  <Th>작성일</Th>
                   <Th>수정 / 삭제</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {qaList
-                  .filter(
-                    (item) =>
-                      categoryFilter === "" ||
-                      item.csCategory === categoryFilter,
-                  )
-                  .map((qa) => (
-                    <Tr
-                      _hover={{
-                        cursor: "pointer",
-                      }}
-                      key={qa.id}
-                      onClick={() => navigate("/cs/qa/" + qa.id)}
-                    >
-                      <Td>{qa.id}</Td>
-                      <Td>{qa.qaCategory}</Td>
-                      <Td>{qa.qaTitle}</Td>
-                      <Td>{qa.qaWriter}</Td>
-                      <Td>{qa.inserted}</Td>
-                    </Tr>
-                  ))}
+                {qaList.map((qa) => (
+                  <Tr
+                    _hover={{
+                      bg: "gray.200",
+                      cursor: "pointer",
+                    }}
+                    key={qa.id}
+                    onClick={() => handleRowClick(qa.id)}
+                  >
+                    <Td>{qa.id}</Td>
+                    <Td>{qa.qaCategory}</Td>
+                    <Td>{qa.qaTitle}</Td>
+                    <Td>{qa.qaWriter}</Td>
+                    <Td>{qa.inserted}</Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
 

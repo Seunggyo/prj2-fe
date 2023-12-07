@@ -36,7 +36,7 @@ export function CS_SideBar() {
           borderColor="white"
           cursor="pointer"
           p={2}
-          onClick={() => useNavigate("")}
+          onClick={() => navigate("/cs/csList")}
         >
           자주하는 질문
         </Text>

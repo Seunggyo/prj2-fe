@@ -97,7 +97,7 @@ function SearchComponent() {
     const params = new URLSearchParams();
     params.set("k", keyword);
 
-    navigate("/cs/csList?" + params);
+    navigate("/cs/csList/?" + params);
   }
   return (
     <Flex>
@@ -141,7 +141,7 @@ export function CSList() {
       .catch((error) => {
         console.error("bad");
       });
-    navigate("/cs/csList" + id);
+    navigate("/cs/csList/" + id);
   }
 
   function sortNum() {
@@ -194,18 +194,13 @@ export function CSList() {
         <Box p={8} bg="orange.100">
           <Box bg="white" borderRadius="xl" boxShadow="lg" p={6}>
             <Flex justify="space-between" align="center">
-              <ButtonGroup>
-                <Button variant="solid" colorScheme="blue">
-                  인기 글
-                </Button>
-                <Button
-                  variant="solid"
-                  colorScheme="green"
-                  onClick={() => navigate("/cs/csWrite")}
-                >
-                  글 쓰 기
-                </Button>
-              </ButtonGroup>
+              <Button
+                variant="solid"
+                colorScheme="green"
+                onClick={() => navigate("/cs/csWrite")}
+              >
+                글 쓰 기
+              </Button>
 
               <Flex>
                 <Select
@@ -225,7 +220,7 @@ export function CSList() {
               </Flex>
             </Flex>
             <Table mt={8} variant="simple">
-              <Thead>
+              <Thead className="bg-indigo-50 min-h-screen">
                 <Tr>
                   <Th onClick={sortNum} style={{ cursor: "pointer" }}>
                     번호

@@ -48,6 +48,8 @@ import KakaoContainer from "./layout/KakaoContainer";
 import { Hs } from "./Hs";
 import { HsList } from "./page/hs/HsList";
 import { HsReservation } from "./page/hs/HsReservation";
+import { QAView } from "./page/customerService/QA/QAView";
+import { QAEdit } from "./page/customerService/QA/QAEdit";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -91,12 +93,14 @@ const routes = createBrowserRouter(
         <Route path="edit/:id" element={<BoardEdit />}></Route>
       </Route>
       <Route path="cs" element={<CS />}>
-        <Route path="cslist" element={<CSList />} />
+        <Route path="csList" element={<CSList />} />
         <Route path="csWrite" element={<CSWrite />}></Route>
-        <Route path=":id" element={<CSView />}></Route>
+        <Route path="csList/:id" element={<CSView />}></Route>
         <Route path="csEdit/:id" element={<CSEdit />}></Route>
         <Route path="qaList" element={<QAList />}></Route>
         <Route path="qaWrite" element={<QAWrite />}></Route>
+        <Route path="qaList/:id" element={<QAView />}></Route>
+        <Route path="qaEdit/:id" element={<QAEdit />}></Route>
       </Route>
     </Route>,
   ),

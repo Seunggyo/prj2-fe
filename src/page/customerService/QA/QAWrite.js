@@ -1,11 +1,13 @@
-import { Button, useToast } from "@chakra-ui/react";
+import { Button, Flex, Select, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export function QAWrite() {
-  const [qa_Title, setQa_Title] = useState("");
-  const [qa_Content, setQa_Content] = useState("");
+  const [qaTitle, setQaTitle] = useState("");
+  const [qaContent, setQaContent] = useState("");
+  const [qaCategory, setQaCategory] = useState("건의사항");
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toast = useToast();
@@ -15,15 +17,16 @@ export function QAWrite() {
     setIsSubmitting(true);
     axios
       .post("/api/qa/add", {
-        title: qa_Title,
-        content: qa_Content,
+        qaTitle,
+        qaContent,
+        qaCategory: qaCategory,
       })
       .then(() => {
         toast({
           description: "새 글이 저장되었습니다.",
           status: "success",
         });
-        navigate("/cs/qa");
+        navigate("/cs/qaList");
       })
       .catch((error) => {
         console.log(error.response.status);
@@ -54,36 +57,51 @@ export function QAWrite() {
               <span className="font-dongle text-4xl text-gray-500">제 목:</span>
               <input
                 type="text"
-                id="title"
                 placeholder="Title"
-                value={qa_Title}
-                onChange={(e) => setQa_Title(e.target.value)}
+                value={qaTitle}
+                onChange={(e) => setQaTitle(e.target.value)}
                 className="ml-2 outline-none py-1 p-2 w-3/5 text-md border-2 rounded-md"
               />
             </div>
             <div>
               <textarea
-                id="description"
                 cols="30"
                 rows="10"
-                value={qa_Content}
-                onChange={(e) => setQa_Content(e.target.value)}
+                value={qaContent}
+                onChange={(e) => setQaContent(e.target.value)}
                 className="w-full p-4 text-gray-  600 bg-orange-50 outline-none rounded-md"
               ></textarea>
             </div>
-            <div>
-              <span className="font-dongle text-4xl text-gray-500">
-                첨부파일
-              </span>
-              <input
-                className="block w-4/5 text-sm text-gray-900 border
-                  border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                id="file_input"
-                type="file"
 
-                // TODO: 멀티파일업로드 키밸류 추가해야댐.
-              />
+            <div>
+              <Flex ml="4">
+                <Select
+                  defaultValue={"건의사항"}
+                  onChange={(e) => {
+                    setQaCategory(e.target.value);
+                  }}
+                >
+                  <option value={"건의사항"}>건의사항</option>
+                  <option value={"이벤트관련"}>이벤트관련</option>
+                  <option value={"물품관련"}>물품관련</option>
+                  <option value={"기타"}>기타</option>
+                </Select>
+              </Flex>
             </div>
+
+            {/*<div>*/}
+            {/*  <span className="font-dongle text-4xl text-gray-500">*/}
+            {/*    첨부파일*/}
+            {/*  </span>*/}
+            {/*  <input*/}
+            {/*    className="block w-4/5 text-sm text-gray-900 border*/}
+            {/*      border-gray-300 rounded-lg cursor-pointer bg-gray-50"*/}
+            {/*    id="file_input"*/}
+            {/*    type="file"*/}
+
+            {/*    // TODO: 멀티파일업로드 키밸류 추가해야댐.*/}
+            {/*  />*/}
+            {/*</div>*/}
             <Button
               isDisabled={isSubmitting}
               onClick={handleSubmit}
