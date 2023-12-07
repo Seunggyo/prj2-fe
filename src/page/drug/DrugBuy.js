@@ -10,16 +10,30 @@ import {
   Divider,
   Flex,
   Heading,
+  Spinner,
   Square,
   Stack,
   StackDivider,
   Text,
   Tr,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Radio, RadioGroup } from "@mui/material";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 export function DrugBuy() {
+  const [buy, setBuy] = useState(null);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    axios.get("/api/drug/buy/id/" + id).then(() => setBuy(buy.data));
+  }, []);
+
+  if (buy === null) {
+    return <Spinner />;
+  }
   return (
     <Box
       marginLeft="300px"
@@ -54,10 +68,10 @@ export function DrugBuy() {
                     <Heading size="md">주문 정보</Heading>
                     {/*사진들어가야함*/}
                     <Text py="1" marginTop="10px">
-                      물건명 : 홍삼정
+                      물건명 : {buy.drugName}
                     </Text>
-                    <Text py="1">갯수 : 2개</Text>
-                    <Text py="1">금액 : 1,000,000원</Text>
+                    <Text py="1">갯수 : {buy.quantityw}</Text>
+                    <Text py="1">금액 : {buy.amount}</Text>
                   </CardBody>
                   <Divider />
                 </Card>
@@ -70,7 +84,7 @@ export function DrugBuy() {
                       김아리
                     </Text>
                     <Text py="1">010-1233-4657</Text>
-                    <Text py="1">dkxhaektha@naver.com</Text>
+                    <Text py="1">주소</Text>
                   </CardBody>
                 </Card>
 
