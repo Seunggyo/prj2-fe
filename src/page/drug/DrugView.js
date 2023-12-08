@@ -1,5 +1,4 @@
 import {
-  border,
   Box,
   Button,
   Flex,
@@ -18,6 +17,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
+  Text,
   useDisclosure,
   useNumberInput,
   useToast,
@@ -28,9 +28,8 @@ import axios from "axios";
 import { DrugComment } from "./DrugComment";
 import { LoginContext } from "../../component/LoginProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHandHoldingHeart } from "@fortawesome/free-solid-svg-icons/faHandHoldingHeart";
-import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
-import * as PropTypes from "prop-types";
+import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
 
 function CartContainer({ cart, onClick }) {
   const { getInputProps, getDecrementButtonProps, getIncrementButtonProps } =
@@ -74,7 +73,19 @@ function LikeContainer({ like, onClick }) {
   }
   return (
     <Button variant="ghost" size="xl" onClick={onClick}>
-      <FontAwesomeIcon icon={faThumbsUp} size="2xl" />
+      {/*<FontAwesomeIcon icon={faThumbsUp} size="2xl" />*/}
+
+      {like.like && (
+        <Text>
+          <FontAwesomeIcon icon={fullHeart} size="2xl" color="pink" />
+        </Text>
+      )}
+      {like.like || (
+        <Text>
+          <FontAwesomeIcon icon={emptyHeart} size="2xl" color="pink" />
+        </Text>
+      )}
+      <Text fontSize="2xl">{like.countLike}</Text>
     </Button>
   );
   e;
@@ -143,7 +154,6 @@ export function DrugView() {
         });
       })
       .catch((error) => {
-        //TODO: 로그인 안하고 누르면 로그인 페이지로 보내기
         toast({
           description: " 장바구니에 넣는 중 문제가 발생하였습니다.",
           status: "error",
