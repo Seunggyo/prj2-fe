@@ -48,13 +48,18 @@ function CartContainer({ cart, onClick }) {
 
   return (
     <Flex>
-      <HStack maxW="320px">
+      <HStack maxW="150px">
         <Button {...dec}>-</Button>
         <Input {...input} />
         <Button {...inc}>+</Button>
       </HStack>
-      <Button variant="ghost" onClick={() => onClick(input.value)}>
-        <IoIosCart size="xl" />
+      <Button
+        variant="ghost"
+        onClick={() => onClick(input.value)}
+        colorScheme="pink"
+        bg="#ffd6d1"
+      >
+        장바구니
       </Button>
     </Flex>
   );
@@ -125,7 +130,7 @@ export function DrugView() {
   }
 
   return (
-    <Box marginLeft="100px">
+    <Box marginLeft="100px" width="800px">
       <h1>{drug.id}영양제 보기</h1>
 
       <FormControl>
@@ -172,10 +177,8 @@ export function DrugView() {
       {/*장바구니*/}
       <Flex>
         <CartContainer cart={cart} onClick={handleCart} />
-        <Button colorScheme="pink" onClick={() => navigate("/drug/buy/" + id)}>
-          주문하기
-        </Button>
       </Flex>
+
       {isAdmin() && (
         <>
           <Button
