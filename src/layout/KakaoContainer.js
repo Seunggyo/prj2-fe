@@ -35,7 +35,7 @@ const MainPage = () => {
     // inputValue 상태를 사용하여 keyword 상태를 업데이트합니다.
     setKeyword(inputValue);
   };
-  function handleDsSearch(index) {
+  function handleDsSearch() {
     setKeyword("%세종시%" + "%약국%");
   }
 
@@ -159,8 +159,8 @@ const MainPage = () => {
       <div>
         {/*<Input type="text" onChange={handleInputChange} value={inputValue} />*/}
         {/*<button onClick={handleSearch}>검색</button>*/}
-        <Button onClick={handleDsSearch}>약국</Button>
-        <Button onClick={handleHsSearch}>병원</Button>
+        {/*<Button onClick={handleDsSearch}>약국</Button>*/}
+        {/*<Button onClick={handleHsSearch}>병원</Button>*/}
       </div>
       <Box display="flex" position="relative">
         {/* 토글 버튼 */}
@@ -184,7 +184,8 @@ const MainPage = () => {
         {/*</button>*/}
         {/* 장소 리스트를 보여주는 컴포넌트 */}
         <VStack
-          width={isListVisible ? "500px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
+          // width={isListVisible ? "500px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
+          width="500px"
           height="100vh"
           overflowY="auto"
           transition="width 0.5s"
@@ -215,7 +216,7 @@ const MainPage = () => {
             onClick={toggleListVisibility}
             style={{
               position: "absolute",
-              left: isListVisible ? "850px" : "500px",
+              left: isListVisible ? "500px" : "0",
               top: "400px",
               zIndex: 10,
               border: "1px solid #ccc", // 테두리 추가
@@ -229,9 +230,10 @@ const MainPage = () => {
           >
             {isListVisible ? "<" : ">"}
           </button>
+
           {/* 장소 리스트를 보여주는 컴포넌트 */}
           <Box
-            width={isListVisible ? "1050px" : "700px"} // isListVisible 상태에 따라 너비를 조정합니다.
+            width={isListVisible ? "1050px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
             height="100vh"
             overflowY="auto"
             transition="width 0.5s"
@@ -242,6 +244,8 @@ const MainPage = () => {
           >
             <ViewComponent dsId={dsId} />
           </Box>
+          <Button onClick={handleDsSearch}>약국</Button>
+          <Button onClick={handleHsSearch}>병원</Button>
           <div
             style={{
               display: "flex",

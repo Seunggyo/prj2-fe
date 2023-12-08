@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Button,
+  Center,
   Checkbox,
   Flex,
   FormControl,
@@ -70,10 +71,6 @@ export function DsView({ dsId }) {
 
   const realId = dsId || id;
 
-  console.log(realId);
-  console.log(dsId);
-  console.log(id);
-
   useEffect(() => {
     if (realId) {
       axios
@@ -125,12 +122,19 @@ export function DsView({ dsId }) {
 
   return (
     <Box>
-      {ds.files &&
-        ds.files.map((file) => (
-          <Box key={file.id} border="3px solid black" width="50%">
-            <Image width="100%" height="300px" src={file.url} alt={file.name} />
-          </Box>
-        ))}
+      <Center>
+        {ds.files &&
+          ds.files.map((file) => (
+            <Box key={file.id} border="3px solid black" width="50%">
+              <Image
+                width="100%"
+                height="300px"
+                src={file.url}
+                alt={file.name}
+              />
+            </Box>
+          ))}
+      </Center>
       <Flex>
         <Heading size="xl">{ds.name}글 보기</Heading>
         <LikeContainer like={like} onClick={handleLike} />
