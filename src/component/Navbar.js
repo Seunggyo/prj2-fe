@@ -21,7 +21,7 @@ export function NavBar() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const { fetchLogin, login, isAuthenticated, isAdmin } =
+  const { fetchLogin, login, isAuthenticated, authCheck } =
     useContext(LoginContext);
 
   const urlParams = new URLSearchParams();
@@ -49,7 +49,7 @@ export function NavBar() {
       })
       .finally(() => {
         fetchLogin();
-          onClose();
+        onClose();
       });
   }
 

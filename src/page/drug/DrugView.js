@@ -6,6 +6,7 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
+  Heading,
   HStack,
   Image,
   Input,
@@ -25,9 +26,10 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { DrugComment } from "./DrugComment";
-import { IoIosCart } from "react-icons/io";
-import * as PropTypes from "prop-types";
 import { LoginContext } from "../../component/LoginProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHandHoldingHeart } from "@fortawesome/free-solid-svg-icons/faHandHoldingHeart";
+import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 
 function CartContainer({ cart, onClick }) {
   const { getInputProps, getDecrementButtonProps, getIncrementButtonProps } =
@@ -129,12 +131,24 @@ export function DrugView() {
       .finally(() => onClose);
   }
 
+  function handleLike() {
+    axios
+      .post("/api/drug/druglike", { drugId: drug.id })
+      .then(() => console.log("잘됨"))
+      .catch(() => console.log("안됨"))
+      .finally(() => console.log("끝"));
+  }
+
   return (
     <Box marginLeft="100px" width="800px">
-      <h1>{drug.id}영양제 보기</h1>
+      <Flex justifyContent="space-between">
+        <Heading size="xl">{drug.id}번째 영양제</Heading>
+        <Button variant="ghost" size="xl" onClick={handleLike}>
+          <FontAwesomeIcon icon={faThumbsUp} size="2xl" />
+        </Button>
+      </Flex>
 
       <FormControl>
-        <FormLabel>사진</FormLabel>
         {drug.files.map((file) => (
           <Box
             key={file.id}
