@@ -70,6 +70,8 @@ export function HsEdit() {
     const toast = useToast();
     const [removeFileIds, setRemoveFileIds] = useState([]);
     const [uploadFiles, setUploadFiles] = useState(null);
+    const [holiday, setHoliday] = useState([]);
+    const [course, setCourse] = useState([]);
     const [like, setLike] = useState(null);
     const {isAuthenticated} = useContext(LoginContext);
 
@@ -173,11 +175,16 @@ export function HsEdit() {
             openMin: list.openMin,
             restHour: list.restHour,
             restMin: list.restMin,
+            restCloseHour: list.restCloseHour,
+            restCloseMin: list.restCloseMin,
             closeHour: list.closeHour,
             closeMin: list.closeMin,
             content: list.content,
+            info: list.info,
             homePage: list.homePage,
             nightCare: list.nightCare,
+            holiday,
+            course,
             uploadFiles,
             removeFileIds,
 
@@ -212,6 +219,24 @@ export function HsEdit() {
             .finally(() => console.log("done"));
     }
 
+
+    function handleCourseChange(e) {
+        updateList(r => {
+            r.medicalCourse = e.target.checked
+        })
+    }
+
+    function handleRestCloseMinChange(e) {
+        updateList(r => {
+            r.restCloseMin = e.target.value
+        })
+    }
+
+    function handleRestCloseHourChange(e) {
+        updateList(r => {
+            r.restCloseHour = e.target.value
+        })
+    }
 
     return (
         <Box>
@@ -257,13 +282,30 @@ export function HsEdit() {
                     <FormControl>
                         <FormLabel>휴게시간</FormLabel>
                         <Flex>
-                            <FormLabel>시간</FormLabel>
+                            <FormLabel>시작 시간</FormLabel>
                             <Select onChange={handleRestHourChange} w={"sm"} placeholder="시간"
                                     value={list.restHour} defaultValue={0}>
                                 {hour()}
                             </Select>
                             <FormLabel>분</FormLabel>
                             <Select defaultValue={0} onChange={handleRestMinChange} value={list.restMin}
+                                    w={"sm"}
+                                    placeholder="분">
+                                <option value={0}>00</option>
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={30}>30</option>
+                                <option value={40}>40</option>
+                                <option value={50}>50</option>
+                                <option value={60}>60</option>
+                            </Select>
+                            <FormLabel>종료시간</FormLabel>
+                            <Select onChange={handleRestCloseHourChange} w={"sm"} placeholder="시간"
+                                    value={list.restCloseHour} defaultValue={0}>
+                                {hour()}
+                            </Select>
+                            <FormLabel>분</FormLabel>
+                            <Select defaultValue={0} onChange={handleRestCloseMinChange} value={list.restCloseMin}
                                     w={"sm"}
                                     placeholder="분">
                                 <option value={0}>00</option>
@@ -307,9 +349,27 @@ export function HsEdit() {
                         <Input value={list.homePage} onChange={handleHomePageChange}/>
                     </FormControl>
                     <FormControl>
-                        <FormLabel>과목</FormLabel>
-                        <CheckboxGroup value={list.medicalCourse}>
-
+                        <FormLabel>진료과목</FormLabel>
+                        <Flex>
+                            <CheckboxGroup value={course} onChange={e => setCourse(e)}>
+                                <Checkbox value="이비인후과">이비인후과</Checkbox>
+                                <Checkbox value="내과">내과</Checkbox>
+                                <Checkbox value="외과">외과</Checkbox>
+                                <Checkbox value="치과">치과</Checkbox>
+                            </CheckboxGroup>
+                        </Flex>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>휴무일</FormLabel>
+                        <CheckboxGroup value={holiday} onChange={(e) => setHoliday(e)}>
+                            <Checkbox value="월요일">월요일</Checkbox>
+                            <Checkbox value="화요일">화요일</Checkbox>
+                            <Checkbox value="수요일">수요일</Checkbox>
+                            <Checkbox value="목요일">목요일</Checkbox>
+                            <Checkbox value="금요일">금요일</Checkbox>
+                            <Checkbox value="토요일">토요일</Checkbox>
+                            <Checkbox value="일요일">일요일</Checkbox>
+                            <Checkbox value="공휴일">공휴일</Checkbox>
                         </CheckboxGroup>
                     </FormControl>
                     {list.files?.length > 0 &&

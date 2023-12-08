@@ -28,10 +28,14 @@ export function HsAdd() {
     const [openMin, setOpenMin] = useState(0);
     const [restHour, setRestHour] = useState(0);
     const [restMin, setRestMin] = useState(0);
+    const [restCloseHour, setRestCloseHour] = useState(0);
+    const [restCloseMin, setRestCloseMin] = useState(0);
+    const [info, setInfo] = useState("");
     const [closeHour, setCloseHour] = useState(0);
     const [closeMin, setCloseMin] = useState(0);
     const [course, setCourse] = useState([]);
     const [content, setContent] = useState("");
+    const [holiday, setHoliday] = useState([]);
     const [homePage, setHomePage] = useState("");
     const [hsFiles, setHsFiles] = useState(null);
     const [nightCare, setNightCare] = useState(0);
@@ -59,10 +63,14 @@ export function HsAdd() {
             openMin,
             restHour,
             restMin,
+            restCloseHour,
+            restCloseMin,
             closeHour,
             closeMin,
             course,
             content,
+            info,
+            holiday,
             homePage,
             hsFiles,
             nightCare
@@ -109,11 +117,11 @@ export function HsAdd() {
                         <Flex>
                             <FormLabel>시간</FormLabel>
                             <Select onChange={e => setOpenHour(e.target.value)} w={"sm"} placeholder="시간"
-                                    value={openHour} defaultValue={0}>
+                                    value={openHour}>
                                 {hour()}
                             </Select>
                             <FormLabel>분</FormLabel>
-                            <Select defaultValue={0} onChange={e => setOpenMin(e.target.value)} value={openMin} w={"sm"}
+                            <Select onChange={e => setOpenMin(e.target.value)} value={openMin} w={"sm"}
                                     placeholder="분">
                                 <option value={0}>00</option>
                                 <option value={10}>10</option>
@@ -128,13 +136,30 @@ export function HsAdd() {
                     <FormControl>
                         <FormLabel>휴게시간</FormLabel>
                         <Flex>
-                            <FormLabel>시간</FormLabel>
+                            <FormLabel>시작 시간</FormLabel>
                             <Select onChange={e => setRestHour(e.target.value)} w={"sm"} placeholder="시간"
                                     value={restHour} defaultValue={0}>
                                 {hour()}
                             </Select>
-                            <FormLabel>분</FormLabel>
-                            <Select defaultValue={0} onChange={e => setRestMin(e.target.value)} value={restMin}
+                            <FormLabel> :</FormLabel>
+                            <Select onChange={e => setRestMin(e.target.value)} value={restMin}
+                                    w={"sm"}
+                                    placeholder="분">
+                                <option value={0}>00</option>
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={30}>30</option>
+                                <option value={40}>40</option>
+                                <option value={50}>50</option>
+                                <option value={60}>60</option>
+                            </Select>
+                            <FormLabel>휴게종료시간</FormLabel>
+                            <Select onChange={e => setRestCloseHour(e.target.value)} w={"sm"} placeholder="시간"
+                                    value={restCloseHour} defaultValue={0}>
+                                {hour()}
+                            </Select>
+                            <FormLabel> :</FormLabel>
+                            <Select onChange={e => setRestCloseMin(e.target.value)} value={restCloseMin}
                                     w={"sm"}
                                     placeholder="분">
                                 <option value={0}>00</option>
@@ -151,13 +176,13 @@ export function HsAdd() {
                         <FormLabel>마감시간</FormLabel>
                         <Flex>
                             <FormLabel>시간</FormLabel>
-                            <Select value={closeHour} defaultValue={0} onChange={e => setCloseHour(e.target.value)}
+                            <Select value={closeHour} onChange={e => setCloseHour(e.target.value)}
                                     w={"sm"}
                                     placeholder="시간">
                                 {hour()}
                             </Select>
                             <FormLabel>분</FormLabel>
-                            <Select value={closeMin} defaultValue={0} w={"sm"} placeholder="분"
+                            <Select value={closeMin} w={"sm"} placeholder="분"
                                     onChange={e => setCloseMin(e.target.value)}>
                                 <option value={0}>00</option>
                                 <option value={10}>10</option>
@@ -181,8 +206,26 @@ export function HsAdd() {
                         </Flex>
                     </FormControl>
                     <FormControl>
-                        <FormLabel>상세정보</FormLabel>
+                        <FormLabel>휴무일</FormLabel>
+                        <CheckboxGroup value={holiday} onChange={(e) => setHoliday(e)}>
+                            <Checkbox value="월요일">월요일</Checkbox>
+                            <Checkbox value="화요일">화요일</Checkbox>
+                            <Checkbox value="수요일">수요일</Checkbox>
+                            <Checkbox value="목요일">목요일</Checkbox>
+                            <Checkbox value="금요일">금요일</Checkbox>
+                            <Checkbox value="토요일">토요일</Checkbox>
+                            <Checkbox value="일요일">일요일</Checkbox>
+                            <Checkbox value="공휴일">공휴일</Checkbox>
+                        </CheckboxGroup>
+                    </FormControl>
+
+                    <FormControl>
+                        <FormLabel>소개</FormLabel>
                         <Textarea value={content} onChange={e => setContent(e.target.value)}/>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>정보</FormLabel>
+                        <Textarea value={info} onChange={e => setInfo(e.target.value)}/>
                     </FormControl>
                     <FormControl>
                         <FormLabel>홈페이지</FormLabel>

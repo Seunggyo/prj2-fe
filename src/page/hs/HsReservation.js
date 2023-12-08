@@ -41,7 +41,13 @@ export function HsReservation() {
 
 
     function handleDayChange(e) {
-        setDateValue(e);
+        const year = e.getFullYear();
+        const month = (e.getMonth() + 1).toString().padStart(2, "0");
+        const day = e.getDate().toString().padStart(2, "0");
+
+        const formatDate = `${year}-${month}-${day}`;
+
+        setDateValue(formatDate);
         setChangeDay(true);
 
     }
@@ -60,7 +66,9 @@ export function HsReservation() {
     }
 
     function handleReservationClick() {
-        axios.post("/api/hospital/reservation", {
+        axios.post("/api/hospital/reservation/add", {
+            businessId: id,
+            reservationDate: dateValue,
             reservationHour,
             reservationMin,
             comment
@@ -82,12 +90,17 @@ export function HsReservation() {
 
     }
 
-    console.log(dateValue.toString());
 
     const tileDisable = ({date, view}) => {
         const today = new Date();
         return date < today;
     };
+
+    function handleCommentChange(e) {
+        setComment(e.target.value);
+    }
+
+
     return (
         <Box>
             <Heading>예약하실 날짜를 선택해주세요</Heading>
@@ -104,23 +117,32 @@ export function HsReservation() {
                             <CardBody>
                                 오전
                                 <Flex>
-                                    <Button onClick={() => handleSetTimeClick(9, 0)}>9 : 00</Button>
-                                    <Button onClick={() => handleSetTimeClick(9, 30)}>9 : 30</Button>
-                                    <Button onClick={() => handleSetTimeClick(10, 0)}>10 : 00</Button>
-                                    <Button onClick={() => handleSetTimeClick(10, 30)}>10 : 30</Button>
+                                    <Button isDisabled={list.openHour > 9} onClick={() => handleSetTimeClick(9, 0)}>9 :
+                                        00</Button>
+                                    <Button isDisabled={list.openHour > 9} onClick={() => handleSetTimeClick(9, 30)}>9 :
+                                        30</Button>
+                                    <Button isDisabled={list.openHour > 10} onClick={() => handleSetTimeClick(10, 0)}>10
+                                        : 00</Button>
+                                    <Button isDisabled={list.openHour > 10} onClick={() => handleSetTimeClick(10, 30)}>10
+                                        : 30</Button>
                                 </Flex>
                                 <Divider/>
                                 <Flex>
 
-                                    <Button onClick={() => handleSetTimeClick(11, 0)}>11 : 00</Button>
-                                    <Button onClick={() => handleSetTimeClick(11, 30)}>11 : 30</Button>
-                                    <Button onClick={() => handleSetTimeClick(12, 0)}>12 : 00</Button>
-                                    <Button onClick={() => handleSetTimeClick(12, 30)}>12 : 30</Button>
+                                    <Button isDisabled={list.openHour > 11} onClick={() => handleSetTimeClick(11, 0)}>11
+                                        : 00</Button>
+                                    <Button isDisabled={list.openHour > 11} onClick={() => handleSetTimeClick(11, 30)}>11
+                                        : 30</Button>
+                                    <Button isDisabled={list.openHour > 12} onClick={() => handleSetTimeClick(12, 0)}>12
+                                        : 00</Button>
+                                    <Button isDisabled={list.openHour > 12} onClick={() => handleSetTimeClick(12, 30)}>12
+                                        : 30</Button>
                                 </Flex>
                                 <Divider/>
                                 오후
                                 <Flex>
-                                    <Button onClick={() => handleSetTimeClick(13, 0)}>1 : 00</Button>
+                                    <Button onClick={() => handleSetTimeClick(13, 0)}>1 :
+                                        00</Button>
                                     <Button onClick={() => handleSetTimeClick(13, 30)}>1 : 30</Button>
                                     <Button onClick={() => handleSetTimeClick(14, 0)}>2 : 00</Button>
                                     <Button onClick={() => handleSetTimeClick(14, 30)}>2 : 30</Button>
@@ -150,7 +172,7 @@ export function HsReservation() {
                     <Card>
                         <CardHeader>
                             예약하신
-                            시간은 {reservationHour < 12 ? "오전 " + reservationHour : "오후 " + (reservationHour - 12)}시 {reservationMin}분
+                            시간은 {reservationHour < 12 ? "오전 " + reservationHour : "오후 " + (reservationHour - 12)}시 {reservationMin === 0 ? "0" + reservationMin : reservationMin}분
                             입니다.
                         </CardHeader>
                         <CardBody>
