@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -14,8 +16,6 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import axios from "axios";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
@@ -25,7 +25,7 @@ function PageButton({ variant, pageNumber, children }) {
 
   function handleClick() {
     params.set("p", pageNumber);
-    navigate("/cs/csList?" + params);
+    navigate("/cs/qaList/?" + params);
   }
 
   return (
@@ -97,7 +97,7 @@ function SearchComponent() {
     const params = new URLSearchParams();
     params.set("k", keyword);
 
-    navigate("/cs/csList/?" + params);
+    navigate("/cs/qa/?" + params);
   }
   return (
     <Flex>
@@ -110,78 +110,36 @@ function SearchComponent() {
     </Flex>
   );
 }
-export function CSList() {
-  const [csList, setCsList] = useState(null);
+
+export function QAList() {
+  const [qaList, setQaList] = useState(null);
   const [pageInfo, setPageInfo] = useState(null);
-  const [orderByHit, setOrderByHit] = useState(null);
-  const [orderByNum, setOrderByNum] = useState(null);
-  const [categoryFilter, setCategoryFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("건의사항");
 
   const navigate = useNavigate();
+
   const [params, setParams] = useSearchParams();
   const location = useLocation();
 
-  console.log(params);
-
   useEffect(() => {
-    axios.get("/api/cs/list?" + params).then((r) => {
-      setCsList(r.data.csList);
+    axios.get("/api/qa/qaList?" + params).then((r) => {
+      setQaList(r.data.qaList);
       setPageInfo(r.data.pageInfo);
     });
   }, [location]);
 
-  if (csList == null) {
+  if (qaList == null) {
     return <Spinner />;
   }
 
   function handleRowClick(id) {
     axios
-      .put("/api/cs/" + id)
+      .put("/api/qa/" + id)
       .then((r) => console.log("good"))
       .catch((error) => {
         console.error("bad");
       });
-    navigate("/cs/csList/" + id);
-  }
-
-  function sortNum() {
-    const urlSearchParams = new URLSearchParams(params.toString());
-    let nextOrderByNum = null;
-
-    urlSearchParams.delete("h");
-    if (orderByNum === false) {
-      urlSearchParams.set("n", true);
-      nextOrderByNum = true;
-    } else if (orderByNum === true) {
-      urlSearchParams.delete("n");
-      nextOrderByNum = null;
-    } else {
-      urlSearchParams.set("n", false);
-      nextOrderByNum = false;
-    }
-
-    setParams(urlSearchParams);
-    setOrderByNum(nextOrderByNum);
-  }
-
-  function sortCount() {
-    const urlSearchParams = new URLSearchParams(params.toString());
-    let nextOrderByHit = null;
-
-    urlSearchParams.delete("n");
-    if (orderByHit === false) {
-      urlSearchParams.set("h", true);
-      nextOrderByHit = true;
-    } else if (orderByNum === true) {
-      urlSearchParams.delete("h");
-      nextOrderByHit = null;
-    } else {
-      urlSearchParams.set("h", false);
-      nextOrderByHit = false;
-    }
-
-    setParams(urlSearchParams);
-    setOrderByHit(nextOrderByHit);
+    navigate("/cs/qaList/" + id);
   }
 
   function handleCategoryChange(e) {
@@ -197,7 +155,7 @@ export function CSList() {
               <Button
                 variant="solid"
                 colorScheme="green"
-                onClick={() => navigate("/cs/csWrite")}
+                onClick={() => navigate("/cs/qaWrite")}
               >
                 글 쓰 기
               </Button>
@@ -206,61 +164,44 @@ export function CSList() {
                 <Select
                   mr={4}
                   placeholder="카테고리 선택"
-                  defaultvalue={""}
+                  defaultvalue={"건의사항"}
                   onChange={handleCategoryChange}
                 >
-                  <option value="">전체</option>
-                  <option value={"안내사항"}>안내사항</option>
-                  <option value={"긴급안내"}>긴급안내</option>
-                  <option value={"출시소식"}>출시소식</option>
-                  <option value={"이벤트"}>이벤트</option>
-                  <option value={"당첨자발표"}>당첨자발표</option>
+                  <option value={"건의사항"}>건의사항</option>
+                  <option value={"이벤트관련"}>이벤트관련</option>
+                  <option value={"물품관련"}>물품관련</option>
+                  <option value={"기타"}>기타</option>
                 </Select>
                 <SearchComponent />
               </Flex>
             </Flex>
             <Table mt={8} variant="simple">
-              <Thead className="bg-indigo-50 min-h-screen">
+              <Thead className="bg-red-100 min-h-screen">
                 <Tr>
-                  <Th onClick={sortNum} style={{ cursor: "pointer" }}>
-                    번호
-                    <FontAwesomeIcon icon={faAngleDown} />
-                  </Th>
+                  <Th>번호</Th>
                   <Th>카테고리</Th>
                   <Th>제목</Th>
                   <Th>작성자</Th>
-                  <Th>작성일</Th>
-                  <Th onClick={sortCount} style={{ cursor: "pointer" }}>
-                    조회수
-                    <FontAwesomeIcon icon={faAngleDown} />
-                  </Th>
                   <Th>수정 / 삭제</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {csList
-                  .filter(
-                    (item) =>
-                      categoryFilter === "" ||
-                      item.csCategory === categoryFilter,
-                  )
-                  .map((cs) => (
-                    <Tr
-                      _hover={{
-                        bg: "gray.200",
-                        cursor: "pointer",
-                      }}
-                      key={cs.id}
-                      onClick={() => handleRowClick(cs.id)}
-                    >
-                      <Td>{cs.id}</Td>
-                      <Td>{cs.csCategory}</Td>
-                      <Td>{cs.csTitle}</Td>
-                      <Td>{cs.csWriter}</Td>
-                      <Td>{cs.inserted}</Td>
-                      <Td>{cs.csHit}</Td>
-                    </Tr>
-                  ))}
+                {qaList.map((qa) => (
+                  <Tr
+                    _hover={{
+                      bg: "gray.200",
+                      cursor: "pointer",
+                    }}
+                    key={qa.id}
+                    onClick={() => handleRowClick(qa.id)}
+                  >
+                    <Td>{qa.id}</Td>
+                    <Td>{qa.qaCategory}</Td>
+                    <Td>{qa.qaTitle}</Td>
+                    <Td>{qa.qaWriter}</Td>
+                    <Td>{qa.inserted}</Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
 

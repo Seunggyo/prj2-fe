@@ -20,7 +20,7 @@ export function DrugFuncList() {
   }
 
   return (
-    <Box marginLeft="256px">
+    <Box marginRight="40px">
       <section className="min-h-screen w-full py-2 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-zinc-900 dark:to-zinc-800 flex items-center justify-center">
         <div className="container px-4 md:px-6">
           <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-3 md:gap-8">

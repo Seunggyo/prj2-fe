@@ -30,15 +30,18 @@ export function MemberJoinList() {
 
   const toast = useToast();
   const navigate = useNavigate();
-  const { authCheck } = useContext(LoginContext);
+  const { authCheck, fetched } = useContext(LoginContext);
 
   useEffect(() => {
     console.log(authCheck());
-    if (authCheck() !== "admin") {
-      // navigate("/");
+    if (fetched && authCheck() !== "admin") {
+      navigate("/");
     }
-    updateList();
-  }, [location]);
+
+    if (fetched) {
+      updateList();
+    }
+  }, [fetched, location]);
 
   function updateList() {
     axios.get("/api/member/joinList?" + params).then(({ data }) => {
@@ -50,7 +53,6 @@ export function MemberJoinList() {
   if (memberList === null) {
     return <Spinner />;
   }
-
   function handleAcceptClick(member) {
     axios
       .post("/api/member/accept", {
@@ -77,7 +79,8 @@ export function MemberJoinList() {
           description: "오류가 발생했습니다.",
           status: "error",
         });
-      });
+      })
+      .finally(() => updateList());
   }
 
   function handleCancelClick(member) {

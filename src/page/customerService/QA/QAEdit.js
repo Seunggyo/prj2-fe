@@ -21,8 +21,8 @@ import {
 import React, { useEffect } from "react";
 import axios from "axios";
 
-export function CSEdit() {
-  const [cs, updateCs] = useImmer(null);
+export function QAEdit() {
+  const [qa, updateQa] = useImmer(null);
 
   // /edit/:id
   const { id } = useParams();
@@ -32,10 +32,10 @@ export function CSEdit() {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   useEffect(() => {
-    axios.get("/api/cs/id/" + id).then((response) => updateCs(response.data));
+    axios.get("/api/qa/id/" + id).then((response) => updateQa(response.data));
   }, []);
 
-  if (cs === null) {
+  if (qa === null) {
     return <Spinner />;
   }
 
@@ -44,14 +44,14 @@ export function CSEdit() {
     // PUT /api/board/edit
 
     axios
-      .put("/api/cs/edit", cs)
+      .put("/api/qa/edit", qa)
       .then(() => {
         toast({
-          description: cs.id + "번 게시글이 수정되었습니다.",
+          description: qa.id + "번 게시글이 수정되었습니다.",
           status: "success",
         });
 
-        navigate("/cs/csList/" + id);
+        navigate("/cs/qaList/" + id);
       })
       .catch((error) => {
         if (error.response.status === 400) {
@@ -75,10 +75,10 @@ export function CSEdit() {
       <FormControl>
         <FormLabel>제목</FormLabel>
         <Input
-          value={cs.csTitle}
+          value={qa.qaTitle}
           onChange={(e) =>
-            updateCs((draft) => {
-              draft.csTitle = e.target.value;
+            updateQa((draft) => {
+              draft.qaTitle = e.target.value;
             })
           }
         />
@@ -86,18 +86,19 @@ export function CSEdit() {
       <FormControl>
         <FormLabel>본문</FormLabel>
         <Textarea
-          value={cs.csContent}
+          value={qa.qaContent}
           onChange={(e) =>
-            updateCs((draft) => {
-              draft.csContent = e.target.value;
+            updateQa((draft) => {
+              draft.qaContent = e.target.value;
             })
           }
         />
       </FormControl>
       <FormControl mb={4}>
         <FormLabel>작성자</FormLabel>
-        <Input value={cs.csWriter} readOnly />
+        <Input value={qa.qaWriter} readOnly />
       </FormControl>
+
       <Button colorScheme="blue" onClick={onOpen}>
         저장
       </Button>

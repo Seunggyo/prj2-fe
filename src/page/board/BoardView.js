@@ -1,6 +1,11 @@
 import {
   Box,
   Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Center,
   Flex,
   FormControl,
   FormLabel,
@@ -14,6 +19,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
+  Textarea,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -25,6 +31,7 @@ import { CommentContainer } from "../../component/CommentContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
+import * as PropTypes from "prop-types";
 
 function LikeContainer({ like, onClick }) {
   const { isAuthenticated } = useContext(LoginContext);
@@ -41,7 +48,9 @@ function LikeContainer({ like, onClick }) {
             {like.like && <FontAwesomeIcon icon={fullHeart} size="xl" />}
             {like.like || <FontAwesomeIcon icon={emptyHeart} size="xl" />}
           </Button>
-          <Heading size="lg">{like.countLike}</Heading>
+          <Heading size="lg">
+            {like.countLike} {like.like}
+          </Heading>
         </Flex>
       )}
     </Box>
@@ -97,37 +106,54 @@ export function BoardView() {
 
   return (
     <Box>
-      <Flex>
-        <Heading size="xl">{board.id}번 글 보기</Heading>
-        <LikeContainer like={like} onClick={handleLike} />
-      </Flex>
-      <FormControl>
-        <FormLabel>제 목</FormLabel>
-        <Input value={board.title} readOnly />
-      </FormControl>
-      <FormControl>
-        <FormLabel>본 문</FormLabel>
-        <Input value={board.content} readOnly />
-      </FormControl>
-      <FormControl>
-        <FormLabel>작성자</FormLabel>
-        <Input value={board.nickName} readOnly />
-      </FormControl>
-      <FormControl>
-        <FormLabel>커뮤니티</FormLabel>
-        <Input value={board.category} readOnly />
-      </FormControl>
-      <FormControl>
-        <FormLabel>작성일시</FormLabel>
-        <Input value={board.inserted} readOnly />
-      </FormControl>
+      <Center>
+        <Card w={"lg"}>
+          <CardHeader>
+            <Flex justifyContent="space-between">
+              <Heading size="xl">{board.id}번 글 보기</Heading>
+              <LikeContainer like={like} onClick={handleLike} />
+            </Flex>
+          </CardHeader>
+          <CardBody>
+            <FormControl mb={5}>
+              <FormLabel>제목</FormLabel>
+              <Input value={board.title} readOnly />
+            </FormControl>
+            <FormControl mb={5}>
+              <FormLabel>본문</FormLabel>
+              <Textarea h={"sm"} value={board.content} readOnly />
+            </FormControl>
 
-      {(hasAccess(board.writer) || authCheck() === "admin") && (
-        <Box>
-          <Button onClick={() => navigate("/board/edit/" + id)}>수 정</Button>
-          <Button onClick={onOpen}>삭 제</Button>
-        </Box>
-      )}
+            {/*{board.files.map((file) => (*/}
+            {/*  <Card key={file.id} my={5}>*/}
+            {/*    <CardBody>*/}
+            {/*      <Image width="100%" src={file.url} alt={file.name} />*/}
+            {/*    </CardBody>*/}
+            {/*  </Card>*/}
+            {/*))}*/}
+
+            <FormControl mb={5}>
+              <FormLabel>작성자</FormLabel>
+              <Input value={board.nickName} readOnly />
+            </FormControl>
+            <FormControl mb={5}>
+              <FormLabel>작성일시</FormLabel>
+              <Input value={board.inserted} readOnly />
+            </FormControl>
+          </CardBody>
+
+          <CardFooter>
+            {(hasAccess(board.writer) || authCheck() === "admin") && (
+              <Box>
+                <Button onClick={() => navigate("/board/edit/" + id)}>
+                  수 정
+                </Button>
+                <Button onClick={onOpen}>삭 제</Button>
+              </Box>
+            )}
+          </CardFooter>
+        </Card>
+      </Center>
 
       {/*삭제 모달*/}
       <Modal isOpen={isOpen} onClose={onClose}>

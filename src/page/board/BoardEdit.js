@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   Modal,
@@ -14,14 +15,19 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
+  Switch,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 export function BoardEdit() {
   const [board, updateBoard] = useImmer("");
+  const [fileSwitch, setFileSwitch] = useState([]);
+  const [uploadFiles, setUploadFiles] = useState(null);
 
   const { id } = useParams();
 
@@ -63,6 +69,16 @@ export function BoardEdit() {
       .finally(() => onClose());
   }
 
+  function handleFileSwitch(e) {
+    if (e.target.checked) {
+      // fileSwitch 에 추가
+      setFileSwitch([...fileSwitch, e.target.value]);
+    } else {
+      // fileSwitch 에서 삭제
+      setFileSwitch(fileSwitch.filter((item) => item !== e.target.value));
+    }
+  }
+
   return (
     <Box>
       <h1>{id}번 글 수정하기</h1>
@@ -88,6 +104,40 @@ export function BoardEdit() {
             })
           }
         />
+      </FormControl>
+
+      {/* 이미지 출력 */}
+      {/*{board.files.length > 0 &&*/}
+      {/*  board.files.map((file) => (*/}
+      {/*    <Box key={file.id} my="5px" border="3px solid black">*/}
+      {/*      <FormControl display="flex" alignItems="center">*/}
+      {/*        <FormLabel>*/}
+      {/*          <FontAwesomeIcon color="red" icon={faTrashCan} />*/}
+      {/*        </FormLabel>*/}
+      {/*        <Switch*/}
+      {/*          value={file.id}*/}
+      {/*          colorScheme="red"*/}
+      {/*          onChange={handleFileSwitch}*/}
+      {/*        />*/}
+      {/*      </FormControl>*/}
+      {/*      <Box>*/}
+      {/*        <Image src={file.url} alt={file.name} width="100%" />*/}
+      {/*      </Box>*/}
+      {/*    </Box>*/}
+      {/*  ))}*/}
+
+      {/* 추가할 파일 선택 */}
+      <FormControl>
+        <FormLabel>이미지</FormLabel>
+        <Input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={(e) => setUploadFiles(e.target.files)}
+        />
+        <FormHelperText>
+          한 개 파일은 1MB 이내, 총 용량은 10MB 이내로 첨부하세요.
+        </FormHelperText>
       </FormControl>
 
       <Button onClick={onOpen}>저 장</Button>

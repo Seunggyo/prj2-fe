@@ -10,7 +10,7 @@ function PageButton({ variant, pageNumber, children }) {
 
   function handleClick() {
     params.set("p", pageNumber);
-    navigate("/?" + params);
+    navigate("?" + params);
   }
 
   return (
