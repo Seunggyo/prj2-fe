@@ -1,27 +1,23 @@
-import { Box } from "@chakra-ui/react";
-import { Outlet } from "react-router-dom";
-import { NavBar } from "../component/Navbar";
+import {Box} from "@chakra-ui/react";
+import {Outlet} from "react-router-dom";
+import {NavBar} from "../component/Navbar";
 import React from "react";
-import { SideBar } from "./SideBar";
-import { SideBarExp } from "./SideBarExp";
+import {SideBar} from "./SideBar";
 
 export function HomeLayout() {
-  return (
-    <div>
-      <Box>
-        <NavBar />
-      </Box>
-      <div>
-        <Box>
-          <SideBarExp />
-        </Box>
-        <Box>
-          <SideBar />
-        </Box>
-        <Box ml="250px">
-          <Outlet />
-        </Box>
-      </div>
-    </div>
-  );
+    return (
+        <div>
+            <Box>
+                <NavBar/>
+            </Box>
+            <div>
+                <Box>
+                    <SideBar/>
+                </Box>
+                <Box ml="250px">
+                    <Outlet/>
+                </Box>
+            </div>
+        </div>
+    );
 }
