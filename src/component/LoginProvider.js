@@ -4,6 +4,7 @@ import axios from "axios";
 export const LoginContext = createContext(null);
 function LoginProvider({ children }) {
   const [login, setLogin] = useState("");
+  const [fetched, setFetched] = useState(false);
 
   useEffect(() => {
     fetchLogin();
@@ -11,7 +12,10 @@ function LoginProvider({ children }) {
 
   // 로그인 가져오기
   function fetchLogin() {
-    axios.get("/api/member/login").then(({ data }) => setLogin(data));
+    axios.get("/api/member/login").then(({ data }) => {
+      setLogin(data);
+      setFetched(true);
+    });
   }
 
   // 인증
@@ -41,6 +45,7 @@ function LoginProvider({ children }) {
         hasAccess,
         authCheck,
         isAdmin,
+        fetched,
       }}
     >
       {children}

@@ -15,7 +15,6 @@ import {
   ModalOverlay,
   useDisclosure,
   useToast,
-  Box,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -26,7 +25,7 @@ export function NavBar() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const { fetchLogin, login, isAuthenticated, authCheck } =
+  const { fetchLogin, login, isAuthenticated, isAdmin } =
     useContext(LoginContext);
 
   const urlParams = new URLSearchParams();
@@ -52,7 +51,10 @@ export function NavBar() {
         });
         navigate("/");
       })
-      .finally(() => onClose());
+      .finally(() => {
+        fetchLogin();
+          onClose();
+      });
   }
 
   return (
