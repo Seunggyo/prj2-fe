@@ -73,7 +73,7 @@ function LikeContainer({ like, onClick }) {
     return <Spinner />;
   }
   return (
-    <Button variant="ghost" size="xl" onClick={handleLike}>
+    <Button variant="ghost" size="xl" onClick={onClick}>
       <FontAwesomeIcon icon={faThumbsUp} size="2xl" />
     </Button>
   );
@@ -153,7 +153,7 @@ export function DrugView() {
 
   function handleLike() {
     axios
-      .post("/api/drug/druglike", { drugId: drug.id })
+      .post("/api/drug/", { drugId: drug.id })
       .then((response) => setLike(response.data))
       .catch(() => console.log("안됨"))
       .finally(() => console.log("끝"));

@@ -138,25 +138,6 @@ export function DrugBuy() {
                       placeholder="배송메모를 입력해주세요."
                     />
                   </label>
-
-                  {/*<label class="inline-flex w-2/4 border-gray-200 py-3">*/}
-                  {/*  <span class="text-right px-2">배송메모</span>*/}
-                  {/*  <input*/}
-                  {/*    name="state"*/}
-                  {/*    class="focus:outline-none px-3"*/}
-                  {/*    placeholder="CA"*/}
-                  {/*  />*/}
-                  {/*</label>*/}
-                  {/*<label class="xl:w-1/4 xl:inline-flex py-3 items-center flex xl:border-none border-t border-gray-200 py-3">*/}
-                  {/*  <span class="text-right px-2 xl:px-0 xl:text-none">*/}
-                  {/*    ZIP*/}
-                  {/*  </span>*/}
-                  {/*  <input*/}
-                  {/*    name="postal_code"*/}
-                  {/*    class="focus:outline-none px-3"*/}
-                  {/*    placeholder="98603"*/}
-                  {/*  />*/}
-                  {/*</label>*/}
                 </fieldset>
               </section>
             </form>
