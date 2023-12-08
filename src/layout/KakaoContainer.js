@@ -157,20 +157,20 @@ const MainPage = () => {
           bg="black"
           color="white"
         >
-          {markers.map((marker, index) => (
-            <Box
-              key={index}
-              p={4}
-              border="1px solid #ddd"
-              borderRadius="md"
-              mb={2}
-              _hover={{ bg: "gray.100" }}
-              cursor="pointer"
-              onClick={() => handleListItemClick(index)}
-            >
-              <Text fontSize="lg">{marker.content}</Text>
-            </Box>
-          ))}
+          {/*{markers.map((marker, index) => (*/}
+          {/*  <Box*/}
+          {/*    key={index}*/}
+          {/*    p={4}*/}
+          {/*    border="1px solid #ddd"*/}
+          {/*    borderRadius="md"*/}
+          {/*    mb={2}*/}
+          {/*    _hover={{ bg: "gray.100" }}*/}
+          {/*    cursor="pointer"*/}
+          {/*    onClick={() => handleListItemClick(index)}*/}
+          {/*  >*/}
+          {/*    <Text fontSize="lg">{marker.content}</Text>*/}
+          {/*  </Box>*/}
+          {/*))}*/}
         </VStack>
 
         <div
