@@ -6,6 +6,7 @@ import { DsSearchComponent } from "./DsSearchComponent";
 import { ViewComponent } from "./ViewComponent";
 
 const MainPage = () => {
+  const [dsId, setDsId] = useState();
   const [markers, setMarkers] = useState([]);
   const [map, setMap] = useState();
   const [keyword, setKeyword] = useState("");
@@ -148,6 +149,11 @@ const MainPage = () => {
     }
   }, [isVisible, center, mapRef, roadviewRef]);
 
+  function handleItemClick(dsId) {
+    setDsId(dsId);
+    // console.log(dsId);
+  }
+
   return (
     <Box>
       <div>
@@ -187,7 +193,7 @@ const MainPage = () => {
           // bg="black"
           // color="white"
         >
-          <DsSearchComponent />
+          <DsSearchComponent onItemClick={handleItemClick} />
           {/*{markers.map((marker, index) => (*/}
           {/*  <Box*/}
           {/*    key={index}*/}
@@ -234,7 +240,7 @@ const MainPage = () => {
             // bg="black"
             // color="white"
           >
-            <ViewComponent />
+            <ViewComponent dsId={dsId} />
           </Box>
           <div
             style={{

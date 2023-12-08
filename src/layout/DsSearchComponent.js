@@ -28,7 +28,7 @@ function ViewComponent() {
   return null;
 }
 
-export function DsSearchComponent() {
+export function DsSearchComponent({ onItemClick }) {
   const [dsList, setDsList] = useState([]);
   const [pageInfo, setPageInfo] = useState("");
   const [level, setLevel] = useState();
@@ -58,6 +58,8 @@ export function DsSearchComponent() {
             borderWidth="1px"
             borderRadius="lg"
             overflow="hidden"
+            onClick={() => onItemClick(ds.id)}
+            // onClick={() => console.log(ds.id)}
           >
             <Center>
               <Image

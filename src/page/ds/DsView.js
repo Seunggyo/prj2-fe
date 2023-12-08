@@ -56,7 +56,7 @@ function LikeContainer({ like, onClick }) {
   );
 }
 
-export function DsView({ dsName }) {
+export function DsView({ dsId }) {
   const navigate = useNavigate();
   const toast = useToast();
   const { id } = useParams();
@@ -68,26 +68,38 @@ export function DsView({ dsName }) {
   const [ds, setDs] = useState("");
   const [like, setLike] = useState("");
 
-  useEffect(() => {
-    axios.get("/api/ds/id/" + id).then((response) => setDs(response.data));
-  }, []);
+  const realId = dsId || id;
+
+  console.log(realId);
+  console.log(dsId);
+  console.log(id);
 
   useEffect(() => {
-    axios
-      .get("/api/business/like/dsId/" + id)
-      .then((response) => setLike(response.data));
-  }, []);
+    if (realId) {
+      axios
+        .get("/api/ds/id/" + realId)
+        .then((response) => setDs(response.data));
+    }
+  }, [realId]);
 
-  if (ds === null) {
+  useEffect(() => {
+    if (realId) {
+      axios
+        .get("/api/business/like/dsId/" + realId)
+        .then((response) => setLike(response.data));
+    }
+  }, [realId]);
+
+  if (realId === undefined || ds === null) {
     return <Spinner />;
   }
 
   function handleDelete() {
     axios
-      .delete("/api/ds/delete/" + id)
+      .delete("/api/ds/delete/" + realId)
       .then((response) => {
         toast({
-          description: id + "번 정보가 삭제되었습니다",
+          description: realId + "번 정보가 삭제되었습니다",
           status: "success",
         });
         navigate("/ds/list");
@@ -188,7 +200,10 @@ export function DsView({ dsName }) {
       </FormControl>
       {/*{(hasAccess(ds.id) || isAdmin()) && (*/}
       <Box>
-        <Button colorScheme="blue" onClick={() => navigate("/ds/edit/" + id)}>
+        <Button
+          colorScheme="blue"
+          onClick={() => navigate("/ds/edit/" + realId)}
+        >
           수정
         </Button>
         <Button
@@ -218,7 +233,7 @@ export function DsView({ dsName }) {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <DsComment businessId={id} />
+      <DsComment businessId={realId} />
     </Box>
   );
 }
