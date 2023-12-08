@@ -56,7 +56,7 @@ function LikeContainer({ like, onClick }) {
   );
 }
 
-export function DsView() {
+export function DsView({ dsName }) {
   const navigate = useNavigate();
   const toast = useToast();
   const { id } = useParams();
