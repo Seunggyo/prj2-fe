@@ -51,6 +51,9 @@ import { HsReservation } from "./page/hs/HsReservation";
 import { QAView } from "./page/customerService/QA/QAView";
 import { QAEdit } from "./page/customerService/QA/QAEdit";
 import { DrugBuy } from "./page/drug/DrugBuy";
+import {HsReservationCheck} from "./page/hs/HsReservationCheck";
+import {HsView} from "./page/hs/HsView";
+
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -75,8 +78,10 @@ const routes = createBrowserRouter(
       <Route path="hospital" element={<Hs />}>
         <Route path="hospitalList" element={<HsList />} />
         <Route path="hospitalAdd" element={<HsAdd />} />
-        <Route path="hospitalEdit/:id" element={<HsEdit />} />
-        <Route path="hospitalReservation/:id" element={<HsReservation />} />
+          <Route path="hospitalView/:id" element={<HsView/>}/>
+          <Route path="hospitalEdit/:id" element={<HsEdit/>}/>
+          <Route path="hospitalReservation/:id" element={<HsReservation/>}/>
+          <Route path="reservationCheck" element={<HsReservationCheck/>}/>
       </Route>
       <Route path="member" element={<Member />}>
         <Route path="signup" element={<MemberSignup />} />
