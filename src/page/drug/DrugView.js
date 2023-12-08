@@ -172,7 +172,9 @@ export function DrugView() {
       {/*장바구니*/}
       <Flex>
         <CartContainer cart={cart} onClick={handleCart} />
-        <Button colorScheme="pink">구매하기</Button>
+        <Button colorScheme="pink" onClick={() => navigate("/drug/buy/" + id)}>
+          주문하기
+        </Button>
       </Flex>
       {isAdmin() && (
         <>

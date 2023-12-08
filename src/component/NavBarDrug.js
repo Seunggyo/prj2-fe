@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Select, Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { SideBar } from "./SideBar";
+import { SideBar } from "../layout/SideBar";
 import React, { useContext } from "react";
 import { LoginContext } from "./LoginProvider";
 

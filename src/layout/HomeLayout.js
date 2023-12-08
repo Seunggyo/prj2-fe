@@ -8,9 +8,15 @@ export function HomeLayout() {
     <div>
       <Box>
         <NavBar />
-        {/*<SideBar />*/}
-        <Outlet />
       </Box>
+      <div>
+        <Box>
+          <SideBar />
+        </Box>
+        <Box ml="250px">
+          <Outlet />
+        </Box>
+      </div>
     </div>
   );
 }
