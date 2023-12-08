@@ -87,7 +87,11 @@ export function Cart() {
               <Td>{cart.drugName}</Td>
               <Td>{cart.quantity}</Td>
               <Td>{cart.total}</Td>
-              <Button colorScheme="teal" variant="solid">
+              <Button
+                colorScheme="teal"
+                variant="solid"
+                onClick={() => navigate("/buy" + cart.id)}
+              >
                 주문
               </Button>
               <Button

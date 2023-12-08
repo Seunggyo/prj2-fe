@@ -30,6 +30,7 @@ import { LoginContext } from "../../component/LoginProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandHoldingHeart } from "@fortawesome/free-solid-svg-icons/faHandHoldingHeart";
 import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
+import * as PropTypes from "prop-types";
 
 function CartContainer({ cart, onClick }) {
   const { getInputProps, getDecrementButtonProps, getIncrementButtonProps } =
@@ -67,7 +68,20 @@ function CartContainer({ cart, onClick }) {
   );
 }
 
+function LikeContainer({ like, onClick }) {
+  if (like === null) {
+    return <Spinner />;
+  }
+  return (
+    <Button variant="ghost" size="xl" onClick={handleLike}>
+      <FontAwesomeIcon icon={faThumbsUp} size="2xl" />
+    </Button>
+  );
+}
+
 export function DrugView() {
+  const [like, setLike] = useState(null);
+
   const [drug, setDrug] = useState(null);
   const [cart, setCart] = useState(null);
 
@@ -86,6 +100,12 @@ export function DrugView() {
     axios
       .get("/api/drug/cart/drugId/" + id)
       .then((response) => setCart(response.data));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("/api/drug/like/" + id)
+      .then((response) => setLike(response.data));
   }, []);
 
   if (drug === null) {
@@ -134,7 +154,7 @@ export function DrugView() {
   function handleLike() {
     axios
       .post("/api/drug/druglike", { drugId: drug.id })
-      .then(() => console.log("잘됨"))
+      .then((response) => setLike(response.data))
       .catch(() => console.log("안됨"))
       .finally(() => console.log("끝"));
   }
@@ -143,9 +163,8 @@ export function DrugView() {
     <Box marginLeft="100px" width="800px">
       <Flex justifyContent="space-between">
         <Heading size="xl">{drug.id}번째 영양제</Heading>
-        <Button variant="ghost" size="xl" onClick={handleLike}>
-          <FontAwesomeIcon icon={faThumbsUp} size="2xl" />
-        </Button>
+        {/*좋아요 버튼*/}
+        <LikeContainer like={like} onClick={handleLike} />
       </Flex>
 
       <FormControl>

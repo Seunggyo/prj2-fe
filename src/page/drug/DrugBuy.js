@@ -31,7 +31,8 @@ export function DrugBuy() {
     <Box
       marginLeft="300px"
       marginTop="30px"
-      border="1px solid black"
+      border="1px solid #e0e0e0"
+      borderRadius="5px"
       width="900px"
       height="900px"
     >
