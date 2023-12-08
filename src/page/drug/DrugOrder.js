@@ -3,18 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-export function DrugBuy() {
-  const [buy, setBuy] = useState(null);
+export function DrugOrder() {
+  const [order, setOrder] = useState(null);
 
   const { id } = useParams();
 
-  useEffect(() => {
-    axios.get("/api/drug/buy/id/" + id).then(({ data }) => setBuy(data));
-  }, []);
-
-  if (buy === null) {
-    return <Spinner />;
-  }
+  // if (order === null) {
+  //   return <Spinner />;
+  // }
   return (
     <Box px={20} h="4/6">
       <div className="h-screen grid grid-cols-3 ">

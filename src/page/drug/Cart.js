@@ -90,7 +90,7 @@ export function Cart() {
               <Button
                 colorScheme="teal"
                 variant="solid"
-                onClick={() => navigate("/drug/buy/" + cart.id)}
+                onClick={() => navigate("/drug/order/" + cart.id)}
               >
                 주문
               </Button>

@@ -77,6 +77,7 @@ function LikeContainer({ like, onClick }) {
       <FontAwesomeIcon icon={faThumbsUp} size="2xl" />
     </Button>
   );
+  e;
 }
 
 export function DrugView() {
@@ -104,7 +105,7 @@ export function DrugView() {
 
   useEffect(() => {
     axios
-      .get("/api/drug/like/" + id)
+      .get("/api/drug/like/drug/" + id)
       .then((response) => setLike(response.data));
   }, []);
 
@@ -153,7 +154,7 @@ export function DrugView() {
 
   function handleLike() {
     axios
-      .post("/api/drug/", { drugId: drug.id })
+      .post("/api/drug/like", { drugId: drug.id })
       .then((response) => setLike(response.data))
       .catch(() => console.log("안됨"))
       .finally(() => console.log("끝"));
