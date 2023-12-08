@@ -48,7 +48,9 @@ function LikeContainer({ like, onClick }) {
             {like.like && <FontAwesomeIcon icon={fullHeart} size="xl" />}
             {like.like || <FontAwesomeIcon icon={emptyHeart} size="xl" />}
           </Button>
-          <Heading size="lg">{like.countLike}</Heading>
+          <Heading size="lg">
+            {like.countLike} {like.like}
+          </Heading>
         </Flex>
       )}
     </Box>

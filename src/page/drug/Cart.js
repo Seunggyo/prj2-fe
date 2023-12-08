@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -18,9 +19,10 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { LoginContext } from "../../component/LoginProvider";
 
 export function Cart() {
   const [cartList, setCartList] = useState(null);
@@ -30,11 +32,15 @@ export function Cart() {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const toast = useToast();
   const navigate = useNavigate();
+  const { isAuthenticated } = useContext(LoginContext);
 
   useEffect(() => {
-    axios
-      .get("/api/drug/cart/cartList")
-      .then((response) => setCartList(response.data));
+    axios.get("/api/drug/cart/cartList").then((response) => {
+      setCartList(response.data);
+      if (!isAuthenticated()) {
+        navigate("/member/login");
+      }
+    });
   }, [isOpen]);
 
   if (cartList === null) {
@@ -65,6 +71,7 @@ export function Cart() {
         <Thead>
           <Tr>
             <Th>상품 번호</Th>
+            <Th>사진</Th>
             <Th>상품 이름</Th>
             <Th>상품 갯수</Th>
             <Th>상품 금액</Th>
@@ -74,6 +81,9 @@ export function Cart() {
           {cartList.map((cart) => (
             <Tr key={cart.id}>
               <Td>{cart.id}</Td>
+              <Td>
+                <Image w={"50px"} src={cart.url} alt={cart.url} />
+              </Td>
               <Td>{cart.drugName}</Td>
               <Td>{cart.quantity}</Td>
               <Td>{cart.total}</Td>

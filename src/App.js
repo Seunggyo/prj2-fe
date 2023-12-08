@@ -50,6 +50,7 @@ import { HsList } from "./page/hs/HsList";
 import { HsReservation } from "./page/hs/HsReservation";
 import { QAView } from "./page/customerService/QA/QAView";
 import { QAEdit } from "./page/customerService/QA/QAEdit";
+import { DrugBuy } from "./page/drug/DrugBuy";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -69,6 +70,7 @@ const routes = createBrowserRouter(
         <Route path="edit/:id" element={<DrugEdit />} />
         <Route path="cart" element={<Cart />} />
         <Route path="func/:func" element={<DrugFuncList />} />
+        <Route path="buy/:id" element={<DrugBuy />} />
       </Route>
       <Route path="hospital" element={<Hs />}>
         <Route path="hospitalList" element={<HsList />} />
@@ -106,6 +108,7 @@ const routes = createBrowserRouter(
   ),
 );
 
+
 function App() {
   return (
     <LoginProvider>
@@ -113,5 +116,6 @@ function App() {
     </LoginProvider>
   );
 }
+
 
 export default App;
