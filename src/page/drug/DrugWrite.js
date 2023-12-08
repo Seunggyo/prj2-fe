@@ -60,7 +60,7 @@ export function DrugWrite() {
       .finally(() => setIsSubmitting(false));
   }
   return (
-    <Box marginLeft="256px">
+    <Box marginLeft="400px" w="700px">
       <FormControl>
         <FormLabel>제품명</FormLabel>
         <Input value={name} onChange={(e) => setName(e.target.value)} />

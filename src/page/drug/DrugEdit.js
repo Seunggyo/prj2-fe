@@ -92,128 +92,130 @@ export function DrugEdit() {
   }
 
   return (
-    <Box marginLeft="256px">
-      <h1>{drug.id}영양제 수정</h1>
-      <FormControl>
-        <FormLabel>제품</FormLabel>
-        <Input
-          value={drug.name}
-          onChange={(e) =>
-            updateDrug((draft) => {
-              draft.name = e.target.value;
-            })
-          }
-        />
-      </FormControl>
-      {/*이미지*/}
-      {drug.files.length > 0 &&
-        drug.files.map((file) => (
-          <Box key={file.id} my="5px" border="3px solid black">
-            <FormControl display="flex" alignItems="center">
-              <FormLabel>
-                <FontAwesomeIcon color="red" icon={faTrashCan} />
-              </FormLabel>
-              <Switch
-                value={file.id}
-                colorScheme="red"
-                onChange={handleRemoveFileSwitch}
-              />
-            </FormControl>
-            <Box>
-              <Image src={file.url} alt={file.name} width="100%" />
+    <Box marginLeft="400px" width="700px" h="800px">
+      <Box>
+        <h1>{drug.id}영양제 수정</h1>
+        <FormControl>
+          <FormLabel>제품</FormLabel>
+          <Input
+            value={drug.name}
+            onChange={(e) =>
+              updateDrug((draft) => {
+                draft.name = e.target.value;
+              })
+            }
+          />
+        </FormControl>
+        {/*이미지*/}
+        {drug.files.length > 0 &&
+          drug.files.map((file) => (
+            <Box key={file.id} my="5px" border="3px solid black">
+              <FormControl display="flex" alignItems="center">
+                <FormLabel>
+                  <FontAwesomeIcon color="red" icon={faTrashCan} />
+                </FormLabel>
+                <Switch
+                  value={file.id}
+                  colorScheme="red"
+                  onChange={handleRemoveFileSwitch}
+                />
+              </FormControl>
+              <Box>
+                <Image src={file.url} alt={file.name} width="100%" />
+              </Box>
             </Box>
-          </Box>
-        ))}
+          ))}
 
-      <FormControl>
-        <FormLabel>기능</FormLabel>
-        <Select
-          defaultValue="위 건강"
-          onChange={(e) =>
-            updateDrug((drug) => {
-              drug.func = e.target.value;
-            })
-          }
-        >
-          <option value="위 건강">위</option>
-          <option value="눈 건강">눈</option>
-          <option value="간 건강">간</option>
-          <option value="피로 개선">피로 개선</option>
-          <option value="어린이 성장">어린이 성장</option>
-          <option value="수면질 개선">수면질 개선</option>
-        </Select>
-      </FormControl>
+        <FormControl>
+          <FormLabel>기능</FormLabel>
+          <Select
+            defaultValue="위 건강"
+            onChange={(e) =>
+              updateDrug((drug) => {
+                drug.func = e.target.value;
+              })
+            }
+          >
+            <option value="위 건강">위</option>
+            <option value="눈 건강">눈</option>
+            <option value="간 건강">간</option>
+            <option value="피로 개선">피로 개선</option>
+            <option value="어린이 성장">어린이 성장</option>
+            <option value="수면질 개선">수면질 개선</option>
+          </Select>
+        </FormControl>
 
-      <FormControl>
-        <FormLabel>상세 정보</FormLabel>
-        <Input
-          value={drug.content}
-          onChange={(e) =>
-            updateDrug((draft) => {
-              draft.content = e.target.value;
-            })
-          }
-        />
-      </FormControl>
+        <FormControl>
+          <FormLabel>상세 정보</FormLabel>
+          <Input
+            value={drug.content}
+            onChange={(e) =>
+              updateDrug((draft) => {
+                draft.content = e.target.value;
+              })
+            }
+          />
+        </FormControl>
 
-      <FormControl>
-        <FormLabel>가격</FormLabel>
-        <Input
-          value={drug.price}
-          onChange={(e) =>
-            updateDrug((draft) => {
-              draft.price = e.target.value;
-            })
-          }
-        />
-      </FormControl>
+        <FormControl>
+          <FormLabel>가격</FormLabel>
+          <Input
+            value={drug.price}
+            onChange={(e) =>
+              updateDrug((draft) => {
+                draft.price = e.target.value;
+              })
+            }
+          />
+        </FormControl>
 
-      <FormControl>
-        <FormLabel>배송비</FormLabel>
-        <Input
-          value={drug.shipping}
-          onChange={(e) =>
-            updateDrug((draft) => {
-              draft.shipping = e.target.value;
-            })
-          }
-        />
-      </FormControl>
+        <FormControl>
+          <FormLabel>배송비</FormLabel>
+          <Input
+            value={drug.shipping}
+            onChange={(e) =>
+              updateDrug((draft) => {
+                draft.shipping = e.target.value;
+              })
+            }
+          />
+        </FormControl>
 
-      {/* 추가할 파일*/}
-      <FormControl>
-        <FormLabel>이미지</FormLabel>
-        <Input
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={(e) => setUploadFiles(e.target.files)}
-        />
-        <FormHelperText>
-          한 개 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부하시오.
-        </FormHelperText>
-      </FormControl>
-      <Button colorScheme="pink" onClick={onOpen}>
-        저장
-      </Button>
-      <Button onClick={() => navigate(-1)}>취소</Button>
+        {/* 추가할 파일*/}
+        <FormControl>
+          <FormLabel>이미지</FormLabel>
+          <Input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={(e) => setUploadFiles(e.target.files)}
+          />
+          <FormHelperText>
+            한 개 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부하시오.
+          </FormHelperText>
+        </FormControl>
+        <Button colorScheme="pink" onClick={onOpen}>
+          저장
+        </Button>
+        <Button onClick={() => navigate(-1)}>취소</Button>
 
-      {/* 수정 모달 */}
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>저장 확인</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>저장 하시겠습니까?</ModalBody>
+        {/* 수정 모달 */}
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>저장 확인</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>저장 하시겠습니까?</ModalBody>
 
-          <ModalFooter>
-            <Button onClick={onClose}>닫기</Button>
-            <Button onClick={handleSubmit} colorScheme="blue">
-              저장
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+            <ModalFooter>
+              <Button onClick={onClose}>닫기</Button>
+              <Button onClick={handleSubmit} colorScheme="blue">
+                저장
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Box>
     </Box>
   );
 }

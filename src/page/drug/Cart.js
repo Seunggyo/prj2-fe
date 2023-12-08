@@ -66,7 +66,7 @@ export function Cart() {
   }
 
   return (
-    <Box marginLeft="270px">
+    <Box marginRight="40px">
       <Table>
         <Thead>
           <Tr>
