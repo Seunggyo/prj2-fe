@@ -37,8 +37,8 @@ import { CSList } from "./page/customerService/CSList";
 import { CSWrite } from "./page/customerService/CSWrite";
 import { CSView } from "./page/customerService/CSView";
 import { CSEdit } from "./page/customerService/CSEdit";
-import { QA_List } from "./page/customerService/QA/QA_List";
-import { QA_Write } from "./page/customerService/QA/QA_Write";
+import { QAList } from "./page/customerService/QA/QAList";
+import { QAWrite } from "./page/customerService/QA/QAWrite";
 import { MemberFindId } from "./page/member/MemberFindId";
 import { MemberFindPassword } from "./page/member/MemberFindPassword";
 import { MemberJoinList } from "./page/member/MemberJoinList";
@@ -48,6 +48,8 @@ import KakaoContainer from "./layout/KakaoContainer";
 import { Hs } from "./Hs";
 import { HsList } from "./page/hs/HsList";
 import { HsReservation } from "./page/hs/HsReservation";
+import { QAView } from "./page/customerService/QA/QAView";
+import { QAEdit } from "./page/customerService/QA/QAEdit";
 import { DrugBuy } from "./page/drug/DrugBuy";
 
 const routes = createBrowserRouter(
@@ -93,16 +95,19 @@ const routes = createBrowserRouter(
         <Route path="edit/:id" element={<BoardEdit />}></Route>
       </Route>
       <Route path="cs" element={<CS />}>
-        <Route index element={<CSList />} />
+        <Route path="csList" element={<CSList />} />
         <Route path="csWrite" element={<CSWrite />}></Route>
-        <Route path=":id" element={<CSView />}></Route>
+        <Route path="csList/:id" element={<CSView />}></Route>
         <Route path="csEdit/:id" element={<CSEdit />}></Route>
-        <Route path="qa_list" element={<QA_List />}></Route>
-        <Route path="qa_write" element={<QA_Write />}></Route>
+        <Route path="qaList" element={<QAList />}></Route>
+        <Route path="qaWrite" element={<QAWrite />}></Route>
+        <Route path="qaList/:id" element={<QAView />}></Route>
+        <Route path="qaEdit/:id" element={<QAEdit />}></Route>
       </Route>
     </Route>,
   ),
 );
+
 
 function App() {
   return (
@@ -111,5 +116,6 @@ function App() {
     </LoginProvider>
   );
 }
+
 
 export default App;

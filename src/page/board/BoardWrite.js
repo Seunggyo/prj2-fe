@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Button, Flex, Select, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  FormHelperText,
+  Select,
+  useToast,
+} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -7,6 +13,7 @@ export function BoardWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [boardType, setBoardType] = useState("병원");
+  const [files, setFiles] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toast = useToast();
@@ -15,10 +22,11 @@ export function BoardWrite() {
   function handleSubmit() {
     setIsSubmitting(true);
     axios
-      .post("/api/board/add", {
+      .postForm("/api/board/add", {
         title,
         content,
         category: boardType,
+        files,
       })
       .then(() => {
         toast({
@@ -91,9 +99,10 @@ export function BoardWrite() {
                       >
                         {/*TODO: 게시판유형 더 추가해야함..?*/}
 
-                        <option value={"병원"}>병원</option>
-                        <option value={"약국"}>약국</option>
+                        <option value={"병원"}>병 원</option>
+                        <option value={"약국"}>약 국</option>
                         <option value={"쇼핑몰"}>쇼핑몰</option>
+                        <option value={"자유"}>자 유</option>
                       </Select>
                     </Flex>
                   </Flex>
@@ -106,11 +115,14 @@ export function BoardWrite() {
                 <input
                   className="block w-4/5 text-sm text-gray-900 border
                   border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                  id="file_input"
                   type="file"
-
-                  // TODO: 멀티파일업로드 키밸류 추가해야댐.
+                  accept="image/*"
+                  multiple
+                  onChange={(e) => setFiles(e.target.files)}
                 />
+                <FormHelperText>
+                  한 개의 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부해주세요.
+                </FormHelperText>
               </div>
               <Button
                 isDisabled={isSubmitting}

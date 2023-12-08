@@ -1,3 +1,4 @@
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -12,18 +13,17 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
-  Textarea,
   Text,
+  Textarea,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { LoginContext } from "../../../component/LoginProvider";
 import axios from "axios";
-import { LoginContext } from "../../component/LoginProvider";
 
-export function CSView() {
-  const [cs, setCs] = useState(null);
+export function QAView() {
+  const [qa, setQa] = useState(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -34,22 +34,22 @@ export function CSView() {
   const { hasAccess, authCheck } = useContext(LoginContext);
 
   useEffect(() => {
-    axios.get("/api/cs/id/" + id).then((response) => setCs(response.data));
+    axios.get("/api/qa/id/" + id).then((response) => setQa(response.data));
   }, []);
 
-  if (cs === null) {
+  if (qa === null) {
     return <Spinner />;
   }
 
   function handleDelete() {
     axios
-      .delete("/api/cs/remove/" + id)
+      .delete("/api/qa/remove/" + id)
       .then((response) => {
         toast({
           description: id + "번 공지글이 삭제되었습니다.",
           status: "success",
         });
-        navigate("/cs/csList");
+        navigate("/cs/qaList");
       })
       .catch((error) => {
         toast({
@@ -63,34 +63,34 @@ export function CSView() {
   return (
     <Box p={8}>
       <Text fontSize="3xl" fontWeight="bold" mb={4}>
-        {cs.id}번 글 보기
+        {qa.id}번 글 보기
       </Text>
       <FormControl mb={4}>
         <FormLabel>제목</FormLabel>
-        <Input value={cs.csTitle} readOnly />
+        <Input value={qa.qaTitle} readOnly />
       </FormControl>
       <FormControl mb={4}>
         <FormLabel>본문</FormLabel>
-        <Textarea value={cs.csContent} readOnly />
+        <Textarea value={qa.qaContent} readOnly />
       </FormControl>
       <FormControl mb={4}>
         <FormLabel>작성자</FormLabel>
-        <Input value={cs.csWriter} readOnly />
+        <Input value={qa.qaWriter} readOnly />
       </FormControl>
       <FormControl>
         <FormLabel>카테고리</FormLabel>
-        <Input value={cs.csCategory} readOnly />
+        <Input value={qa.qaCategory} readOnly />
       </FormControl>
       <FormControl mb={4}>
         <FormLabel>작성일시</FormLabel>
-        <Input value={cs.inserted} readOnly />
+        <Input value={qa.inserted} readOnly />
       </FormControl>
 
-      {(hasAccess(cs.csWriter) || authCheck() === "admin") && (
+      {(hasAccess(qa.qaWriter) || authCheck() === "admin") && (
         <Box mt={4}>
           <Button
             colorScheme="purple"
-            onClick={() => navigate("/cs/csEdit/" + id)}
+            onClick={() => navigate("/cs/qaEdit/" + id)}
             mr={2}
           >
             수정
@@ -120,5 +120,3 @@ export function CSView() {
     </Box>
   );
 }
-
-export default CSView;

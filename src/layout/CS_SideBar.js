@@ -36,7 +36,7 @@ export function CS_SideBar() {
           borderColor="white"
           cursor="pointer"
           p={2}
-          onClick={() => useNavigate("")}
+          onClick={() => navigate("/cs/csList")}
         >
           자주하는 질문
         </Text>
@@ -50,6 +50,7 @@ export function CS_SideBar() {
           border="1px"
           borderColor="white"
           cursor="pointer"
+          onClick={() => navigate("/cs/qaList")}
           p={2}
         >
           1:1 응답
