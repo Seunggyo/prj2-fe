@@ -24,10 +24,6 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
-function ViewComponent() {
-  return null;
-}
-
 export function DsSearchComponent({ onItemClick }) {
   const [dsList, setDsList] = useState([]);
   const [pageInfo, setPageInfo] = useState("");
@@ -118,9 +114,6 @@ export function DsSearchComponent({ onItemClick }) {
           </Box>
         ))}
       </Stack>
-      <Box>
-        <ViewComponent />
-      </Box>
     </Box>
   );
 }

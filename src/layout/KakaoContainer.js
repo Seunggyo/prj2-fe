@@ -4,9 +4,12 @@ import { Map, MapMarker, MapTypeId, Roadview } from "react-kakao-maps-sdk";
 import { Box, Button, VStack } from "@chakra-ui/react";
 import { DsSearchComponent } from "./DsSearchComponent";
 import { ViewComponent } from "./ViewComponent";
+import { HsSearchComponent } from "./HsSearchComponent";
+import { HsViewComponent } from "./HsViewComponent";
 
 const MainPage = () => {
   const [dsId, setDsId] = useState();
+  const [hsId, setHsId] = useState();
   const [markers, setMarkers] = useState([]);
   const [map, setMap] = useState();
   const [keyword, setKeyword] = useState("");
@@ -19,6 +22,8 @@ const MainPage = () => {
 
   const [buttonValue, setButtonValue] = useState("");
   const [dsList, setDsList] = useState([]);
+
+  const [searchMode, setSearchMode] = useState("drugStore");
 
   const [center, setCenter] = useState({
     lat: 36.504493,
@@ -35,13 +40,16 @@ const MainPage = () => {
     // inputValue 상태를 사용하여 keyword 상태를 업데이트합니다.
     setKeyword(inputValue);
   };
-  function handleDsSearch() {
-    setKeyword("%세종시%" + "%약국%");
-  }
+  const handleButtonSearch = (mode) => {
+    setSearchMode(mode);
 
-  function handleHsSearch() {
-    setKeyword("%세종시%" + "%병원%");
-  }
+    setKeyword(`%세종시%${mode === "drugStore" ? "약국" : "병원"}%`);
+  };
+
+  // function handleHsSearch() {
+  //   setKeyword("%세종시%" + "%병원%");
+  //   <HsSearchComponent />;
+  // }
   // 마커 클릭 핸들러
   const handleMarkerClick = (markerId) => {
     // 선택된 마커 ID를 업데이트합니다.
@@ -153,6 +161,9 @@ const MainPage = () => {
     setDsId(dsId);
     // console.log(dsId);
   }
+  function handleItemHsClick(hsId) {
+    setHsId(hsId);
+  }
 
   return (
     <Box>
@@ -194,7 +205,13 @@ const MainPage = () => {
           // bg="black"
           // color="white"
         >
-          <DsSearchComponent onItemClick={handleItemClick} />
+          {searchMode === "drugStore" && (
+            <DsSearchComponent onItemClick={handleItemClick} />
+          )}
+          {searchMode === "hospital" && (
+            <HsSearchComponent onItemClick={handleItemHsClick} />
+          )}
+
           {/*{markers.map((marker, index) => (*/}
           {/*  <Box*/}
           {/*    key={index}*/}
@@ -210,7 +227,7 @@ const MainPage = () => {
           {/*  </Box>*/}
           {/*))}*/}
         </VStack>
-        <Box display="flex" position="relative">
+        <Box display="flex" position="relative" w="100%">
           {/* 토글 버튼 */}
           <button
             onClick={toggleListVisibility}
@@ -233,33 +250,39 @@ const MainPage = () => {
 
           {/* 장소 리스트를 보여주는 컴포넌트 */}
           <Box
-            width={isListVisible ? "1050px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
+            width={isListVisible ? "500px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
             height="100vh"
             overflowY="auto"
-            transition="width 0.5s"
+            transition="all 1s ease"
             p={4}
             borderRight="1px solid #ccc"
-            // bg="black"
-            // color="white"
+            bg="white"
+            zIndex={9}
+            display={isListVisible ? "block" : "none"}
           >
-            <ViewComponent dsId={dsId} />
+            {searchMode === "drugStore" && <ViewComponent dsId={dsId} />}
+            {searchMode === "hospital" && <HsViewComponent hsId={hsId} />}
           </Box>
-          <Button onClick={handleDsSearch}>약국</Button>
-          <Button onClick={handleHsSearch}>병원</Button>
+          <Button zIndex={9} onClick={() => handleButtonSearch("drugStore")}>
+            약국
+          </Button>
+          <Button zIndex={9} onClick={() => handleButtonSearch("hospital")}>
+            병원
+          </Button>
           <div
             style={{
               display: "flex",
-              position: "relative",
+              position: "absolute",
               width: "100%",
               height: "100%",
             }}
           >
-            <Map // 로드뷰를 표시할 Container
+            <Map // 지도 표시
               center={center}
               style={{
                 // 지도의 크기
                 width: !isVisible ? "100%" : "50%",
-                height: "600px",
+                height: "100%",
               }}
               level={4}
               ref={mapRef}
@@ -325,6 +348,7 @@ const MainPage = () => {
                 </MapMarker>
               ))}
             </Map>
+
             <div
               id="roadviewControl"
               className={isAtive ? "active" : ""}
