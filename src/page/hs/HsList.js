@@ -94,7 +94,7 @@ export function HsList() {
                                 list.map((h) => (
                                     <Tr key={h.id} _hover={{
                                         cursor: "pointer"
-                                    }} onClick={() => navigate("/hospital/hospitalEdit/" + h.id)}>
+                                    }} onClick={() => navigate("/hospital/hospitalView/" + h.id)}>
                                         <Td>
                                             {h.name}
                                             {h.countLike > 0 && (

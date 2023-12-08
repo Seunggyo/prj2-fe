@@ -3,23 +3,20 @@ import {
     Button,
     Card,
     CardBody,
-    CardFooter,
     CardHeader,
     Checkbox,
-    Divider,
     Flex,
     FormControl,
     FormLabel,
     Heading,
     Image,
     Spinner,
-    Switch,
     Text,
     Tooltip
 } from "@chakra-ui/react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHeart as fullHeart, faTrashCan} from "@fortawesome/free-solid-svg-icons";
-import {useContext, useEffect, useState} from "react";
+import {faHeart as fullHeart} from "@fortawesome/free-solid-svg-icons";
+import React, {useContext, useEffect, useState} from "react";
 import {LoginContext} from "../../component/LoginProvider";
 import {faHeart as emptyHeart} from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
@@ -69,8 +66,21 @@ export function HsView() {
     return (
         <Box>
             <Card>
+
                 <CardHeader>
-                    <Heading>병원 정보 수정</Heading>
+                    {list.files?.length > 0 &&
+                        list.files.map((file) => (
+                            <Card
+                                key={file.id}
+                                sx={{marginTop: "20px", marginBottom: "20px"}}
+                            >
+                                <CardBody>
+                                    <Image src={file.url} alt={file.name} width="100%"/>
+                                </CardBody>
+
+                            </Card>
+                        ))}
+                    <Heading>{list.name}</Heading>
                     <LikeContainer like={like} onClick={handleLikeClick}/>
                 </CardHeader>
                 <CardBody>
@@ -132,56 +142,53 @@ export function HsView() {
                     </FormControl>
                     <FormControl>
                         <FormLabel>상세정보</FormLabel>
-                        <Text>{list.content}</Text>
+                        <Text>
+                            {list.content && list.content.split('\n').map((line, index) => (
+                                <React.Fragment key={index}>
+                                    {line}
+                                    {index < list.content.split('\n').length - 1 && <br/>}
+                                </React.Fragment>
+                            ))}
+                        </Text>
                     </FormControl>
                     <FormControl>
                         <FormLabel>홈페이지</FormLabel>
                         <Text>{list.homePage}</Text>
                     </FormControl>
-                    {(list.medicalCourse !== null) && (
+                    {(list.medicalCourse && list.medicalCourse.length > 0) && (
                         <FormControl>
-                            <FormLabel>진료과목</FormLabel>
-                            {list.medicalCourse}
+                            <FormLabel>진료 과목</FormLabel>
+                            <Text>
+                                {list.medicalCourse && list.medicalCourse.map((course, index) => (
+                                    <React.Fragment key={index}>
+                                        {course.medicalCourseCategory}
+                                        {index < list.medicalCourse.length - 1 && ', '}
+                                    </React.Fragment>
+                                ))}
+                            </Text>
                         </FormControl>
                     )}
-                    {(list.holidays !== null || list.holidays.length > 0) && (
+                    {(list.holidays && list.holidays.length > 0) && (
                         <FormControl>
                             <FormLabel>휴무일</FormLabel>
-                            {list.holidays}
+                            <Text>
+                                {list.holidays && list.holidays.map((holiday, index) => (
+                                    <React.Fragment key={index}>
+                                        {holiday.holiday}
+                                        {index < list.holidays.length - 1 && ', '}
+                                    </React.Fragment>
+                                ))}
+                            </Text>
                         </FormControl>
-
                     )}
-                    {list.files?.length > 0 &&
-                        list.files.map((file) => (
-                            <Card
-                                key={file.id}
-                                sx={{marginTop: "20px", marginBottom: "20px"}}
-                            >
-                                <CardBody>
-                                    <Image src={file.url} alt={file.name} width="100%"/>
-                                </CardBody>
-                                <Divider/>
-                                <CardFooter>
-                                    <FormControl display="flex" alignItems={"center"} gap={2}>
-                                        <FormLabel colorScheme="red" m={0} p={0}>
-                                            <FontAwesomeIcon color="red" icon={faTrashCan}/>
-                                        </FormLabel>
-                                        <Switch
-                                            value={file.id}
-
-                                            colorScheme="red"
-                                        />
-                                    </FormControl>
-                                </CardFooter>
-                            </Card>
-                        ))}
 
 
-                    <FormControl>
-                        <FormLabel>야간영업</FormLabel>
-                        <Checkbox isChecked={list.nightCare}>야간영업을
-                            하시면 체크 해주세요</Checkbox>
-                    </FormControl>
+                    {list.nightCare && (
+                        <FormControl>
+                            <FormLabel>야간영업</FormLabel>
+                            <Checkbox isChecked={list.nightCare} isDisabled>야간영업을 하고있습니다</Checkbox>
+                        </FormControl>
+                    )}
                 </CardBody>
             </Card>
         </Box>

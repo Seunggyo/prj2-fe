@@ -23,10 +23,8 @@ import {
     ModalHeader,
     ModalOverlay,
     Select,
-    Spinner,
     Switch,
     Textarea,
-    Tooltip,
     useDisclosure,
     useToast
 } from "@chakra-ui/react";
@@ -34,32 +32,10 @@ import {useImmer} from "use-immer";
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
-import {faHeart as fullHeart, faTrashCan} from "@fortawesome/free-solid-svg-icons";
-import {faHeart as emptyHeart} from "@fortawesome/free-regular-svg-icons";
+import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {LoginContext} from "../../component/LoginProvider";
 import {HsComment} from "./HsComment";
-
-
-function LikeContainer({like, onClick}) {
-    const {isAuthenticated} = useContext(LoginContext);
-    if (like === null) {
-        return <Spinner/>
-    }
-
-    return (
-        <Flex>
-            <Tooltip isDisabled={isAuthenticated()} hasArrow label={"로그인 하세요"}>
-                <Button variant="ghost" size="xl" onClick={onClick}>
-                    {/*<FontAwesomeIcon icon={faHeart} size="xl" />*/}
-                    {like.like && <FontAwesomeIcon icon={fullHeart} size="xl"/>}
-                    {like.like || <FontAwesomeIcon icon={emptyHeart} size="xl"/>}
-                </Button>
-            </Tooltip>
-            <Heading size="lg">{like.countLike}</Heading>
-        </Flex>
-    )
-}
 
 
 export function HsEdit() {
@@ -193,7 +169,7 @@ export function HsEdit() {
                 description: "수정이 완료되었습니다.",
                 status: "success"
             });
-            navigate(-1)
+
         }).catch(() => {
             toast({
                 description: "문제가 발생하였습니다.",
@@ -211,20 +187,6 @@ export function HsEdit() {
         }
     }
 
-    function handleLikeClick() {
-        axios
-            .post("/api/hospital/like", {businessId: list.id})
-            .then(r => setLike(r.data))
-            .catch(() => console.log("bad"))
-            .finally(() => console.log("done"));
-    }
-
-
-    function handleCourseChange(e) {
-        updateList(r => {
-            r.medicalCourse = e.target.checked
-        })
-    }
 
     function handleRestCloseMinChange(e) {
         updateList(r => {
@@ -238,12 +200,13 @@ export function HsEdit() {
         })
     }
 
+    console.log(course)
+
     return (
         <Box>
             <Card>
                 <CardHeader>
                     <Heading>병원 정보 수정</Heading>
-                    <LikeContainer like={like} onClick={handleLikeClick}/>
                 </CardHeader>
                 <CardBody>
                     <FormControl>
