@@ -177,7 +177,11 @@ export function BoardList() {
   }
 
   function handleCategoryChange(e) {
-    setCategoryFilter(e.target.value);
+    const params = new URLSearchParams();
+    console.log(e.target.value);
+    params.set("f", e.target.value);
+
+    navigate("/board/?" + params);
   }
 
   function handleAllClick() {
@@ -251,44 +255,39 @@ export function BoardList() {
             </Tr>
           </Thead>
           <Tbody>
-            {boardList
-              .filter(
-                (item) =>
-                  categoryFilter === "" || item.category === categoryFilter,
-              )
-              .map((board) => (
-                <Tr
-                  _hover={{
-                    cursor: "pointer",
-                  }}
-                  key={board.id}
-                  onClick={() => handleRowClick(board.id)}
-                >
-                  <Td>
-                    {board.id}
-                    {board.countLike != 0 && board.countLike}
-                  </Td>
-                  <Td>{board.category}</Td>
-                  <Td>
-                    {board.title}
-                    {board.countComment > 0 && (
-                      <Badge>
-                        <ChatIcon />
-                        {board.countComment}
-                      </Badge>
-                    )}
-                    {board.countFile > 0 && (
-                      <Badge>
-                        <FontAwesomeIcon icon={faImages} />
-                        {board.countFile}
-                      </Badge>
-                    )}
-                  </Td>
-                  <Td>{board.writer}</Td>
-                  <Td>{board.ago}</Td>
-                  <Td>{board.increaseHit}</Td>
-                </Tr>
-              ))}
+            {boardList.map((board) => (
+              <Tr
+                _hover={{
+                  cursor: "pointer",
+                }}
+                key={board.id}
+                onClick={() => handleRowClick(board.id)}
+              >
+                <Td>
+                  {board.id}
+                  {board.countLike != 0 && board.countLike}
+                </Td>
+                <Td>{board.category}</Td>
+                <Td>
+                  {board.title}
+                  {board.countComment > 0 && (
+                    <Badge>
+                      <ChatIcon />
+                      {board.countComment}
+                    </Badge>
+                  )}
+                  {board.countFile > 0 && (
+                    <Badge>
+                      <FontAwesomeIcon icon={faImages} />
+                      {board.countFile}
+                    </Badge>
+                  )}
+                </Td>
+                <Td>{board.writer}</Td>
+                <Td>{board.ago}</Td>
+                <Td>{board.increaseHit}</Td>
+              </Tr>
+            ))}
           </Tbody>
         </Table>
       </Box>
