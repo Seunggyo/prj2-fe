@@ -1,7 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../kakaomap.css";
 import { MapMarker, Map, MapTypeId, Roadview } from "react-kakao-maps-sdk";
-import { Box, Input, VStack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Input,
+  VStack,
+  Text,
+  Tr,
+  Td,
+  Image,
+  Tbody,
+  Table,
+  Button,
+} from "@chakra-ui/react";
 
 const MainPage = () => {
   const [markers, setMarkers] = useState([]);
@@ -14,9 +25,12 @@ const MainPage = () => {
   const mapRef = useRef();
   const roadviewRef = useRef();
 
+  const [buttonValue, setButtonValue] = useState("");
+  const [dsList, setDsList] = useState([]);
+
   const [center, setCenter] = useState({
-    lat: 33.450422139819736,
-    lng: 126.5709139924533,
+    lat: 36.504493,
+    lng: 127.264655,
   });
   const [isAtive, setIsAtive] = useState(false);
   const handleInputChange = (event) => {
@@ -29,6 +43,13 @@ const MainPage = () => {
     // inputValue 상태를 사용하여 keyword 상태를 업데이트합니다.
     setKeyword(inputValue);
   };
+  function handleDsSearch() {
+    setKeyword("%세종시%" + "%약국%");
+  }
+
+  function handleHsSearch() {
+    setKeyword("%세종시%" + "%병원%");
+  }
   // 마커 클릭 핸들러
   const handleMarkerClick = (markerId) => {
     // 선택된 마커 ID를 업데이트합니다.
@@ -40,7 +61,22 @@ const MainPage = () => {
       setSelectedMarker(markerId);
     }
   };
-  const handleListItemClick = (index) => {
+  //검색 기능 일때 사용
+  // const handleListItemClick = (index) => {
+  //   const selected = markers[index];
+  //   // 선택된 마커 정보를 업데이트합니다.
+  //   setSelectedMarker(index);
+  //   // 선택된 마커 위치로 지도 중심을 이동합니다.
+  //   map.setCenter(
+  //     new window.kakao.maps.LatLng(
+  //       selected.position.lat,
+  //       selected.position.lng,
+  //     ),
+  //   );
+  // };
+
+  // 버튼 기능 일 때 사용
+  const handleListItemButton = (index) => {
     const selected = markers[index];
     // 선택된 마커 정보를 업데이트합니다.
     setSelectedMarker(index);
@@ -120,11 +156,14 @@ const MainPage = () => {
       map.relayout();
     }
   }, [isVisible, center, mapRef, roadviewRef]);
+
   return (
     <Box>
       <div>
-        <Input type="text" onChange={handleInputChange} value={inputValue} />
-        <button onClick={handleSearch}>검색</button>
+        {/*<Input type="text" onChange={handleInputChange} value={inputValue} />*/}
+        {/*<button onClick={handleSearch}>검색</button>*/}
+        <Button onClick={handleDsSearch}>약국</Button>
+        <Button onClick={handleHsSearch}>병원</Button>
       </div>
       <Box display="flex" position="relative">
         {/* 토글 버튼 */}
@@ -154,9 +193,48 @@ const MainPage = () => {
           transition="width 0.5s"
           p={4}
           borderRight="1px solid #ccc"
-          bg="black"
-          color="white"
+          // bg="black"
+          // color="white"
         >
+          <Box>
+            <Table>
+              <Tbody>
+                {dsList.map((ds) => (
+                  <Tr
+                    key={ds.id}
+                    _hover={{ cursor: "pointer" }}
+                    onClick={() => navigate("/ds/view/" + ds.id)}
+                  >
+                    <Td>{ds.name}</Td>
+                    <Td>{ds.likeCount}</Td>
+                    <Td>{ds.commentCount > 0 && ds.commentCount}</Td>
+                    <Td>{ds.phone}</Td>
+                    <Td>{ds.address}</Td>
+                    <Td>
+                      {
+                        <Box>
+                          {ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}~
+                          {ds.closeHour}:
+                          {ds.closeMin === 0 ? "00" : ds.closeMin}
+                          <Box display={ds.restHour === 0 ? "none" : "block"}>
+                            ※휴게시간
+                            {ds.restHour}:{ds.restMin === 0 ? "00" : ds.restMin}
+                            ~{ds.restCloseHour}:
+                            {ds.restCloseMin === 0 ? "00" : ds.restCloseMin}
+                          </Box>
+                        </Box>
+                      }
+                    </Td>
+                    <Td>
+                      {ds.files > 0 && (
+                        <Image w={"100px"} h={"100px"} src={ds.files[0].url} />
+                      )}
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Box>
           {/*{markers.map((marker, index) => (*/}
           {/*  <Box*/}
           {/*    key={index}*/}
