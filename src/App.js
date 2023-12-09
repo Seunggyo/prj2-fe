@@ -69,8 +69,8 @@ const routes = createBrowserRouter(
           <Route path="edit/:id" element={<DsEdit />} />
         </Route>
         <Route path="drug" element={<DrugLayout />}>
+          <Route index element={<DrugList />} />
           <Route path="write" element={<DrugWrite />} />
-          <Route path="drugList" element={<DrugList />} />
           <Route path=":id" element={<DrugView />} />
           <Route path="edit/:id" element={<DrugEdit />} />
           <Route path="cart" element={<Cart />} />
@@ -78,7 +78,7 @@ const routes = createBrowserRouter(
           <Route path="buy/:id" element={<DrugBuy />} />
         </Route>
         <Route path="hospital" element={<Hs />}>
-          <Route path="hospitalList" element={<HsList />} />
+          <Route index element={<HsList />} />
           <Route path="hospitalAdd" element={<HsAdd />} />
           <Route path="hospitalView/:id" element={<HsView />} />
           <Route path="hospitalEdit/:id" element={<HsEdit />} />
@@ -102,7 +102,7 @@ const routes = createBrowserRouter(
           <Route path="edit/:id" element={<BoardEdit />}></Route>
         </Route>
         <Route path="cs" element={<CS />}>
-          <Route path="csList" element={<CSList />} />
+          <Route index element={<CSList />} />
           <Route path="csWrite" element={<CSWrite />}></Route>
           <Route path="csList/:id" element={<CSView />}></Route>
           <Route path="csEdit/:id" element={<CSEdit />}></Route>
