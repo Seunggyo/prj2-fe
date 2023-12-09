@@ -1,5 +1,4 @@
 import {
-  border,
   Box,
   Button,
   Flex,
@@ -28,9 +27,7 @@ import axios from "axios";
 import { DrugComment } from "./DrugComment";
 import { LoginContext } from "../../component/LoginProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHandHoldingHeart } from "@fortawesome/free-solid-svg-icons/faHandHoldingHeart";
 import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
-import * as PropTypes from "prop-types";
 
 function CartContainer({ cart, onClick }) {
   const { getInputProps, getDecrementButtonProps, getIncrementButtonProps } =
@@ -120,7 +117,7 @@ export function DrugView() {
           description: id + "번 게시물이 삭제되었습니다.",
           status: "success",
         });
-        navigate("/drug/drugList/");
+        navigate("/home/drug/");
       })
       .catch((error) => {
         toast({
@@ -216,7 +213,7 @@ export function DrugView() {
         <>
           <Button
             colorScheme="pink"
-            onClick={() => navigate("/drug/edit/" + id)}
+            onClick={() => navigate("/home/drug/edit/" + id)}
           >
             수정
           </Button>

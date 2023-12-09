@@ -25,7 +25,7 @@ function PageButton({ variant, pageNumber, children }) {
 
   function handleClick() {
     params.set("p", pageNumber);
-    navigate("/cs/csList?" + params);
+    navigate("?" + params);
   }
 
   return (
@@ -37,8 +37,6 @@ function PageButton({ variant, pageNumber, children }) {
 
 function Pagination({ pageInfo }) {
   const pageNumbers = [];
-
-  const navigate = useNavigate();
 
   for (let i = pageInfo.startPageNumber; i <= pageInfo.endPageNumber; i++) {
     pageNumbers.push(i);
@@ -97,7 +95,7 @@ function SearchComponent() {
     const params = new URLSearchParams();
     params.set("k", keyword);
 
-    navigate("/cs/csList/?" + params);
+    navigate("?" + params);
   }
   return (
     <Flex>
@@ -141,7 +139,7 @@ export function CSList() {
       .catch((error) => {
         console.error("bad");
       });
-    navigate("/cs/csList/" + id);
+    navigate("/home/cs/" + id);
   }
 
   function sortNum() {
@@ -197,7 +195,7 @@ export function CSList() {
               <Button
                 variant="solid"
                 colorScheme="green"
-                onClick={() => navigate("/cs/csWrite")}
+                onClick={() => navigate("/home/cs/csWrite")}
               >
                 글 쓰 기
               </Button>

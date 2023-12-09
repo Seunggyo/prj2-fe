@@ -15,7 +15,7 @@ import {
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { LoginContext } from "./LoginProvider";
+import { LoginContext } from "../component/LoginProvider";
 
 export function NavBar() {
   const navigate = useNavigate();
@@ -68,26 +68,26 @@ export function NavBar() {
           <nav class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row">
             <button
               className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-              onClick={() => navigate("/member/signup")}
+              onClick={() => navigate("/home/member/signup")}
             >
               회원가입
             </button>
             <button
               className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-              onClick={() => navigate("/board")}
+              onClick={() => navigate("/home/board")}
             >
               커뮤니티
             </button>
             <button
               className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-              onClick={() => navigate("/cs/csList")}
+              onClick={() => navigate("/home/cs")}
             >
               고객센터
             </button>
             {isAuthenticated() || (
               <button
                 className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                onClick={() => navigate("/member/login")}
+                onClick={() => navigate("/home/member/login")}
               >
                 로그인
               </button>
@@ -95,7 +95,7 @@ export function NavBar() {
             {authCheck() === "admin" && (
               <button
                 className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                onClick={() => navigate("/member/list")}
+                onClick={() => navigate("/home/member/list")}
               >
                 회원목록
               </button>

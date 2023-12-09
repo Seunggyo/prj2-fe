@@ -51,7 +51,7 @@ export function CSEdit() {
           status: "success",
         });
 
-        navigate("/cs/csList/" + id);
+        navigate("/home/cs/" + id);
       })
       .catch((error) => {
         if (error.response.status === 400) {
@@ -101,7 +101,6 @@ export function CSEdit() {
       <Button colorScheme="blue" onClick={onOpen}>
         저장
       </Button>
-      {/* navigate(-1) : 이전 경로로 이동 */}
       <Button onClick={() => navigate(-1)}>취소</Button>
 
       {/* 수정 모달 */}
