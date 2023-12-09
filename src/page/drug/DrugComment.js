@@ -6,6 +6,7 @@ import {
   CardHeader,
   Flex,
   Heading,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -36,9 +37,20 @@ function CommentForm({ drugId, isSubmitting, onSubmit }) {
   return (
     <Box>
       <Textarea value={comment} onChange={(e) => setComment(e.target.value)} />
-      <Button isDisabled={isSubmitting} onClick={handleSubmit}>
-        쓰기
-      </Button>
+      <Flex>
+        <Input
+          type="file"
+          accept="image/*"
+          onChange={(e) => console.log(e.target.files[0])}
+        />
+        <Button
+          isDisabled={isSubmitting}
+          onClick={handleSubmit}
+          colorScheme="blue"
+        >
+          댓글등록
+        </Button>
+      </Flex>
     </Box>
   );
 }
@@ -272,6 +284,7 @@ export function DrugComment({ drugId }) {
     //모달 열고
     onOpen();
   }
+
   return (
     <Box>
       {isAuthenticated() && (
