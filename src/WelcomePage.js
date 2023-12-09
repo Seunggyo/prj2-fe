@@ -139,9 +139,7 @@ export function WelcomePage() {
                       <div className="flex justify-between h-30 mt-6 ">
                         <button
                           className="w-full mx-auto pt-10 flex flex-col items-center"
-                          onClick={() =>
-                            navigate("/home/hospital/hospitalList")
-                          }
+                          onClick={() => navigate("/home/hospital")}
                         >
                           <FontAwesomeIcon
                             icon={faHospital}
@@ -171,7 +169,7 @@ export function WelcomePage() {
                         </button>
                         <button
                           className="w-full mx-auto pt-10 flex flex-col items-center"
-                          onClick={() => navigate("/home/drug/drugList")}
+                          onClick={() => navigate("/home/drug")}
                         >
                           <FontAwesomeIcon
                             icon={faHouseChimneyMedical}
@@ -203,7 +201,7 @@ export function WelcomePage() {
                         </button>
                         <button
                           className="w-full mx-auto pt-10 flex flex-col items-center"
-                          onClick={() => navigate("/home/cs/csList")}
+                          onClick={() => navigate("/home/cs")}
                         >
                           <FontAwesomeIcon
                             icon={faEnvelope}
