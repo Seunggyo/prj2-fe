@@ -104,73 +104,127 @@ export function BoardView() {
   }
 
   return (
-    <Box>
-      <Center>
-        <Card w={"lg"}>
-          <CardHeader>
-            <Flex justifyContent="space-between">
-              <Heading size="xl">{board.id}번 글 보기</Heading>
-              <LikeContainer like={like} onClick={handleLike} />
-            </Flex>
-          </CardHeader>
-          <CardBody>
-            <FormControl mb={5}>
-              <FormLabel>제목</FormLabel>
-              <Input value={board.title} readOnly />
-            </FormControl>
-            <FormControl mb={5}>
-              <FormLabel>본문</FormLabel>
-              <Textarea h={"sm"} value={board.content} readOnly />
-            </FormControl>
+    <Box className="mx-auto max-w-screen-full">
+      <h1 className="text-4xl font-semibold mb-8">자유 게시판</h1>
+      <Box p={8} bg="orange.100">
+        <Box
+          bg="white"
+          borderRadius="xl"
+          boxShadow="lg"
+          p="6"
+          className="flex flex-col md:flex-row w-full"
+        >
+          <Box
+            mb={{ base: 8, md: 0 }}
+            mr={{ md: 10 }}
+            width={{ base: "100%", md: "60%" }}
+          >
+            <Card>
+              <CardHeader>
+                <Flex justifyContent="space-between">
+                  <Heading size="xl">{board.id}번 글 보기</Heading>
+                  <LikeContainer like={like} onClick={handleLike} />
+                </Flex>
+              </CardHeader>
+              <CardBody>
+                <Box mb={5}>
+                  <span className="font-dongle text-5xl text-gray-500">
+                    제 목
+                  </span>
+                  <Input value={board.title} readOnly />
+                </Box>
+                <Box mb={5}>
+                  <span className="font-dongle text-5xl text-gray-500">
+                    본 문
+                  </span>
+                  <Textarea h={"sm"} value={board.content} readOnly />
+                </Box>
 
-            {/*{board.files.map((file) => (*/}
-            {/*  <Card key={file.id} my={5}>*/}
-            {/*    <CardBody>*/}
-            {/*      <Image width="100%" src={file.url} alt={file.name} />*/}
-            {/*    </CardBody>*/}
-            {/*  </Card>*/}
-            {/*))}*/}
+                <Box mb={5} className="flex items-center">
+                  <span className="mr-4 font-dongle text-4xl text-gray-500">
+                    작성자 :
+                  </span>
+                  <Input value={board.writer} readOnly w="120px" />
+                  <span className="ml-20 mr-4 font-dongle text-4xl text-gray-500">
+                    카테고리 :
+                  </span>
+                  <Input value={board.category} readOnly w="120px" />
+                </Box>
+                <Box>
+                  <span className="font-dongle text-4xl text-gray-500 mr-4">
+                    작성일시 :
+                  </span>
+                  <Input value={board.ago} readOnly w="120px" />
+                </Box>
+              </CardBody>
 
-            <FormControl mb={5}>
-              <FormLabel>작성자</FormLabel>
-              <Input value={board.nickName} readOnly />
-            </FormControl>
-            <FormControl mb={5}>
-              <FormLabel>작성일시</FormLabel>
-              <Input value={board.inserted} readOnly />
-            </FormControl>
-          </CardBody>
+              <CardFooter justifyContent="flex-end">
+                {(hasAccess(board.writer) || authCheck() === "admin") && (
+                  <Box>
+                    <button
+                      onClick={() => navigate("/home/board/edit/" + id)}
+                      className="mr-4 px-8 py-2 rounded-md relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold"
+                    >
+                      <span className="relative z-10  text-4xl">
+                        수 정 하 기
+                      </span>
+                    </button>
+                    <button
+                      onClick={onOpen}
+                      ml={2}
+                      className="ml-10 rounded-md relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold "
+                    >
+                      <span className="relative z-10  text-4xl">
+                        삭 제 하 기
+                      </span>
+                    </button>
+                  </Box>
+                )}
+              </CardFooter>
+            </Card>
+          </Box>
+          <Box width={{ base: "100%", md: "40%" }}>
+            <CommentContainer boardId={id} />
+          </Box>
 
-          <CardFooter>
-            {(hasAccess(board.writer) || authCheck() === "admin") && (
-              <Box>
-                <Button onClick={() => navigate("/home/board/edit/" + id)}>
-                  수 정
+          {/* 삭제 모달 */}
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>삭제 확인</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>삭제 하시겠습니까?</ModalBody>
+              <ModalFooter>
+                <Button onClick={onClose}>닫기</Button>
+                <Button onClick={handleDelete} colorScheme="blue" ml={3}>
+                  삭제
                 </Button>
-                <Button onClick={onOpen}>삭 제</Button>
-              </Box>
-            )}
-          </CardFooter>
-        </Card>
-      </Center>
-
-      {/*삭제 모달*/}
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>삭제 확인</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>삭제 하시겠습니까?</ModalBody>
-          <ModalFooter>
-            <Button onClick={onClose}>닫기</Button>
-            <Button onClick={handleDelete} colorScheme="blue">
-              삭제
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      <CommentContainer boardId={id} />
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </Box>
+      </Box>
     </Box>
   );
+}
+{
+  /*{board.files.map((file) => (*/
+}
+{
+  /*  <Card key={file.id} my={5}>*/
+}
+{
+  /*    <CardBody>*/
+}
+{
+  /*      <Image width="100%" src={file.url} alt={file.name} />*/
+}
+{
+  /*    </CardBody>*/
+}
+{
+  /*  </Card>*/
+}
+{
+  /*))}*/
 }

@@ -10,7 +10,6 @@ export function CS_SideBar() {
       p={4}
       border="1px"
       borderColor="white"
-      mr={4}
       flexShrink={0}
       width={{ base: "100%", md: "15%" }}
       display="inline-block"

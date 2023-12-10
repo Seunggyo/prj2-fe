@@ -25,6 +25,7 @@ import {
   faAngleRight,
   faImages,
 } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 
 function PageButton({ variant, pageNumber, children }) {
   const [params] = useSearchParams();
@@ -32,7 +33,7 @@ function PageButton({ variant, pageNumber, children }) {
 
   function handleClick() {
     params.set("p", pageNumber);
-    navigate("/home/board/?" + params);
+    navigate("?" + params);
   }
 
   return (
@@ -94,7 +95,7 @@ function SearchComponent() {
   return (
     <Flex>
       <Input
-        w="300px"
+        w="200px"
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
       />
@@ -178,7 +179,6 @@ export function BoardList() {
 
   function handleCategoryChange(e) {
     const params = new URLSearchParams();
-    console.log(e.target.value);
     params.set("f", e.target.value);
 
     navigate("?" + params);
@@ -200,57 +200,76 @@ export function BoardList() {
 
   return (
     <Box>
-      <button
-        onClick={() => navigate("/home/board/write")}
-        className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
-      >
-        <span className="relative z-10">글쓰기</span>
-      </button>
-      <button
-        className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
-        onClick={handleAllClick}
-      >
-        <span className="relative z-10">전체 글</span>
-      </button>
-      <button
-        className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
-        onClick={handlePopClick}
-      >
-        <span className="relative z-10">인기 글</span>
-      </button>
-      <button className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl">
-        <span className="relative z-10">공 지</span>
-      </button>
-      <Flex>
-        <Select
-          mr={4}
-          placeholder="카테고리 선택"
-          defaultvalue={""}
-          onChange={handleCategoryChange}
-        >
-          <option value="">전체</option>
-          <option value={"병원"}>병 원</option>
-          <option value={"약국"}>약 국</option>
-          <option value={"영양제"}>영양제</option>
-          <option value={"자유"}>자 유</option>
-        </Select>
-        <SearchComponent />
-      </Flex>
+      <h1 className="text-4xl font-semibold mb-8">자유 게시판</h1>
+      <Box className="flex justify-between">
+        <Box>
+          <button
+            onClick={() => navigate("/home/board/write")}
+            className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
+          >
+            <span className="relative z-10">글쓰기</span>
+          </button>
+          <button
+            className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
+            onClick={handleAllClick}
+          >
+            <span className="relative z-10">전체 글</span>
+          </button>
+          <button
+            className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
+            onClick={handlePopClick}
+          >
+            <span className="relative z-10">인기 글</span>
+          </button>
+          <button className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl">
+            <span className="relative z-10">공 지</span>
+          </button>
+        </Box>
+
+        <Box className="flex">
+          <Select
+            mr={4}
+            placeholder="카테고리 선택"
+            defaultvalue={""}
+            onChange={handleCategoryChange}
+          >
+            <option value="">전체</option>
+            <option value={"병원"}>병 원</option>
+            <option value={"약국"}>약 국</option>
+            <option value={"영양제"}>영양제</option>
+            <option value={"자유"}>자 유</option>
+          </Select>
+          <SearchComponent />
+        </Box>
+      </Box>
+
       <Box p={8} bg="orange.100">
         <Table bg="white" borderRadius="xl" boxShadow="lg" p={6}>
           <Thead>
             <Tr>
-              <Th onClick={sortNum} style={{ cursor: "pointer" }}>
+              <Th
+                onClick={sortNum}
+                style={{ cursor: "pointer" }}
+                className="bg-indigo-50"
+              >
                 번호
                 <FontAwesomeIcon icon={faAngleDown} />
               </Th>
-              <Th>카테고리</Th>
-              <Th>제 목</Th>
-              <Th>작성자</Th>
-              <Th>작성일</Th>
-              <Th onClick={sortCount} style={{ cursor: "pointer" }}>
+              <Th className="bg-indigo-50">카테고리</Th>
+              <Th className="bg-indigo-50 w-2/4">제 목</Th>
+              <Th className="bg-indigo-50">작성자</Th>
+              <Th className="bg-indigo-50">작성일</Th>
+              <Th
+                onClick={sortCount}
+                style={{ cursor: "pointer" }}
+                className="bg-indigo-50"
+              >
                 조회수
                 <FontAwesomeIcon icon={faAngleDown} />
+              </Th>
+              <Th className="bg-indigo-50">
+                추 천
+                <FontAwesomeIcon icon={faThumbsUp} />
               </Th>
             </Tr>
           </Thead>
@@ -263,17 +282,14 @@ export function BoardList() {
                 key={board.id}
                 onClick={() => handleRowClick(board.id)}
               >
-                <Td>
-                  {board.id}
-                  {board.countLike != 0 && board.countLike}
-                </Td>
+                <Td>{board.id}</Td>
                 <Td>{board.category}</Td>
-                <Td>
+                <Td className="h-16">
                   {board.title}
                   {board.countComment > 0 && (
-                    <Badge>
-                      <ChatIcon />
-                      {board.countComment}
+                    <Badge className="flex items-center h-full ml-3">
+                      <ChatIcon className="mr-1 text-lg" />
+                      <span className="text-lg">{board.countComment}</span>
                     </Badge>
                   )}
                   {board.countFile > 0 && (
@@ -286,46 +302,15 @@ export function BoardList() {
                 <Td>{board.writer}</Td>
                 <Td>{board.ago}</Td>
                 <Td>{board.increaseHit}</Td>
+                <Td>
+                  <FontAwesomeIcon icon={faThumbsUp} className="mr-2" />
+                  {board.countLike != 0 && board.countLike}
+                </Td>
               </Tr>
             ))}
           </Tbody>
         </Table>
       </Box>
-
-      {/*<div class="flex justify-center p-6">*/}
-      {/*  <nav class="flex space-x-2" aria-label="Pagination">*/}
-      {/*    <a*/}
-      {/*      href="#"*/}
-      {/*      class="items-center px-6 py-2 text-lg bg-gradient-to-r from-violet-300 to-indigo-300 border border-fuchsia-100 hover:border-violet-100 text-white font-semibold cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"*/}
-      {/*    >*/}
-      {/*      이 전*/}
-      {/*    </a>*/}
-      {/*    <a*/}
-      {/*      href="#"*/}
-      {/*      class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"*/}
-      {/*    >*/}
-      {/*      1*/}
-      {/*    </a>*/}
-      {/*    <a*/}
-      {/*      href="#"*/}
-      {/*      class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"*/}
-      {/*    >*/}
-      {/*      2*/}
-      {/*    </a>*/}
-      {/*    <a*/}
-      {/*      href="#"*/}
-      {/*      class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"*/}
-      {/*    >*/}
-      {/*      3*/}
-      {/*    </a>*/}
-      {/*    <a*/}
-      {/*      href="#"*/}
-      {/*      class="relative inline-flex items-center px-6 py-2 text-lg bg-gradient-to-r from-violet-300 to-indigo-300 border border-fuchsia-100 hover:border-violet-100 text-white font-semibold cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"*/}
-      {/*    >*/}
-      {/*      다 음*/}
-      {/*    </a>*/}
-      {/*  </nav>*/}
-      {/*</div>*/}
       <Pagination pageInfo={pageInfo} />
     </Box>
   );

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import {
+  Badge,
   Box,
   Button,
   Flex,
@@ -15,6 +16,9 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { ChatIcon } from "@chakra-ui/icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImages } from "@fortawesome/free-solid-svg-icons";
 
 function PageButton({ variant, pageNumber, children }) {
   const [params] = useSearchParams();
@@ -142,72 +146,90 @@ export function QAList() {
   }
 
   return (
-    <Box>
-      <Flex>
-        <Box p={8} bg="orange.100">
-          <Box bg="white" borderRadius="xl" boxShadow="lg" p={6}>
-            <Flex justify="space-between" align="center">
-              <Button
-                variant="solid"
-                colorScheme="green"
-                onClick={() => navigate("/home/cs/qaWrite")}
-              >
-                글 쓰 기
-              </Button>
-
-              <Flex>
-                <Select
-                  mr={4}
-                  placeholder="카테고리 선택"
-                  defaultvalue={"건의사항"}
-                  onChange={handleCategoryChange}
+    <div>
+      <h1 className="text-4xl font-semibold mb-8">1:1 응답</h1>
+      <Box>
+        <Flex>
+          <Box p={8} bg="orange.100" className="w-full h-full">
+            <Box bg="white" borderRadius="xl" boxShadow="lg" p={6}>
+              <Flex justify="space-between" align="center">
+                <Button
+                  variant="solid"
+                  colorScheme="green"
+                  onClick={() => navigate("/home/cs/qaWrite")}
                 >
-                  <option value={"건의사항"}>건의사항</option>
-                  <option value={"이벤트관련"}>이벤트관련</option>
-                  <option value={"물품관련"}>물품관련</option>
-                  <option value={"기타"}>기타</option>
-                </Select>
-                <SearchComponent />
-              </Flex>
-            </Flex>
-            <Table mt={8} variant="simple">
-              <Thead className="bg-red-100 min-h-screen">
-                <Tr>
-                  <Th>번호</Th>
-                  <Th>카테고리</Th>
-                  <Th>제목</Th>
-                  <Th>작성자</Th>
-                  <Th>수정 / 삭제</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {qaList.map((qa) => (
-                  <Tr
-                    _hover={{
-                      bg: "gray.200",
-                      cursor: "pointer",
-                    }}
-                    key={qa.id}
-                    onClick={() => handleRowClick(qa.id)}
-                  >
-                    <Td>{qa.id}</Td>
-                    <Td>{qa.qaCategory}</Td>
-                    <Td>{qa.qaTitle}</Td>
-                    <Td>{qa.qaWriter}</Td>
-                    <Td>{qa.inserted}</Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
+                  글 쓰 기
+                </Button>
 
-            <div class="flex justify-center p-6">
-              <nav class="flex space- x-2" aria-label="Pagination">
-                <Pagination pageInfo={pageInfo} />
-              </nav>
-            </div>
+                <Flex>
+                  <Select
+                    mr={4}
+                    placeholder="카테고리 선택"
+                    defaultvalue={"건의사항"}
+                    onChange={handleCategoryChange}
+                  >
+                    <option value={"건의사항"}>건의사항</option>
+                    <option value={"이벤트관련"}>이벤트관련</option>
+                    <option value={"물품관련"}>물품관련</option>
+                    <option value={"기타"}>기타</option>
+                  </Select>
+                  <SearchComponent />
+                </Flex>
+              </Flex>
+
+              <Table mt={8} variant="simple">
+                <Thead className="bg-red-100">
+                  <Tr>
+                    <Th>번 호</Th>
+                    <Th>카테고리</Th>
+                    <Th className="w-2/4">제 목</Th>
+                    <Th>작성자</Th>
+                    <Th>작성일</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {qaList.map((qa) => (
+                    <Tr
+                      _hover={{
+                        bg: "gray.200",
+                        cursor: "pointer",
+                      }}
+                      key={qa.id}
+                      onClick={() => handleRowClick(qa.id)}
+                    >
+                      <Td>{qa.id}</Td>
+                      <Td>{qa.qaCategory}</Td>
+                      <Td className="h-16">
+                        {qa.qaTitle}
+                        {qa.countComment > 0 && (
+                          <Badge className="flex items-center h-full ml-3">
+                            <ChatIcon className="mr-1 text-lg" />
+                            <span className="text-lg">{qa.countComment}</span>
+                          </Badge>
+                        )}
+                        {qa.countFile > 0 && (
+                          <Badge>
+                            <FontAwesomeIcon icon={faImages} />
+                            {qa.countFile}
+                          </Badge>
+                        )}
+                      </Td>
+                      <Td>{qa.qaWriter}</Td>
+                      <Td>{qa.ago}</Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+
+              <div class="flex justify-center p-6">
+                <nav class="flex space- x-2" aria-label="Pagination">
+                  <Pagination pageInfo={pageInfo} />
+                </nav>
+              </div>
+            </Box>
           </Box>
-        </Box>
-      </Flex>
-    </Box>
+        </Flex>
+      </Box>
+    </div>
   );
 }

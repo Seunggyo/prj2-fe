@@ -112,7 +112,7 @@ export function SideBar() {
                     <FontAwesomeIcon icon={faSquarePlus} />
                   </span>
                   <span className="ml-2 text-4xl font-dongle tracking-wide truncate">
-                    영양제 쇼핑몰
+                    건강 마켓
                   </span>
                 </p>
               </li>
