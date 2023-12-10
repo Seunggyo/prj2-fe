@@ -51,9 +51,11 @@ import { HsReservation } from "./page/hs/HsReservation";
 import { QAView } from "./page/customerService/QA/QAView";
 import { QAEdit } from "./page/customerService/QA/QAEdit";
 import { DrugBuy } from "./page/drug/DrugBuy";
-import {HsReservationCheck} from "./page/hs/HsReservationCheck";
-import {HsView} from "./page/hs/HsView";
-
+import { HsReservationCheck } from "./page/hs/HsReservationCheck";
+import { HsView } from "./page/hs/HsView";
+import { Payment } from "./page/tossPay/Payment";
+import { Success } from "./page/tossPay/Success";
+import { Fail } from "./page/tossPay/Fail";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -78,10 +80,10 @@ const routes = createBrowserRouter(
       <Route path="hospital" element={<Hs />}>
         <Route path="hospitalList" element={<HsList />} />
         <Route path="hospitalAdd" element={<HsAdd />} />
-          <Route path="hospitalView/:id" element={<HsView/>}/>
-          <Route path="hospitalEdit/:id" element={<HsEdit/>}/>
-          <Route path="hospitalReservation/:id" element={<HsReservation/>}/>
-          <Route path="reservationCheck" element={<HsReservationCheck/>}/>
+        <Route path="hospitalView/:id" element={<HsView />} />
+        <Route path="hospitalEdit/:id" element={<HsEdit />} />
+        <Route path="hospitalReservation/:id" element={<HsReservation />} />
+        <Route path="reservationCheck" element={<HsReservationCheck />} />
       </Route>
       <Route path="member" element={<Member />}>
         <Route path="signup" element={<MemberSignup />} />
@@ -109,10 +111,12 @@ const routes = createBrowserRouter(
         <Route path="qaList/:id" element={<QAView />}></Route>
         <Route path="qaEdit/:id" element={<QAEdit />}></Route>
       </Route>
+      <Route path="payment" element={<Payment />} />
+      <Route path="success" element={<Success />} />
+      <Route path="fail" element={<Fail />} />
     </Route>,
   ),
 );
-
 
 function App() {
   return (
@@ -121,6 +125,5 @@ function App() {
     </LoginProvider>
   );
 }
-
 
 export default App;
