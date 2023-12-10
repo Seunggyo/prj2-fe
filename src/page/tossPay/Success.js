@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Link } from "@chakra-ui/react";
+import { Button, Link } from "@chakra-ui/react";
+import axios from "axios";
+import { nanoid } from "nanoid";
 
 export function Success() {
   const navigate = useNavigate();
@@ -12,6 +14,17 @@ export function Success() {
       amount: searchParams.get("amount"),
       paymentKey: searchParams.get("paymentKey"),
     };
+
+    axios.post("/payment/toss", {
+      paymentUid: nanoid(),
+      paymentName: "paymntName",
+      customerName: "1231",
+      email: "yhd9999@naver.com",
+      successUrl: `${window.location.origin}/success`,
+      failUrl: `${window.location.origin}/fail`,
+      amount: searchParams.get("amount"),
+    });
+
     // TODO: 개발자센터에 로그인해서 내 결제위젯 연동 키 > 시크릿 키를 입력하세요. 시크릿 키는 외부에 공개되면 안돼요.
     // @docs https://docs.tosspayments.com/reference/using-api/api-keys
     const secretKey = "test_sk_LlDJaYngro7M5m9gYjpvrezGdRpX";
@@ -21,18 +34,16 @@ export function Success() {
     // @docs https://docs.tosspayments.com/reference/using-api/authorization#%EC%9D%B8%EC%A6%9D
     const encryptedSecretKey = `Basic ${btoa(secretKey + ":")}`;
 
+    confirm();
+
     async function confirm() {
       try {
-        const response = await axios.post(
-          "/payment/toss/success",
-          requestData,
-          {
-            headers: {
-              Authorization: encryptedSecretKey,
-              "Content-Type": "application/json",
-            },
+        const response = axios.post("/payment/toss/success", requestData, {
+          headers: {
+            Authorization: encryptedSecretKey,
+            "Content-Type": "application/json",
           },
-        );
+        });
 
         console.log(response.data); // 성공 응답 데이터 출력
         // TODO: 구매 완료 비즈니스 로직 구현
@@ -88,6 +99,7 @@ export function Success() {
             </button>
           </Link>
         </div>
+        <Button onClick={confirm}>확인</Button>
       </div>
     </div>
   );
