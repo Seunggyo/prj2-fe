@@ -5,11 +5,9 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Center,
   Flex,
-  FormControl,
-  FormLabel,
   Heading,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -82,7 +80,7 @@ export function BoardView() {
 
   function handleDelete() {
     axios
-      .delete("/api/board/remove" + id)
+      .delete("/api/board/remove/" + id)
       .then((r) => {
         toast({
           description: id + "번 게시글이 삭제되었습니다",
@@ -140,18 +138,27 @@ export function BoardView() {
                   <Textarea h={"sm"} value={board.content} readOnly />
                 </Box>
 
+                {/* 이미지 출력 */}
+                {board.files.map((file) => (
+                  <Card key={file.id} my={5}>
+                    <CardBody>
+                      <Image width="100%" src={file.url} alt={file.name} />
+                    </CardBody>
+                  </Card>
+                ))}
+
                 <Box mb={5} className="flex items-center">
-                  <span className="mr-4 font-dongle text-4xl text-gray-500">
+                  <span className="mr-4 font-dongle text-3xl text-gray-500">
                     작성자 :
                   </span>
                   <Input value={board.writer} readOnly w="120px" />
-                  <span className="ml-20 mr-4 font-dongle text-4xl text-gray-500">
+                  <span className="ml-10 mr-4 font-dongle text-3xl text-gray-500">
                     카테고리 :
                   </span>
                   <Input value={board.category} readOnly w="120px" />
                 </Box>
                 <Box>
-                  <span className="font-dongle text-4xl text-gray-500 mr-4">
+                  <span className="font-dongle text-3xl text-gray-500 mr-4">
                     작성일시 :
                   </span>
                   <Input value={board.ago} readOnly w="120px" />
@@ -206,25 +213,4 @@ export function BoardView() {
       </Box>
     </Box>
   );
-}
-{
-  /*{board.files.map((file) => (*/
-}
-{
-  /*  <Card key={file.id} my={5}>*/
-}
-{
-  /*    <CardBody>*/
-}
-{
-  /*      <Image width="100%" src={file.url} alt={file.name} />*/
-}
-{
-  /*    </CardBody>*/
-}
-{
-  /*  </Card>*/
-}
-{
-  /*))}*/
 }

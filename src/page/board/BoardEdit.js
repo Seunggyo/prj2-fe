@@ -7,7 +7,7 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
-  Input,
+  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -17,14 +17,17 @@ import {
   ModalOverlay,
   Select,
   Spinner,
+  Switch,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 export function BoardEdit() {
-  const [board, updateBoard] = useImmer("");
+  const [board, updateBoard] = useImmer(null);
   const [fileSwitch, setFileSwitch] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadFiles, setUploadFiles] = useState(null);
@@ -46,7 +49,15 @@ export function BoardEdit() {
   function handleSubmit() {
     setIsSubmitting(true);
     axios
-      .put("/api/board/edit", board)
+      .putForm("/api/board/edit", {
+        id: board.id,
+        title: board.title,
+        content: board.content,
+        writer: board.writer,
+        category: board.category,
+        fileSwitch,
+        uploadFiles,
+      })
       .then((r) => {
         toast({
           description: board.id + "번 게시글이 수정되었습니다",
@@ -118,6 +129,28 @@ export function BoardEdit() {
                   className="w-full p-4 text-gray-600 bg-orange-50 outline-none rounded-md"
                 ></textarea>
               </div>
+
+              {/* 이미지 출력 */}
+              {board.files &&
+                board.files.length > 0 &&
+                board.files.map((file) => (
+                  <Box key={file.id} my="5px">
+                    <FormControl display="flex" alignItems="center">
+                      <FormLabel>
+                        <FontAwesomeIcon color="red" icon={faTrashCan} />
+                      </FormLabel>
+                      <Switch
+                        value={file.id}
+                        colorScheme="red"
+                        onChange={handleFileSwitch}
+                      />
+                    </FormControl>
+                    <div>
+                      <Image src={file.url} alt={file.fileName} width="40%" />
+                    </div>
+                  </Box>
+                ))}
+
               <div className="flex space-x-24">
                 <Flex>
                   <div>
@@ -163,7 +196,7 @@ export function BoardEdit() {
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={(e) => setFiles(e.target.files)}
+                  onChange={(e) => setUploadFiles(e.target.files)}
                 />
                 <FormHelperText>
                   한 개의 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부해주세요.

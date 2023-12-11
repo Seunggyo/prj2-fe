@@ -17,6 +17,7 @@ import {
   StackDivider,
   Text,
   Textarea,
+  Tooltip,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -30,6 +31,7 @@ import { LoginContext } from "./LoginProvider";
 function CommentForm({ boardId, isSubmitting, onSubmit }) {
   const [comment, setComment] = useState("");
 
+  const { isAuthenticated } = useContext(LoginContext);
   function handleSubmit() {
     onSubmit({ boardId, comment });
   }
@@ -42,11 +44,17 @@ function CommentForm({ boardId, isSubmitting, onSubmit }) {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
-        <Center isDisabled={isSubmitting} onClick={handleSubmit}>
-          <Button h={"full"} size={"lg"}>
-            <FontAwesomeIcon icon={faPaperPlane} />
-          </Button>
-        </Center>
+        <Tooltip
+          isDisabled={isAuthenticated()}
+          hasArrow
+          label={"로그인이 필요합니다!"}
+        >
+          <Center isDisabled={isSubmitting} onClick={handleSubmit}>
+            <Button h={"full"} size={"lg"}>
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </Button>
+          </Center>
+        </Tooltip>
       </Flex>
     </Box>
   );
@@ -282,17 +290,16 @@ export function CommentContainer({ boardId }) {
         </Box>
       </Center>
 
-      {isAuthenticated() && (
-        <Center mt={5}>
-          <Box w={"lg"}>
-            <CommentForm
-              boardId={boardId}
-              isSubmitting={isSubmitting}
-              onSubmit={handleSubmit}
-            />
-          </Box>
-        </Center>
-      )}
+      <Center mt={5}>
+        <Box w={"lg"}>
+          <CommentForm
+            boardId={boardId}
+            isSubmitting={isSubmitting}
+            onSubmit={handleSubmit}
+          />
+        </Box>
+      </Center>
+
       <CommentList
         boardId={boardId}
         isSubmitting={isSubmitting}

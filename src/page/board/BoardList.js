@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import {
@@ -15,6 +15,7 @@ import {
   Td,
   Th,
   Thead,
+  Tooltip,
   Tr,
 } from "@chakra-ui/react";
 import { ChatIcon } from "@chakra-ui/icons";
@@ -26,6 +27,7 @@ import {
   faImages,
 } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
+import { LoginContext } from "../../component/LoginProvider";
 
 function PageButton({ variant, pageNumber, children }) {
   const [params] = useSearchParams();
@@ -109,7 +111,9 @@ export function BoardList() {
   const [pageInfo, setPageInfo] = useState(null);
   const [orderByHit, setOrderByHit] = useState(null);
   const [orderByNum, setOrderByNum] = useState(null);
-  const [categoryFilter, setCategoryFilter] = useState("");
+
+  const { fetchLogin, login, isAuthenticated, authCheck } =
+    useContext(LoginContext);
 
   const [params, setParams] = useSearchParams();
 
@@ -203,12 +207,19 @@ export function BoardList() {
       <h1 className="text-4xl font-semibold mb-8">자유 게시판</h1>
       <Box className="flex justify-between">
         <Box>
-          <button
-            onClick={() => navigate("/home/board/write")}
-            className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
+          <Tooltip
+            isDisabled={isAuthenticated()}
+            hasArrow
+            label={"로그인이 필요합니다!"}
           >
-            <span className="relative z-10">글쓰기</span>
-          </button>
+            <button
+              disabled={!isAuthenticated()}
+              onClick={() => navigate("/home/board/write")}
+              className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
+            >
+              <span className="relative z-10">글쓰기</span>
+            </button>
+          </Tooltip>
           <button
             className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
             onClick={handleAllClick}
@@ -220,9 +231,6 @@ export function BoardList() {
             onClick={handlePopClick}
           >
             <span className="relative z-10">인기 글</span>
-          </button>
-          <button className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl">
-            <span className="relative z-10">공 지</span>
           </button>
         </Box>
 

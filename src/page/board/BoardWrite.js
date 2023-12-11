@@ -28,7 +28,7 @@ export function BoardWrite() {
         title,
         content,
         category: boardType,
-        files,
+        uploadFiles: files,
       })
       .then(() => {
         toast({

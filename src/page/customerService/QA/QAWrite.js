@@ -89,19 +89,6 @@ export function QAWrite() {
               </Flex>
             </div>
 
-            {/*<div>*/}
-            {/*  <span className="font-dongle text-4xl text-gray-500">*/}
-            {/*    첨부파일*/}
-            {/*  </span>*/}
-            {/*  <input*/}
-            {/*    className="block w-4/5 text-sm text-gray-900 border*/}
-            {/*      border-gray-300 rounded-lg cursor-pointer bg-gray-50"*/}
-            {/*    id="file_input"*/}
-            {/*    type="file"*/}
-
-            {/*    // TODO: 멀티파일업로드 키밸류 추가해야댐.*/}
-            {/*  />*/}
-            {/*</div>*/}
             <Button
               isDisabled={isSubmitting}
               onClick={handleSubmit}

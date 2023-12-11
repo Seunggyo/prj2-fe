@@ -77,23 +77,25 @@ export function SideBar() {
               <li>
                 <p
                   onClick={() => navigate("/home/hospital")}
-                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 cursor-pointer text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
+                  className="mb-3 relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 cursor-pointer text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
                 >
                   <span className="inline-flex justify-center items-center ml-4">
                     <FontAwesomeIcon icon={faHospital} />
                   </span>
-                  <span className="ml-2 text-4xl font-dongle ">병 원</span>
+                  <span className="ml-2 text-4xl font-dongle font-semibold">
+                    병 원
+                  </span>
                 </p>
               </li>
               <li>
                 <p
                   onClick={() => navigate("/home/ds")}
-                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 cursor-pointer text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
+                  className="mb-3 relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 cursor-pointer text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
                 >
                   <span className="inline-flex justify-center items-center ml-4">
                     <FontAwesomeIcon icon={faCapsules} />
                   </span>
-                  <span className="ml-2 text-4xl font-dongle tracking-wide truncate">
+                  <span className="ml-2 text-4xl font-dongle font-semibold tracking-wide truncate">
                     약 국
                   </span>
                   <span className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-indigo-500 bg-indigo-50 rounded-full">
@@ -106,16 +108,31 @@ export function SideBar() {
                 {/*내꺼*/}
                 <p
                   onClick={() => navigate("/home/drug")}
-                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 cursor-pointer text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
+                  className="mb-3 relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 cursor-pointer text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
                 >
                   <span className="inline-flex justify-center items-center ml-4">
                     <FontAwesomeIcon icon={faSquarePlus} />
                   </span>
-                  <span className="ml-2 text-4xl font-dongle tracking-wide truncate">
+                  <span className="ml-2 text-4xl font-dongle font-semibold  tracking-wide truncate">
                     건강 마켓
                   </span>
                 </p>
               </li>
+
+              <li>
+                <p
+                  onClick={() => navigate("/home/board")}
+                  className="mb-3 relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 cursor-pointer text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
+                >
+                  <span className="inline-flex justify-center items-center ml-4">
+                    <FontAwesomeIcon icon={faSquarePlus} />
+                  </span>
+                  <span className="ml-2 text-4xl font-dongle font-semibold tracking-wide truncate">
+                    자유 게시판
+                  </span>
+                </p>
+              </li>
+
               <li>
                 <p className="relative flex flex-row items-center h-11 focus:outline-none cursor-pointer hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                   <span className="inline-flex justify-center items-center ml-4">
@@ -134,7 +151,7 @@ export function SideBar() {
 
               <li className="px-5">
                 <div className="flex flex-row items-center h-8">
-                  <div className="text-xl font-bold tracking-wide text-gray-500">
+                  <div className="text-xl font-bold font-semibold tracking-wide text-gray-500">
                     설 정
                   </div>
                 </div>
@@ -142,7 +159,7 @@ export function SideBar() {
 
               <li>
                 <p
-                  className="relative flex flex-row items-center h-11 focus:outline-none
+                  className="mb-3 relative flex flex-row items-center h-11 focus:outline-none
                   cursor-pointer hover:bg-gray-50 text-gray-600 hover:text-gray-800
                   border-l-4 border-transparent hover:border-indigo-500 pr-6"
                 >
@@ -165,7 +182,7 @@ export function SideBar() {
                   <Menu>
                     <MenuButton
                       rightIcon={<ChevronDownIcon />}
-                      className="ml-2 text-4xl font-dongle tracking-wide text-gray-500"
+                      className="ml-2 text-4xl font-dongle font-semibold tracking-wide text-gray-500"
                     >
                       개인 정보
                     </MenuButton>
@@ -227,7 +244,7 @@ export function SideBar() {
                 </p>
               </li>
               <li>
-                <p className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 cursor-pointer border-l-4 border-transparent hover:border-indigo-500 pr-6">
+                <p className=" mb-3 relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 cursor-pointer border-l-4 border-transparent hover:border-indigo-500 pr-6">
                   <span className="inline-flex justify-center items-center ml-4">
                     <svg
                       className="w-5 h-5"
@@ -250,7 +267,7 @@ export function SideBar() {
                       ></path>
                     </svg>
                   </span>
-                  <span className="ml-2 text-4xl font-dongle tracking-wide truncate">
+                  <span className="ml-2 text-4xl font-dongle font-semibold tracking-wide truncate">
                     옵 션
                   </span>
                 </p>
@@ -277,7 +294,7 @@ export function SideBar() {
                   {isAuthenticated() || (
                     <Box>
                       <button
-                        class="ml-2 text-4xl font-dongle tracking-wide truncate"
+                        class="ml-2 text-4xl font-dongle font-semibold tracking-wide truncate"
                         onClick={() => {
                           navigate("/home/member/login");
                         }}
@@ -290,7 +307,7 @@ export function SideBar() {
                   {isAuthenticated() && (
                     <Box>
                       <button
-                        class="ml-2 text-4xl font-dongle tracking-wide truncate"
+                        class="ml-2 text-4xl font-dongle font-semibold tracking-wide truncate"
                         onClick={onOpen}
                       >
                         로그아웃

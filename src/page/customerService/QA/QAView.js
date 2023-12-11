@@ -150,7 +150,7 @@ export function QAView() {
             <CommentContainer boardId={id} />
           </Box>
 
-          {/* 공지글 삭제 모달 */}
+          {/* 글 삭제 모달 */}
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
