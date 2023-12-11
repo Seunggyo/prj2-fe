@@ -97,7 +97,7 @@ export function DrugView() {
   const [drug, setDrug] = useState(null);
   const [cart, setCart] = useState(null);
 
-  const [currentImageId, setCurrentImageId] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
   const toast = useToast();
@@ -107,10 +107,7 @@ export function DrugView() {
   const { id } = useParams();
 
   useEffect(() => {
-    axios.get("/api/drug/id/" + id).then((response) => {
-      setDrug(response.data);
-      setCurrentImageId(response.data.files[0].id);
-    });
+    axios.get("/api/drug/id/" + id).then((response) => setDrug(response.data));
   }, []);
 
   useEffect(() => {
@@ -128,6 +125,8 @@ export function DrugView() {
   if (drug === null) {
     return <Spinner />;
   }
+
+  const imageLength = drug.files.length;
 
   function handleDelete() {
     axios
@@ -175,8 +174,10 @@ export function DrugView() {
       .finally(() => console.log("끝"));
   }
 
-  function handleShowImage(id) {
-    setCurrentImageId(id);
+  function handleShowImage(next) {
+    setCurrentImageIndex(
+      (currentImageIndex + next + imageLength) % imageLength,
+    );
   }
 
   return (
@@ -186,34 +187,26 @@ export function DrugView() {
         {/*좋아요 버튼*/}
         <LikeContainer like={like} onClick={handleLike} />
       </Flex>
-
-      <Box position="relative" h="500px" my="10">
-        {drug.files.map((file) => (
-          <Box
-            position="absolute"
-            key={file.id}
-            my="5px"
-            border="3px solid black"
-            width="500px"
-            height="500px"
-            opacity={file.id === currentImageId ? 1 : 0}
-            transition="opacity 0.5s"
-          >
-            <Image width="100%" src={file.url} alt={file.name} />
-          </Box>
-        ))}
-      </Box>
-      <Box>
-        {drug.files.map((file, index) => (
-          <Button
-            key={file.id}
-            onClick={() => handleShowImage(file.id)}
-            colorScheme={file.id === currentImageId ? "teal" : "gray"}
-          >
-            {index + 1}
-          </Button>
-        ))}
-      </Box>
+      <Flex alignItems="center">
+        <Button onClick={() => handleShowImage(-1)}>이전</Button>
+        <Box position="relative" w="500px" h="500px" my="10">
+          {drug.files.map((file, index) => (
+            <Box
+              position="absolute"
+              key={file.id}
+              my="5px"
+              border="3px solid black"
+              width="500px"
+              height="500px"
+              opacity={index === currentImageIndex ? 1 : 0}
+              transition="opacity 0.5s"
+            >
+              <Image width="100%" src={file.url} alt={file.name} />
+            </Box>
+          ))}
+        </Box>
+        <Button onClick={() => handleShowImage(1)}>다음</Button>
+      </Flex>
 
       <FormControl>
         <FormLabel>제품명</FormLabel>
