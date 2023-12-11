@@ -279,7 +279,6 @@ export function SideBar() {
                       <button
                         class="ml-2 text-4xl font-dongle tracking-wide truncate"
                         onClick={() => {
-                          console.log("ll");
                           navigate("/home/member/login");
                         }}
                       >

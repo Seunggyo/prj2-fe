@@ -47,8 +47,8 @@ export function QAWrite() {
 
   return (
     <form>
-      <div className="bg-orange-50 min-h-screen rounded-xl md:px-20 pt-2">
-        <div className=" bg-white rounded-xl px-6 py-24 max-w-4xl mx-auto">
+      <div className="bg-orange-50 max-h-screen rounded-xl md:px-20">
+        <div className=" bg-white rounded-xl px-6 py-12 max-w-full mx-auto">
           <h1 className="text-center text-6xl font-dongle text-gray-500 mb-10">
             원하시는 질문을 적어주세요!
           </h1>

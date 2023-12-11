@@ -7,12 +7,10 @@ import { SideBar } from "./SideBar";
 export function HomeLayout() {
   return (
     <div>
-      <Box>
-        <NavBar />
-      </Box>
       <div>
-        <Box>
-          <SideBar />
+        <Box style={{ display: "flex", flexWrap: "wrap" }}>
+          <NavBar />
+          <SideBar style={{ minWidth: "250px" }} />
         </Box>
         <Box ml="250px">
           <Outlet />
