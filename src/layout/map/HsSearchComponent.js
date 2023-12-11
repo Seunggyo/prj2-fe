@@ -53,7 +53,6 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
   }
 
   function handleClickMenuItem(medicalcourse) {
-    console.log(medicalcourse);
     onMedicalcourseClick(medicalcourse);
   }
 
@@ -76,7 +75,6 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
               </MenuButton>
               <MenuList
                 onChange={(e) => {
-                  console.log("click....!@#");
                   setCategory(e.target);
                 }}
               >
