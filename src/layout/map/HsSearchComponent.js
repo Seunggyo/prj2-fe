@@ -23,7 +23,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
-export function HsSearchComponent({ onItemClick }) {
+export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -52,6 +52,11 @@ export function HsSearchComponent({ onItemClick }) {
     return <Spinner />;
   }
 
+  function handleClickMenuItem(medicalcourse) {
+    console.log(medicalcourse);
+    onMedicalcourseClick(medicalcourse);
+  }
+
   return (
     <Box w="340px">
       <Box>
@@ -69,12 +74,37 @@ export function HsSearchComponent({ onItemClick }) {
               <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                 진료과목
               </MenuButton>
-              <MenuList onChange={(e) => setCategory(e.target)}>
+              <MenuList
+                onChange={(e) => {
+                  console.log("click....!@#");
+                  setCategory(e.target);
+                }}
+              >
                 <MenuItem value="all">전체</MenuItem>
-                <MenuItem value="소아과">소아과</MenuItem>
-                <MenuItem value="내과">내과</MenuItem>
-                <MenuItem value="외과">외과</MenuItem>
-                <MenuItem value="치과">치과</MenuItem>
+                <MenuItem
+                  onClick={() => handleClickMenuItem("소아과")}
+                  value="소아과"
+                >
+                  소아과
+                </MenuItem>
+                <MenuItem
+                  onClick={() => handleClickMenuItem("내과")}
+                  value="내과"
+                >
+                  내과
+                </MenuItem>
+                <MenuItem
+                  onClick={() => handleClickMenuItem("외과")}
+                  value="외과"
+                >
+                  외과
+                </MenuItem>
+                <MenuItem
+                  onClick={() => handleClickMenuItem("치과")}
+                  value="치과"
+                >
+                  치과
+                </MenuItem>
               </MenuList>
             </Menu>
             <Menu>

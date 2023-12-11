@@ -15,6 +15,8 @@ const MainPage = () => {
   const [keyword, setKeyword] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [medicalcourse, setMedicalcourse] = useState("");
+
   // 로드뷰 관련 설정들
   const [isVisible, setIsVisible] = useState(false);
   const mapRef = useRef();
@@ -120,7 +122,7 @@ const MainPage = () => {
     if (!map) return;
     const ps = new window.kakao.maps.services.Places();
     ps.keywordSearch(
-      `"세종시" + ${keyword} + "내과" + "병원"`,
+      `"세종시" + ${medicalcourse} + "병원"`,
       (data, status, _pagination) => {
         if (status === window.kakao.maps.services.Status.OK) {
           // 특정 키워드(예: "동물")를 포함하는 결과를 필터링합니다.
@@ -154,7 +156,7 @@ const MainPage = () => {
         }
       },
     );
-  }, [map, keyword]);
+  }, [map, medicalcourse]);
   // 로드뷰 관련 useEffect
   useEffect(() => {
     const map = mapRef.current;
@@ -210,7 +212,10 @@ const MainPage = () => {
           // bg="black"
           // color="white"
         >
-          <HsSearchComponent onItemClick={handleItemHsClick} />
+          <HsSearchComponent
+            onItemClick={handleItemHsClick}
+            onMedicalcourseClick={(course) => setMedicalcourse(course)}
+          />
           {/*{markers.map((marker, index) => (*/}
           {/*  <Box*/}
           {/*    key={index}*/}
