@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import DsView from "../page/ds/DsView";
+import DsView from "../../page/ds/DsView";
 
 export function ViewComponent({ dsId }) {
   return (

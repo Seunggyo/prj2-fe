@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { HsView } from "../page/hs/HsView";
+import { HsView } from "../../page/hs/HsView";
 
 export function HsViewComponent({ hsId }) {
   return (
