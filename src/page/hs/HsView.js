@@ -22,6 +22,7 @@ import {faHeart as emptyHeart} from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import {useImmer} from "use-immer";
 import {useParams} from "react-router-dom";
+import {HsComment} from "./HsComment";
 
 function LikeContainer({like, onClick}) {
     const {isAuthenticated} = useContext(LoginContext);
@@ -191,6 +192,7 @@ export function HsView() {
                     )}
                 </CardBody>
             </Card>
+            <HsComment businessId={id}/>
         </Box>
     );
 }

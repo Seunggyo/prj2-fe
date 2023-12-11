@@ -92,6 +92,8 @@ export function HsAdd() {
         setCourse(e)
     }
 
+    console.log(holiday)
+    console.log(course)
     return (
         <Center>
 

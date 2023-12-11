@@ -3,21 +3,21 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBell, faHospital, faSquarePlus,} from "@fortawesome/free-regular-svg-icons";
 import {faCapsules} from "@fortawesome/free-solid-svg-icons";
 import {
-  Box,
-  Button,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-  useToast,
+    Box,
+    Button,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    useDisclosure,
+    useToast,
 } from "@chakra-ui/react";
 import React, {useContext, useEffect} from "react";
 import {ChevronDownIcon} from "@chakra-ui/icons";
@@ -30,6 +30,7 @@ export function SideBar() {
     const toast = useToast();
     const {isOpen, onClose, onOpen} = useDisclosure();
 
+
     const urlParams = new URLSearchParams();
 
     const {fetchLogin, login, isAuthenticated, authCheck} =
@@ -41,6 +42,7 @@ export function SideBar() {
 
     if (login !== null) {
         urlParams.set("id", login.id);
+
     }
 
     function handleLogout() {
@@ -227,6 +229,22 @@ export function SideBar() {
                                                     약국 리스트
                                                 </button>
                                             </MenuItem>
+                                            <MenuItem>
+                                                {" "}
+                                                <button
+                                                    onClick={() => navigate("/hospital/businessList?" + urlParams)}
+                                                    className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                                                    기관에서 보는 예약 페이지
+                                                </button>
+                                            </MenuItem>
+                                            <MenuItem>
+                                                {" "}
+                                                <button
+                                                    onClick={() => navigate("/hospital/businessList?" + urlParams)}
+                                                    className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                                                    기관정보 변경
+                                                </button>
+                                            </MenuItem>v
                                         </MenuList>
                                     </Menu>
                                 </p>
