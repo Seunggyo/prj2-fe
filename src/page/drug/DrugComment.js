@@ -243,7 +243,7 @@ export function DrugComment({ drugId }) {
       .postForm("/api/drug/comment/add", {
         comment: comment.comment,
         drugId: comment.drugId,
-        uploadfiles: files,
+        uploadFiles: files,
       })
       .then(() => {
         toast({
