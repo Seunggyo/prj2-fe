@@ -53,6 +53,7 @@ import { QAEdit } from "./page/customerService/QA/QAEdit";
 import { DrugBuy } from "./page/drug/DrugBuy";
 import { HsReservationCheck } from "./page/hs/HsReservationCheck";
 import { HsView } from "./page/hs/HsView";
+import HsKakaoContainer from "./layout/map/HsKakaoContainer";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -75,6 +76,7 @@ const routes = createBrowserRouter(
         <Route path="buy/:id" element={<DrugBuy />} />
       </Route>
       <Route path="hospital" element={<Hs />}>
+        <Route index element={<HsKakaoContainer />} />
         <Route path="hospitalList" element={<HsList />} />
         <Route path="hospitalAdd" element={<HsAdd />} />
         <Route path="hospitalView/:id" element={<HsView />} />
