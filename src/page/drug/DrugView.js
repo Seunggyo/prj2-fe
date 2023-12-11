@@ -185,7 +185,7 @@ export function DrugView() {
   }
 
   return (
-    <Box marginLeft="100px" width="800px">
+    <Box marginLeft="300px" width="800px">
       <Flex justifyContent="space-between">
         <Heading size="xl">{drug.id}번째 영양제</Heading>
         {/*좋아요 버튼*/}
