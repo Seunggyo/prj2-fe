@@ -180,6 +180,10 @@ export function DrugView() {
     );
   }
 
+  function handleShowImageStatic(index) {
+    setCurrentImageIndex(index);
+  }
+
   return (
     <Box marginLeft="100px" width="800px">
       <Flex justifyContent="space-between">
@@ -188,7 +192,7 @@ export function DrugView() {
         <LikeContainer like={like} onClick={handleLike} />
       </Flex>
       <Flex alignItems="center">
-        <Button onClick={() => handleShowImage(-1)}>이전</Button>
+        {/*<Button onClick={() => handleShowImage(-1)}>이전</Button>*/}
         <Box position="relative" w="500px" h="500px" my="10">
           {drug.files.map((file, index) => (
             <Box
@@ -205,7 +209,20 @@ export function DrugView() {
             </Box>
           ))}
         </Box>
-        <Button onClick={() => handleShowImage(1)}>다음</Button>
+        {/*<Button onClick={() => handleShowImage(1)}>다음</Button>*/}
+      </Flex>
+      <Flex gap={2}>
+        {drug.files.map((file, index) => (
+          <Box
+            opacity={index === currentImageIndex ? 1 : 0.5}
+            w={20}
+            h={20}
+            key={file.id}
+            onClick={() => handleShowImageStatic(index)}
+          >
+            <Image width="100%" src={file.url} alt={file.name} />
+          </Box>
+        ))}
       </Flex>
 
       <FormControl>
