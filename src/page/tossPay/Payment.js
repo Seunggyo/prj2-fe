@@ -5,16 +5,42 @@ import {
 } from "@tosspayments/payment-widget-sdk";
 import { nanoid } from "nanoid";
 import { Button, useQuery } from "@chakra-ui/react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const clientKey = "test_ck_kYG57Eba3GRQEjeLbEQj8pWDOxmA";
 const customerKey = nanoid();
 const selector = "#payment-widget";
+const orderId = nanoid();
 
 export function Payment() {
+  const location = useLocation();
+
   const paymentWidget = usePaymentWidget(clientKey, customerKey);
   const paymentWidgetRef = useRef(null);
   const paymentMethodsWidgetRef = useRef(null);
-  const [price, setPrice] = useState(5000);
+  // const [price, setPrice] = useState(location.state.amount);
+  const [price, setPrice] = useState(location.state.total);
+
+  useEffect(() => {
+    axios.post("api/order/orderWait", {
+      orderId: orderId,
+      productName: location.state.productName,
+      quantity: location.state.quantity,
+      amount: location.state.amount,
+      orderName: location.state.orderName,
+
+      ordererName: location.state.ordererName,
+      ordererPhone: location.state.ordererPhone,
+      ordererEmail: location.state.ordererEmail,
+      ordererAddress: location.state.ordererAddress,
+
+      deliveryName: location.state.deliveryName,
+      deliveryPhone: location.state.deliveryPhone,
+      deliveryAddress: location.state.deliveryAddress,
+      deliveryComment: location.state.deliveryComment,
+    });
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -76,10 +102,13 @@ export function Payment() {
               const paymentWidget = paymentWidgetRef.current;
               try {
                 await paymentWidget?.requestPayment({
-                  orderId: nanoid(),
-                  orderName: "paymntName",
-                  customerName: "1231",
-                  customerEmail: "yhd9999@naver.com",
+                  orderId: orderId,
+                  // orderName: location.state.orderName,
+                  // customerName: location.state.ordererName,
+                  // customerEmail: location.state.ordererEmail,
+                  orderName: "orderName",
+                  customerName: "customerName",
+                  customerEmail: "Email",
                   successUrl: `${window.location.origin}/success`,
                   failUrl: `${window.location.origin}/fail`,
                 });
