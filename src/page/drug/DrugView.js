@@ -30,7 +30,6 @@ import { LoginContext } from "../../component/LoginProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
-import ReactDOM from "react-dom/client";
 
 function CartContainer({ cart, onClick }) {
   const { getInputProps, getDecrementButtonProps, getIncrementButtonProps } =
@@ -98,6 +97,8 @@ export function DrugView() {
   const [drug, setDrug] = useState(null);
   const [cart, setCart] = useState(null);
 
+  const [currentImageId, setCurrentImageId] = useState(0);
+
   const { isOpen, onClose, onOpen } = useDisclosure();
   const toast = useToast();
   const navigate = useNavigate();
@@ -106,7 +107,10 @@ export function DrugView() {
   const { id } = useParams();
 
   useEffect(() => {
-    axios.get("/api/drug/id/" + id).then((response) => setDrug(response.data));
+    axios.get("/api/drug/id/" + id).then((response) => {
+      setDrug(response.data);
+      setCurrentImageId(response.data.files[0].id);
+    });
   }, []);
 
   useEffect(() => {
@@ -171,6 +175,10 @@ export function DrugView() {
       .finally(() => console.log("끝"));
   }
 
+  function handleShowImage(id) {
+    setCurrentImageId(id);
+  }
+
   return (
     <Box marginLeft="100px" width="800px">
       <Flex justifyContent="space-between">
@@ -179,29 +187,31 @@ export function DrugView() {
         <LikeContainer like={like} onClick={handleLike} />
       </Flex>
 
-      <Box position="relative" columns={2}>
+      <Box position="relative" h="500px" my="10">
         {drug.files.map((file) => (
-          <Box key={file.id} position="absolute">
-            <Box
-              position="absolute"
-              my="5px"
-              border="3px solid black"
-              width="500px"
-              height="500px"
-            >
-              <Image width="100%" src={file.url} alt={file.name} />
-            </Box>
-            <Box
-              position="relative"
-              opacity={0}
-              my="5px"
-              border="3px solid black"
-              width="500px"
-              height="500px"
-            >
-              <Image width="100%" src={file.url} alt={file.name} />
-            </Box>
+          <Box
+            position="absolute"
+            key={file.id}
+            my="5px"
+            border="3px solid black"
+            width="500px"
+            height="500px"
+            opacity={file.id === currentImageId ? 1 : 0}
+            transition="opacity 0.5s"
+          >
+            <Image width="100%" src={file.url} alt={file.name} />
           </Box>
+        ))}
+      </Box>
+      <Box>
+        {drug.files.map((file, index) => (
+          <Button
+            key={file.id}
+            onClick={() => handleShowImage(file.id)}
+            colorScheme={file.id === currentImageId ? "teal" : "gray"}
+          >
+            {index + 1}
+          </Button>
         ))}
       </Box>
 
