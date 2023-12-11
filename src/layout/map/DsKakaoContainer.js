@@ -158,6 +158,7 @@ const MainPage = () => {
   }, [isVisible, center, mapRef, roadviewRef]);
 
   function handleItemClick(dsId) {
+    setIsListVisible(true);
     setDsId(dsId);
     // console.log(dsId);
   }
@@ -244,19 +245,21 @@ const MainPage = () => {
           </button>
 
           {/* 장소 리스트를 보여주는 컴포넌트 */}
-          <Box
-            width={isListVisible ? "500px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
-            height="100vh"
-            overflowY="auto"
-            transition="all 1s ease"
-            p={4}
-            borderRight="1px solid #ccc"
-            bg="white"
-            zIndex={9}
-            display={isListVisible ? "block" : "none"}
-          >
-            <ViewComponent dsId={dsId} />
-          </Box>
+          {dsId && (
+            <Box
+              width={isListVisible ? "500px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
+              height="100vh"
+              overflowY="auto"
+              transition="all 1s ease"
+              p={4}
+              borderRight="1px solid #ccc"
+              bg="white"
+              zIndex={9}
+              display={isListVisible ? "block" : "none"}
+            >
+              <ViewComponent dsId={dsId} />
+            </Box>
+          )}
           <div
             style={{
               display: "flex",
