@@ -44,14 +44,13 @@ export function HsList() {
   const [position, setPosition] = useState();
 
   const [level, setLevel] = useState();
+
   useEffect(() => {
-    axios
-      .get("/api/hospital/list?category=hospital?" + params)
-      .then((r) => setList(r.data));
+    axios.get("/api/hospital/list?" + params).then((r) => setList(r.data.list));
   }, []);
-  const [loading, error] = useKakaoLoader({
-    appkey: process.env.REACT_APP_KAKAO_KEY,
-  });
+  // const [loading, error] = useKakaoLoader({
+  //   appkey: process.env.REACT_APP_KAKAO_KEY,
+  // });
 
   function handleDeleteClick() {
     if (!position) {
@@ -135,18 +134,18 @@ export function HsList() {
         </Box>
       </Box>
 
-      <Box>
-        <Map
-          center={{ lat: 36.503232, lng: 127.269971 }}
-          style={{ width: "100%", height: "900px" }}
-          level={5}
-        >
-          {list.map((m) => (
-            <MapMarker position={{ lat: m.lat, lng: m.lng }}></MapMarker>
-          ))}
-          <ZoomControl position={"TOPRIGHT"} />
-        </Map>
-      </Box>
+      {/*<Box>*/}
+      {/*  <Map*/}
+      {/*    center={{ lat: 36.503232, lng: 127.269971 }}*/}
+      {/*    style={{ width: "100%", height: "900px" }}*/}
+      {/*    level={5}*/}
+      {/*  >*/}
+      {/*    {list.map((m) => (*/}
+      {/*      <MapMarker position={{ lat: m.lat, lng: m.lng }}></MapMarker>*/}
+      {/*    ))}*/}
+      {/*    <ZoomControl position={"TOPRIGHT"} />*/}
+      {/*  </Map>*/}
+      {/*</Box>*/}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

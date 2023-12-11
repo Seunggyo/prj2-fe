@@ -86,7 +86,7 @@ const MainPage = () => {
   };
 
   // 장소 리스트의 표시 상태를 관리하는 상태 변수
-  const [isListVisible, setIsListVisible] = useState(true);
+  const [isListVisible, setIsListVisible] = useState(false);
 
   // 장소 리스트를 토글하는 함수
   const toggleListVisibility = () => {
@@ -119,29 +119,41 @@ const MainPage = () => {
   useEffect(() => {
     if (!map) return;
     const ps = new window.kakao.maps.services.Places();
-    ps.keywordSearch(`"세종시" + ${keyword}`, (data, status, _pagination) => {
-      if (status === window.kakao.maps.services.Status.OK) {
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        const bounds = new window.kakao.maps.LatLngBounds();
-        let markers = [];
+    ps.keywordSearch(
+      `"세종시" + ${keyword} + "내과" + "병원"`,
+      (data, status, _pagination) => {
+        if (status === window.kakao.maps.services.Status.OK) {
+          // 특정 키워드(예: "동물")를 포함하는 결과를 필터링합니다.
+          const filteredData = data.filter(
+            (item) => !item.place_name.includes("%동물%"),
+          );
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+          // LatLngBounds 객체에 좌표를 추가합니다
+          const bounds = new window.kakao.maps.LatLngBounds();
+          let markers = [];
 
-        for (let i = 0; i < data.length; i++) {
-          markers.push({
-            position: {
-              lat: data[i].y,
-              lng: data[i].x,
-            },
-            content: data[i].place_name,
-          });
-          bounds.extend(new window.kakao.maps.LatLng(data[i].y, data[i].x));
+          for (let i = 0; i < filteredData.length; i++) {
+            markers.push({
+              position: {
+                lat: filteredData[i].y,
+                lng: filteredData[i].x,
+              },
+              content: data[i].place_name,
+            });
+            bounds.extend(
+              new window.kakao.maps.LatLng(
+                filteredData[i].y,
+                filteredData[i].x,
+              ),
+            );
+          }
+          setMarkers(markers);
+
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+          map.setBounds(bounds);
         }
-        setMarkers(markers);
-
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-        map.setBounds(bounds);
-      }
-    });
+      },
+    );
   }, [map, keyword]);
   // 로드뷰 관련 useEffect
   useEffect(() => {
@@ -154,8 +166,11 @@ const MainPage = () => {
   }, [isVisible, center, mapRef, roadviewRef]);
 
   function handleItemHsClick(hsId) {
+    setIsListVisible(true);
     setHsId(hsId);
   }
+
+  console.log(markers.map((marker) => marker));
 
   return (
     <Box>
