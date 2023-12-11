@@ -159,10 +159,10 @@ const MainPage = () => {
 
   return (
     <Box>
-      <div>
-        <Input type="text" onChange={handleInputChange} value={inputValue} />
-        <button onClick={handleSearch}>검색</button>
-      </div>
+      {/*<div>*/}
+      {/*  <Input type="text" onChange={handleInputChange} value={inputValue} />*/}
+      {/*  <button onClick={handleSearch}>검색</button>*/}
+      {/*</div>*/}
       <Box display="flex" position="relative">
         {/* 토글 버튼 */}
         {/*<button*/}

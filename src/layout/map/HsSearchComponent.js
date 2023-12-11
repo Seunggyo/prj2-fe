@@ -1,41 +1,28 @@
 import { useNavigate } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
-  Map,
-  MapMarker,
-  useKakaoLoader,
-  ZoomControl,
-} from "react-kakao-maps-sdk";
-import {
-  Badge,
   Box,
   Button,
   Center,
   Flex,
-  Heading,
   Image,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Spacer,
+  Input,
+  InputGroup,
+  InputRightAddon,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Stack,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { LoginContext } from "../../component/LoginProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { ListSearchComponent } from "./ListSearchComponent";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+
 export function HsSearchComponent({ onItemClick }) {
   const navigate = useNavigate();
   const toast = useToast();
@@ -46,6 +33,17 @@ export function HsSearchComponent({ onItemClick }) {
   const [position, setPosition] = useState();
 
   const [level, setLevel] = useState();
+
+  const [keyword, setKeyword] = useState("");
+  const [category, setCategory] = useState("all");
+  function handleSearch() {
+    const params = new URLSearchParams();
+
+    params.set("k", keyword);
+    params.set("c", category);
+
+    navigate("/hospital?" + params);
+  }
   useEffect(() => {
     axios
       .get("/api/hospital/list?category=hospital")
@@ -53,7 +51,42 @@ export function HsSearchComponent({ onItemClick }) {
   }, []);
 
   return (
-    <Box>
+    <Box w="340px">
+      <Box>
+        <Stack spacing={4}>
+          {/* If you add the size prop to `InputGroup`, it'll pass it to all its children. */}
+          <InputGroup size="sm">
+            <Input
+              placeholder="이름"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+            />
+            <InputRightAddon children="검색" onClick={handleSearch} />
+          </InputGroup>
+          <Flex>
+            <Menu>
+              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                진료과목
+              </MenuButton>
+              <MenuList onChange={(e) => setCategory(e.target)}>
+                <MenuItem value="all">전체</MenuItem>
+                <MenuItem value="소아과">소아과</MenuItem>
+                <MenuItem value="내과">내과</MenuItem>
+                <MenuItem value="외과">외과</MenuItem>
+                <MenuItem value="치과">치과</MenuItem>
+              </MenuList>
+            </Menu>
+            <Menu>
+              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                야간
+              </MenuButton>
+              <MenuList>
+                <MenuItem value="nightCare">야간</MenuItem>
+              </MenuList>
+            </Menu>
+          </Flex>
+        </Stack>
+      </Box>
       <Box>
         <Stack spacing={4}>
           {list.map((h) => (
