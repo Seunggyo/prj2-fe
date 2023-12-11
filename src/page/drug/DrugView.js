@@ -30,6 +30,7 @@ import { LoginContext } from "../../component/LoginProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
+import ReactDOM from "react-dom/client";
 
 function CartContainer({ cart, onClick }) {
   const { getInputProps, getDecrementButtonProps, getIncrementButtonProps } =
@@ -178,19 +179,31 @@ export function DrugView() {
         <LikeContainer like={like} onClick={handleLike} />
       </Flex>
 
-      <FormControl>
+      <Box position="relative" columns={2}>
         {drug.files.map((file) => (
-          <Box
-            key={file.id}
-            my="5px"
-            border="3px solid black"
-            width="500px"
-            height="500px"
-          >
-            <Image width="100%" src={file.url} alt={file.name} />
+          <Box key={file.id} position="absolute">
+            <Box
+              position="absolute"
+              my="5px"
+              border="3px solid black"
+              width="500px"
+              height="500px"
+            >
+              <Image width="100%" src={file.url} alt={file.name} />
+            </Box>
+            <Box
+              position="relative"
+              opacity={0}
+              my="5px"
+              border="3px solid black"
+              width="500px"
+              height="500px"
+            >
+              <Image width="100%" src={file.url} alt={file.name} />
+            </Box>
           </Box>
         ))}
-      </FormControl>
+      </Box>
 
       <FormControl>
         <FormLabel>제품명</FormLabel>
