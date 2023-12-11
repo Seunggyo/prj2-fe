@@ -15,15 +15,17 @@ export function Success() {
       paymentKey: searchParams.get("paymentKey"),
     };
 
-    axios.post("/payment/toss", {
-      paymentUid: nanoid(),
-      paymentName: "paymntName",
-      customerName: "1231",
-      email: "yhd9999@naver.com",
-      successUrl: `${window.location.origin}/success`,
-      failUrl: `${window.location.origin}/fail`,
-      amount: searchParams.get("amount"),
-    });
+    axios
+      .post("/payment/toss", {
+        paymentUid: requestData.paymentUid,
+        paymentName: "paymntName",
+        customerName: "1231",
+        email: "yhd9999@naver.com",
+        successUrl: `${window.location.origin}/success`,
+        failUrl: `${window.location.origin}/fail`,
+        amount: searchParams.get("amount"),
+      })
+      .then(() => confirm());
 
     // TODO: 개발자센터에 로그인해서 내 결제위젯 연동 키 > 시크릿 키를 입력하세요. 시크릿 키는 외부에 공개되면 안돼요.
     // @docs https://docs.tosspayments.com/reference/using-api/api-keys
@@ -34,16 +36,22 @@ export function Success() {
     // @docs https://docs.tosspayments.com/reference/using-api/authorization#%EC%9D%B8%EC%A6%9D
     const encryptedSecretKey = `Basic ${btoa(secretKey + ":")}`;
 
-    confirm();
-
     async function confirm() {
       try {
-        const response = axios.post("/payment/toss/success", requestData, {
-          headers: {
-            Authorization: encryptedSecretKey,
-            "Content-Type": "application/json",
+        const response = axios.post(
+          "/payment/toss/success",
+          {
+            paymentUid: requestData.paymentUid,
+            paymentKey: requestData.paymentKey,
+            amount: requestData.amount,
           },
-        });
+          {
+            headers: {
+              Authorization: encryptedSecretKey,
+              "Content-Type": "application/json",
+            },
+          },
+        );
 
         console.log(response.data); // 성공 응답 데이터 출력
         // TODO: 구매 완료 비즈니스 로직 구현
@@ -99,7 +107,6 @@ export function Success() {
             </button>
           </Link>
         </div>
-        <Button onClick={confirm}>확인</Button>
       </div>
     </div>
   );
