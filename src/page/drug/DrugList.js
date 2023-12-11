@@ -18,6 +18,7 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { TbReportMedical } from "react-icons/tb";
 import { Cart } from "./Cart";
 import { DrugPagination } from "./DrugPagination";
+import { DrugSearchComponent } from "./DrugSearchComponent";
 
 export function DrugList() {
   const [drugList, setDrugList] = useState(null);
@@ -141,6 +142,7 @@ export function DrugList() {
         </div>
       </section>
 
+      <DrugSearchComponent />
       <DrugPagination pageInfo={pageInfo} />
     </Box>
   );
