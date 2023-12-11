@@ -1,42 +1,43 @@
 import React, { useEffect, useState } from "react";
 import {
-  Badge,
   Box,
-  Button,
   Center,
   Flex,
-  Heading,
   Image,
   Input,
-  Select,
+  InputGroup,
+  InputRightAddon,
   Spinner,
   Stack,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 export function DsSearchComponent({ onItemClick }) {
   const [dsList, setDsList] = useState([]);
-  const [pageInfo, setPageInfo] = useState("");
-  const [level, setLevel] = useState();
-
-  const [params] = useSearchParams();
-
+  const toast = useToast();
   const navigate = useNavigate();
 
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const [keyword, setKeyword] = useState("");
+  const [params] = useSearchParams();
   const location = useLocation();
 
+  function handleSearch() {
+    const params = new URLSearchParams();
+
+    params.set("k", keyword);
+
+    navigate("/ds?" + params);
+  }
+
   useEffect(() => {
-    axios.get("/api/ds/list").then((r) => {
+    axios.get("/api/ds/list?" + params).then((r) => {
       setDsList(r.data.dsList);
     });
   }, [location]);
@@ -47,6 +48,16 @@ export function DsSearchComponent({ onItemClick }) {
 
   return (
     <Box>
+      <Box>
+        <InputGroup size="sm">
+          <Input
+            placeholder="이름"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+          />
+          <InputRightAddon children="검색" onClick={handleSearch} />
+        </InputGroup>
+      </Box>
       <Stack spacing={4}>
         {dsList.map((ds) => (
           <Box

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -20,7 +20,6 @@ import {
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { ListSearchComponent } from "./ListSearchComponent";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 export function HsSearchComponent({ onItemClick }) {
@@ -29,10 +28,7 @@ export function HsSearchComponent({ onItemClick }) {
 
   const [list, setList] = useState([]);
   const { isOpen, onClose, onOpen } = useDisclosure();
-
-  const [position, setPosition] = useState();
-
-  const [level, setLevel] = useState();
+  const [params] = useSearchParams();
 
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("all");

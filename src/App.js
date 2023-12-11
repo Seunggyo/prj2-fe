@@ -54,13 +54,14 @@ import { DrugBuy } from "./page/drug/DrugBuy";
 import { HsReservationCheck } from "./page/hs/HsReservationCheck";
 import { HsView } from "./page/hs/HsView";
 import HsKakaoContainer from "./layout/map/HsKakaoContainer";
+import DsKakaoContainer from "./layout/map/DsKakaoContainer";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
     // <Route path="/" element={<WelcomePage />}>
     <Route path="/" element={<HomeLayout />}>
       <Route path="ds" element={<Ds />}>
-        <Route index element={<KakaoContainer />} />
+        <Route index element={<DsKakaoContainer />} />
         <Route path="list" element={<DsList />} />
         <Route path="write" element={<DsWrite />} />
         <Route path="view/:id" element={<DsView />} />

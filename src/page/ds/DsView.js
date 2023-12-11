@@ -202,25 +202,25 @@ export function DsView({ dsId }) {
         <FormLabel>약국 정보</FormLabel>
         <Input border="none" value={ds.info} isReadOnly />
       </FormControl>
-      {/*{(hasAccess(ds.id) || isAdmin()) && (*/}
-      <Box>
-        <Button
-          colorScheme="blue"
-          onClick={() => navigate("/ds/edit/" + realId)}
-        >
-          수정
-        </Button>
-        <Button
-          colorScheme="red"
-          mx="30px"
-          onClick={() => {
-            onOpen();
-          }}
-        >
-          삭제
-        </Button>
-      </Box>
-      {/*)}*/}
+      {(hasAccess(ds.id) || isAdmin()) && (
+        <Box>
+          <Button
+            colorScheme="blue"
+            onClick={() => navigate("/ds/edit/" + realId)}
+          >
+            수정
+          </Button>
+          <Button
+            colorScheme="red"
+            mx="30px"
+            onClick={() => {
+              onOpen();
+            }}
+          >
+            삭제
+          </Button>
+        </Box>
+      )}
       {/*삭제 클릭시 모달*/}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
