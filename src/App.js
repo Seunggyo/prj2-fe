@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Outlet,
   Route,
   RouterProvider,
 } from "react-router-dom";
@@ -44,18 +45,22 @@ import { MemberFindPassword } from "./page/member/MemberFindPassword";
 import { MemberJoinList } from "./page/member/MemberJoinList";
 import { Cart } from "./page/drug/Cart";
 import { DrugFuncList } from "./page/drug/DrugFuncList";
-import KakaoContainer from "./layout/KakaoContainer";
-import {Hs} from "./Hs";
-import {HsList} from "./page/hs/HsList";
-import {HsReservation} from "./page/hs/HsReservation";
-import {QAView} from "./page/customerService/QA/QAView";
-import {QAEdit} from "./page/customerService/QA/QAEdit";
-import {DrugBuy} from "./page/drug/DrugBuy";
-import {HsReservationCheck} from "./page/hs/HsReservationCheck";
-import {HsView} from "./page/hs/HsView";
-import {HsBusinessCheck} from "./page/hs/HsBusinessCheck";
-import {BusinessList} from "./page/hs/BusinessList";
-
+import { Hs } from "./Hs";
+import { HsList } from "./page/hs/HsList";
+import { HsReservation } from "./page/hs/HsReservation";
+import { QAView } from "./page/customerService/QA/QAView";
+import { QAEdit } from "./page/customerService/QA/QAEdit";
+import { DrugBuy } from "./page/drug/DrugOrder";
+import { HsReservationCheck } from "./page/hs/HsReservationCheck";
+import { HsView } from "./page/hs/HsView";
+import { HsBusinessCheck } from "./page/hs/HsBusinessCheck";
+import { BusinessList } from "./page/hs/BusinessList";
+import { WelcomePage } from "./WelcomePage";
+import DsKakaoContainer from "./layout/map/DsKakaoContainer";
+import HsKakaoContainer from "./layout/map/HsKakaoContainer";
+import { Payment } from "./page/tossPay/Payment";
+import { Success } from "./page/tossPay/Success";
+import { Fail } from "./page/tossPay/Fail";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -86,7 +91,7 @@ const routes = createBrowserRouter(
           <Route path="hospitalEdit/:id" element={<HsEdit />} />
           <Route path="hospitalReservation/:id" element={<HsReservation />} />
           <Route path="reservationCheck" element={<HsReservationCheck />} />
-            <Route path="businessCheck/:id" element={<HsBusinessCheck/>}/>
+          <Route path="businessCheck/:id" element={<HsBusinessCheck />} />
         </Route>
         <Route path="member" element={<Member />}>
           <Route path="signup" element={<MemberSignup />} />
@@ -122,7 +127,6 @@ const routes = createBrowserRouter(
   ),
 );
 
-
 function App() {
   return (
     <LoginProvider>
@@ -130,6 +134,5 @@ function App() {
     </LoginProvider>
   );
 }
-
 
 export default App;
