@@ -15,7 +15,7 @@ export function DrugSearchComponent() {
     params.set("k", keyword);
     params.set("c", category);
 
-    navigate("/drug/drugList?" + params);
+    navigate("?" + params);
   }
 
   return (
