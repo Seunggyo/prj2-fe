@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -36,6 +36,7 @@ export function HsList() {
   const { isAuthenticated, isAdmin } = useContext(LoginContext);
   const navigate = useNavigate();
   const toast = useToast();
+  const [params] = useSearchParams();
 
   const [list, setList] = useState([]);
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -43,14 +44,13 @@ export function HsList() {
   const [position, setPosition] = useState();
 
   const [level, setLevel] = useState();
+
   useEffect(() => {
-    axios
-      .get("/api/hospital/list?category=hospital")
-      .then((r) => setList(r.data));
+    axios.get("/api/hospital/list?" + params).then((r) => setList(r.data.list));
   }, []);
-  const [loading, error] = useKakaoLoader({
-    appkey: process.env.REACT_APP_KAKAO_KEY,
-  });
+  // const [loading, error] = useKakaoLoader({
+  //   appkey: process.env.REACT_APP_KAKAO_KEY,
+  // });
 
   function handleDeleteClick() {
     if (!position) {
@@ -83,7 +83,7 @@ export function HsList() {
           <Heading>병원 리스트</Heading>
           <Spacer />
           {(isAuthenticated() || isAdmin()) && (
-            <Button onClick={() => navigate("/home/hospital/hospitalAdd")}>
+            <Button onClick={() => navigate("/hospital/hospitalAdd")}>
               병원 추가
             </Button>
           )}
@@ -106,9 +106,7 @@ export function HsList() {
                     _hover={{
                       cursor: "pointer",
                     }}
-                    onClick={() =>
-                      navigate("/home/hospital/hospitalEdit/" + h.id)
-                    }
+                    onClick={() => navigate("/home/hospital/hospitalEdit/" + h.id)}
                   >
                     <Td>
                       {h.name}
@@ -136,18 +134,18 @@ export function HsList() {
         </Box>
       </Box>
 
-      <Box>
-        <Map
-          center={{ lat: 36.503232, lng: 127.269971 }}
-          style={{ width: "100%", height: "900px" }}
-          level={5}
-        >
-          {list.map((m) => (
-            <MapMarker position={{ lat: m.lat, lng: m.lng }}></MapMarker>
-          ))}
-          <ZoomControl position={"TOPRIGHT"} />
-        </Map>
-      </Box>
+      {/*<Box>*/}
+      {/*  <Map*/}
+      {/*    center={{ lat: 36.503232, lng: 127.269971 }}*/}
+      {/*    style={{ width: "100%", height: "900px" }}*/}
+      {/*    level={5}*/}
+      {/*  >*/}
+      {/*    {list.map((m) => (*/}
+      {/*      <MapMarker position={{ lat: m.lat, lng: m.lng }}></MapMarker>*/}
+      {/*    ))}*/}
+      {/*    <ZoomControl position={"TOPRIGHT"} />*/}
+      {/*  </Map>*/}
+      {/*</Box>*/}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

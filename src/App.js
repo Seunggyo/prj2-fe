@@ -58,7 +58,8 @@ import { Payment } from "./page/tossPay/Payment";
 import { Success } from "./page/tossPay/Success";
 import {Fail} from "./page/tossPay/Fail";
 import { WelcomePage } from "./WelcomePage";
-
+import HsKakaoContainer from "./layout/map/HsKakaoContainer";
+import DsKakaoContainer from "./layout/map/DsKakaoContainer";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -66,7 +67,7 @@ const routes = createBrowserRouter(
       <Route index element={<WelcomePage />} />
       <Route path="home" element={<HomeLayout />}>
         <Route path="ds" element={<Ds />}>
-          <Route index element={<KakaoContainer />} />
+          <Route index element={<DsKakaoContainer />} />
           <Route path="list" element={<DsList />} />
           <Route path="write" element={<DsWrite />} />
           <Route path="view/:id" element={<DsView />} />
@@ -82,7 +83,8 @@ const routes = createBrowserRouter(
           <Route path="buy/:id" element={<DrugBuy />} />
         </Route>
         <Route path="hospital" element={<Hs />}>
-          <Route index element={<HsList />} />
+          <Route index element={<HsKakaoContainer />} />
+          <Route path="hospitalList" element={<HsList />} />
           <Route path="hospitalAdd" element={<HsAdd />} />
           <Route path="hospitalView/:id" element={<HsView />} />
           <Route path="hospitalEdit/:id" element={<HsEdit />} />
