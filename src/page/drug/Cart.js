@@ -38,7 +38,7 @@ export function Cart() {
     axios.get("/api/drug/cart/cartList").then((response) => {
       setCartList(response.data);
       if (!isAuthenticated()) {
-        navigate("/member/login");
+        navigate("/home/member/login");
       }
     });
   }, [isOpen]);
@@ -90,7 +90,16 @@ export function Cart() {
               <Button
                 colorScheme="teal"
                 variant="solid"
-                onClick={() => navigate("/drug/order/" + cart.id)}
+                onClick={() =>
+                  navigate("/home/drug/buy/" + cart.id, {
+                    state: {
+                      url: cart.url,
+                      drugName: cart.drugName,
+                      quantity: cart.quantity,
+                      total: cart.total,
+                    },
+                  })
+                }
               >
                 주문
               </Button>

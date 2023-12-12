@@ -94,7 +94,7 @@ export function DsEdit() {
             description: ds.id + "번 게시글이 수정되었습니다",
             status: "success",
           }),
-        navigate("/ds/list"),
+        navigate("/home/ds/list"),
       )
       .catch((error) => {
         if (error.response.status === 400) {

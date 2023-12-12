@@ -65,7 +65,7 @@ export function DsWrite() {
           description: "정보가 잘 저장되었습니다",
           status: "success",
         });
-        navigate("/ds/list");
+        navigate("/home/ds/list");
       })
       .catch((error) => {
         if (error.response.status === 400) {

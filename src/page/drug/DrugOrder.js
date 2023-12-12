@@ -1,16 +1,54 @@
-import { Box, Spinner } from "@chakra-ui/react";
+import { Box, Image, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-export function DrugOrder() {
-  const [order, setOrder] = useState(null);
+export function DrugBuy() {
+  const [buy, setBuy] = useState(null);
+  const [orderer, setOrderer] = useState(null);
+  const location = useLocation();
+  const [deliveryName, setDeliveryName] = useState("");
+  const [deliveryPhone, setDeliveryPhone] = useState("");
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [deliveryComment, setDeliveryComment] = useState("");
 
   const { id } = useParams();
 
-  // if (order === null) {
-  //   return <Spinner />;
-  // }
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get("/api/drug/buy/id/" + id).then(({ data }) => setOrderer(data));
+  }, []);
+
+  if (orderer === null) {
+    return <Spinner />;
+  }
+
+  if (location.state.url === null) {
+    return <Spinner />;
+  }
+
+  function handleOrderClick() {
+    navigate("/payment", {
+      state: {
+        orderName:
+          location.state.drugName + "*" + location.state.quantity + "개",
+        ordererName: orderer.memberId,
+        ordererPhone: orderer.phone,
+        ordererEmail: orderer.email,
+        ordererAddress: orderer.address,
+        amount: location.state.total,
+        quantity: location.state.quantity,
+        productName: location.state.drugName,
+
+        deliveryName,
+        deliveryPhone,
+        deliveryAddress,
+        deliveryComment,
+      },
+    });
+  }
+
   return (
     <Box px={20} h="4/6">
       <div className="h-screen grid grid-cols-3 ">
@@ -68,18 +106,27 @@ export function DrugOrder() {
                     <input
                       name="name"
                       className="focus:outline-none px-3"
-                      placeholder="이름을 적어주세요."
-                      required
+                      value={orderer.memberId}
+                      readOnly
                     />
                   </label>
                   <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                     <span className="text-right px-2">번호</span>
                     <input
-                      name="email"
-                      type="email"
+                      name="phone"
+                      type="phone"
                       className="focus:outline-none px-3"
-                      placeholder="번호를 적어주세요."
-                      required
+                      value={orderer.phone}
+                      readOnly
+                    />
+                  </label>
+                  <label className="flex border-b border-gray-200 h-12 py-3 items-center">
+                    <span className="text-right px-2">email</span>
+                    <input
+                      name="email"
+                      className="focus:outline-none px-3"
+                      value={orderer.email}
+                      readOnly
                     />
                   </label>
                   <label className="flex border-b border-gray-200 h-12 py-3 items-center">
@@ -87,7 +134,7 @@ export function DrugOrder() {
                     <input
                       name="address"
                       className="focus:outline-none px-3"
-                      placeholder="주소를 적어주세요."
+                      value={orderer.address}
                     />
                   </label>
                 </fieldset>
@@ -104,18 +151,19 @@ export function DrugOrder() {
                     <input
                       name="name"
                       className="focus:outline-none px-3"
-                      placeholder="이름을 적어주세요."
+                      placeholder="이름을 적어주세요"
                       required
+                      onChange={(e) => setDeliveryName(e.target.value)}
                     />
                   </label>
                   <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                     <span className="text-right px-2">번호</span>
                     <input
-                      name="email"
-                      type="email"
+                      name="phone"
                       className="focus:outline-none px-3"
-                      placeholder="번호를 적어주세요."
+                      placeholder="전화번호를 적어주세요."
                       required
+                      onChange={(e) => setDeliveryPhone(e.target.value)}
                     />
                   </label>
                   <label className="flex border-b border-gray-200 h-12 py-3 items-center">
@@ -124,6 +172,8 @@ export function DrugOrder() {
                       name="address"
                       className="focus:outline-none px-3"
                       placeholder="주소를 적어주세요."
+                      required
+                      onChange={(e) => setDeliveryAddress(e.target.value)}
                     />
                   </label>
                   <label className="flex border-b border-gray-200 h-12 py-3 items-center">
@@ -132,6 +182,7 @@ export function DrugOrder() {
                       name="city"
                       className="focus:outline-none px-3"
                       placeholder="배송메모를 입력해주세요."
+                      onChange={(e) => setDeliveryComment(e.target.value)}
                     />
                   </label>
                 </fieldset>
@@ -142,23 +193,27 @@ export function DrugOrder() {
           <div class="rounded-md">
             <section>
               <h2 class="uppercase tracking-wide text-lg font-semibold text-gray-700 my-2">
-                결제
+                상품 정보
               </h2>
               <fieldset class="mb-3 bg-white shadow-lg rounded text-gray-600">
                 <label class="flex border-b border-gray-200 h-12 py-3 items-center">
-                  <span class="text-right px-2">Card</span>
-                  <input
-                    name="card"
-                    class="focus:outline-none px-3 w-full"
-                    placeholder="Card number MM/YY CVC"
-                    required=""
+                  <Image
+                    w={"50px"}
+                    src={location.state.url}
+                    alt={location.state.url}
                   />
+                  <span>
+                    {location.state.drugName} * {location.state.quantity} 개
+                  </span>
                 </label>
               </fieldset>
             </section>
           </div>
-          <button class="submit-button px-4 py-3 rounded-full bg-green-700 text-white focus:ring focus:outline-none w-full text-xl font-semibold transition-colors">
-            Pay €846.98
+          <button
+            onClick={handleOrderClick}
+            class="submit-button px-4 py-3 rounded-full bg-green-700 text-white focus:ring focus:outline-none w-full text-xl font-semibold transition-colors"
+          >
+            {location.state.total}원 결제
           </button>
         </div>
         <div class="col-span-1 bg-white lg:block hidden">

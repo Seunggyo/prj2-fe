@@ -1,4 +1,5 @@
 import {
+  border,
   Box,
   Button,
   Flex,
@@ -88,7 +89,6 @@ function LikeContainer({ like, onClick }) {
       <Text fontSize="2xl">{like.countLike}</Text>
     </Button>
   );
-  e;
 }
 
 export function DrugView() {
@@ -136,7 +136,7 @@ export function DrugView() {
           description: id + "번 게시물이 삭제되었습니다.",
           status: "success",
         });
-        navigate("/drug/drugList/");
+        navigate("/home/drug/");
       })
       .catch((error) => {
         toast({
@@ -158,6 +158,7 @@ export function DrugView() {
         });
       })
       .catch((error) => {
+        //TODO: 로그인 안하고 누르면 로그인 페이지로 보내기
         toast({
           description: " 장바구니에 넣는 중 문제가 발생하였습니다.",
           status: "error",
@@ -260,7 +261,7 @@ export function DrugView() {
         <>
           <Button
             colorScheme="pink"
-            onClick={() => navigate("/drug/edit/" + id)}
+            onClick={() => navigate("/home/drug/edit/" + id)}
           >
             수정
           </Button>
