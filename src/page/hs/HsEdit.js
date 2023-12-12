@@ -390,7 +390,7 @@ export function HsEdit() {
             <FormLabel>홈페이지</FormLabel>
             <Input value={list.homePage} onChange={handleHomePageChange} />
           </FormControl>
-          ㄴ
+
           <FormControl>
             <FormLabel>진료과목</FormLabel>
             <Flex>
