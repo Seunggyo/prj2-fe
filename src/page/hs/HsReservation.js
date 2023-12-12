@@ -117,49 +117,129 @@ export function HsReservation() {
                             <CardBody>
                                 오전
                                 <Flex>
-                                    <Button isDisabled={list.openHour > 9} onClick={() => handleSetTimeClick(9, 0)}>9 :
+                                    <Button isDisabled={
+                                        (9 < list.openHour || (9 === list.openHour && 0 < list.openMin)) ||
+                                        (9 > list.closeHour || (9 === list.closeHour && 0 >= list.closeMin)) ||
+                                        ((9 >= list.restHour && 0 >= list.restMin) && (9 < list.restCloseHour || (9 === list.restCloseHour && 30 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(9, 0)}>9 :
                                         00</Button>
-                                    <Button isDisabled={list.openHour > 9} onClick={() => handleSetTimeClick(9, 30)}>9 :
+                                    <Button isDisabled={
+                                        (9 < list.openHour || (9 === list.openHour && 30 < list.openMin)) ||
+                                        (9 > list.closeHour || (9 === list.closeHour && 30 >= list.closeMin)) ||
+                                        ((9 >= list.restHour && 30 >= list.restMin) && (9 < list.restCloseHour || (9 === list.restCloseHour && 30 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(9, 30)}>9 :
                                         30</Button>
-                                    <Button isDisabled={list.openHour > 10} onClick={() => handleSetTimeClick(10, 0)}>10
+                                    <Button isDisabled={
+                                        (10 < list.openHour || (10 === list.openHour && 0 < list.openMin)) ||
+                                        (10 > list.closeHour || (10 === list.closeHour && 0 >= list.closeMin)) ||
+                                        ((10 >= list.restHour && 0 >= list.restMin) && (10 < list.restCloseHour || (10 === list.restCloseHour && 0 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(10, 0)}>10
                                         : 00</Button>
-                                    <Button isDisabled={list.openHour > 10} onClick={() => handleSetTimeClick(10, 30)}>10
+                                    <Button isDisabled={
+                                        (10 < list.openHour || (10 === list.openHour && 30 < list.openMin)) ||
+                                        (10 > list.closeHour || (10 === list.closeHour && 30 >= list.closeMin)) ||
+                                        ((10 >= list.restHour && 30 >= list.restMin) && (10 < list.restCloseHour || (10 === list.restCloseHour && 30 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(10, 30)}>10
                                         : 30</Button>
                                 </Flex>
                                 <Divider/>
                                 <Flex>
 
-                                    <Button isDisabled={list.openHour > 11} onClick={() => handleSetTimeClick(11, 0)}>11
+                                    <Button isDisabled={
+                                        (11 < list.openHour || (11 === list.openHour && 0 < list.openMin)) ||
+                                        (11 > list.closeHour || (11 === list.closeHour && 0 >= list.closeMin)) ||
+                                        ((11 >= list.restHour && 0 >= list.restMin) && (11 < list.restCloseHour || (11 === list.restCloseHour && 0 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(11, 0)}>11
                                         : 00</Button>
-                                    <Button isDisabled={list.openHour > 11} onClick={() => handleSetTimeClick(11, 30)}>11
+                                    <Button isDisabled={
+                                        (11 < list.openHour || (11 === list.openHour && 30 < list.openMin)) ||
+                                        (11 > list.closeHour || (11 === list.closeHour && 30 >= list.closeMin)) ||
+                                        ((11 >= list.restHour && 30 >= list.restMin) && (11 < list.restCloseHour || (11 === list.restCloseHour && 30 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(11, 30)}>11
                                         : 30</Button>
-                                    <Button isDisabled={list.openHour > 12} onClick={() => handleSetTimeClick(12, 0)}>12
+                                    <Button isDisabled={
+                                        (12 < list.openHour || (12 === list.openHour && 0 < list.openMin)) ||
+                                        (12 > list.closeHour || (12 === list.closeHour && 0 >= list.closeMin)) ||
+                                        ((12 >= list.restHour && 0 >= list.restMin) && (12 < list.restCloseHour || (12 === list.restCloseHour && 0 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(12, 0)}>12
                                         : 00</Button>
-                                    <Button isDisabled={list.openHour > 12} onClick={() => handleSetTimeClick(12, 30)}>12
+                                    <Button isDisabled={
+                                        (12 < list.openHour || (12 === list.openHour && 30 < list.openMin)) ||
+                                        (12 > list.closeHour || (12 === list.closeHour && 30 >= list.closeMin)) ||
+                                        ((12 >= list.restHour && 30 >= list.restMin) && (12 < list.restCloseHour || (12 === list.restCloseHour && 30 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(12, 30)}>12
                                         : 30</Button>
                                 </Flex>
                                 <Divider/>
                                 오후
                                 <Flex>
-                                    <Button onClick={() => handleSetTimeClick(13, 0)}>1 :
+                                    <Button isDisabled={
+                                        (13 < list.openHour || (13 === list.openHour && 0 < list.openMin)) ||
+                                        (13 > list.closeHour || (13 === list.closeHour && 0 >= list.closeMin)) ||
+                                        ((13 >= list.restHour && 0 >= list.restMin) && (13 < list.restCloseHour || (13 === list.restCloseHour && 0 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(13, 0)}>1 :
                                         00</Button>
-                                    <Button onClick={() => handleSetTimeClick(13, 30)}>1 : 30</Button>
-                                    <Button onClick={() => handleSetTimeClick(14, 0)}>2 : 00</Button>
-                                    <Button onClick={() => handleSetTimeClick(14, 30)}>2 : 30</Button>
+                                    <Button isDisabled={
+                                        (13 < list.openHour || (13 === list.openHour && 30 < list.openMin)) ||
+                                        (13 > list.closeHour || (13 === list.closeHour && 30 >= list.closeMin)) ||
+                                        ((13 >= list.restHour && 30 >= list.restMin) && (13 < list.restCloseHour || (13 === list.restCloseHour && 30 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(13, 30)}>1 : 30</Button>
+                                    <Button isDisabled={
+                                        (14 < list.openHour || (14 === list.openHour && 0 < list.openMin)) ||
+                                        (14 > list.closeHour || (14 === list.closeHour && 0 >= list.closeMin)) ||
+                                        ((14 >= list.restHour && 0 >= list.restMin) && (14 < list.restCloseHour || (14 === list.restCloseHour && 0 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(14, 0)}>2 : 00</Button>
+                                    <Button isDisabled={
+                                        (14 < list.openHour || (14 === list.openHour && 30 < list.openMin)) ||
+                                        (14 > list.closeHour || (14 === list.closeHour && 30 >= list.closeMin)) ||
+                                        ((14 >= list.restHour && 30 >= list.restMin) && (14 < list.restCloseHour || (14 === list.restCloseHour && 30 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(14, 30)}>2 : 30</Button>
                                 </Flex>
                                 <Divider/>
                                 <Flex>
-                                    <Button onClick={() => handleSetTimeClick(15, 0)}>3 : 00</Button>
-                                    <Button onClick={() => handleSetTimeClick(15, 30)}>3 : 30</Button>
-                                    <Button onClick={() => handleSetTimeClick(16, 0)}>4 : 00</Button>
-                                    <Button onClick={() => handleSetTimeClick(16, 30)}>4 : 30</Button>
+                                    <Button isDisabled={
+                                        (15 < list.openHour || (15 === list.openHour && 0 < list.openMin)) ||
+                                        (15 > list.closeHour || (15 === list.closeHour && 0 >= list.closeMin)) ||
+                                        ((15 >= list.restHour && 0 >= list.restMin) && (15 < list.restCloseHour || (15 === list.restCloseHour && 0 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(15, 0)}>3 : 00</Button>
+                                    <Button isDisabled={
+                                        (15 < list.openHour || (15 === list.openHour && 30 < list.openMin)) ||
+                                        (15 > list.closeHour || (15 === list.closeHour && 30 >= list.closeMin)) ||
+                                        ((15 >= list.restHour && 30 >= list.restMin) && (15 < list.restCloseHour || (15 === list.restCloseHour && 30 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(15, 30)}>3 : 30</Button>
+                                    <Button isDisabled={
+                                        (16 < list.openHour || (16 === list.openHour && 0 < list.openMin)) ||
+                                        (16 > list.closeHour || (16 === list.closeHour && 0 >= list.closeMin)) ||
+                                        ((16 >= list.restHour && 0 >= list.restMin) && (16 < list.restCloseHour || (16 === list.restCloseHour && 0 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(16, 0)}>4 : 00</Button>
+                                    <Button isDisabled={
+                                        (16 < list.openHour || (16 === list.openHour && 30 < list.openMin)) ||
+                                        (16 > list.closeHour || (16 === list.closeHour && 30 >= list.closeMin)) ||
+                                        ((16 >= list.restHour && 30 >= list.restMin) && (16 < list.restCloseHour || (16 === list.restCloseHour && 30 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(16, 30)}>4 : 30</Button>
                                 </Flex>
                                 <Divider/>
                                 <Flex>
-                                    <Button onClick={() => handleSetTimeClick(17, 0)}>5 : 00</Button>
-                                    <Button onClick={() => handleSetTimeClick(17, 30)}>5 : 30</Button>
-                                    <Button onClick={() => handleSetTimeClick(18, 0)}>6 : 00</Button>
-                                    <Button onClick={() => handleSetTimeClick(18, 30)}>6 : 30</Button>
+                                    <Button isDisabled={
+                                        (17 < list.openHour || (17 === list.openHour && 0 < list.openMin)) ||
+                                        (17 > list.closeHour || (17 === list.closeHour && 0 >= list.closeMin)) ||
+                                        ((17 >= list.restHour && 0 >= list.restMin) && (17 < list.restCloseHour || (17 === list.restCloseHour && 0 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(17, 0)}>5 : 00</Button>
+                                    <Button isDisabled={
+                                        (17 < list.openHour || (17 === list.openHour && 30 < list.openMin)) ||
+                                        (17 > list.closeHour || (17 === list.closeHour && 30 >= list.closeMin)) ||
+                                        ((17 >= list.restHour && 30 >= list.restMin) && (17 < list.restCloseHour || (17 === list.restCloseHour && 30 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(17, 30)}>5 : 30</Button>
+                                    <Button isDisabled={
+                                        (18 < list.openHour || (18 === list.openHour && 0 < list.openMin)) ||
+                                        (18 > list.closeHour || (18 === list.closeHour && 0 >= list.closeMin)) ||
+                                        ((18 >= list.restHour && 0 >= list.restMin) && (18 < list.restCloseHour || (18 === list.restCloseHour && 0 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(18, 0)}>6 : 00</Button>
+                                    <Button isDisabled={
+                                        (18 < list.openHour || (18 === list.openHour && 30 < list.openMin)) ||
+                                        (18 > list.closeHour || (18 === list.closeHour && 30 >= list.closeMin)) ||
+                                        ((18 >= list.restHour && 30 >= list.restMin) && (18 < list.restCloseHour || (18 === list.restCloseHour && 30 < list.restCloseMin)))
+                                    } onClick={() => handleSetTimeClick(18, 30)}>6 : 30</Button>
                                 </Flex>
                             </CardBody>
                         </Card>

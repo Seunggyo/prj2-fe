@@ -26,8 +26,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../component/LoginProvider";
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
-import { useImmer } from "use-immer";
-import { useParams } from "react-router-dom";
+import {useImmer} from "use-immer";
+import {useParams} from "react-router-dom";
 
 function LikeContainer({ like, onClick }) {
   const { isAuthenticated } = useContext(LoginContext);

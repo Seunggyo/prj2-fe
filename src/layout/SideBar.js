@@ -191,7 +191,9 @@ export function SideBar() {
                       </MenuItem>
                       <MenuItem>
                         {" "}
-                        <button className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                        <button
+                            onClick={() => navigate("/home/hospital/reservationCheck?" + urlParams)}
+                            className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
                           {" "}
                           예약 내역
                         </button>
@@ -222,6 +224,22 @@ export function SideBar() {
                           약국 리스트
                         </button>
                       </MenuItem>
+                        <MenuItem>
+                            {" "}
+                            <button
+                                onClick={() => navigate("/home/hospital/businessList?" + urlParams)}
+                                className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                                기관에서 보는 예약 페이지
+                            </button>
+                        </MenuItem>
+                        <MenuItem>
+                            {" "}
+                            <button
+                                onClick={() => navigate("/home/hospital/businessList?" + urlParams)}
+                                className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                                기관정보 변경
+                            </button>
+                        </MenuItem>
                     </MenuList>
                   </Menu>
                 </p>

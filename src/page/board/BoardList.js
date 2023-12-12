@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import axios from "axios";
 import {
   Badge,
@@ -32,7 +32,7 @@ function PageButton({ variant, pageNumber, children }) {
 
   function handleClick() {
     params.set("p", pageNumber);
-    navigate("/home/board/?" + params);
+    navigate("/board/?" + params);
   }
 
   return (
