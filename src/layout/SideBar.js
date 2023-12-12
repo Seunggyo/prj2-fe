@@ -63,9 +63,17 @@ export function SideBar() {
 
   return (
     <Box>
-      <div className="fixed flex flex-col top-24 left-0 w-14 hover:w-64 md:w-64 bg-white h-full text-gray-600 border-none z-10 sidebar">
+      <div className="fixed flex flex-col left-0 w-14 hover:w-64 md:w-64 bg-white h-full text-gray-600 border-none z-10 sidebar">
         <div className="fixed flex flex-col top-15 left-0 w-48 bg-white h-full border-r">
           <div className=" overflow-x-hidden flex-grow">
+            <div className="p-4 flex flex-row items-center justify-between mr-auto">
+              <button
+                className=" tracking-widest text-6xl font-dongle font-semibold  "
+                onClick={() => navigate("/")}
+              >
+                아프지마
+              </button>
+            </div>
             <ul className="flex flex-col py-7 space-y-2">
               <li className="px-5">
                 <div className="flex flex-row items-center h-8">
