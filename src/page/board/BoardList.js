@@ -264,7 +264,7 @@ export function BoardList() {
                 <FontAwesomeIcon icon={faAngleDown} />
               </Th>
               <Th className="bg-indigo-50">카테고리</Th>
-              <Th className="bg-indigo-50 w-2/4">제 목</Th>
+              <Th className="bg-indigo-50 w-2/5">제 목</Th>
               <Th className="bg-indigo-50">작성자</Th>
               <Th className="bg-indigo-50">작성일</Th>
               <Th
@@ -275,6 +275,7 @@ export function BoardList() {
                 조회수
                 <FontAwesomeIcon icon={faAngleDown} />
               </Th>
+              <Th className="bg-indigo-50"></Th>
             </Tr>
           </Thead>
           <Tbody>

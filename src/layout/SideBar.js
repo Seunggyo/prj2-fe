@@ -63,9 +63,9 @@ export function SideBar() {
 
   return (
     <Box>
-      <div className="fixed flex flex-col top-24 left-0 w-14 hover:w-64 md:w-64 bg-white h-full text-gray-600 transition-all duration-300 border-none z-10 sidebar">
+      <div className="fixed flex flex-col top-24 left-0 w-14 hover:w-64 md:w-64 bg-white h-full text-gray-600 border-none z-10 sidebar">
         <div className="fixed flex flex-col top-15 left-0 w-48 bg-white h-full border-r">
-          <div className="overflow-y-auto overflow-x-hidden flex-grow">
+          <div className=" overflow-x-hidden flex-grow">
             <ul className="flex flex-col py-7 space-y-2">
               <li className="px-5">
                 <div className="flex flex-row items-center h-8">
@@ -209,8 +209,13 @@ export function SideBar() {
                       <MenuItem>
                         {" "}
                         <button
-                            onClick={() => navigate("/home/hospital/reservationCheck?" + urlParams)}
-                            className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                          onClick={() =>
+                            navigate(
+                              "/home/hospital/reservationCheck?" + urlParams,
+                            )
+                          }
+                          className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                        >
                           {" "}
                           예약 내역
                         </button>
@@ -221,42 +226,6 @@ export function SideBar() {
                           문의 답변
                         </button>
                       </MenuItem>
-                      {/*TODO: 아래 3개는 admin 전용*/}
-                      아래 3개는 admin
-                      <MenuItem>
-                        {" "}
-                        <button className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                          회원 목록
-                        </button>
-                      </MenuItem>
-                      <MenuItem>
-                        {" "}
-                        <button className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                          병원 리스트
-                        </button>
-                      </MenuItem>
-                      <MenuItem>
-                        {" "}
-                        <button className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                          약국 리스트
-                        </button>
-                      </MenuItem>
-                        <MenuItem>
-                            {" "}
-                            <button
-                                onClick={() => navigate("/home/hospital/businessList?" + urlParams)}
-                                className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                                기관에서 보는 예약 페이지
-                            </button>
-                        </MenuItem>
-                        <MenuItem>
-                            {" "}
-                            <button
-                                onClick={() => navigate("/home/hospital/businessList?" + urlParams)}
-                                className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                                기관정보 변경
-                            </button>
-                        </MenuItem>
                     </MenuList>
                   </Menu>
                 </p>
