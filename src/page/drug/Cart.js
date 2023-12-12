@@ -26,6 +26,7 @@ import { LoginContext } from "../../component/LoginProvider";
 
 export function Cart() {
   const [cartList, setCartList] = useState(null);
+  const [amount, setAmount] = useState(0);
 
   const idRef = useRef(null);
 
@@ -36,7 +37,8 @@ export function Cart() {
 
   useEffect(() => {
     axios.get("/api/drug/cart/cartList").then((response) => {
-      setCartList(response.data);
+      setCartList(response.data.cartList);
+      setAmount(response.data.amount);
       if (!isAuthenticated()) {
         navigate("/home/member/login");
       }
@@ -46,7 +48,6 @@ export function Cart() {
   if (cartList === null) {
     return <Spinner />;
   }
-
   function handleDelete() {
     axios
       .delete("/api/drug/cart/remove/" + idRef.current)
@@ -78,44 +79,48 @@ export function Cart() {
           </Tr>
         </Thead>
         <Tbody>
-          {cartList.map((cart) => (
-            <Tr key={cart.id}>
-              <Td>{cart.id}</Td>
-              <Td>
-                <Image w={"50px"} src={cart.url} alt={cart.url} />
-              </Td>
-              <Td>{cart.drugName}</Td>
-              <Td>{cart.quantity}</Td>
-              <Td>{cart.total}</Td>
-              <Button
-                colorScheme="teal"
-                variant="solid"
-                onClick={() =>
-                  navigate("/home/drug/buy/" + cart.id, {
-                    state: {
-                      url: cart.url,
-                      drugName: cart.drugName,
-                      quantity: cart.quantity,
-                      total: cart.total,
-                    },
-                  })
-                }
-              >
-                주문
-              </Button>
-              <Button
-                colorScheme="pink"
-                onClick={() => {
-                  idRef.current = cart.id;
-                  onOpen();
-                }}
-              >
-                삭제
-              </Button>
-            </Tr>
-          ))}
+          {cartList.length >= 1 &&
+            cartList.map((cart) => (
+              <Tr key={cart.id}>
+                <Td>{cart.id}</Td>
+                <Td>
+                  <Image w={"50px"} src={cart.url} alt={cart.url} />
+                </Td>
+                <Td>{cart.drugName}</Td>
+                <Td>{cart.quantity}</Td>
+                <Td>{cart.total}</Td>
+
+                <Button
+                  colorScheme="pink"
+                  onClick={() => {
+                    idRef.current = cart.id;
+                    onOpen();
+                  }}
+                >
+                  삭제
+                </Button>
+              </Tr>
+            ))}
         </Tbody>
       </Table>
+      {cartList.length >= 1 && (
+        <Button
+          colorScheme="teal"
+          variant="solid"
+          onClick={() =>
+            navigate("/home/drug/buy", {
+              state: {
+                amount,
+                orderName:
+                  cartList[0].drugName + " 외 " + (cartList.length - 1) + " 개",
+                url: cartList[0].url,
+              },
+            })
+          }
+        >
+          {amount}원 주문하기{" "}
+        </Button>
+      )}
       {/* 삭제 모달 */}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

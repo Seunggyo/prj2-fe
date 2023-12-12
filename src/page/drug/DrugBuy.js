@@ -2,7 +2,9 @@ import { Box, Image, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { nanoid } from "nanoid";
 
+const orderCode = nanoid();
 export function DrugBuy() {
   const [buy, setBuy] = useState(null);
   const [orderer, setOrderer] = useState(null);
@@ -12,12 +14,10 @@ export function DrugBuy() {
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [deliveryComment, setDeliveryComment] = useState("");
 
-  const { id } = useParams();
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("/api/drug/buy/id/" + id).then(({ data }) => setOrderer(data));
+    axios.get("/api/drug/buy").then(({ data }) => setOrderer(data));
   }, []);
 
   if (orderer === null) {
@@ -31,15 +31,13 @@ export function DrugBuy() {
   function handleOrderClick() {
     navigate("/payment", {
       state: {
-        orderName:
-          location.state.drugName + "*" + location.state.quantity + "개",
-        ordererName: orderer.memberId,
+        orderName: location.state.orderName,
+        ordererName: orderer.id,
         ordererPhone: orderer.phone,
         ordererEmail: orderer.email,
         ordererAddress: orderer.address,
-        amount: location.state.total,
-        quantity: location.state.quantity,
-        productName: location.state.drugName,
+        amount: location.state.amount,
+        orderCode,
 
         deliveryName,
         deliveryPhone,
@@ -106,7 +104,7 @@ export function DrugBuy() {
                     <input
                       name="name"
                       className="focus:outline-none px-3"
-                      value={orderer.memberId}
+                      value={orderer.id}
                       readOnly
                     />
                   </label>
@@ -202,9 +200,7 @@ export function DrugBuy() {
                     src={location.state.url}
                     alt={location.state.url}
                   />
-                  <span>
-                    {location.state.drugName} * {location.state.quantity} 개
-                  </span>
+                  <span>{location.state.orderName}</span>
                 </label>
               </fieldset>
             </section>
