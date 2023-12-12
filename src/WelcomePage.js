@@ -66,7 +66,7 @@ export function WelcomePage() {
   return (
     <div className="bg-blue-100 bg-opacity-40">
       <Box className="max-w-screen-xl mx-auto ">
-        <AspectRatio ratio={20 / 4} position="relative">
+        <AspectRatio ratio={20 / 6} position="relative">
           <Box>
             {imageList.map((image) => (
               <Image
@@ -130,12 +130,12 @@ export function WelcomePage() {
                 <div className="bg-white max-w-md">
                   <div className=" flex flex-col">
                     <div className="p-4">
-                      <div className="flex rounded-xl bg-gray-100 h-16 items-center text-md mt-10 p-8">
-                        <FontAwesomeIcon icon={faMagnifyingGlass} />
-                        <h2 className="text-gray-500 ml-2">
-                          병원 또는 약국명을 검색해 보세요.
-                        </h2>
-                      </div>
+                      {/*<div className="flex rounded-xl bg-gray-100 h-16 items-center text-md mt-10 p-8">*/}
+                      {/*  <FontAwesomeIcon icon={faMagnifyingGlass} />*/}
+                      {/*  <h2 className="text-gray-500 ml-2">*/}
+                      {/*    병원 또는 약국명을 검색해 보세요.*/}
+                      {/*  </h2>*/}
+                      {/*</div>*/}
                       <div className="flex justify-between h-30 mt-6 ">
                         <button
                           className="w-full mx-auto pt-10 flex flex-col items-center"
