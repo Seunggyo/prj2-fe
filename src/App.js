@@ -54,7 +54,11 @@ import { QAEdit } from "./page/customerService/QA/QAEdit";
 import { DrugBuy } from "./page/drug/DrugBuy";
 import { HsReservationCheck } from "./page/hs/HsReservationCheck";
 import { HsView } from "./page/hs/HsView";
+import { Payment } from "./page/tossPay/Payment";
+import { Success } from "./page/tossPay/Success";
+import {Fail} from "./page/tossPay/Fail";
 import { WelcomePage } from "./WelcomePage";
+
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -112,10 +116,13 @@ const routes = createBrowserRouter(
           <Route path="qaEdit/:id" element={<QAEdit />}></Route>
         </Route>
       </Route>
-      ,
+      <Route path="payment" element={<Payment />} />
+      <Route path="success" element={<Success />} />
+      <Route path="fail" element={<Fail />} />
     </Route>,
   ),
 );
+
 
 function App() {
   return (
@@ -124,5 +131,6 @@ function App() {
     </LoginProvider>
   );
 }
+
 
 export default App;
