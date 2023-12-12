@@ -38,7 +38,7 @@ export function Cart() {
     axios.get("/api/drug/cart/cartList").then((response) => {
       setCartList(response.data);
       if (!isAuthenticated()) {
-        navigate("/member/login");
+        navigate("/home/member/login");
       }
     });
   }, [isOpen]);
@@ -91,7 +91,7 @@ export function Cart() {
                 colorScheme="teal"
                 variant="solid"
                 onClick={() =>
-                  navigate("/drug/buy/" + cart.id, {
+                  navigate("/home/drug/buy/" + cart.id, {
                     state: {
                       url: cart.url,
                       drugName: cart.drugName,

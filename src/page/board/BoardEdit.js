@@ -15,14 +15,11 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
-  Switch,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 export function BoardEdit() {
   const [board, updateBoard] = useImmer("");
@@ -51,7 +48,7 @@ export function BoardEdit() {
           description: board.id + "번 게시글이 수정되었습니다",
           status: "success",
         });
-        navigate("/board/" + id);
+        navigate("/home/board/" + id);
       })
       .catch((error) => {
         if (error.response.data === 400) {

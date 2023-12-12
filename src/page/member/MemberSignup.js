@@ -457,7 +457,7 @@ export function MemberSignup() {
             이미 계정이 있나요?
             <button
               class="font-medium text-pink-500 transition-colors hover:text-blue-700"
-              onClick={() => navigate("/member/login")}
+              onClick={() => navigate("/home/member/login")}
             >
               로그인
             </button>

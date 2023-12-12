@@ -4,7 +4,6 @@ import axios from "axios";
 import {
   Box,
   Button,
-  ButtonGroup,
   Flex,
   Input,
   Select,
@@ -16,8 +15,6 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 function PageButton({ variant, pageNumber, children }) {
   const [params] = useSearchParams();
@@ -25,7 +22,7 @@ function PageButton({ variant, pageNumber, children }) {
 
   function handleClick() {
     params.set("p", pageNumber);
-    navigate("/cs/qaList/?" + params);
+    navigate("?" + params);
   }
 
   return (
@@ -37,8 +34,6 @@ function PageButton({ variant, pageNumber, children }) {
 
 function Pagination({ pageInfo }) {
   const pageNumbers = [];
-
-  const navigate = useNavigate();
 
   for (let i = pageInfo.startPageNumber; i <= pageInfo.endPageNumber; i++) {
     pageNumbers.push(i);
@@ -97,7 +92,7 @@ function SearchComponent() {
     const params = new URLSearchParams();
     params.set("k", keyword);
 
-    navigate("/cs/qa/?" + params);
+    navigate("?" + params);
   }
   return (
     <Flex>
@@ -139,7 +134,7 @@ export function QAList() {
       .catch((error) => {
         console.error("bad");
       });
-    navigate("/cs/qaList/" + id);
+    navigate("/home/cs/qaList/" + id);
   }
 
   function handleCategoryChange(e) {
@@ -155,7 +150,7 @@ export function QAList() {
               <Button
                 variant="solid"
                 colorScheme="green"
-                onClick={() => navigate("/cs/qaWrite")}
+                onClick={() => navigate("/home/cs/qaWrite")}
               >
                 글 쓰 기
               </Button>

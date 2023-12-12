@@ -49,7 +49,7 @@ export function QAView() {
           description: id + "번 공지글이 삭제되었습니다.",
           status: "success",
         });
-        navigate("/cs/qaList");
+        navigate("/home/cs/qaList");
       })
       .catch((error) => {
         toast({
@@ -90,7 +90,7 @@ export function QAView() {
         <Box mt={4}>
           <Button
             colorScheme="purple"
-            onClick={() => navigate("/cs/qaEdit/" + id)}
+            onClick={() => navigate("/home/cs/qaEdit/" + id)}
             mr={2}
           >
             수정

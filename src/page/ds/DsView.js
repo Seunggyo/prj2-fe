@@ -90,7 +90,7 @@ export function DsView() {
           description: id + "번 정보가 삭제되었습니다",
           status: "success",
         });
-        navigate("/ds/list");
+        navigate("/home/ds/list");
       })
       .catch((error) => {
         toast({
@@ -188,7 +188,10 @@ export function DsView() {
       </FormControl>
       {/*{(hasAccess(ds.id) || isAdmin()) && (*/}
       <Box>
-        <Button colorScheme="blue" onClick={() => navigate("/ds/edit/" + id)}>
+        <Button
+          colorScheme="blue"
+          onClick={() => navigate("/home/ds/edit/" + id)}
+        >
           수정
         </Button>
         <Button

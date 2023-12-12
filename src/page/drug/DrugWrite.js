@@ -12,7 +12,6 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ChevronDownIcon } from "@chakra-ui/icons";
 
 export function DrugWrite() {
   const [name, setName] = useState("");
@@ -41,7 +40,7 @@ export function DrugWrite() {
           description: "새 글이 저장되었습니다.",
           status: "success",
         });
-        navigate("/drug/drugList");
+        navigate("/home/drug");
       })
       .catch((error) => {
         console.log(error.response.status);
