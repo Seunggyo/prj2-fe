@@ -28,7 +28,7 @@ function PageButton({ variant, pageNumber, children }) {
   function handleClick() {
     params.set("p", pageNumber);
 
-    navigate("/ds/list?" + params);
+    navigate("?" + params);
   }
 
   return (
@@ -87,13 +87,13 @@ function SearchComponent() {
     params.set("k", keyword);
     params.set("c", category);
 
-    navigate("/ds/list?" + params);
+    navigate("?" + params);
   }
 
   return (
     <Box>
       <Flex>
-        <Select onChange={(e) => setCategory(e.target.value)}>
+        <Select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="all">전체</option>
           <option value="name">이름</option>
           <option value="address">주소</option>
@@ -128,7 +128,7 @@ export function DsList() {
   }
 
   function handleMoveWrite() {
-    navigate("/ds/write");
+    navigate("/home/ds/write");
   }
 
   return (
@@ -159,7 +159,7 @@ export function DsList() {
                 <Tr
                   key={ds.id}
                   _hover={{ cursor: "pointer" }}
-                  onClick={() => navigate("/ds/view/" + ds.id)}
+                  onClick={() => navigate("/home/ds/view/" + ds.id)}
                 >
                   <Td>{ds.name}</Td>
                   <Td>{ds.likeCount}</Td>
@@ -181,7 +181,9 @@ export function DsList() {
                     }
                   </Td>
                   <Td>
-                    <Image w={"100px"} h={"100px"} src={ds.files[0].url} />
+                    {ds.files > 0 && (
+                      <Image w={"100px"} h={"100px"} src={ds.files[0].url} />
+                    )}
                   </Td>
                 </Tr>
               ))}

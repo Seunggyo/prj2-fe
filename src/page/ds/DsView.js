@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Button,
+  Center,
   Checkbox,
   Flex,
   FormControl,
@@ -56,7 +57,7 @@ function LikeContainer({ like, onClick }) {
   );
 }
 
-export function DsView() {
+export function DsView({ dsId }) {
   const navigate = useNavigate();
   const toast = useToast();
   const { id } = useParams();
@@ -68,29 +69,37 @@ export function DsView() {
   const [ds, setDs] = useState("");
   const [like, setLike] = useState("");
 
-  useEffect(() => {
-    axios.get("/api/ds/id/" + id).then((response) => setDs(response.data));
-  }, []);
+  const realId = dsId || id;
 
   useEffect(() => {
-    axios
-      .get("/api/business/like/dsId/" + id)
-      .then((response) => setLike(response.data));
-  }, []);
+    if (realId) {
+      axios
+        .get("/api/ds/id/" + realId)
+        .then((response) => setDs(response.data));
+    }
+  }, [realId]);
 
-  if (ds === null) {
+  useEffect(() => {
+    if (realId) {
+      axios
+        .get("/api/business/like/dsId/" + realId)
+        .then((response) => setLike(response.data));
+    }
+  }, [realId]);
+
+  if (realId === undefined || ds === null) {
     return <Spinner />;
   }
 
   function handleDelete() {
     axios
-      .delete("/api/ds/delete/" + id)
+      .delete("/api/ds/delete/" + realId)
       .then((response) => {
         toast({
-          description: id + "번 정보가 삭제되었습니다",
+          description: realId + "번 정보가 삭제되었습니다",
           status: "success",
         });
-        navigate("/ds/list");
+        navigate("/home/ds/list");
       })
       .catch((error) => {
         toast({
@@ -113,12 +122,19 @@ export function DsView() {
 
   return (
     <Box>
-      {ds.files &&
-        ds.files.map((file) => (
-          <Box key={file.id} border="3px solid black" width="50%">
-            <Image width="100%" height="300px" src={file.url} alt={file.name} />
-          </Box>
-        ))}
+      <Center>
+        {ds.files &&
+          ds.files.map((file) => (
+            <Box key={file.id} border="3px solid black" width="50%">
+              <Image
+                width="100%"
+                height="300px"
+                src={file.url}
+                alt={file.name}
+              />
+            </Box>
+          ))}
+      </Center>
       <Flex>
         <Heading size="xl">{ds.name}글 보기</Heading>
         <LikeContainer like={like} onClick={handleLike} />
@@ -186,22 +202,25 @@ export function DsView() {
         <FormLabel>약국 정보</FormLabel>
         <Input border="none" value={ds.info} isReadOnly />
       </FormControl>
-      {/*{(hasAccess(ds.id) || isAdmin()) && (*/}
-      <Box>
-        <Button colorScheme="blue" onClick={() => navigate("/ds/edit/" + id)}>
-          수정
-        </Button>
-        <Button
-          colorScheme="red"
-          mx="30px"
-          onClick={() => {
-            onOpen();
-          }}
-        >
-          삭제
-        </Button>
-      </Box>
-      {/*)}*/}
+      {(hasAccess(ds.id) || isAdmin()) && (
+        <Box>
+          <Button
+            colorScheme="blue"
+            onClick={() => navigate("/home/ds/edit/" + realId)}
+          >
+            수정
+          </Button>
+          <Button
+            colorScheme="red"
+            mx="30px"
+            onClick={() => {
+              onOpen();
+            }}
+          >
+            삭제
+          </Button>
+        </Box>
+      )}
       {/*삭제 클릭시 모달*/}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -218,7 +237,7 @@ export function DsView() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <DsComment businessId={id} />
+      <DsComment businessId={realId} />
     </Box>
   );
 }

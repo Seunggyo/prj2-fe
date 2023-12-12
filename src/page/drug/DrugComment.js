@@ -5,7 +5,10 @@ import {
   CardBody,
   CardHeader,
   Flex,
+  FormHelperText,
   Heading,
+  Image,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,7 +16,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Spinner,
   Stack,
   StackDivider,
   Text,
@@ -26,7 +28,7 @@ import axios from "axios";
 import { LoginContext } from "../../component/LoginProvider";
 import { DeleteIcon, EditIcon, NotAllowedIcon } from "@chakra-ui/icons";
 
-function CommentForm({ drugId, isSubmitting, onSubmit }) {
+function CommentForm({ drugId, isSubmitting, onSubmit, setFiles }) {
   const [comment, setComment] = useState("");
 
   function handleSubmit() {
@@ -36,9 +38,21 @@ function CommentForm({ drugId, isSubmitting, onSubmit }) {
   return (
     <Box>
       <Textarea value={comment} onChange={(e) => setComment(e.target.value)} />
-      <Button isDisabled={isSubmitting} onClick={handleSubmit}>
-        쓰기
-      </Button>
+      <Flex>
+        <Input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={(e) => setFiles(e.target.files)}
+        />
+        <Button
+          isDisabled={isSubmitting}
+          onClick={handleSubmit}
+          colorScheme="blue"
+        >
+          댓글등록
+        </Button>
+      </Flex>
     </Box>
   );
 }
@@ -97,6 +111,13 @@ function CommentItem({
       <Flex justifyContent="space-between">
         <Heading size="xs">{drugComment.memberId}</Heading>
         <Text fontSize="xs">{drugComment.inserted}</Text>
+      </Flex>
+      <Flex>
+        {drugComment.files.map((file) => (
+          <Box key={file.id} width="300px" border="1px solid black">
+            <Image width="100%" src={file.url} />
+          </Box>
+        ))}
       </Flex>
       <Flex justifyContent="space-between" alignItems="center">
         <Box flex={1}>
@@ -192,6 +213,7 @@ function CommentList({
 export function DrugComment({ drugId }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [drugCommentList, setDrugCommentList] = useState([]);
+  const [files, setFiles] = useState(null);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -218,7 +240,11 @@ export function DrugComment({ drugId }) {
     setIsSubmitting(true);
 
     axios
-      .post("/api/drug/comment/add", comment)
+      .postForm("/api/drug/comment/add", {
+        comment: comment.comment,
+        drugId: comment.drugId,
+        uploadFiles: files,
+      })
       .then(() => {
         toast({
           description: "댓글 등록이 되었소",
@@ -272,15 +298,18 @@ export function DrugComment({ drugId }) {
     //모달 열고
     onOpen();
   }
+
   return (
     <Box>
       {isAuthenticated() && (
         <CommentForm
           drugId={drugId}
+          setFiles={setFiles}
           isSubmitting={isSubmitting}
           onSubmit={handleSubmit}
         />
       )}
+
       <CommentList
         drugId={drugId}
         isSubmitting={isSubmitting}

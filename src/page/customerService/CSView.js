@@ -12,8 +12,8 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
-  Textarea,
   Text,
+  Textarea,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -49,7 +49,7 @@ export function CSView() {
           description: id + "번 공지글이 삭제되었습니다.",
           status: "success",
         });
-        navigate("/cs/csList");
+        navigate("/home/cs");
       })
       .catch((error) => {
         toast({
@@ -90,7 +90,7 @@ export function CSView() {
         <Box mt={4}>
           <Button
             colorScheme="purple"
-            onClick={() => navigate("/cs/csEdit/" + id)}
+            onClick={() => navigate("/home/cs/csEdit/" + id)}
             mr={2}
           >
             수정
