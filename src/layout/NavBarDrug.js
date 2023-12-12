@@ -68,7 +68,7 @@ export function NavBarDrug() {
               className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
               href="#"
             >
-              OrderList
+              장바구니
             </a>
             {isAdmin() && (
               <a
@@ -76,7 +76,7 @@ export function NavBarDrug() {
                 className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
                 href="#"
               >
-                write
+                제품등록
               </a>
             )}
           </div>

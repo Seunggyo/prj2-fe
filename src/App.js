@@ -1,7 +1,6 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  Outlet,
   Route,
   RouterProvider,
 } from "react-router-dom";
@@ -46,15 +45,17 @@ import { MemberJoinList } from "./page/member/MemberJoinList";
 import { Cart } from "./page/drug/Cart";
 import { DrugFuncList } from "./page/drug/DrugFuncList";
 import KakaoContainer from "./layout/KakaoContainer";
-import { Hs } from "./Hs";
-import { HsList } from "./page/hs/HsList";
-import { HsReservation } from "./page/hs/HsReservation";
-import { QAView } from "./page/customerService/QA/QAView";
-import { QAEdit } from "./page/customerService/QA/QAEdit";
-import { DrugBuy } from "./page/drug/DrugBuy";
-import { HsReservationCheck } from "./page/hs/HsReservationCheck";
-import { HsView } from "./page/hs/HsView";
-import { WelcomePage } from "./WelcomePage";
+import {Hs} from "./Hs";
+import {HsList} from "./page/hs/HsList";
+import {HsReservation} from "./page/hs/HsReservation";
+import {QAView} from "./page/customerService/QA/QAView";
+import {QAEdit} from "./page/customerService/QA/QAEdit";
+import {DrugBuy} from "./page/drug/DrugBuy";
+import {HsReservationCheck} from "./page/hs/HsReservationCheck";
+import {HsView} from "./page/hs/HsView";
+import {HsBusinessCheck} from "./page/hs/HsBusinessCheck";
+import {BusinessList} from "./page/hs/BusinessList";
+
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -62,7 +63,7 @@ const routes = createBrowserRouter(
       <Route index element={<WelcomePage />} />
       <Route path="home" element={<HomeLayout />}>
         <Route path="ds" element={<Ds />}>
-          <Route index element={<KakaoContainer />} />
+          <Route index element={<DsKakaoContainer />} />
           <Route path="list" element={<DsList />} />
           <Route path="write" element={<DsWrite />} />
           <Route path="view/:id" element={<DsView />} />
@@ -78,12 +79,14 @@ const routes = createBrowserRouter(
           <Route path="buy/:id" element={<DrugBuy />} />
         </Route>
         <Route path="hospital" element={<Hs />}>
-          <Route index element={<HsList />} />
+          <Route index element={<HsKakaoContainer />} />
+          <Route path="hospitalList" element={<HsList />} />
           <Route path="hospitalAdd" element={<HsAdd />} />
           <Route path="hospitalView/:id" element={<HsView />} />
           <Route path="hospitalEdit/:id" element={<HsEdit />} />
           <Route path="hospitalReservation/:id" element={<HsReservation />} />
           <Route path="reservationCheck" element={<HsReservationCheck />} />
+            <Route path="businessCheck/:id" element={<HsBusinessCheck/>}/>
         </Route>
         <Route path="member" element={<Member />}>
           <Route path="signup" element={<MemberSignup />} />
@@ -112,10 +115,13 @@ const routes = createBrowserRouter(
           <Route path="qaEdit/:id" element={<QAEdit />}></Route>
         </Route>
       </Route>
-      ,
+      <Route path="payment" element={<Payment />} />
+      <Route path="success" element={<Success />} />
+      <Route path="fail" element={<Fail />} />
     </Route>,
   ),
 );
+
 
 function App() {
   return (
@@ -124,5 +130,6 @@ function App() {
     </LoginProvider>
   );
 }
+
 
 export default App;

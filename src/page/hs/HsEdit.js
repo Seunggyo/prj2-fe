@@ -63,6 +63,7 @@ function LikeContainer({ like, onClick }) {
   );
 }
 
+
 export function HsEdit() {
   const [list, updateList] = useImmer([]);
   const { id } = useParams();
@@ -167,7 +168,6 @@ export function HsEdit() {
     });
   }
 
-  console.log(list.nightCare);
 
   function handleSubmitClick() {
     axios
@@ -390,11 +390,12 @@ export function HsEdit() {
             <FormLabel>홈페이지</FormLabel>
             <Input value={list.homePage} onChange={handleHomePageChange} />
           </FormControl>
+
           <FormControl>
             <FormLabel>진료과목</FormLabel>
             <Flex>
               <CheckboxGroup value={course} onChange={(e) => setCourse(e)}>
-                <Checkbox value="이비인후과">이비인후과</Checkbox>
+                <Checkbox value="소아과">소아과</Checkbox>
                 <Checkbox value="내과">내과</Checkbox>
                 <Checkbox value="외과">외과</Checkbox>
                 <Checkbox value="치과">치과</Checkbox>
@@ -464,9 +465,7 @@ export function HsEdit() {
         <CardFooter>
           {isAuthenticated() && (
             <Button
-              onClick={() =>
-                navigate("/home/hospital/hospitalReservation/" + id)
-              }
+              onClick={() => navigate("/home/hospital/hospitalReservation/" + id)}
             >
               예약
             </Button>

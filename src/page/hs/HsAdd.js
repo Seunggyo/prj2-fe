@@ -83,7 +83,7 @@ export function HsAdd() {
           description: "전송 되었습니다.",
           status: "success",
         });
-        navigate("/home/hospital");
+        navigate("/home/hospital/hospitalList");
       })
       .catch(() =>
         toast({
@@ -236,7 +236,7 @@ export function HsAdd() {
             <FormLabel>진료과목</FormLabel>
             <Flex>
               <CheckboxGroup value={course} onChange={handleCourseChange}>
-                <Checkbox value="이비인후과">이비인후과</Checkbox>
+                <Checkbox value="소아과">소아과</Checkbox>
                 <Checkbox value="내과">내과</Checkbox>
                 <Checkbox value="외과">외과</Checkbox>
                 <Checkbox value="치과">치과</Checkbox>

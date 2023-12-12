@@ -275,10 +275,6 @@ export function BoardList() {
                 조회수
                 <FontAwesomeIcon icon={faAngleDown} />
               </Th>
-              <Th className="bg-indigo-50">
-                추 천
-                <FontAwesomeIcon icon={faThumbsUp} />
-              </Th>
             </Tr>
           </Thead>
           <Tbody>

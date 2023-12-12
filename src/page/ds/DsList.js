@@ -93,7 +93,7 @@ function SearchComponent() {
   return (
     <Box>
       <Flex>
-        <Select onChange={(e) => setCategory(e.target.value)}>
+        <Select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="all">전체</option>
           <option value="name">이름</option>
           <option value="address">주소</option>
@@ -181,7 +181,9 @@ export function DsList() {
                     }
                   </Td>
                   <Td>
-                    <Image w={"100px"} h={"100px"} src={ds.files[0].url} />
+                    {ds.files > 0 && (
+                      <Image w={"100px"} h={"100px"} src={ds.files[0].url} />
+                    )}
                   </Td>
                 </Tr>
               ))}
