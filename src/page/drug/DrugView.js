@@ -1,4 +1,5 @@
 import {
+  border,
   Box,
   Button,
   Flex,
@@ -17,6 +18,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
+  Text,
   useDisclosure,
   useNumberInput,
   useToast,
@@ -27,7 +29,8 @@ import axios from "axios";
 import { DrugComment } from "./DrugComment";
 import { LoginContext } from "../../component/LoginProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
 
 function CartContainer({ cart, onClick }) {
   const { getInputProps, getDecrementButtonProps, getIncrementButtonProps } =
@@ -71,7 +74,19 @@ function LikeContainer({ like, onClick }) {
   }
   return (
     <Button variant="ghost" size="xl" onClick={onClick}>
-      <FontAwesomeIcon icon={faThumbsUp} size="2xl" />
+      {/*<FontAwesomeIcon icon={faThumbsUp} size="2xl" />*/}
+
+      {like.like && (
+        <Text>
+          <FontAwesomeIcon icon={fullHeart} size="2xl" color="pink" />
+        </Text>
+      )}
+      {like.like || (
+        <Text>
+          <FontAwesomeIcon icon={emptyHeart} size="2xl" color="pink" />
+        </Text>
+      )}
+      <Text fontSize="2xl">{like.countLike}</Text>
     </Button>
   );
 }
@@ -81,6 +96,8 @@ export function DrugView() {
 
   const [drug, setDrug] = useState(null);
   const [cart, setCart] = useState(null);
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
   const toast = useToast();
@@ -101,13 +118,15 @@ export function DrugView() {
 
   useEffect(() => {
     axios
-      .get("/api/drug/like/" + id)
+      .get("/api/drug/like/drug/" + id)
       .then((response) => setLike(response.data));
   }, []);
 
   if (drug === null) {
     return <Spinner />;
   }
+
+  const imageLength = drug.files.length;
 
   function handleDelete() {
     axios
@@ -150,33 +169,62 @@ export function DrugView() {
 
   function handleLike() {
     axios
-      .post("/api/drug/", { drugId: drug.id })
+      .post("/api/drug/like", { drugId: drug.id })
       .then((response) => setLike(response.data))
       .catch(() => console.log("안됨"))
       .finally(() => console.log("끝"));
   }
 
+  function handleShowImage(next) {
+    setCurrentImageIndex(
+      (currentImageIndex + next + imageLength) % imageLength,
+    );
+  }
+
+  function handleShowImageStatic(index) {
+    setCurrentImageIndex(index);
+  }
+
   return (
-    <Box marginLeft="100px" width="800px">
+    <Box marginLeft="300px" width="800px">
       <Flex justifyContent="space-between">
         <Heading size="xl">{drug.id}번째 영양제</Heading>
         {/*좋아요 버튼*/}
         <LikeContainer like={like} onClick={handleLike} />
       </Flex>
-
-      <FormControl>
-        {drug.files.map((file) => (
+      <Flex alignItems="center">
+        {/*<Button onClick={() => handleShowImage(-1)}>이전</Button>*/}
+        <Box position="relative" w="500px" h="500px" my="10">
+          {drug.files.map((file, index) => (
+            <Box
+              position="absolute"
+              key={file.id}
+              my="5px"
+              border="3px solid black"
+              width="500px"
+              height="500px"
+              opacity={index === currentImageIndex ? 1 : 0}
+              transition="opacity 0.5s"
+            >
+              <Image width="100%" src={file.url} alt={file.name} />
+            </Box>
+          ))}
+        </Box>
+        {/*<Button onClick={() => handleShowImage(1)}>다음</Button>*/}
+      </Flex>
+      <Flex gap={2}>
+        {drug.files.map((file, index) => (
           <Box
+            opacity={index === currentImageIndex ? 1 : 0.5}
+            w={20}
+            h={20}
             key={file.id}
-            my="5px"
-            border="3px solid black"
-            width="500px"
-            height="500px"
+            onClick={() => handleShowImageStatic(index)}
           >
             <Image width="100%" src={file.url} alt={file.name} />
           </Box>
         ))}
-      </FormControl>
+      </Flex>
 
       <FormControl>
         <FormLabel>제품명</FormLabel>

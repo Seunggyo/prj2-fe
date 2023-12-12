@@ -25,8 +25,6 @@ export function DrugList() {
 
   const { isOpen, onClose, onOpen } = useDisclosure();
   const btnRef = React.useRef();
-  const [files, setFiles] = useState("");
-  const [drug, setDrug] = useState(null);
 
   const [params] = useSearchParams();
   const navigate = useNavigate();
