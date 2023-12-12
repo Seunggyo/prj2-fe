@@ -68,7 +68,7 @@ export function SideBar() {
           <div className=" overflow-x-hidden flex-grow">
             <div className="p-4 flex flex-row items-center justify-between mr-auto">
               <button
-                className=" tracking-widest text-6xl font-dongle font-semibold  "
+                className=" tracking-widest text-5xl font-dongle font-semibold  "
                 onClick={() => navigate("/")}
               >
                 아프지마
