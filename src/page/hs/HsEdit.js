@@ -262,8 +262,12 @@ export function HsEdit() {
           <FormControl>
             <FormLabel>병원 주소</FormLabel>
             <Input value={list.address} onChange={handleAddressChange} />
-            <FormLabel>병원 주소</FormLabel>
-            <Input value={list.oldAddress} onChange={handleOldAddressChange} />
+            <FormLabel>병원 간단주소</FormLabel>
+            <Input
+              value={list.oldAddress}
+              onChange={handleOldAddressChange}
+              placeholder="동까지만 입력해주시면 됩니다 ex:)세종시 아람동"
+            />
           </FormControl>
           <FormControl>
             <FormLabel>전화번호</FormLabel>
@@ -491,7 +495,7 @@ export function HsEdit() {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>저장</ModalHeader>
-          <ModalCloseButton />
+          {/*<ModalCloseButton />*/}
 
           <ModalBody>저장 하시겠습니까?</ModalBody>
 

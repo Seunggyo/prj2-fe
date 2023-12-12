@@ -83,7 +83,7 @@ export function HsList() {
           <Heading>병원 리스트</Heading>
           <Spacer />
           {(isAuthenticated() || isAdmin()) && (
-            <Button onClick={() => navigate("/hospital/hospitalAdd")}>
+            <Button onClick={() => navigate("/home/hospital/hospitalAdd")}>
               병원 추가
             </Button>
           )}
@@ -94,6 +94,8 @@ export function HsList() {
             <Thead>
               <Tr>
                 <Th>병원이름</Th>
+                <Th>병원주소</Th>
+                <Th>진료과목</Th>
                 <Th>전화번호</Th>
                 <Th>임시 삭제</Th>
               </Tr>
@@ -106,12 +108,16 @@ export function HsList() {
                     _hover={{
                       cursor: "pointer",
                     }}
-                    onClick={() => navigate("/home/hospital/hospitalEdit/" + h.id)}
+                    onClick={() =>
+                      navigate("/home/hospital/hospitalEdit/" + h.id)
+                    }
                   >
                     <Td>
                       {h.name}
                       {h.countLike > 0 && <Badge>{h.countLike}</Badge>}
                     </Td>
+                    <Td>{h.oldAddress}</Td>
+                    <Td>{h.medicalCourse}</Td>
                     <Td>{h.phone}</Td>
 
                     <Td>

@@ -47,7 +47,7 @@ export function DsSearchComponent({ onItemClick }) {
   }
 
   return (
-    <Box>
+    <Box w="400px">
       <Box>
         <InputGroup size="sm">
           <Input
@@ -93,7 +93,7 @@ export function DsSearchComponent({ onItemClick }) {
                 {ds.name}
               </Box>
               <Box fontSize="12px">{ds.oldAddress}</Box>
-              <Box fontSize="14px">번호 : {ds.phone}</Box>
+              {/*<Box fontSize="14px">번호 : {ds.phone}</Box>*/}
 
               <Box>
                 영업시간 :{ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}~

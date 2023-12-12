@@ -176,33 +176,9 @@ const MainPage = () => {
 
   return (
     <Box>
-      {/*<div>*/}
-      {/*  <Input type="text" onChange={handleInputChange} value={inputValue} />*/}
-      {/*  <button onClick={handleSearch}>검색</button>*/}
-      {/*</div>*/}
       <Box display="flex" position="relative">
-        {/* 토글 버튼 */}
-        {/*<button*/}
-        {/*  onClick={toggleListVisibility}*/}
-        {/*  style={{*/}
-        {/*    position: "absolute",*/}
-        {/*    left: isListVisible ? "350px" : "0",*/}
-        {/*    top: "400px",*/}
-        {/*    zIndex: 10,*/}
-        {/*    border: "1px solid #ccc", // 테두리 추가*/}
-        {/*    backgroundColor: "white", // 배경색 추가*/}
-        {/*    padding: "10px", // 패딩 추가*/}
-        {/*    cursor: "pointer", // 마우스 오버 시 커서 변경*/}
-        {/*    borderRadius: "4px", // 테두리 둥글게 설정*/}
-        {/*    boxShadow: "0 2px 5px rgba(0,0,0,0.2)", // 그림자 효과 추가*/}
-        {/*    transition: "all 0.5s ease", // 모든 전환 효과에 애니메이션 적용*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*{isListVisible ? "<" : ">"}*/}
-        {/*</button>*/}
         {/* 장소 리스트를 보여주는 컴포넌트 */}
         <VStack
-          // width={isListVisible ? "500px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
           width="500px"
           height="100vh"
           overflowY="auto"
@@ -216,20 +192,6 @@ const MainPage = () => {
             onItemClick={handleItemHsClick}
             onMedicalcourseClick={(course) => setMedicalcourse(course)}
           />
-          {/*{markers.map((marker, index) => (*/}
-          {/*  <Box*/}
-          {/*    key={index}*/}
-          {/*    p={4}*/}
-          {/*    border="1px solid #ddd"*/}
-          {/*    borderRadius="md"*/}
-          {/*    mb={2}*/}
-          {/*    _hover={{ bg: "gray.100" }}*/}
-          {/*    cursor="pointer"*/}
-          {/*    onClick={() => handleListItemClick(index)}*/}
-          {/*  >*/}
-          {/*    <Text fontSize="lg">{marker.content}</Text>*/}
-          {/*  </Box>*/}
-          {/*))}*/}
         </VStack>
         <Box display="flex" position="relative" w="100%">
           {/* 토글 버튼 */}
@@ -255,7 +217,7 @@ const MainPage = () => {
           {/* 장소 리스트를 보여주는 컴포넌트 */}
           {hsId && (
             <Box
-              width={isListVisible ? "500px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
+              width={isListVisible ? "550px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
               height="100vh"
               overflowY="auto"
               transition="all 1s ease"

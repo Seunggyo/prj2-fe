@@ -57,7 +57,7 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
   }
 
   return (
-    <Box w="340px">
+    <Box w="300px">
       <Box>
         <Stack spacing={4}>
           <InputGroup size="sm">
@@ -153,7 +153,7 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
                     {h.name}
                   </Box>
                   <Box fontSize="12px">{h.oldAddress}</Box>
-                  <Box fontSize="14px">{h.phone}</Box>
+                  {/*<Box fontSize="14px">{h.phone}</Box>*/}
 
                   <Box>
                     {h.openHour}:{h.openMin === 0 ? "00" : h.openMin}~

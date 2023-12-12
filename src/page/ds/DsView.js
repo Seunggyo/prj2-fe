@@ -121,7 +121,7 @@ export function DsView({ dsId }) {
   }
 
   return (
-    <Box>
+    <Box mx="20px">
       <Center>
         {ds.files &&
           ds.files.map((file) => (

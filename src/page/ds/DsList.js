@@ -165,7 +165,7 @@ export function DsList() {
                   <Td>{ds.likeCount}</Td>
                   <Td>{ds.commentCount > 0 && ds.commentCount}</Td>
                   <Td>{ds.phone}</Td>
-                  <Td>{ds.address}</Td>
+                  <Td>{ds.oldAddress}</Td>
                   <Td>
                     {
                       <Box>

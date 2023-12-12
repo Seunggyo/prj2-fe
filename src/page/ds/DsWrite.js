@@ -101,6 +101,7 @@ export function DsWrite() {
           <Input
             value={oldAddress}
             onChange={(e) => setOldAddress(e.target.value)}
+            placeholder="동까지만 입력해주시면 됩니다 ex:)세종시 아람동"
           />
         </FormControl>
 

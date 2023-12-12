@@ -124,9 +124,7 @@ export function DsEdit() {
   }
 
   return (
-    <Box>
-      <h1>{ds.id} 수정</h1>
-
+    <Box mx="20px">
       {/*약국 사진*/}
       {ds.files.length > 0 &&
         ds.files.map((file) => (
@@ -175,6 +173,7 @@ export function DsEdit() {
               draft.oldAddress = e.target.value;
             })
           }
+          placeholder="동까지만 입력해주시면 됩니다 ex:)세종시 아람동"
         />
       </FormControl>
 

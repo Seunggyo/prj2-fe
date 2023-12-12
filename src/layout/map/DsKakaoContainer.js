@@ -209,7 +209,7 @@ const MainPage = () => {
           // bg="black"
           // color="white"
         >
-          <DsSearchComponent onItemClick={handleItemClick} w="500px" />
+          <DsSearchComponent onItemClick={handleItemClick} />
 
           {/*{markers.map((marker, index) => (*/}
           {/*  <Box*/}
