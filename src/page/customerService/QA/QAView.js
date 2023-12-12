@@ -2,8 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Modal,
   ModalBody,
@@ -21,6 +27,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { LoginContext } from "../../../component/LoginProvider";
 import axios from "axios";
+import { CommentContainer } from "../../../component/CommentContainer";
 
 export function QAView() {
   const [qa, setQa] = useState(null);
@@ -61,62 +68,106 @@ export function QAView() {
   }
 
   return (
-    <Box p={8}>
-      <Text fontSize="3xl" fontWeight="bold" mb={4}>
-        {qa.id}번 글 보기
-      </Text>
-      <FormControl mb={4}>
-        <FormLabel>제목</FormLabel>
-        <Input value={qa.qaTitle} readOnly />
-      </FormControl>
-      <FormControl mb={4}>
-        <FormLabel>본문</FormLabel>
-        <Textarea value={qa.qaContent} readOnly />
-      </FormControl>
-      <FormControl mb={4}>
-        <FormLabel>작성자</FormLabel>
-        <Input value={qa.qaWriter} readOnly />
-      </FormControl>
-      <FormControl>
-        <FormLabel>카테고리</FormLabel>
-        <Input value={qa.qaCategory} readOnly />
-      </FormControl>
-      <FormControl mb={4}>
-        <FormLabel>작성일시</FormLabel>
-        <Input value={qa.inserted} readOnly />
-      </FormControl>
+    <Box className="mx-auto max-w-screen-full">
+      <h1 className="text-4xl font-semibold mb-8">1:1 응 답</h1>
 
-      {(hasAccess(qa.qaWriter) || authCheck() === "admin") && (
-        <Box mt={4}>
-          <Button
-            colorScheme="purple"
-            onClick={() => navigate("/home/cs/qaEdit/" + id)}
-            mr={2}
+      <Box p={8} bg="orange.100">
+        <Box
+          bg="white"
+          borderRadius="xl"
+          boxShadow="lg"
+          p="4"
+          className="flex flex-col md:flex-row w-full"
+        >
+          <Box
+            mb={{ base: 8, md: 0 }}
+            mr={{ md: 10 }}
+            width={{ base: "100%", md: "60%" }}
           >
-            수정
-          </Button>
-          <Button colorScheme="red" onClick={onOpen}>
-            삭제
-          </Button>
+            <Card>
+              <CardHeader>
+                <Flex justifyContent="space-between">
+                  <Heading size="xl">{qa.id}번 글 보기</Heading>
+                </Flex>
+              </CardHeader>
+              <CardBody>
+                <Box mb={4}>
+                  <span className="font-dongle text-4xl text-gray-500">
+                    제목
+                  </span>
+                  <Input value={qa.qaTitle} readOnly />
+                </Box>
+                <Box mb={4}>
+                  <span className="font-dongle text-4xl text-gray-500">
+                    본문
+                  </span>
+                  <Textarea value={qa.qaContent} h="300px" readOnly />
+                </Box>
+                <Box mb={4} className="flex items-center">
+                  <span className="mr-4 font-dongle text-4xl text-gray-500">
+                    작성자 :
+                  </span>
+                  <Input value={qa.qaWriter} readOnly w="120px" />
+                  <span className="ml-20 mr-4 font-dongle text-4xl text-gray-500">
+                    카테고리 :
+                  </span>
+                  <Input value={qa.qaCategory} readOnly w="120px" />
+                </Box>
+
+                <Box mb={4}>
+                  <span className="font-dongle text-4xl text-gray-500">
+                    작성일시
+                  </span>
+                  <Input value={qa.ago} readOnly />
+                </Box>
+              </CardBody>
+
+              <CardFooter justifyContent="flex-end">
+                {(hasAccess(qa.qaWriter) || authCheck() === "admin") && (
+                  <Box>
+                    <button
+                      onClick={() => navigate("/home/cs/qaEdit/" + id)}
+                      className="mr-4 px-8 py-2 rounded-md relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold"
+                    >
+                      <span className="relative z-10  text-4xl">
+                        수 정 하 기
+                      </span>
+                    </button>
+                    <button
+                      onClick={onOpen}
+                      className="ml-10 rounded-md relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold "
+                    >
+                      <span className="relative z-10  text-4xl">
+                        삭 제 하 기
+                      </span>
+                    </button>
+                  </Box>
+                )}
+              </CardFooter>
+            </Card>
+          </Box>
+          <Box width={{ base: "100%", md: "40%" }}>
+            <CommentContainer boardId={id} />
+          </Box>
+
+          {/* 글 삭제 모달 */}
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>삭제 확인</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>삭제 하시겠습니까?</ModalBody>
+
+              <ModalFooter>
+                <Button onClick={onClose}>닫기</Button>
+                <Button onClick={handleDelete} colorScheme="red">
+                  삭제
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </Box>
-      )}
-
-      {/* 공지글 삭제 모달 */}
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>삭제 확인</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>삭제 하시겠습니까?</ModalBody>
-
-          <ModalFooter>
-            <Button onClick={onClose}>닫기</Button>
-            <Button onClick={handleDelete} colorScheme="red">
-              삭제
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      </Box>
     </Box>
   );
 }

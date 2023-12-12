@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import {
+  Box,
   Button,
   Flex,
+  FormControl,
   FormHelperText,
   Select,
   useToast,
@@ -26,7 +28,7 @@ export function BoardWrite() {
         title,
         content,
         category: boardType,
-        files,
+        uploadFiles: files,
       })
       .then(() => {
         toast({
@@ -55,8 +57,8 @@ export function BoardWrite() {
   return (
     <div>
       <form>
-        <div className="bg-indigo-50 min-h-screen md:px-20 pt-2">
-          <div className=" bg-white rounded-md px-6 py-12 max-w-4xl mx-auto">
+        <div className="bg-orange-50 max-h-screen md:px-40">
+          <div className=" bg-white rounded-md px-6 py-12 max-w-full mx-auto">
             <h1 className="text-center text-6xl font-dongle text-gray-500 mb-10">
               게시판 글 작성
             </h1>
@@ -81,7 +83,7 @@ export function BoardWrite() {
                   rows="10"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  className="w-full p-4 text-gray-  600 bg-indigo-50 outline-none rounded-md"
+                  className="w-full p-4 text-gray-600 bg-orange-50 outline-none rounded-md"
                 ></textarea>
               </div>
               <div className="flex space-x-24">
@@ -97,8 +99,6 @@ export function BoardWrite() {
                           setBoardType(e.target.value);
                         }}
                       >
-                        {/*TODO: 게시판유형 더 추가해야함..?*/}
-
                         <option value={"병원"}>병 원</option>
                         <option value={"약국"}>약 국</option>
                         <option value={"쇼핑몰"}>쇼핑몰</option>
@@ -108,7 +108,7 @@ export function BoardWrite() {
                   </Flex>
                 </div>
               </div>
-              <div>
+              <FormControl>
                 <span className="font-dongle text-4xl text-gray-500">
                   첨부파일
                 </span>
@@ -123,16 +123,23 @@ export function BoardWrite() {
                 <FormHelperText>
                   한 개의 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부해주세요.
                 </FormHelperText>
-              </div>
-              <Button
-                isDisabled={isSubmitting}
-                onClick={handleSubmit}
-                class=" px-8 py-2 mx-auto block rounded-md font-dongle text-3xl
-                text-indigo-100 bg-indigo-600"
-              >
-                작성 완료
-              </Button>
-              <Button onClick={() => navigate(-1)}>취소</Button>
+              </FormControl>
+
+              <Box className="flex justify-center">
+                <Button
+                  isDisabled={isSubmitting}
+                  onClick={handleSubmit}
+                  className="px-8 py-2 rounded-md relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold"
+                >
+                  <span className="relative z-10  text-4xl">작성 완료</span>
+                </Button>
+                <Button
+                  onClick={() => navigate(-1)}
+                  className="ml-10 rounded-md relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold "
+                >
+                  <span className="relative z-10  text-4xl">취 소</span>
+                </Button>
+              </Box>
             </div>
           </div>
         </div>

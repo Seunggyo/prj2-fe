@@ -203,9 +203,9 @@ export function MemberSignup() {
         <p className="mt-1 block font-sans text-center text-base font-normal leading-relaxed text-gray-700 antialiased">
           세부 정보를 입력해 주세요.
         </p>
-        <div className="mt-8 mb-2 mx-auto w-80 max-w-screen-xl sm:w-96">
+        <div className="mt-8 mx-auto w-80 max-w-screen-xl sm:w-96">
           <div className="mb-4 flex flex-col gap-6">
-            <FormControl mb={5}>
+            <Box mb={5}>
               <p className="flex items-center font-sans text-lg font-medium leading-normal text-gray-700 antialiased">
                 가입 유형
               </p>
@@ -218,12 +218,12 @@ export function MemberSignup() {
                 <option value={"ds"}>약국</option>
                 <option value={"hs"}>병원</option>
               </Select>
-            </FormControl>
+            </Box>
 
             {/*id 아이디*/}
             <Flex>
               <div
-                className="relative h-11 w-full min-w-[200px] mb-2"
+                className="relative h-11 w-full min-w-[200px] mb-1"
                 isInvalid={!idAvailable}
               >
                 <input
@@ -247,7 +247,7 @@ export function MemberSignup() {
 
             {/*password 패스워드*/}
             <div
-              className="relative h-11 w-full min-w-[200px] mb-2"
+              className="relative h-11 w-full min-w-[200px]"
               isInvalid={!(password === passwordCheck) || password.length === 0}
             >
               <input
@@ -264,7 +264,7 @@ export function MemberSignup() {
 
             {/*패스워드 재확인*/}
             <div
-              className="relative h-11 w-full min-w-[200px] mb-2"
+              className="relative h-11 w-full min-w-[200px] "
               isInvalid={
                 !(password === passwordCheck) || passwordCheck.length === 0
               }
@@ -284,7 +284,7 @@ export function MemberSignup() {
             {/*nickName 닉네임*/}
             <Flex>
               <div
-                className="relative h-11 w-full min-w-[200px] mb-2"
+                className="relative h-11 w-full min-w-[200px]"
                 isInvalid={!nickNameAvailable}
               >
                 <input
@@ -309,7 +309,7 @@ export function MemberSignup() {
             {/* 생년월일 */}
             {auth === "ds" || auth === "hs" || (
               <div
-                className="relative h-11 w-full min-w-[200px] mb-2"
+                className="relative h-11 w-full min-w-[200px]"
                 isInvalid={birthday.length === 0}
               >
                 <input
@@ -327,7 +327,7 @@ export function MemberSignup() {
             {/*email 이메일*/}
             <Flex>
               <div
-                className="relative h-11 w-full min-w-[200px] flex justify-between mb-2"
+                className="relative h-11 w-full min-w-[200px] flex justify-between"
                 isInvalid={!emailAvailable}
               >
                 <input
@@ -355,7 +355,7 @@ export function MemberSignup() {
 
             {/* 이메일 인증 */}
             <div
-              className="relative h-11 w-full min-w-[200px] mb-2"
+              className="relative h-11 w-full min-w-[200px]"
               isInvalid={mailNum.length === 0}
             >
               <input
@@ -371,7 +371,7 @@ export function MemberSignup() {
 
             {/*phone 전화번호*/}
             <div
-              className="relative h-11 w-full min-w-[200px] mb-2"
+              className="relative h-11 w-full min-w-[200px]"
               isInvalid={phone.length === 0}
             >
               <input
@@ -387,7 +387,7 @@ export function MemberSignup() {
 
             {/*address 주소*/}
             <div
-              className="relative h-11 w-full min-w-[200px] mb-2"
+              className="relative h-11 w-full min-w-[200px]"
               isInvalid={address.length === 0}
             >
               <input
