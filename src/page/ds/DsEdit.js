@@ -72,6 +72,7 @@ export function DsEdit() {
         id: ds.id,
         name: ds.name,
         address: ds.address,
+        oldAddress: ds.oldAddress,
         phone: ds.phone,
         openHour: ds.openHour,
         openMin: ds.openMin,
@@ -163,6 +164,15 @@ export function DsEdit() {
           onChange={(e) =>
             updateDs((draft) => {
               draft.address = e.target.value;
+            })
+          }
+        />
+        <FormLabel>간단 주소</FormLabel>
+        <Textarea
+          value={ds.oldAddress}
+          onChange={(e) =>
+            updateDs((draft) => {
+              draft.oldAddress = e.target.value;
             })
           }
         />

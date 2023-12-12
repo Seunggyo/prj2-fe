@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 export function HsAdd() {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
+  const [oldAddress, setOldAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [openHour, setOpenHour] = useState(0);
   const [openMin, setOpenMin] = useState(0);
@@ -61,6 +62,7 @@ export function HsAdd() {
       .postForm("/api/hospital/add", {
         name,
         address,
+        oldAddress,
         phone,
         openHour,
         openMin,
@@ -113,6 +115,12 @@ export function HsAdd() {
             <Input
               value={address}
               onChange={(e) => setAddress(e.target.value)}
+            />
+            <FormLabel>병원 간단주소</FormLabel>
+            <Input
+              value={oldAddress}
+              onChange={(e) => setOldAddress(e.target.value)}
+              placeholder="동까지만 입력해주시면 됩니다 ex:)세종시 아람동"
             />
           </FormControl>
           <FormControl>

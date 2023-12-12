@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 export function DsWrite() {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
+  const [oldAddress, setOldAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [openHour, setOpenHour] = useState(7);
   const [openMin, setOpenMin] = useState(0);
@@ -45,6 +46,7 @@ export function DsWrite() {
       .postForm("/api/ds/add", {
         name,
         address,
+        oldAddress,
         phone,
         openHour,
         openMin,
@@ -84,7 +86,7 @@ export function DsWrite() {
   }
 
   return (
-    <Box>
+    <Box mx="20px">
       <h1>약국 정보 기입</h1>
       <Box>
         <FormControl>
@@ -95,6 +97,11 @@ export function DsWrite() {
         <FormControl>
           <FormLabel>주소</FormLabel>
           <Input value={address} onChange={(e) => setAddress(e.target.value)} />
+          <FormLabel>간단 주소</FormLabel>
+          <Input
+            value={oldAddress}
+            onChange={(e) => setOldAddress(e.target.value)}
+          />
         </FormControl>
 
         <FormControl>

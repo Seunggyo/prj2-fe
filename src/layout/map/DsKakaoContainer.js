@@ -200,7 +200,7 @@ const MainPage = () => {
         {/* 장소 리스트를 보여주는 컴포넌트 */}
         <VStack
           // width={isListVisible ? "500px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
-          width="500px"
+          width="600px"
           height="100vh"
           overflowY="auto"
           transition="width 0.5s"
@@ -209,7 +209,7 @@ const MainPage = () => {
           // bg="black"
           // color="white"
         >
-          <DsSearchComponent onItemClick={handleItemClick} />
+          <DsSearchComponent onItemClick={handleItemClick} w="500px" />
 
           {/*{markers.map((marker, index) => (*/}
           {/*  <Box*/}
@@ -250,7 +250,7 @@ const MainPage = () => {
           {/* 장소 리스트를 보여주는 컴포넌트 */}
           {dsId && (
             <Box
-              width={isListVisible ? "500px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
+              width={isListVisible ? "600px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
               height="100vh"
               overflowY="auto"
               transition="all 1s ease"

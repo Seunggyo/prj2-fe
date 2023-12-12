@@ -152,7 +152,7 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
                   >
                     {h.name}
                   </Box>
-                  <Box fontSize="12px">{h.address}</Box>
+                  <Box fontSize="12px">{h.oldAddress}</Box>
                   <Box fontSize="14px">{h.phone}</Box>
 
                   <Box>

@@ -92,11 +92,11 @@ export function DsSearchComponent({ onItemClick }) {
               >
                 {ds.name}
               </Box>
-              <Box fontSize="12px">{ds.address}</Box>
-              <Box fontSize="14px">{ds.phone}</Box>
+              <Box fontSize="12px">{ds.oldAddress}</Box>
+              <Box fontSize="14px">번호 : {ds.phone}</Box>
 
               <Box>
-                {ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}~
+                영업시간 :{ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}~
                 {ds.closeHour}:{ds.closeMin === 0 ? "00" : ds.closeMin}
                 {ds.restHour !== 0 && (
                   <>

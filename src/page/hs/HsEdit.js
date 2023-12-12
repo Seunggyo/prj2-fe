@@ -63,7 +63,6 @@ function LikeContainer({ like, onClick }) {
   );
 }
 
-
 export function HsEdit() {
   const [list, updateList] = useImmer([]);
   const { id } = useParams();
@@ -105,6 +104,11 @@ export function HsEdit() {
   function handleAddressChange(e) {
     updateList((r) => {
       r.address = e.target.value;
+    });
+  }
+  function handleOldAddressChange(e) {
+    updateList((r) => {
+      r.oldAddress = e.target.value;
     });
   }
 
@@ -168,13 +172,13 @@ export function HsEdit() {
     });
   }
 
-
   function handleSubmitClick() {
     axios
       .putForm("/api/hospital/edit", {
         id: list.id,
         name: list.name,
         address: list.address,
+        oldAddress: list.oldAddress,
         phone: list.phone,
         openHour: list.openHour,
         openMin: list.openMin,
@@ -258,6 +262,8 @@ export function HsEdit() {
           <FormControl>
             <FormLabel>병원 주소</FormLabel>
             <Input value={list.address} onChange={handleAddressChange} />
+            <FormLabel>병원 주소</FormLabel>
+            <Input value={list.oldAddress} onChange={handleOldAddressChange} />
           </FormControl>
           <FormControl>
             <FormLabel>전화번호</FormLabel>
@@ -465,7 +471,9 @@ export function HsEdit() {
         <CardFooter>
           {isAuthenticated() && (
             <Button
-              onClick={() => navigate("/home/hospital/hospitalReservation/" + id)}
+              onClick={() =>
+                navigate("/home/hospital/hospitalReservation/" + id)
+              }
             >
               예약
             </Button>
