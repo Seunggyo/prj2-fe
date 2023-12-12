@@ -16,6 +16,7 @@ export function BoardWrite() {
   const [content, setContent] = useState("");
   const [boardType, setBoardType] = useState("병원");
   const [files, setFiles] = useState(null);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toast = useToast();
@@ -87,26 +88,24 @@ export function BoardWrite() {
                 ></textarea>
               </div>
               <div className="flex space-x-24">
-                <div>
-                  <Flex>
-                    <span className="font-dongle text-4xl text-gray-500">
-                      게시판:
-                    </span>
-                    <Flex ml="4">
-                      <Select
-                        defaultValue={"병원"}
-                        onChange={(e) => {
-                          setBoardType(e.target.value);
-                        }}
-                      >
-                        <option value={"병원"}>병 원</option>
-                        <option value={"약국"}>약 국</option>
-                        <option value={"쇼핑몰"}>쇼핑몰</option>
-                        <option value={"자유"}>자 유</option>
-                      </Select>
-                    </Flex>
+                <Flex>
+                  <span className="font-dongle text-4xl text-gray-500">
+                    게시판:
+                  </span>
+                  <Flex ml="4">
+                    <Select
+                      defaultValue={"병원"}
+                      onChange={(e) => {
+                        setBoardType(e.target.value);
+                      }}
+                    >
+                      <option value={"병원"}>병 원</option>
+                      <option value={"약국"}>약 국</option>
+                      <option value={"쇼핑몰"}>쇼핑몰</option>
+                      <option value={"자유"}>자 유</option>
+                    </Select>
                   </Flex>
-                </div>
+                </Flex>
               </div>
               <FormControl>
                 <span className="font-dongle text-4xl text-gray-500">

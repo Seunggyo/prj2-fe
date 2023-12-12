@@ -1,8 +1,12 @@
 import {
   Box,
   Button,
-  FormControl,
-  FormLabel,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Heading,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -12,7 +16,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
-  Text,
   Textarea,
   useDisclosure,
   useToast,
@@ -21,6 +24,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { LoginContext } from "../../component/LoginProvider";
+import { CardMedia } from "@mui/material";
 
 export function CSView() {
   const [cs, setCs] = useState(null);
@@ -61,62 +65,110 @@ export function CSView() {
   }
 
   return (
-    <Box p={8}>
-      <Text fontSize="3xl" fontWeight="bold" mb={4}>
-        {cs.id}번 글 보기
-      </Text>
-      <FormControl mb={4}>
-        <FormLabel>제목</FormLabel>
-        <Input value={cs.csTitle} readOnly />
-      </FormControl>
-      <FormControl mb={4}>
-        <FormLabel>본문</FormLabel>
-        <Textarea value={cs.csContent} readOnly />
-      </FormControl>
-      <FormControl mb={4}>
-        <FormLabel>작성자</FormLabel>
-        <Input value={cs.csWriter} readOnly />
-      </FormControl>
-      <FormControl>
-        <FormLabel>카테고리</FormLabel>
-        <Input value={cs.csCategory} readOnly />
-      </FormControl>
-      <FormControl mb={4}>
-        <FormLabel>작성일시</FormLabel>
-        <Input value={cs.inserted} readOnly />
-      </FormControl>
+    <Box className="mx-auto max-w-screen-full">
+      <h1 className="text-4xl font-semibold mb-8">공 지 사 항</h1>
+      <Box p={8} bg="orange.100">
+        <Box
+          bg="white"
+          borderRadius="xl"
+          boxShadow="lg"
+          p="6"
+          className="flex flex-col md:flex-row w-full"
+        >
+          <Box mb={{ base: 8, md: 0 }} width={{ base: "100%", md: "100%" }}>
+            <Card>
+              <CardHeader>
+                <Heading size="xl">{cs.id}번 글 보기</Heading>
+              </CardHeader>
+              <CardBody>
+                <Box mb={5}>
+                  <span className="font-dongle text-5xl text-gray-500">
+                    제 목
+                  </span>
+                  <Input value={cs.csTitle} readOnly />
+                </Box>
+                {/*<CardMedia>*/}
+                {/*  /!* 이미지 출력 *!/*/}
+                {/*  {cs.files.map((file) => (*/}
+                {/*    <Card key={file.id} my={5}>*/}
+                {/*      <CardBody>*/}
+                {/*        <Image*/}
+                {/*          width="100%"*/}
+                {/*          src={file.url}*/}
+                {/*          alt={file.fileName}*/}
+                {/*        />*/}
+                {/*      </CardBody>*/}
+                {/*    </Card>*/}
+                {/*  ))}*/}
+                {/*</CardMedia>*/}
+                <Box mb={5}>
+                  <span className="font-dongle text-5xl text-gray-500">
+                    본 문
+                  </span>
+                  <Textarea h={"sm"} value={cs.csContent} readOnly />
+                </Box>
 
-      {(hasAccess(cs.csWriter) || authCheck() === "admin") && (
-        <Box mt={4}>
-          <Button
-            colorScheme="purple"
-            onClick={() => navigate("/home/cs/csEdit/" + id)}
-            mr={2}
-          >
-            수정
-          </Button>
-          <Button colorScheme="red" onClick={onOpen}>
-            삭제
-          </Button>
+                <Box mb={5} className="flex items-center">
+                  <span className="mr-4 font-dongle text-3xl text-gray-500">
+                    작성자 :
+                  </span>
+                  <Input value={cs.csWriter} readOnly w="200px" />
+                  <span className="ml-10 mr-4 font-dongle text-3xl text-gray-500">
+                    카테고리 :
+                  </span>
+                  <Input value={cs.csCategory} readOnly w="200px" />
+                </Box>
+                <Box>
+                  <span className="font-dongle text-3xl text-gray-500 mr-4">
+                    작성일시 :
+                  </span>
+                  <Input value={cs.ago} readOnly w="120px" />
+                </Box>
+              </CardBody>
+
+              <CardFooter justifyContent="flex-end">
+                {(hasAccess(cs.csWriter) || authCheck() === "admin") && (
+                  <Box>
+                    <button
+                      onClick={onOpen}
+                      className="mr-4 px-8 py-2 rounded-md relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold"
+                    >
+                      <span className="relative z-10  text-4xl">
+                        수 정 하 기
+                      </span>
+                    </button>
+                    <button
+                      onClick={() => navigate("/home/cs/csEdit/" + cs.id)}
+                      className="ml-10 rounded-md relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold "
+                    >
+                      <span className="relative z-10  text-4xl">
+                        취 소 하 기
+                      </span>
+                    </button>
+                  </Box>
+                )}
+              </CardFooter>
+            </Card>
+          </Box>
+
+          {/* 공지글 삭제 모달 */}
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>수정 확인</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>수정 하시겠습니까?</ModalBody>
+
+              <ModalFooter>
+                <Button onClick={onClose}>닫기</Button>
+                <Button onClick={handleDelete} colorScheme="red">
+                  수정
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </Box>
-      )}
-
-      {/* 공지글 삭제 모달 */}
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>삭제 확인</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>삭제 하시겠습니까?</ModalBody>
-
-          <ModalFooter>
-            <Button onClick={onClose}>닫기</Button>
-            <Button onClick={handleDelete} colorScheme="red">
-              삭제
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      </Box>
     </Box>
   );
 }

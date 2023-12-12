@@ -1,10 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Button,
-  ButtonGroup,
+  Center,
   Flex,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Select,
   Spinner,
   Table,
@@ -12,12 +19,25 @@ import {
   Td,
   Th,
   Thead,
+  Tooltip,
   Tr,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDown,
+  faAngleLeft,
+  faAngleRight,
+} from "@fortawesome/free-solid-svg-icons";
+import { LoginContext } from "../../component/LoginProvider";
 
 function PageButton({ variant, pageNumber, children }) {
   const [params] = useSearchParams();
@@ -43,46 +63,33 @@ function Pagination({ pageInfo }) {
   }
 
   return (
-    <Box>
-      {pageInfo.prevPageNumber && (
-        <button
-          pageNumber={pageInfo.prevPageNumber}
-          className="items-center px-6 py-2 text-lg bg-gradient-to-r from-violet-300
-          to-indigo-300 border border-fuchsia-100 hover:border-violet-100 text-white
-          font-semibold cursor-pointer leading-5 rounded-md transition duration-150
-          ease-in-out focus:outline-none focus:shadow-outline-blue
-          focus:border-blue-300 focus:z-10"
-        >
-          이 전
-        </button>
-      )}
+    <Center mt={5} mb={40}>
+      <Box>
+        {pageInfo.prevPageNumber && (
+          <PageButton variant="ghost" pageNumber={pageInfo.prevPageNumber}>
+            <FontAwesomeIcon icon={faAngleLeft} />
+          </PageButton>
+        )}
 
-      {pageNumbers.map((pageNumber) => (
-        <PageButton
-          key={pageNumber}
-          variant={
-            pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
-          }
-          pageNumber={pageNumber}
-          className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
-        >
-          {pageNumber}
-        </PageButton>
-      ))}
+        {pageNumbers.map((pageNumber) => (
+          <PageButton
+            key={pageNumber}
+            variant={
+              pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
+            }
+            pageNumber={pageNumber}
+          >
+            {pageNumber}
+          </PageButton>
+        ))}
 
-      {pageInfo.nextPageNumber && (
-        <button
-          pageNumber={pageInfo.nextPageNumber}
-          className="relative inline-flex items-center px-6 py-2 text-lg bg-gradient-to-r
-            from-violet-300 to-indigo-300 border border-fuchsia-100 hover:border-violet-100
-            text-white font-semibold cursor-pointer leading-5 rounded-md transition
-            duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue
-            focus:border-blue-300 focus:z-10"
-        >
-          다 음
-        </button>
-      )}
-    </Box>
+        {pageInfo.nextPageNumber && (
+          <PageButton variant="ghost" pageNumber={pageInfo.nextPageNumber}>
+            <FontAwesomeIcon icon={faAngleRight} />
+          </PageButton>
+        )}
+      </Box>
+    </Center>
   );
 }
 
@@ -113,13 +120,18 @@ export function CSList() {
   const [pageInfo, setPageInfo] = useState(null);
   const [orderByHit, setOrderByHit] = useState(null);
   const [orderByNum, setOrderByNum] = useState(null);
-  const [categoryFilter, setCategoryFilter] = useState("");
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
+
   const location = useLocation();
 
-  console.log(params);
+  const { fetchLogin, login, isAuthenticated, authCheck } =
+    useContext(LoginContext);
+  const toast = useToast();
+
+  const { id } = useParams();
 
   useEffect(() => {
     axios.get("/api/cs/list?" + params).then((r) => {
@@ -128,8 +140,27 @@ export function CSList() {
     });
   }, [location]);
 
-  if (csList == null) {
+  if (csList == null || pageInfo == null) {
     return <Spinner />;
+  }
+
+  function handleDelete() {
+    axios
+      .delete("/api/cs/remove/" + id)
+      .then((response) => {
+        toast({
+          description: id + "번 공지글이 삭제되었습니다.",
+          status: "success",
+        });
+        navigate("/home/cs");
+      })
+      .catch((error) => {
+        toast({
+          description: "삭제 중 문제가 발생하였습니다.",
+          status: "error",
+        });
+      })
+      .finally(() => onClose());
   }
 
   function handleRowClick(id) {
@@ -183,22 +214,33 @@ export function CSList() {
   }
 
   function handleCategoryChange(e) {
-    setCategoryFilter(e.target.value);
+    const params = new URLSearchParams();
+    params.set("f", e.target.value);
+
+    navigate("?" + params);
   }
 
   return (
     <Box>
-      <Flex>
+      <h1 className="text-4xl font-semibold mb-8">공 지 사 항</h1>
+      <Box>
         <Box p={8} bg="orange.100">
           <Box bg="white" borderRadius="xl" boxShadow="lg" p={6}>
             <Flex justify="space-between" align="center">
-              <Button
-                variant="solid"
-                colorScheme="green"
-                onClick={() => navigate("/home/cs/csWrite")}
+              <Tooltip
+                isDisabled={isAuthenticated()}
+                hasArrow
+                label={"로그인이 필요합니다!"}
               >
-                글 쓰 기
-              </Button>
+                <Button
+                  disabled={!isAuthenticated()}
+                  variant="solid"
+                  colorScheme="green"
+                  onClick={() => navigate("/home/cs/csWrite")}
+                >
+                  글 쓰 기
+                </Button>
+              </Tooltip>
 
               <Flex>
                 <Select
@@ -225,40 +267,50 @@ export function CSList() {
                     <FontAwesomeIcon icon={faAngleDown} />
                   </Th>
                   <Th>카테고리</Th>
-                  <Th>제목</Th>
+                  <Th className="w-2/5">제목</Th>
                   <Th>작성자</Th>
                   <Th>작성일</Th>
                   <Th onClick={sortCount} style={{ cursor: "pointer" }}>
                     조회수
                     <FontAwesomeIcon icon={faAngleDown} />
                   </Th>
-                  <Th>수정 / 삭제</Th>
+                  <Th>비 고</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {csList
-                  .filter(
-                    (item) =>
-                      categoryFilter === "" ||
-                      item.csCategory === categoryFilter,
-                  )
-                  .map((cs) => (
-                    <Tr
-                      _hover={{
-                        bg: "gray.200",
-                        cursor: "pointer",
-                      }}
-                      key={cs.id}
-                      onClick={() => handleRowClick(cs.id)}
-                    >
-                      <Td>{cs.id}</Td>
-                      <Td>{cs.csCategory}</Td>
-                      <Td>{cs.csTitle}</Td>
-                      <Td>{cs.csWriter}</Td>
-                      <Td>{cs.inserted}</Td>
-                      <Td>{cs.csHit}</Td>
-                    </Tr>
-                  ))}
+                {csList.map((cs) => (
+                  <Tr
+                    _hover={{
+                      bg: "gray.200",
+                      cursor: "pointer",
+                    }}
+                    key={cs.id}
+                    onClick={() => handleRowClick(cs.id)}
+                  >
+                    <Td>{cs.id}</Td>
+                    <Td>{cs.csCategory}</Td>
+                    <Td>{cs.csTitle}</Td>
+                    <Td>{cs.csWriter}</Td>
+                    <Td>{cs.ago}</Td>
+                    <Td>{cs.csHit}</Td>
+
+                    {/*TODO: admin 계정으로만으로 바꿔야댐.*/}
+                    <Td>
+                      <Box>
+                        <Button
+                          colorScheme="purple"
+                          onClick={() => navigate("/home/cs/edit/" + id)}
+                          mr={2}
+                        >
+                          수정
+                        </Button>
+                        <Button colorScheme="red" onClick={onOpen}>
+                          삭제
+                        </Button>
+                      </Box>
+                    </Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
 
@@ -269,7 +321,23 @@ export function CSList() {
             </div>
           </Box>
         </Box>
-      </Flex>
+      </Box>
+      {/* 공지글 삭제 모달 */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>삭제 확인</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>삭제 하시겠습니까?</ModalBody>
+
+          <ModalFooter>
+            <Button onClick={onClose}>닫기</Button>
+            <Button onClick={handleDelete} colorScheme="red">
+              삭제
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }

@@ -1,4 +1,12 @@
-import { Button, Flex, Select, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormHelperText,
+  Select,
+  useToast,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,6 +15,7 @@ export function QAWrite() {
   const [qaTitle, setQaTitle] = useState("");
   const [qaContent, setQaContent] = useState("");
   const [qaCategory, setQaCategory] = useState("건의사항");
+  const [files, setFiles] = useState(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -16,10 +25,11 @@ export function QAWrite() {
   function handleSubmit() {
     setIsSubmitting(true);
     axios
-      .post("/api/qa/add", {
+      .postForm("/api/qa/add", {
         qaTitle,
         qaContent,
         qaCategory: qaCategory,
+        uploadFiles: files,
       })
       .then(() => {
         toast({
@@ -73,31 +83,59 @@ export function QAWrite() {
               ></textarea>
             </div>
 
-            <div>
-              <Flex ml="4">
-                <Select
-                  defaultValue={"건의사항"}
-                  onChange={(e) => {
-                    setQaCategory(e.target.value);
-                  }}
-                >
-                  <option value={"건의사항"}>건의사항</option>
-                  <option value={"이벤트관련"}>이벤트관련</option>
-                  <option value={"물품관련"}>물품관련</option>
-                  <option value={"기타"}>기타</option>
-                </Select>
-              </Flex>
+            <div className="flex space-x-24">
+              <div>
+                <Flex>
+                  <span className="font-dongle text-4xl text-gray-500">
+                    유 형:
+                  </span>
+                  <Flex ml="4">
+                    <Select
+                      defaultValue={"건의사항"}
+                      onChange={(e) => {
+                        setQaCategory(e.target.value);
+                      }}
+                    >
+                      <option value={"건의사항"}>건의사항</option>
+                      <option value={"이벤트관련"}>이벤트관련</option>
+                      <option value={"물품관련"}>물품관련</option>
+                      <option value={"기타"}>기타</option>
+                    </Select>
+                  </Flex>
+                </Flex>
+              </div>
             </div>
-
-            <Button
-              isDisabled={isSubmitting}
-              onClick={handleSubmit}
-              class=" px-8 py-2 mx-auto block rounded-md font-dongle text-3xl
-                text-indigo-100 bg-indigo-600"
-            >
-              작성 완료
-            </Button>
-            <Button onClick={() => navigate(-1)}>취소</Button>
+            <FormControl>
+              <span className="font-dongle text-4xl text-gray-500">
+                첨부파일
+              </span>
+              <input
+                className="block w-4/5 text-sm text-gray-900 border
+                  border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={(e) => setFiles(e.target.files)}
+              />
+              <FormHelperText>
+                한 개의 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부해주세요.
+              </FormHelperText>
+            </FormControl>
+            <Box className="flex justify-center">
+              <Button
+                isDisabled={isSubmitting}
+                onClick={handleSubmit}
+                className="px-8 py-2 rounded-md relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold"
+              >
+                <span className="relative z-10  text-4xl">작성 완료</span>
+              </Button>
+              <Button
+                onClick={() => navigate(-1)}
+                className="ml-10 rounded-md relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold "
+              >
+                <span className="relative z-10  text-4xl">취 소</span>
+              </Button>
+            </Box>
           </div>
         </div>
       </div>

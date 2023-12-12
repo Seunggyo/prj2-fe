@@ -28,12 +28,12 @@ import { faComments, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LoginContext } from "./LoginProvider";
 
-function CommentForm({ boardId, isSubmitting, onSubmit }) {
+function CommentForm({ boardId, isSubmitting, onSubmit, category }) {
   const [comment, setComment] = useState("");
 
   const { isAuthenticated } = useContext(LoginContext);
   function handleSubmit() {
-    onSubmit({ boardId, comment });
+    onSubmit({ boardId, comment, category });
   }
 
   return (
@@ -201,7 +201,7 @@ function CommentList({
   );
 }
 
-export function CommentContainer({ boardId }) {
+export function CommentContainer({ boardId, category }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [commentList, setCommentList] = useState([]);
 
@@ -219,6 +219,7 @@ export function CommentContainer({ boardId }) {
     if (!isSubmitting) {
       const params = new URLSearchParams();
       params.set("id", boardId);
+      params.set("category", category);
 
       axios
         .get("/api/comment/list?" + params)
@@ -291,17 +292,16 @@ export function CommentContainer({ boardId }) {
           </Heading>
         </Box>
       </Center>
-
       <Center mt={5}>
         <Box w={"lg"}>
           <CommentForm
             boardId={boardId}
             isSubmitting={isSubmitting}
             onSubmit={handleSubmit}
+            category={category}
           />
         </Box>
       </Center>
-
       <CommentList
         boardId={boardId}
         isSubmitting={isSubmitting}
@@ -309,7 +309,6 @@ export function CommentContainer({ boardId }) {
         commentList={commentList}
         onDeleteModalOpen={handleDeleteModalOpen}
       />
-
       {/* 삭제 모달 */}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

@@ -142,7 +142,7 @@ export function BoardView() {
                 {board.files.map((file) => (
                   <Card key={file.id} my={5}>
                     <CardBody>
-                      <Image width="100%" src={file.url} alt={file.name} />
+                      <Image width="100%" src={file.url} alt={file.fileName} />
                     </CardBody>
                   </Card>
                 ))}
@@ -191,7 +191,7 @@ export function BoardView() {
             </Card>
           </Box>
           <Box width={{ base: "100%", md: "40%" }}>
-            <CommentContainer boardId={id} />
+            <CommentContainer boardId={id} category={"board"} />
           </Box>
 
           {/* 삭제 모달 */}

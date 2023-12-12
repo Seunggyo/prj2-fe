@@ -6,8 +6,6 @@ import {
   Flex,
   FormControl,
   FormHelperText,
-  FormLabel,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -17,7 +15,6 @@ import {
   ModalOverlay,
   Select,
   Spinner,
-  Textarea,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -32,6 +29,7 @@ export function QAEdit() {
 
   // /edit/:id
   const { id } = useParams();
+
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -47,10 +45,19 @@ export function QAEdit() {
 
   function handleSubmit() {
     // 저장 버튼 클릭 시
-    // PUT /api/board/edit
+    // 파일이 들어가기에 putFome /api/cs/qaEdit
+    setIsSubmitting(true);
 
     axios
-      .put("/api/qa/edit", qa)
+      .putForm("/api/qa/edit", {
+        id: qa.id,
+        qaTitle: qa.qaTitle,
+        qaContent: qa.qaContent,
+        qaWriter: qa.qaWriter,
+        qaCategory: qa.qaCategory,
+        fileSwitch,
+        uploadFiles,
+      })
       .then(() => {
         toast({
           description: qa.id + "번 게시글이 수정되었습니다.",
@@ -169,7 +176,7 @@ export function QAEdit() {
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={(e) => setFiles(e.target.files)}
+                  onChange={(e) => setUploadFiles(e.target.files)}
                 />
                 <FormHelperText>
                   한 개의 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부해주세요.

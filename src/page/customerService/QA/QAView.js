@@ -114,7 +114,7 @@ export function QAView() {
                   <Input value={qa.qaCategory} readOnly w="120px" />
                 </Box>
 
-                <Box mb={4}>
+                <Box>
                   <span className="font-dongle text-4xl text-gray-500">
                     작성일시
                   </span>
@@ -147,7 +147,7 @@ export function QAView() {
             </Card>
           </Box>
           <Box width={{ base: "100%", md: "40%" }}>
-            <CommentContainer boardId={id} />
+            <CommentContainer boardId={id} category={"qa"} />
           </Box>
 
           {/* 글 삭제 모달 */}

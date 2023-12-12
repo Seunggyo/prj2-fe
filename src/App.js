@@ -113,7 +113,7 @@ const routes = createBrowserRouter(
         <Route path="cs" element={<CS />}>
           <Route index element={<CSList />} />
           <Route path="csWrite" element={<CSWrite />}></Route>
-          <Route path="csList/:id" element={<CSView />}></Route>
+          <Route path=":id" element={<CSView />}></Route>
           <Route path="csEdit/:id" element={<CSEdit />}></Route>
           <Route path="qaList" element={<QAList />}></Route>
           <Route path="qaWrite" element={<QAWrite />}></Route>
