@@ -157,7 +157,7 @@ function MemberSearchComp() {
     const params = new URLSearchParams();
     params.set("k", keyword);
 
-    navigate("/member/joinList?" + params);
+    navigate("?" + params);
   }
 
   return (
@@ -179,7 +179,7 @@ function PageButton({ variant, pageNumber, children }) {
 
   function handleClick() {
     params.set("p", pageNumber);
-    navigate("/member/joinList?" + params);
+    navigate("?" + params);
   }
 
   return (

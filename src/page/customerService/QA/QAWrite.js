@@ -26,7 +26,7 @@ export function QAWrite() {
           description: "새 글이 저장되었습니다.",
           status: "success",
         });
-        navigate("/cs/qaList");
+        navigate("/home/cs/qaList");
       })
       .catch((error) => {
         console.log(error.response.status);

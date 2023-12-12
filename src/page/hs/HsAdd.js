@@ -83,7 +83,7 @@ export function HsAdd() {
           description: "전송 되었습니다.",
           status: "success",
         });
-        navigate("/hospital/hospitalList");
+        navigate("/home/hospital/hospitalList");
       })
       .catch(() =>
         toast({

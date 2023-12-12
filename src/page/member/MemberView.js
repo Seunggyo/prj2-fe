@@ -28,32 +28,34 @@ function MemberView(props) {
     return <Spinner />;
   }
 
-    return (
-        <Center>
-            <Card>
-                <CardHeader>
-                    <Heading>{member.id}</Heading>
-                </CardHeader>
-                <CardBody>
-                    <Box>nickName : {member.nickName}</Box>
-                    <Box>birthday : {member.birthday}</Box>
-                    <Box>phone : {member.phone}</Box>
-                    <Box>email : {member.email}</Box>
-                    <Box>address : {member.address}</Box>
-                    {/* TODO auth user 제외 표시*/}
-                    <Box>inserted : {member.inserted}</Box>
-                </CardBody>
-                <CardFooter>
-                    <Flex>
-                        <Button onClick={() => navigate("/member/edit?" + params.toString())}>
-                            수정
-                        </Button>
-                        <Button>삭제</Button>
-                    </Flex>
-                </CardFooter>
-            </Card>
-        </Center>
-    );
+  return (
+    <Center>
+      <Card>
+        <CardHeader>
+          <Heading>{member.id}</Heading>
+        </CardHeader>
+        <CardBody>
+          <Box>nickName : {member.nickName}</Box>
+          <Box>birthday : {member.birthday}</Box>
+          <Box>phone : {member.phone}</Box>
+          <Box>email : {member.email}</Box>
+          <Box>address : {member.address}</Box>
+          {/* TODO auth user 제외 표시*/}
+          <Box>inserted : {member.inserted}</Box>
+        </CardBody>
+        <CardFooter>
+          <Flex>
+            <Button
+              onClick={() => navigate("/home/member/edit?" + params.toString())}
+            >
+              수정
+            </Button>
+            <Button>삭제</Button>
+          </Flex>
+        </CardFooter>
+      </Card>
+    </Center>
+  );
 }
 
 export default MemberView;

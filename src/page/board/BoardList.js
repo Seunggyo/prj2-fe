@@ -32,7 +32,7 @@ function PageButton({ variant, pageNumber, children }) {
 
   function handleClick() {
     params.set("p", pageNumber);
-    navigate("/board/?" + params);
+    navigate("/home/board/?" + params);
   }
 
   return (
@@ -89,7 +89,7 @@ function SearchComponent() {
     const params = new URLSearchParams();
     params.set("k", keyword);
 
-    navigate("/board/?" + params);
+    navigate("?" + params);
   }
   return (
     <Flex>
@@ -133,7 +133,7 @@ export function BoardList() {
       .catch((error) => {
         console.error("bad");
       });
-    navigate("/board/" + id);
+    navigate("/home/board/" + id);
   }
 
   function sortNum() {
@@ -177,27 +177,31 @@ export function BoardList() {
   }
 
   function handleCategoryChange(e) {
-    setCategoryFilter(e.target.value);
+    const params = new URLSearchParams();
+    console.log(e.target.value);
+    params.set("f", e.target.value);
+
+    navigate("?" + params);
   }
 
   function handleAllClick() {
     const params = new URLSearchParams();
     params.set("b", "all");
 
-    navigate("/board?" + params);
+    navigate("?" + params);
   }
 
   function handlePopClick() {
     const params = new URLSearchParams();
     params.set("b", "pop");
 
-    navigate("/board?" + params);
+    navigate("?" + params);
   }
 
   return (
     <Box>
       <button
-        onClick={() => navigate("/board/write")}
+        onClick={() => navigate("/home/board/write")}
         className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
       >
         <span className="relative z-10">글쓰기</span>
@@ -251,44 +255,39 @@ export function BoardList() {
             </Tr>
           </Thead>
           <Tbody>
-            {boardList
-              .filter(
-                (item) =>
-                  categoryFilter === "" || item.category === categoryFilter,
-              )
-              .map((board) => (
-                <Tr
-                  _hover={{
-                    cursor: "pointer",
-                  }}
-                  key={board.id}
-                  onClick={() => handleRowClick(board.id)}
-                >
-                  <Td>
-                    {board.id}
-                    {board.countLike != 0 && board.countLike}
-                  </Td>
-                  <Td>{board.category}</Td>
-                  <Td>
-                    {board.title}
-                    {board.countComment > 0 && (
-                      <Badge>
-                        <ChatIcon />
-                        {board.countComment}
-                      </Badge>
-                    )}
-                    {board.countFile > 0 && (
-                      <Badge>
-                        <FontAwesomeIcon icon={faImages} />
-                        {board.countFile}
-                      </Badge>
-                    )}
-                  </Td>
-                  <Td>{board.writer}</Td>
-                  <Td>{board.ago}</Td>
-                  <Td>{board.increaseHit}</Td>
-                </Tr>
-              ))}
+            {boardList.map((board) => (
+              <Tr
+                _hover={{
+                  cursor: "pointer",
+                }}
+                key={board.id}
+                onClick={() => handleRowClick(board.id)}
+              >
+                <Td>
+                  {board.id}
+                  {board.countLike != 0 && board.countLike}
+                </Td>
+                <Td>{board.category}</Td>
+                <Td>
+                  {board.title}
+                  {board.countComment > 0 && (
+                    <Badge>
+                      <ChatIcon />
+                      {board.countComment}
+                    </Badge>
+                  )}
+                  {board.countFile > 0 && (
+                    <Badge>
+                      <FontAwesomeIcon icon={faImages} />
+                      {board.countFile}
+                    </Badge>
+                  )}
+                </Td>
+                <Td>{board.writer}</Td>
+                <Td>{board.ago}</Td>
+                <Td>{board.increaseHit}</Td>
+              </Tr>
+            ))}
           </Tbody>
         </Table>
       </Box>

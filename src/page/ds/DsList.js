@@ -28,7 +28,7 @@ function PageButton({ variant, pageNumber, children }) {
   function handleClick() {
     params.set("p", pageNumber);
 
-    navigate("/ds/list?" + params);
+    navigate("?" + params);
   }
 
   return (
@@ -87,7 +87,7 @@ function SearchComponent() {
     params.set("k", keyword);
     params.set("c", category);
 
-    navigate("/ds/list?" + params);
+    navigate("?" + params);
   }
 
   return (
@@ -128,7 +128,7 @@ export function DsList() {
   }
 
   function handleMoveWrite() {
-    navigate("/ds/write");
+    navigate("/home/ds/write");
   }
 
   return (
@@ -159,7 +159,7 @@ export function DsList() {
                 <Tr
                   key={ds.id}
                   _hover={{ cursor: "pointer" }}
-                  onClick={() => navigate("/ds/view/" + ds.id)}
+                  onClick={() => navigate("/home/ds/view/" + ds.id)}
                 >
                   <Td>{ds.name}</Td>
                   <Td>{ds.likeCount}</Td>

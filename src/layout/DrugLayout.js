@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 import React from "react";
-import { NavBarDrug } from "../component/NavBarDrug";
+import { NavBarDrug } from "./NavBarDrug";
 
 export function DrugLayout() {
   return (

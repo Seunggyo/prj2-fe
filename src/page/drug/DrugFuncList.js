@@ -52,7 +52,7 @@ export function DrugFuncList() {
                     className="w-full"
                     bg="green.600"
                     color="white"
-                    onClick={() => navigate("/drug/" + drug.id)}
+                    onClick={() => navigate("/home/drug/" + drug.id)}
                   >
                     주문하기
                   </Button>

@@ -63,6 +63,7 @@ function LikeContainer({ like, onClick }) {
   );
 }
 
+
 export function HsEdit() {
   const [list, updateList] = useImmer([]);
   const { id } = useParams();
@@ -167,7 +168,6 @@ export function HsEdit() {
     });
   }
 
-  console.log(list.nightCare);
 
   function handleSubmitClick() {
     axios
@@ -465,7 +465,7 @@ export function HsEdit() {
         <CardFooter>
           {isAuthenticated() && (
             <Button
-              onClick={() => navigate("/hospital/hospitalReservation/" + id)}
+              onClick={() => navigate("/home/hospital/hospitalReservation/" + id)}
             >
               예약
             </Button>

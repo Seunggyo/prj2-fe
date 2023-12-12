@@ -106,7 +106,7 @@ export function HsList() {
                     _hover={{
                       cursor: "pointer",
                     }}
-                    onClick={() => navigate("/hospital/hospitalEdit/" + h.id)}
+                    onClick={() => navigate("/home/hospital/hospitalEdit/" + h.id)}
                   >
                     <Td>
                       {h.name}

@@ -99,7 +99,7 @@ export function DsView({ dsId }) {
           description: realId + "번 정보가 삭제되었습니다",
           status: "success",
         });
-        navigate("/ds/list");
+        navigate("/home/ds/list");
       })
       .catch((error) => {
         toast({
@@ -206,7 +206,7 @@ export function DsView({ dsId }) {
         <Box>
           <Button
             colorScheme="blue"
-            onClick={() => navigate("/ds/edit/" + realId)}
+            onClick={() => navigate("/home/ds/edit/" + realId)}
           >
             수정
           </Button>

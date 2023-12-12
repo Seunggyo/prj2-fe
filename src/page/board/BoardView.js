@@ -31,7 +31,6 @@ import { CommentContainer } from "../../component/CommentContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
-import * as PropTypes from "prop-types";
 
 function LikeContainer({ like, onClick }) {
   const { isAuthenticated } = useContext(LoginContext);
@@ -89,7 +88,7 @@ export function BoardView() {
           description: id + "번 게시글이 삭제되었습니다",
           status: "success",
         });
-        navigate("/board");
+        navigate("/home/board");
       })
       .catch((error) => {
         toast({
@@ -145,7 +144,7 @@ export function BoardView() {
           <CardFooter>
             {(hasAccess(board.writer) || authCheck() === "admin") && (
               <Box>
-                <Button onClick={() => navigate("/board/edit/" + id)}>
+                <Button onClick={() => navigate("/home/board/edit/" + id)}>
                   수 정
                 </Button>
                 <Button onClick={onOpen}>삭 제</Button>

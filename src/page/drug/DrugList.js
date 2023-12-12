@@ -26,8 +26,6 @@ export function DrugList() {
 
   const { isOpen, onClose, onOpen } = useDisclosure();
   const btnRef = React.useRef();
-  const [files, setFiles] = useState("");
-  const [drug, setDrug] = useState(null);
 
   const [params] = useSearchParams();
   const navigate = useNavigate();
@@ -131,7 +129,7 @@ export function DrugList() {
                     className="w-full"
                     bg="green.600"
                     color="white"
-                    onClick={() => navigate("/drug/" + drug.id)}
+                    onClick={() => navigate("/home/drug/" + drug.id)}
                   >
                     주문하기
                   </Button>

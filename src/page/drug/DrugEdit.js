@@ -65,7 +65,7 @@ export function DrugEdit() {
           description: drug.id + "번 게시글이 수정 되었소",
           status: "success",
         });
-        navigate("/drug/" + id);
+        navigate("/home/drug/" + id);
       })
       .catch((error) => {
         if (error.response.status === 400) {
