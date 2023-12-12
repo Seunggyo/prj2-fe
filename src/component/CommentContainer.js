@@ -108,12 +108,12 @@ function CommentItem({
   return (
     <Box>
       <Flex justifyContent="space-between">
-        <Heading size="xs">{comment.memberNickName}</Heading>
-        <Text fontSize="xs">{comment.ago}</Text>
+        <Heading size="md">{comment.memberNickName}</Heading>
+        <Text fontSize="md">{comment.ago}</Text>
       </Flex>
       <Flex justifyContent="space-between" alignItems="center">
         <Box flex={1}>
-          <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="sm">
+          <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="md">
             {comment.comment}
           </Text>
           {isEditing && (
@@ -138,9 +138,10 @@ function CommentItem({
             {isEditing || (
               <Button
                 variant="ghost"
-                size="xs"
+                size="xl"
                 colorScheme="purple"
                 onClick={() => setIsEditing(true)}
+                mr="3"
               >
                 <EditIcon />
               </Button>
@@ -148,9 +149,10 @@ function CommentItem({
             {isEditing && (
               <Button
                 variant="ghost"
-                size="xs"
+                size="xl"
                 colorScheme="gray"
                 onClick={() => setIsEditing(false)}
+                mr="3"
               >
                 <NotAllowedIcon />
               </Button>
@@ -158,7 +160,7 @@ function CommentItem({
             <Button
               variant="ghost"
               onClick={() => onDeleteModalOpen(comment.id)}
-              size="xs"
+              size="xl"
               colorScheme="red"
             >
               <DeleteIcon />
