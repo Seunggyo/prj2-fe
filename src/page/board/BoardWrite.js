@@ -26,23 +26,17 @@ export function BoardWrite() {
   const handleFileChange = (e) => {
     // 파일 입력에서 선택한 파일들을 가져오기.
     const selecteFiles = e.target.files;
-
-    // 선택된 파일들의 정보와 미리보기 URL을 저장할 빈 배열을 생성하기.
     const filesArray = [];
 
-    // 배열에 여러개의 파일이 담겼을 때, 각 파일을 처리하기 위해 반복문 실행.
     for (let i = 0; i < selecteFiles.length; i++) {
       const file = selecteFiles[i];
 
-      // 파일을 읽어오는데 사용할 FileReader 객체를 생성.
       const reader = new FileReader();
 
-      // FileReader의 파일 읽기가 완료되면 호출되는 이벤트인 onloadend 이벤트 핸들러를 설정.
       reader.onloadend = () => {
         // 파일 미리보기 URL을 생성하여 상태 업데이트
         filesArray.push({ file, previewURL: reader.result });
 
-        // 상태 업데이트를 통해 files 상태를 현재까지의 파일 정보와 미리보기 URL로 업데이트.
         setFiles([...filesArray]);
       };
       // 파일을 읽어와서 미리보기 URL을 생성
