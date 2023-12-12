@@ -15,12 +15,41 @@ export function BoardWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [boardType, setBoardType] = useState("병원");
+  const [uploadFiles, setUploadFiles] = useState(null);
   const [files, setFiles] = useState(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toast = useToast();
   const navigate = useNavigate();
+
+  const handleFileChange = (e) => {
+    // 파일 입력에서 선택한 파일들을 가져오기.
+    const selecteFiles = e.target.files;
+
+    // 선택된 파일들의 정보와 미리보기 URL을 저장할 빈 배열을 생성하기.
+    const filesArray = [];
+
+    // 배열에 여러개의 파일이 담겼을 때, 각 파일을 처리하기 위해 반복문 실행.
+    for (let i = 0; i < selecteFiles.length; i++) {
+      const file = selecteFiles[i];
+
+      // 파일을 읽어오는데 사용할 FileReader 객체를 생성.
+      const reader = new FileReader();
+
+      // FileReader의 파일 읽기가 완료되면 호출되는 이벤트인 onloadend 이벤트 핸들러를 설정.
+      reader.onloadend = () => {
+        // 파일 미리보기 URL을 생성하여 상태 업데이트
+        filesArray.push({ file, previewURL: reader.result });
+
+        // 상태 업데이트를 통해 files 상태를 현재까지의 파일 정보와 미리보기 URL로 업데이트.
+        setFiles([...filesArray]);
+      };
+      // 파일을 읽어와서 미리보기 URL을 생성
+      reader.readAsDataURL(file);
+    }
+    // TODO: 그냥 handleFileChange 함수의 코드가 미리보기기능을 제공하는 하나의 세트임.
+  };
 
   function handleSubmit() {
     setIsSubmitting(true);
@@ -29,7 +58,7 @@ export function BoardWrite() {
         title,
         content,
         category: boardType,
-        uploadFiles: files,
+        uploadFiles: uploadFiles,
       })
       .then(() => {
         toast({
@@ -107,22 +136,41 @@ export function BoardWrite() {
                   </Flex>
                 </Flex>
               </div>
-              <FormControl>
+              <div>
                 <span className="font-dongle text-4xl text-gray-500">
                   첨부파일
                 </span>
                 <input
-                  className="block w-4/5 text-sm text-gray-900 border
-                  border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                  className="block w-1/5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={(e) => setFiles(e.target.files)}
+                  onChange={(e) => {
+                    handleFileChange(e);
+                    setUploadFiles(e.target.files);
+                  }}
                 />
-                <FormHelperText>
+
+                {/* 미리보기 이미지를 표시하는 부분 */}
+                <div style={{ display: "flex", marginTop: "10px" }}>
+                  {Array.isArray(files) &&
+                    files.map((file, index) => (
+                      <img
+                        key={index}
+                        src={file.previewURL}
+                        alt={`Preview ${index}`}
+                        style={{
+                          width: "180px",
+                          height: "auto",
+                          marginRight: "10px",
+                        }}
+                      />
+                    ))}
+                </div>
+                <span className="text-xs text-gray-500">
                   한 개의 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부해주세요.
-                </FormHelperText>
-              </FormControl>
+                </span>
+              </div>
 
               <Box className="flex justify-center">
                 <Button

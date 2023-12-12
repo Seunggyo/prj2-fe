@@ -223,13 +223,13 @@ export function BoardEdit() {
               <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                  <ModalHeader>저장 확인</ModalHeader>
+                  <ModalHeader>수정 확인</ModalHeader>
                   <ModalCloseButton />
-                  <ModalBody>저장 하시겠습니까?</ModalBody>
+                  <ModalBody>수정 하시겠습니까?</ModalBody>
                   <ModalFooter>
                     <Button onClick={onClose}>닫기</Button>
                     <Button onClick={handleSubmit} colorScheme="blue">
-                      저장
+                      수정
                     </Button>
                   </ModalFooter>
                 </ModalContent>

@@ -299,15 +299,18 @@ export function BoardList() {
                 <Td className="h-16">
                   {board.title}
                   {board.countComment > 0 && (
-                    <Badge className="flex items-center h-full ml-3">
+                    <Badge className="flex items-center h-full ml-1">
                       <ChatIcon className="mr-1 text-lg" />
                       <span className="text-lg">{board.countComment}</span>
                     </Badge>
                   )}
                   {board.countFile > 0 && (
-                    <Badge>
-                      <FontAwesomeIcon icon={faImages} />
-                      {board.countFile}
+                    <Badge className="flex items-center h-full ml-1">
+                      <FontAwesomeIcon
+                        icon={faImages}
+                        className="mr-1 text-lg"
+                      />
+                      <span className="mr-1 text-lg">{board.countFile}</span>
                     </Badge>
                   )}
                 </Td>

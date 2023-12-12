@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { LoginContext } from "../../component/LoginProvider";
 
 export function MemberLogin(props) {
   const [id, setId] = useState("");
@@ -9,6 +10,9 @@ export function MemberLogin(props) {
 
   const toast = useToast();
   const navigate = useNavigate();
+
+  const { fetchLogin, login, isAuthenticated, authCheck } =
+    useContext(LoginContext);
 
   function handleLogin() {
     axios
@@ -25,7 +29,8 @@ export function MemberLogin(props) {
           description: "아이디와 암호를 다시 확인해주세요.",
           status: "warning",
         });
-      });
+      })
+      .finally(() => fetchLogin());
   }
 
   return (

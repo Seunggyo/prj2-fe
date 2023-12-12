@@ -238,12 +238,7 @@ export function CommentContainer({ boardId, category }) {
           status: "success",
         });
       })
-      .catch((error) => {
-        toast({
-          description: "댓글 등록 중 문제가 발생하였습니다.",
-          status: "error",
-        });
-      })
+      .catch((error) => {})
       .finally(() => setIsSubmitting(false));
   }
 

@@ -58,7 +58,7 @@ export function SideBar() {
         });
         navigate("/");
       })
-      .finally(() => onClose());
+      .finally(() => fetchLogin());
   }
 
   return (
