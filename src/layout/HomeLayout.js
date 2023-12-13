@@ -12,7 +12,7 @@ export function HomeLayout() {
           <NavBar />
           <SideBar style={{ minWidth: "200px" }} />
         </Box>
-        <Box ml="200px">
+        <Box ml="250px">
           <Outlet />
         </Box>
       </div>

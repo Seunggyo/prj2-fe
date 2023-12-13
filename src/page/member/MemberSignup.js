@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Flex,
@@ -17,7 +18,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function MemberSignup() {
@@ -33,6 +34,9 @@ export function MemberSignup() {
   const [uploadFile, setUploadFile] = useState(null);
   const [mailNum, setMailNum] = useState("");
   const [authenticationNum, setAuthenticationNum] = useState(null);
+  const [uploadProfile, setUploadProfile] = useState(
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+  );
 
   const [idAvailable, setIdAvailable] = useState(false);
   const [nickNameAvailable, setNickNameAvailable] = useState(false);
@@ -41,6 +45,8 @@ export function MemberSignup() {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+
+  const profileInput = useRef(null);
 
   let submitAvailable = true;
 
@@ -162,6 +168,7 @@ export function MemberSignup() {
         address,
         auth,
         uploadFile,
+        uploadProfile,
       })
       .then(() => {
         toast({
@@ -244,6 +251,16 @@ export function MemberSignup() {
                 중복 확인
               </Button>
             </Flex>
+
+            {/*프로필 추가중..*/}
+            <Avatar
+              src="Image"
+              style={{ margin: "20px" }}
+              size="200"
+              onClick={() => {
+                profileInput.current.click();
+              }}
+            ></Avatar>
 
             {/*password 패스워드*/}
             <div
