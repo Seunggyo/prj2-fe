@@ -23,11 +23,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
-export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
+export function HsSearchComponent({
+  onItemClick,
+  onMedicalcourseClick,
+  medicalcourse,
+}) {
   const navigate = useNavigate();
   const toast = useToast();
 
   const [list, setList] = useState();
+  const [courseList, setCourseList] = useState("");
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [params] = useSearchParams();
 
@@ -62,7 +67,7 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
         <Stack spacing={4}>
           <InputGroup size="sm">
             <Input
-              placeholder="이름"
+              placeholder="이름,장소,진료과목 검색"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
             />

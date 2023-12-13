@@ -6,6 +6,7 @@ import { DsSearchComponent } from "./DsSearchComponent";
 import { ViewComponent } from "./ViewComponent";
 import { HsSearchComponent } from "./HsSearchComponent";
 import { HsViewComponent } from "./HsViewComponent";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
   const [dsId, setDsId] = useState();
@@ -21,6 +22,7 @@ const MainPage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const mapRef = useRef();
   const roadviewRef = useRef();
+  const navigate = useNavigate();
 
   const [buttonValue, setButtonValue] = useState("");
   const [dsList, setDsList] = useState([]);
@@ -86,6 +88,14 @@ const MainPage = () => {
       ),
     );
   };
+
+  function handleUpdateCourse(course) {
+    const params = new URLSearchParams();
+    params.set("course", course);
+
+    setMedicalcourse(course);
+    navigate("/home/hospital?" + params);
+  }
 
   // 장소 리스트의 표시 상태를 관리하는 상태 변수
   const [isListVisible, setIsListVisible] = useState(false);
@@ -190,7 +200,8 @@ const MainPage = () => {
         >
           <HsSearchComponent
             onItemClick={handleItemHsClick}
-            onMedicalcourseClick={(course) => setMedicalcourse(course)}
+            onMedicalcourseClick={(course) => handleUpdateCourse(course)}
+            medicalcourse={medicalcourse}
           />
         </VStack>
         <Box display="flex" position="relative" w="100%">
