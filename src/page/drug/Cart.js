@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Image,
   Modal,
   ModalBody,
@@ -99,15 +100,15 @@ export function Cart() {
                       <span className="text-pink-400 font-semibold inline-block">
                         {cart.total}
                       </span>
-                        <Button
-                            colorScheme="pink"
-                            onClick={() => {
-                                idRef.current = cart.id;
-                                onOpen();
-                            }}
-                        >
-                            삭제
-                        </Button>
+                      <Button
+                        colorScheme="pink"
+                        onClick={() => {
+                          idRef.current = cart.id;
+                          onOpen();
+                        }}
+                      >
+                        삭제
+                      </Button>
                     </div>
                   </div>
                 </li>
@@ -123,14 +124,17 @@ export function Cart() {
               <button
                 className="before:ease relative h-12 w-40 overflow-hidden border border-green-700 bg-green-700 text-white shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-green-500 hover:before:-translate-x-40"
                 onClick={() =>
-                    navigate("/home/drug/buy", {
-                        state: {
-                            amount,
-                            orderName:
-                                cartList[0].drugName + " 외 " + (cartList.length - 1) + " 개",
-                            url: cartList[0].url,
-                        },
-                    })
+                  navigate("/home/drug/buy", {
+                    state: {
+                      amount,
+                      orderName:
+                        cartList[0].drugName +
+                        " 외 " +
+                        (cartList.length - 1) +
+                        " 개",
+                      url: cartList[0].url,
+                    },
+                  })
                 }
               >
                 <span relative="relative z-10">주문</span>
