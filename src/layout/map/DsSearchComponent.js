@@ -113,7 +113,7 @@ export function DsSearchComponent({ onItemClick }) {
       <Box>
         <InputGroup size="sm">
           <Input
-            placeholder="이름"
+            placeholder="이름,장소 검색"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
           />
