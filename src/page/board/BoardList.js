@@ -263,25 +263,82 @@ export function BoardList() {
             <Tr>
               <Th
                 onClick={sortNum}
-                style={{ cursor: "pointer" }}
-                className="bg-indigo-50"
+                sx={{
+                  fontSize: "1.2rem",
+                  lineHeight: "1.5rem",
+                  borderColor: "white",
+                  cursor: "pointer",
+                  fontFamily: "gowun",
+                  width: "110px",
+                }}
+                className="bg-indigo-50 border-r"
               >
                 번호
                 <FontAwesomeIcon icon={faAngleDown} />
               </Th>
-              <Th className="bg-indigo-50">카테고리</Th>
-              <Th className="bg-indigo-50 w-2/5">제 목</Th>
-              <Th className="bg-indigo-50">작성자</Th>
-              <Th className="bg-indigo-50">작성일</Th>
+              <Th
+                sx={{
+                  fontSize: "1.2rem",
+                  lineHeight: "1.5rem",
+                  borderColor: "white",
+                  fontFamily: "gowun",
+                  width: "150px",
+                }}
+                className="bg-indigo-50 border-r"
+              >
+                카테고리
+              </Th>
+              <Th
+                sx={{
+                  fontSize: "1.2rem",
+                  lineHeight: "1.5rem",
+                  borderColor: "white",
+                  fontFamily: "gowun",
+                }}
+                className="bg-indigo-50 w-1/3 border-r"
+              >
+                제 목
+              </Th>
+              <Th
+                sx={{
+                  fontSize: "1.2rem",
+                  lineHeight: "1.5rem",
+                  borderColor: "white",
+                  fontFamily: "gowun",
+                  width: "110px",
+                }}
+                className="bg-indigo-50 border-r"
+              >
+                작성자
+              </Th>
+              <Th
+                sx={{
+                  fontSize: "1.2rem",
+                  lineHeight: "1.5rem",
+                  borderColor: "white",
+                  fontFamily: "gowun",
+                  width: "110px",
+                }}
+                className="bg-indigo-50 border-r"
+              >
+                작성일
+              </Th>
               <Th
                 onClick={sortCount}
-                style={{ cursor: "pointer" }}
-                className="bg-indigo-50"
+                sx={{
+                  fontSize: "1.2rem",
+                  lineHeight: "1.5rem",
+                  borderColor: "white",
+                  cursor: "pointer",
+                  fontFamily: "gowun",
+                  width: "110px",
+                }}
+                className="bg-indigo-50 border-r"
               >
-                조회수
+                조회
                 <FontAwesomeIcon icon={faAngleDown} />
               </Th>
-              <Th className="bg-indigo-50"></Th>
+              <Th sx={{ width: "90px" }} className="bg-indigo-50"></Th>
             </Tr>
           </Thead>
           <Tbody>

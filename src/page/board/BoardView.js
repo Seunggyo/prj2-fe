@@ -144,6 +144,7 @@ export function BoardView() {
                     본 문
                   </span>
                   <div style={{ whiteSpace: "pre-line" }}>
+                    {board.content}
                     {/* 이미지 출력 */}
                     {board.files.map((file) => (
                       <Card key={file.id} my={5}>
@@ -154,7 +155,6 @@ export function BoardView() {
                             src={file.url}
                             alt={file.fileName}
                           />
-                          {board.content}
                         </CardBody>
                       </Card>
                     ))}

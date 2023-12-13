@@ -130,6 +130,8 @@ export function BoardWrite() {
                   </Flex>
                 </Flex>
               </div>
+
+              {/* 추가할 파일 선택 */}
               <div>
                 <span className="font-dongle text-4xl text-gray-500">
                   첨부파일

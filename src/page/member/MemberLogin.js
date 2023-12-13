@@ -22,7 +22,7 @@ export function MemberLogin(props) {
           description: "로그인 되었습니다.",
           status: "info",
         });
-        navigate("/");
+        navigate(-1);
       })
       .catch(() => {
         toast({

@@ -10,6 +10,7 @@ import {
   FormControl,
   FormLabel,
   Heading,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -91,17 +92,35 @@ export function QAView() {
                 </Flex>
               </CardHeader>
               <CardBody>
-                <Box mb={4}>
-                  <span className="font-dongle text-4xl text-gray-500">
-                    제목
-                  </span>
-                  <Input value={qa.qaTitle} readOnly />
+                <Box mb={5}>
+                  <p className="font-dongle text-5xl text-gray-500">제 목</p>
+                  <Input
+                    w="600px"
+                    style={{ borderColor: "#f1efef" }}
+                    value={qa.qaTitle}
+                    readOnly
+                  />
                 </Box>
-                <Box mb={4}>
-                  <span className="font-dongle text-4xl text-gray-500">
-                    본문
+                <Box mb={5} readOnly>
+                  <span className="font-dongle text-5xl text-gray-500">
+                    본 문
                   </span>
-                  <Textarea value={qa.qaContent} h="300px" readOnly />
+                  <div style={{ whiteSpace: "pre-line" }}>
+                    {qa.qaContent}
+                    {/* 이미지 출력 */}
+                    {qa.files.map((file) => (
+                      <Card key={file.id} my={5}>
+                        <CardBody>
+                          <Image
+                            width="40%"
+                            mb="5"
+                            src={file.url}
+                            alt={file.fileName}
+                          />
+                        </CardBody>
+                      </Card>
+                    ))}
+                  </div>
                 </Box>
                 <Box mb={4} className="flex items-center">
                   <span className="mr-4 font-dongle text-4xl text-gray-500">

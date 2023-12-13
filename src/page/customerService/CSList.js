@@ -232,14 +232,13 @@ export function CSList() {
                 hasArrow
                 label={"로그인이 필요합니다!"}
               >
-                <Button
+                <button
                   disabled={!isAuthenticated()}
-                  variant="solid"
-                  colorScheme="green"
-                  onClick={() => navigate("/home/cs/csWrite")}
+                  onClick={() => navigate("/home/cs/qaWrite")}
+                  className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-4xl"
                 >
-                  글 쓰 기
-                </Button>
+                  <span className="relative z-10">글쓰기</span>
+                </button>
               </Tooltip>
 
               <Flex>
@@ -262,19 +261,94 @@ export function CSList() {
             <Table mt={8} variant="simple">
               <Thead className="bg-indigo-50 min-h-screen">
                 <Tr>
-                  <Th onClick={sortNum} style={{ cursor: "pointer" }}>
+                  <Th
+                    sx={{
+                      fontSize: "1.2rem",
+                      lineHeight: "1.5rem",
+                      borderColor: "white",
+                      cursor: "pointer",
+                      fontFamily: "gowun",
+                      width: "80px",
+                    }}
+                    className="bg-red-50 border-r"
+                    onClick={sortNum}
+                  >
                     번호
                     <FontAwesomeIcon icon={faAngleDown} />
                   </Th>
-                  <Th>카테고리</Th>
-                  <Th className="w-2/5">제목</Th>
-                  <Th>작성자</Th>
-                  <Th>작성일</Th>
-                  <Th onClick={sortCount} style={{ cursor: "pointer" }}>
-                    조회수
+                  <Th
+                    sx={{
+                      fontSize: "1.2rem",
+                      lineHeight: "1.5rem",
+                      borderColor: "white",
+                      fontFamily: "gowun",
+                      width: "110px",
+                    }}
+                    className="bg-red-50 border-r"
+                  >
+                    카테고리
+                  </Th>
+                  <Th
+                    sx={{
+                      fontSize: "1.2rem",
+                      lineHeight: "1.5rem",
+                      borderColor: "white",
+                      fontFamily: "gowun",
+                    }}
+                    className="bg-red-50 border-r w-1/3"
+                  >
+                    제목
+                  </Th>
+                  <Th
+                    sx={{
+                      fontSize: "1.2rem",
+                      lineHeight: "1.5rem",
+                      borderColor: "white",
+                      fontFamily: "gowun",
+                      width: "80px",
+                    }}
+                    className="bg-red-50 border-r"
+                  >
+                    작성자
+                  </Th>
+                  <Th
+                    sx={{
+                      fontSize: "1.2rem",
+                      lineHeight: "1.5rem",
+                      borderColor: "white",
+                      fontFamily: "gowun",
+                      width: "80px",
+                    }}
+                    className="bg-red-50 border-r"
+                  >
+                    작성일
+                  </Th>
+                  <Th
+                    sx={{
+                      fontSize: "1.2rem",
+                      lineHeight: "1.5rem",
+                      borderColor: "white",
+                      cursor: "pointer",
+                      fontFamily: "gowun",
+                      width: "80px",
+                    }}
+                    className="bg-red-50 border-r"
+                    onClick={sortCount}
+                  >
+                    조회
                     <FontAwesomeIcon icon={faAngleDown} />
                   </Th>
-                  <Th>비 고</Th>
+                  <Th
+                    sx={{
+                      fontSize: "1.2rem",
+                      lineHeight: "1.5rem",
+                      fontFamily: "gowun",
+                      width: "60px",
+                    }}
+                    className="bg-red-50"
+                  >
+                    비 고
+                  </Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -293,22 +367,6 @@ export function CSList() {
                     <Td>{cs.csWriter}</Td>
                     <Td>{cs.ago}</Td>
                     <Td>{cs.csHit}</Td>
-
-                    {/*TODO: admin 계정으로만으로 바꿔야댐.*/}
-                    <Td>
-                      <Box>
-                        <Button
-                          colorScheme="purple"
-                          onClick={() => navigate("/home/cs/edit/" + id)}
-                          mr={2}
-                        >
-                          수정
-                        </Button>
-                        <Button colorScheme="red" onClick={onOpen}>
-                          삭제
-                        </Button>
-                      </Box>
-                    </Td>
                   </Tr>
                 ))}
               </Tbody>
@@ -322,22 +380,18 @@ export function CSList() {
           </Box>
         </Box>
       </Box>
-      {/* 공지글 삭제 모달 */}
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>삭제 확인</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>삭제 하시겠습니까?</ModalBody>
-
-          <ModalFooter>
-            <Button onClick={onClose}>닫기</Button>
-            <Button onClick={handleDelete} colorScheme="red">
-              삭제
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </Box>
   );
 }
+// {/*TODO: admin 계정으로만으로 바꿔야댐.*/}
+// <Td>
+//   <Box>
+//     <Button
+//         onClick={() => navigate("/home/cs/edit/" + id)}
+//         mr={2}
+//     >
+//       수정
+//     </Button>
+//     /<Button onClick={onOpen}>삭제</Button>
+//   </Box>
+// </Td>

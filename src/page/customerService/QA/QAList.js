@@ -159,10 +159,10 @@ export function QAList() {
                 >
                   <button
                     disabled={!isAuthenticated()}
-                    className="bg-green-600 text-white px-8 py-3 rounded-md"
                     onClick={() => navigate("/home/cs/qaWrite")}
+                    className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-4xl"
                   >
-                    글 쓰 기
+                    <span className="relative z-10">글쓰기</span>
                   </button>
                 </Tooltip>
 
@@ -183,13 +183,62 @@ export function QAList() {
               </Flex>
 
               <Table mt={8} variant="simple">
-                <Thead className="bg-red-100">
+                <Thead>
                   <Tr>
-                    <Th>번 호</Th>
-                    <Th>카테고리</Th>
-                    <Th className="w-2/4">제 목</Th>
-                    <Th>작성자</Th>
-                    <Th>작성일</Th>
+                    <Th
+                      sx={{
+                        fontSize: "1.2rem",
+                        lineHeight: "1.5rem",
+                        borderColor: "white",
+                        fontFamily: "gowun",
+                      }}
+                      className="bg-red-50 border-r"
+                    >
+                      번 호
+                    </Th>
+                    <Th
+                      sx={{
+                        fontSize: "1.2rem",
+                        lineHeight: "1.5rem",
+                        borderColor: "white",
+                        fontFamily: "gowun",
+                      }}
+                      className="bg-red-50 border-r"
+                    >
+                      카테고리
+                    </Th>
+                    <Th
+                      sx={{
+                        fontSize: "1.2rem",
+                        lineHeight: "1.5rem",
+                        borderColor: "white",
+                        fontFamily: "gowun",
+                      }}
+                      className="bg-red-50 border-r w-2/4"
+                    >
+                      제 목
+                    </Th>
+                    <Th
+                      sx={{
+                        fontSize: "1.2rem",
+                        lineHeight: "1.5rem",
+                        borderColor: "white",
+                        fontFamily: "gowun",
+                      }}
+                      className="bg-red-50 border-r"
+                    >
+                      작성자
+                    </Th>
+                    <Th
+                      sx={{
+                        fontSize: "1.2rem",
+                        lineHeight: "1.5rem",
+                        fontFamily: "gowun",
+                      }}
+                      className="bg-red-50"
+                    >
+                      작성일
+                    </Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -212,12 +261,15 @@ export function QAList() {
                             <span className="text-lg">{qa.countComment}</span>
                           </Badge>
                         )}
-                        {/*{qa.countFile > 0 && (*/}
-                        {/*  <Badge>*/}
-                        {/*    <FontAwesomeIcon icon={faImages} />*/}
-                        {/*    {qa.countFile}*/}
-                        {/*  </Badge>*/}
-                        {/*)}*/}
+                        {qa.countFile > 0 && (
+                          <Badge className="flex items-center h-full ml-1">
+                            <FontAwesomeIcon
+                              icon={faImages}
+                              className="mr-1 text-lg"
+                            />
+                            <span className="mr-1 text-lg">{qa.countFile}</span>
+                          </Badge>
+                        )}
                       </Td>
                       <Td>{qa.qaWriter}</Td>
                       <Td>{qa.ago}</Td>

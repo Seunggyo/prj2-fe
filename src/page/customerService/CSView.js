@@ -30,6 +30,7 @@ export function CSView() {
   const [cs, setCs] = useState(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -82,41 +83,45 @@ export function CSView() {
               </CardHeader>
               <CardBody>
                 <Box mb={5}>
-                  <span className="font-dongle text-5xl text-gray-500">
-                    제 목
-                  </span>
-                  <Input value={cs.csTitle} readOnly />
+                  <p className="font-dongle text-5xl text-gray-500">제 목</p>
+                  <Input
+                    w="600px"
+                    style={{ borderColor: "#f1efef" }}
+                    value={cs.csTitle}
+                    readOnly
+                  />
                 </Box>
-                {/*<CardMedia>*/}
-                {/*  /!* 이미지 출력 *!/*/}
-                {/*  {cs.files.map((file) => (*/}
-                {/*    <Card key={file.id} my={5}>*/}
-                {/*      <CardBody>*/}
-                {/*        <Image*/}
-                {/*          width="100%"*/}
-                {/*          src={file.url}*/}
-                {/*          alt={file.fileName}*/}
-                {/*        />*/}
-                {/*      </CardBody>*/}
-                {/*    </Card>*/}
-                {/*  ))}*/}
-                {/*</CardMedia>*/}
-                <Box mb={5}>
-                  <span className="font-dongle text-5xl text-gray-500">
-                    본 문
-                  </span>
-                  <Textarea h={"sm"} value={cs.csContent} readOnly />
-                </Box>
+                {/*<Box mb={5} readOnly>*/}
+                {/*  <span className="font-dongle text-5xl text-gray-500">*/}
+                {/*    본 문*/}
+                {/*  </span>*/}
+                {/*  <div style={{ whiteSpace: "pre-line" }}>*/}
+                {/*    {cs.csContent}*/}
+                {/*    /!* 이미지 출력 *!/*/}
+                {/*    {cs.files.map((file) => (*/}
+                {/*      <Card key={file.id} my={5}>*/}
+                {/*        <CardBody>*/}
+                {/*          <Image*/}
+                {/*            width="40%"*/}
+                {/*            mb="5"*/}
+                {/*            src={file.url}*/}
+                {/*            alt={file.fileName}*/}
+                {/*          />*/}
+                {/*        </CardBody>*/}
+                {/*      </Card>*/}
+                {/*    ))}*/}
+                {/*  </div>*/}
+                {/*</Box>*/}
 
                 <Box mb={5} className="flex items-center">
                   <span className="mr-4 font-dongle text-3xl text-gray-500">
                     작성자 :
                   </span>
-                  <Input value={cs.csWriter} readOnly w="200px" />
+                  <Input value={cs.csWriter} readOnly w="150px" />
                   <span className="ml-10 mr-4 font-dongle text-3xl text-gray-500">
                     카테고리 :
                   </span>
-                  <Input value={cs.csCategory} readOnly w="200px" />
+                  <Input value={cs.csCategory} readOnly w="150px" />
                 </Box>
                 <Box>
                   <span className="font-dongle text-3xl text-gray-500 mr-4">
@@ -130,7 +135,7 @@ export function CSView() {
                 {(hasAccess(cs.csWriter) || authCheck() === "admin") && (
                   <Box>
                     <button
-                      onClick={onOpen}
+                      onClick={() => navigate("/home/cs/csEdit/" + cs.id)}
                       className="mr-4 px-8 py-2 rounded-md relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold"
                     >
                       <span className="relative z-10  text-4xl">
@@ -138,11 +143,11 @@ export function CSView() {
                       </span>
                     </button>
                     <button
-                      onClick={() => navigate("/home/cs/csEdit/" + cs.id)}
+                      onClick={onOpen}
                       className="ml-10 rounded-md relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold "
                     >
                       <span className="relative z-10  text-4xl">
-                        취 소 하 기
+                        삭 제 하 기
                       </span>
                     </button>
                   </Box>
@@ -155,14 +160,14 @@ export function CSView() {
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-              <ModalHeader>수정 확인</ModalHeader>
+              <ModalHeader>삭제 확인</ModalHeader>
               <ModalCloseButton />
-              <ModalBody>수정 하시겠습니까?</ModalBody>
+              <ModalBody>삭제 하시겠습니까?</ModalBody>
 
               <ModalFooter>
-                <Button onClick={onClose}>닫기</Button>
+                <Button onClick={onClose}>취소</Button>
                 <Button onClick={handleDelete} colorScheme="red">
-                  수정
+                  삭제
                 </Button>
               </ModalFooter>
             </ModalContent>
