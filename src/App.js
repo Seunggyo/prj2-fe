@@ -60,6 +60,8 @@ import HsKakaoContainer from "./layout/map/HsKakaoContainer";
 import { Fail } from "./page/tossPay/Fail";
 import { Success } from "./page/tossPay/Success";
 import { Payment } from "./page/tossPay/Payment";
+import { PaymentHistory } from "./page/member/PaymentHistory";
+import { PaymentDetail } from "./page/member/PaymentDetail";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -101,6 +103,8 @@ const routes = createBrowserRouter(
           <Route path="edit" element={<MemberEdit />} />
           <Route path="findId" element={<MemberFindId />} />
           <Route path="findPassword" element={<MemberFindPassword />} />
+          <Route path="paymentHistory" element={<PaymentHistory />} />
+          <Route path="paymentDetail" element={<PaymentDetail />} />
         </Route>
         <Route path="board" element={<Board />}>
           <Route index element={<BoardList />} />
