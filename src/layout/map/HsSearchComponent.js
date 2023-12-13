@@ -76,13 +76,16 @@ export function HsSearchComponent({
           <Flex>
             <Menu>
               <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                진료과목
+                {medicalcourse === "" ? "진료과목" : medicalcourse}
               </MenuButton>
               <MenuList
                 onChange={(e) => {
                   setCategory(e.target);
                 }}
               >
+                <MenuItem onClick={() => handleClickMenuItem("")} value="all">
+                  전체
+                </MenuItem>
                 <MenuItem
                   onClick={() => handleClickMenuItem("소아과")}
                   value="소아과"
@@ -107,14 +110,6 @@ export function HsSearchComponent({
                 >
                   치과
                 </MenuItem>
-              </MenuList>
-            </Menu>
-            <Menu>
-              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                야간
-              </MenuButton>
-              <MenuList>
-                <MenuItem value="nightCare">야간</MenuItem>
               </MenuList>
             </Menu>
           </Flex>

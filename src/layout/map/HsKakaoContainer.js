@@ -91,7 +91,11 @@ const MainPage = () => {
 
   function handleUpdateCourse(course) {
     const params = new URLSearchParams();
-    params.set("course", course);
+
+    // 전체 화면 보여줄때
+    if (course !== "") {
+      params.set("course", course);
+    }
 
     setMedicalcourse(course);
     navigate("/home/hospital?" + params);
