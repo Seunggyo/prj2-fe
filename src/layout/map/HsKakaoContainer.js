@@ -172,8 +172,6 @@ const MainPage = () => {
     setHsId(hsId);
   }
 
-  console.log(markers.map((marker) => marker));
-
   return (
     <Box>
       <Box display="flex" position="relative">
