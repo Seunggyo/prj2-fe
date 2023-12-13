@@ -81,6 +81,7 @@ function SearchComponent() {
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("all");
   const navigate = useNavigate();
+
   function handleSearch() {
     const params = new URLSearchParams();
 
@@ -159,7 +160,7 @@ export function DsList() {
                 <Tr
                   key={ds.id}
                   _hover={{ cursor: "pointer" }}
-                  onClick={() => navigate("/home/ds/view/" + ds.id)}
+                  onClick={() => navigate("/home/ds/edit/" + ds.id)}
                 >
                   <Td>{ds.name}</Td>
                   <Td>{ds.likeCount}</Td>
