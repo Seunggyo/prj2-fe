@@ -19,6 +19,11 @@ import { TbReportMedical } from "react-icons/tb";
 import { Cart } from "./Cart";
 import { DrugPagination } from "./DrugPagination";
 import { DrugSearchComponent } from "./DrugSearchComponent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCartPlus,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 
 export function DrugList() {
   const [drugList, setDrugList] = useState(null);
@@ -78,20 +83,19 @@ export function DrugList() {
 
               {/*제목글*/}
               <DrawerHeader className="text-2xl font-medium text-gray-700">
-                장바구니 카트
+                <FontAwesomeIcon icon={faCartPlus} size="1xl" color="green" />
               </DrawerHeader>
 
               {/*본문내용*/}
-              <DrawerBody>
+              <DrawerBody marginBottom="200px">
                 <Cart />
               </DrawerBody>
 
               {/*TODO: 장바구니 사이드바 하단부 있어도 되고 없어도 댐*/}
               <DrawerFooter>
                 <Button variant="outline" mr={3} onClick={onClose}>
-                  취소
+                  <FontAwesomeIcon icon={faRightFromBracket} />
                 </Button>
-                <Button colorScheme="blue">저장</Button>
               </DrawerFooter>
             </DrawerContent>
           </Drawer>
