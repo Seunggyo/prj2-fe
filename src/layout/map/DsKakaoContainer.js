@@ -200,12 +200,15 @@ const MainPage = () => {
         {/* 장소 리스트를 보여주는 컴포넌트 */}
         <VStack
           // width={isListVisible ? "500px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
-          width="600px"
+          width="400px"
           height="100vh"
           overflowY="auto"
           transition="width 0.5s"
           p={4}
           borderRight="1px solid #ccc"
+          border="1px solid black"
+          position="relative"
+          zIndex="11"
           // bg="black"
           // color="white"
         >
@@ -232,7 +235,7 @@ const MainPage = () => {
             onClick={toggleListVisibility}
             style={{
               position: "absolute",
-              left: isListVisible ? "500px" : "0",
+              left: isListVisible ? "400px" : "0",
               top: "400px",
               zIndex: 10,
               border: "1px solid #ccc", // 테두리 추가
@@ -250,7 +253,7 @@ const MainPage = () => {
           {/* 장소 리스트를 보여주는 컴포넌트 */}
           {dsId && (
             <Box
-              width={isListVisible ? "600px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
+              width={isListVisible ? "410px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
               height="100vh"
               overflowY="auto"
               transition="all 1s ease"
@@ -259,6 +262,7 @@ const MainPage = () => {
               bg="white"
               zIndex={9}
               display={isListVisible ? "block" : "none"}
+              border="1px solid black"
             >
               <ViewComponent dsId={dsId} />
             </Box>

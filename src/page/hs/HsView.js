@@ -98,15 +98,16 @@ export function HsView({ hsId }) {
   }
 
   return (
-    <Table fontSize="18px" w>
-      <Card>
+    <Table>
+      <Card w="370px">
         <CardHeader>
           <Flex>
-            <Center className="font-dongle text-7xl">{list.name}</Center>
+            <Center className="font-dongle text-5xl">{list.name}</Center>
           </Flex>
         </CardHeader>
         <Box
-          h="300px"
+          w="100%"
+          h="200px"
           sx={{ marginTop: "20px", marginBottom: "20px" }}
           position="relative"
         >
@@ -121,31 +122,32 @@ export function HsView({ hsId }) {
                 <Image
                   src={file.url}
                   alt={file.name}
-                  width="100%"
-                  height="300px"
+                  width="350px"
+                  height="200px"
                 />
               </Box>
             ))}
         </Box>
-        <Flex color="white" w="500px" h="100px">
-          <Center w="30%" color="black" borderTop="1px solid lightgrey">
+        <Flex color="white" w="100%" h="100px" border="1px solid black">
+          <Center w="33%" color="black" borderTop="1px solid lightgrey">
             <Text fontSize="2xl">정보</Text>
           </Center>
           <Center
-            w="30%"
+            w="33%"
             size="150px"
             border="1px solid lightgrey"
             borderBottom="none"
           >
             <LikeContainer like={like} onClick={handleLikeClick} />
           </Center>
-          <Center w="30%" color="black" borderTop="1px solid lightgrey">
+          <Center w="33%" color="black" borderTop="1px solid lightgrey">
             <Text fontSize="2xl">리뷰</Text>
           </Center>
         </Flex>
         <Button
           border="1px solid lightgrey"
           bg="white"
+          width="100%"
           height="50px"
           marginTop="10px"
           marginRight="55px"
@@ -182,7 +184,7 @@ export function HsView({ hsId }) {
             </Text>
           </Flex>
         </Td>
-        {list.restHour !== null && (
+        {list.restHour !== 0 && (
           <Td>
             <Flex>
               <FormLabel fontWeight="bold" fontSize="18px" color="grey">
@@ -232,7 +234,10 @@ export function HsView({ hsId }) {
             <FormLabel fontWeight="bold" fontSize="18px" color="grey">
               진료과목
             </FormLabel>
-            {list.medicalCourse}
+            {list.medicalCourse &&
+              list.medicalCourse.map(
+                (medicalCourse) => medicalCourse.medicalCourse,
+              )}
           </Td>
         )}
         {(list.holidays !== null || list.holidays.length > 0) && (

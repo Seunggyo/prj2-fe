@@ -33,7 +33,7 @@ export function DsSearchComponent({ onItemClick }) {
 
     params.set("k", keyword);
 
-    navigate("/ds?" + params);
+    navigate("/home/ds?" + params);
   }
 
   useEffect(() => {
@@ -47,7 +47,8 @@ export function DsSearchComponent({ onItemClick }) {
   }
 
   return (
-    <Box w="400px">
+    // list 보여주는 박스
+    <Box w="280px">
       <Box>
         <InputGroup size="sm">
           <Input

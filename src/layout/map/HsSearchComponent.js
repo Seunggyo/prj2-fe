@@ -41,7 +41,7 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
     params.set("k", keyword);
     params.set("c", category);
 
-    navigate("/hospital?" + params);
+    navigate("/home/hospital?" + params);
   }
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
   }
 
   return (
-    <Box w="300px">
+    <Box w="280px">
       <Box>
         <Stack spacing={4}>
           <InputGroup size="sm">
@@ -78,7 +78,6 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
                   setCategory(e.target);
                 }}
               >
-                <MenuItem value="all">전체</MenuItem>
                 <MenuItem
                   onClick={() => handleClickMenuItem("소아과")}
                   value="소아과"
