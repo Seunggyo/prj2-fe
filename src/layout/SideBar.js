@@ -9,7 +9,6 @@ import { faCapsules } from "@fortawesome/free-solid-svg-icons";
 import {
   Box,
   Button,
-  Flex,
   Menu,
   MenuButton,
   MenuItem,
@@ -76,7 +75,7 @@ export function SideBar() {
               </li>
               <li>
                 <p
-                  onClick={() => navigate("/home/hospital/hospitalList")}
+                  onClick={() => navigate("/home/hospital")}
                   className="mb-3 relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 cursor-pointer text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
                 >
                   <span className="inline-flex justify-center items-center ml-4">
@@ -187,9 +186,9 @@ export function SideBar() {
                       개인 정보
                     </MenuButton>
                     <MenuList>
-                      <MenuItem>
-                        {" "}
-                        {isAuthenticated() && (
+                      {isAuthenticated() && (
+                        <MenuItem>
+                          {" "}
                           <button
                             className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                             onClick={() =>
@@ -198,8 +197,17 @@ export function SideBar() {
                           >
                             회원 정보
                           </button>
+                        </MenuItem>
+                      )}
+                      {isAuthenticated() &&
+                        (authCheck() === "hs" || authCheck() === "ds") && (
+                          <MenuItem>
+                            {" "}
+                            <button className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                              내 기관 정보 수정
+                            </button>
+                          </MenuItem>
                         )}
-                      </MenuItem>
                       <MenuItem>
                         {" "}
                         <button className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
@@ -238,6 +246,7 @@ export function SideBar() {
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      정
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path

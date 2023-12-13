@@ -14,7 +14,7 @@ import {
     useToast
 } from "@chakra-ui/react";
 import Calendar from "react-calendar";
-import 'react-calendar/dist/Calendar.css';
+import 'react-calendar/dist/Calendar.css'
 import {useEffect, useState} from "react";
 import moment from "moment";
 import axios from "axios";
@@ -31,6 +31,7 @@ export function HsReservation() {
     const [comment, setComment] = useState("");
     const toast = useToast();
     const navigate = useNavigate();
+    
 
     const {id} = useParams();
 
@@ -104,7 +105,8 @@ export function HsReservation() {
     return (
         <Box>
             <Heading>예약하실 날짜를 선택해주세요</Heading>
-            <Calendar tileDisabled={tileDisable} onChange={handleDayChange} value={dateValue}
+            <Calendar tileDisabled={tileDisable} onChange={handleDayChange} value={dateValue} minDetail="month"
+                      maxDetail="month" calendarType={"gregory"}
                       formatDay={(locale, date) => moment(date).format("DD")}/>
             {changeDay && (
                 <Box m={5}>

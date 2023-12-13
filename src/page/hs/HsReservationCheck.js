@@ -18,11 +18,10 @@ import {
     useDisclosure,
     useToast
 } from "@chakra-ui/react";
-import {useImmer} from "use-immer";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {useImmer} from "use-immer";
 import {useSearchParams} from "react-router-dom";
-
 
 export function HsReservationCheck() {
     const [list, updateList] = useImmer([]);
@@ -38,6 +37,16 @@ export function HsReservationCheck() {
             .then(e => updateCheckList(e.data))
     }, []);
 
+    function isReservationInFuture(reservation) {
+        const todaysDate = new Date();
+        todaysDate.setHours(0, 0, 0, 0);
+        const reservationDate = new Date(reservation.reservationDate);
+        reservationDate.setHours(0, 0, 0, 0);
+        return reservationDate >= todaysDate;
+    }
+
+    const futureListReservations = list.filter(isReservationInFuture);
+    const futureCheckListReservation = checkList.filter(isReservationInFuture);
 
     function handleDeleteClick() {
         if (!position) {
@@ -66,13 +75,13 @@ export function HsReservationCheck() {
         <Box>
             <Box>
                 <Heading>예약 확인 중</Heading>
-                {list.length === 0 ? (
+                {futureListReservations.length === 0 ? (
                     <Box>
                         <Text>예약된 내용이 없습니다.</Text>
                     </Box>
                 ) : (
                     <Flex flexWrap="wrap">
-                        {list.map((l) => (
+                        {futureListReservations.map((l) => (
                             <Card key={l.id}>
                                 <CardHeader>예약 정보</CardHeader>
                                 <CardBody>
@@ -82,6 +91,7 @@ export function HsReservationCheck() {
                                     <Box>예약 날짜 : {new Date(l.reservationDate).toLocaleDateString()}</Box>
                                     <Box>예약 시간
                                         : {l.reservationHour < 13 ? "오전 " + l.reservationHour : "오후 " + (l.reservationHour - 12)} : {l.reservationMin === 0 ? "0" + l.reservationMin : l.reservationMin}</Box>
+                                    <Box>특이사항 : {l.comment}</Box>
                                 </CardBody>
                                 <CardFooter>
                                     <Button id={l.id} colorScheme={"red"} onClick={e => {
@@ -99,13 +109,13 @@ export function HsReservationCheck() {
             </Box>
             <Box>
                 <Heading>예약확인</Heading>
-                {checkList.length === 0 ? (
+                {futureCheckListReservation.length === 0 ? (
                     <Box>
                         <Text>예약 확인 된 내용이 없습니다.</Text>
                     </Box>
                 ) : (
                     <Flex flexWrap="wrap">
-                        {checkList.map((l) => (
+                        {futureCheckListReservation.map((l) => (
                             <Card key={l.id}>
                                 <CardHeader>예약 정보</CardHeader>
                                 <CardBody>
@@ -146,6 +156,8 @@ export function HsReservationCheck() {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+
+
         </Box>
 
     );
