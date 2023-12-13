@@ -3,10 +3,11 @@ import {
   loadPaymentWidget,
   PaymentWidgetInstance,
 } from "@tosspayments/payment-widget-sdk";
-import { nanoid } from "nanoid";
+
 import { Button, useQuery } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { nanoid } from "nanoid";
 
 const clientKey = "test_ck_kYG57Eba3GRQEjeLbEQj8pWDOxmA";
 const customerKey = nanoid();

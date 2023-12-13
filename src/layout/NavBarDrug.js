@@ -10,7 +10,7 @@ export function NavBarDrug() {
 
   return (
     <Flex marginLeft="370px">
-      <SideBar />
+      {/*<SideBar />*/}
       <Box>
         <nav className="sm:flex sm:justify-center sm:items-center mt-4">
           <div className="flex flex-col sm:flex-row ">

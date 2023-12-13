@@ -62,6 +62,8 @@ import { Success } from "./page/tossPay/Success";
 import { Payment } from "./page/tossPay/Payment";
 import { PaymentHistory } from "./page/member/PaymentHistory";
 import { PaymentDetail } from "./page/member/PaymentDetail";
+import { BusinessList } from "./page/hs/BusinessList";
+
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -93,6 +95,7 @@ const routes = createBrowserRouter(
           <Route path="hospitalReservation/:id" element={<HsReservation />} />
           <Route path="reservationCheck" element={<HsReservationCheck />} />
           <Route path="businessCheck/:id" element={<HsBusinessCheck />} />
+          <Route path="businessList" element={<BusinessList />} />
         </Route>
         <Route path="member" element={<Member />}>
           <Route path="signup" element={<MemberSignup />} />
