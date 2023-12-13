@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Image,
   Modal,
   ModalBody,
@@ -10,12 +11,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -23,6 +18,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { LoginContext } from "../../component/LoginProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEraser } from "@fortawesome/free-solid-svg-icons";
 
 export function Cart() {
   const [cartList, setCartList] = useState(null);
@@ -96,18 +93,19 @@ export function Cart() {
                   <div className="col-span-2 pt-3">
                     <div className="flex items-center space-x-2 text-sm justify-between">
                       <span className="text-gray-400">{cart.quantity}</span>
-                      <span className="text-pink-400 font-semibold inline-block">
+                      <span className="text-gray-600 font-semibold inline-block">
                         {cart.total}
                       </span>
-                        <Button
-                            colorScheme="pink"
-                            onClick={() => {
-                                idRef.current = cart.id;
-                                onOpen();
-                            }}
-                        >
-                            삭제
-                        </Button>
+                      <Button
+                        size="xs"
+                        colorScheme="pink"
+                        onClick={() => {
+                          idRef.current = cart.id;
+                          onOpen();
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faEraser} />
+                      </Button>
                     </div>
                   </div>
                 </li>
@@ -123,14 +121,17 @@ export function Cart() {
               <button
                 className="before:ease relative h-12 w-40 overflow-hidden border border-green-700 bg-green-700 text-white shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-green-500 hover:before:-translate-x-40"
                 onClick={() =>
-                    navigate("/home/drug/buy", {
-                        state: {
-                            amount,
-                            orderName:
-                                cartList[0].drugName + " 외 " + (cartList.length - 1) + " 개",
-                            url: cartList[0].url,
-                        },
-                    })
+                  navigate("/home/drug/buy", {
+                    state: {
+                      amount,
+                      orderName:
+                        cartList[0].drugName +
+                        " 외 " +
+                        (cartList.length - 1) +
+                        " 개",
+                      url: cartList[0].url,
+                    },
+                  })
                 }
               >
                 <span relative="relative z-10">주문</span>
