@@ -235,13 +235,16 @@ export function HsView({ hsId }) {
               진료과목
             </FormLabel>
             {list.medicalCourse &&
-              list.medicalCourse.map(
-                (medicalCourse) => medicalCourse.medicalCourse,
-              )}
+              list.medicalCourse.map((medicalCourse, index) => (
+                <React.Fragment key={index}>
+                  {medicalCourse.medicalCourseCategory}
+                  {index < list.medicalCourse.length - 1 && ", "}
+                </React.Fragment>
+              ))}
           </Td>
         )}
         {(list.holidays !== null || list.holidays.length > 0) && (
-          <Td>
+          <Td display={list.holidays === [] ? "none" : "block"}>
             <FormLabel fontWeight="bold" fontSize="18px" color="grey">
               휴무일
             </FormLabel>
