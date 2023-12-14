@@ -20,7 +20,12 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
+  Tab,
   Table,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Td,
   Text,
   Textarea,
@@ -171,175 +176,139 @@ export function DsView({ dsId }) {
               </Box>
             ))}
         </Box>
-        <Flex color="white" w="100%" h="100px" justifyContent="space-between">
-          <Center w="33%" color="black" borderTop="1px solid lightgrey">
-            <Text fontSize="2xl">정보</Text>
-          </Center>
-          <Center
-            w="33%"
-            size="150px"
-            border="1px solid lightgrey"
-            borderBottom="none"
-          >
-            <LikeContainer like={like} onClick={handleLike} />
-          </Center>
-          <Center
-            w="33%"
-            color="black"
-            borderTop="1px solid lightgrey"
-            onClick={() => navigate("?")}
-          >
-            <Text fontSize="2xl">리뷰</Text>
-          </Center>
-        </Flex>
-        <Button
-          border="1px solid lightgrey"
-          bg="white"
-          width="100%"
-          height="50px"
-          marginTop="10px"
-          marginRight="55px"
-          marginBottom="10px"
-          fontSize="1.5xl"
-          onClick={() => navigate("/home/cs/qaList")}
-        >
-          <FontAwesomeIcon icon={faCommentDots} size="lg" />
-          문의
-        </Button>
-
-        <Td>
-          <FormLabel fontWeight="bold" fontSize="21px" color="grey">
-            병원 주소
-          </FormLabel>
-          <Text>{ds.address}</Text>
-        </Td>
-        <Td>
-          <Flex>
-            <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-              전화번호
-            </FormLabel>
-            <Text>{ds.phone} </Text>
-          </Flex>
-        </Td>
-        <Td>
-          <Flex>
-            <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-              오픈시간
-            </FormLabel>
-            <Text>{ds.openHour}시</Text>
-            <Text>{ds.openMin === 0 ? "0" + ds.openMin : ds.openMin}분</Text>
-          </Flex>
-        </Td>
-        {ds.restHour !== 0 && (
-          <Td>
-            <Flex>
-              <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-                휴게시간
-              </FormLabel>
-              <Text>{ds.restHour} 시</Text>
-              <Text>{ds.restMin === 0 ? "0" + ds.restMin : ds.restMin} 분</Text>
-              <FormLabel marginLeft="10px">~</FormLabel>
-              <Text>{ds.restCloseHour} 시</Text>
-              <Text>
-                {ds.restCloseMin === 0
-                  ? "0" + ds.restCloseMin
-                  : ds.restCloseMin}{" "}
-                분
-              </Text>
-            </Flex>
-          </Td>
-        )}
-        <Td>
-          <Flex>
-            <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-              마감시간
-            </FormLabel>
-            <Text>{ds.closeHour}시</Text>
-            <Text>{ds.closeMin === 0 ? "0" + ds.closeMin : ds.closeMin}분</Text>
-            <FormLabel
-              marginLeft="30px"
-              fontWeight="bold"
-              fontSize="18px"
-              color="grey"
+        <Tabs>
+          <TabList>
+            <Tab w="33%" color="black" borderTop="1px solid lightgrey">
+              <Text fontSize="2xl">정보</Text>
+            </Tab>
+            <Box
+              w="33%"
+              size="150px"
+              border="1px solid lightgrey"
+              borderBottom="none"
             >
-              야간 진료
-            </FormLabel>
-            <Checkbox size="lg" isChecked={ds.nightCare} isReadOnly />
-          </Flex>
-        </Td>
-        <Td
-          display={ds.holidays && ds.holidays.length === 0 ? "none" : "block"}
-        >
-          <Flex>
-            <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-              휴무일
-            </FormLabel>
-            <Text>
-              {/*{ds.holidays != null &&*/}
-              {/*  ds.holidays.map((holiday) => holiday.holiday)}*/}
-              {ds.holidays &&
-                ds.holidays.map((holiday, index) => (
-                  <React.Fragment key={index}>
-                    {holiday.holiday}
-                    {index < ds.holidays.length - 1 && ", "}
-                  </React.Fragment>
-                ))}
-            </Text>
-          </Flex>
-        </Td>
-        <Td
-        // display={ds.content === "" || ds.content === null ? "none" : "block"}
-        >
-          <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-            약국 소개
-          </FormLabel>
-          {/*<Textarea border="none" value={ds.content} isReadOnly />*/}
-          <Text>{ds.content}</Text>
-        </Td>
-        <Td
-        // display={ds.info === null ? "none" : "block"}
-        >
-          <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-            상세정보
-          </FormLabel>
-          <Text>{ds.info}</Text>
-        </Td>
-        {(hasAccess(ds.id) || isAdmin()) && (
-          <Box>
-            <Button
-              colorScheme="blue"
-              onClick={() => navigate("/home/ds/edit/" + realId)}
-            >
-              수정
-            </Button>
-            <Button
-              colorScheme="red"
-              mx="30px"
-              onClick={() => {
-                onOpen();
-              }}
-            >
-              삭제
-            </Button>
-          </Box>
-        )}
-        {/*삭제 클릭시 모달*/}
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>삭제 확인</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>삭제 시 복구 할 수 없습니다</ModalBody>
-
-            <ModalFooter>
-              <Button onClick={onClose}>닫기</Button>
-              <Button onClick={handleDelete} colorScheme="red">
-                삭제
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-        <DsComment key={realId} businessId={realId} />
+              <Center marginTop="7px">
+                <LikeContainer like={like} onClick={handleLike} />
+              </Center>
+            </Box>
+            <Tab w="33%" color="black" borderTop="1px solid lightgrey">
+              <Text fontSize="2xl">리뷰</Text>
+            </Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Card>
+                <Td>
+                  <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                    병원 주소
+                  </FormLabel>
+                  <Text>{ds.address}</Text>
+                </Td>
+                <Td>
+                  <Flex>
+                    <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                      전화번호
+                    </FormLabel>
+                    <Text>{ds.phone} </Text>
+                  </Flex>
+                </Td>
+                <Td>
+                  <Flex>
+                    <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                      오픈시간
+                    </FormLabel>
+                    <Text>{ds.openHour}시</Text>
+                    <Text>
+                      {ds.openMin === 0 ? "0" + ds.openMin : ds.openMin}분
+                    </Text>
+                  </Flex>
+                </Td>
+                {ds.restHour !== 0 && (
+                  <Td>
+                    <Flex>
+                      <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                        휴게시간
+                      </FormLabel>
+                      <Text>{ds.restHour} 시</Text>
+                      <Text>
+                        {ds.restMin === 0 ? "0" + ds.restMin : ds.restMin} 분
+                      </Text>
+                      <FormLabel marginLeft="10px">~</FormLabel>
+                      <Text>{ds.restCloseHour} 시</Text>
+                      <Text>
+                        {ds.restCloseMin === 0
+                          ? "0" + ds.restCloseMin
+                          : ds.restCloseMin}{" "}
+                        분
+                      </Text>
+                    </Flex>
+                  </Td>
+                )}
+                <Td>
+                  <Flex>
+                    <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                      마감시간
+                    </FormLabel>
+                    <Text>{ds.closeHour}시</Text>
+                    <Text>
+                      {ds.closeMin === 0 ? "0" + ds.closeMin : ds.closeMin}분
+                    </Text>
+                  </Flex>
+                </Td>
+                <Td>
+                  <Flex>
+                    <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                      야간 진료
+                    </FormLabel>
+                    <Checkbox size="lg" isChecked={ds.nightCare} isReadOnly />
+                  </Flex>
+                </Td>
+                <Td
+                  display={
+                    ds.holidays && ds.holidays.length === 0 ? "none" : "block"
+                  }
+                >
+                  <Flex>
+                    <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                      휴무일
+                    </FormLabel>
+                    <Text>
+                      {/*{ds.holidays != null &&*/}
+                      {/*  ds.holidays.map((holiday) => holiday.holiday)}*/}
+                      {ds.holidays &&
+                        ds.holidays.map((holiday, index) => (
+                          <React.Fragment key={index}>
+                            {holiday.holiday}
+                            {index < ds.holidays.length - 1 && ", "}
+                          </React.Fragment>
+                        ))}
+                    </Text>
+                  </Flex>
+                </Td>
+                <Td
+                // display={ds.content === "" || ds.content === null ? "none" : "block"}
+                >
+                  <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                    약국 소개
+                  </FormLabel>
+                  {/*<Textarea border="none" value={ds.content} isReadOnly />*/}
+                  <Text>{ds.content}</Text>
+                </Td>
+                <Td
+                // display={ds.info === null ? "none" : "block"}
+                >
+                  <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                    상세정보
+                  </FormLabel>
+                  <Text>{ds.info}</Text>
+                </Td>
+              </Card>
+            </TabPanel>
+            <TabPanel>
+              <DsComment key={realId} businessId={realId} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Card>
     </Table>
   );

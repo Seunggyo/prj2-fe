@@ -10,7 +10,12 @@ import {
   Heading,
   Image,
   Spinner,
+  Tab,
   Table,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Td,
   Text,
   Tooltip,
@@ -27,6 +32,7 @@ import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { HsComment } from "./HsComment";
 
 function LikeContainer({ like, onClick }) {
   const { isAuthenticated } = useContext(LoginContext);
@@ -122,28 +128,12 @@ export function HsView({ hsId }) {
                 <Image
                   src={file.url}
                   alt={file.name}
-                  width="350px"
+                  width="380px"
                   height="200px"
                 />
               </Box>
             ))}
         </Box>
-        <Flex color="white" w="100%" h="100px">
-          <Center w="33%" color="black" borderTop="1px solid lightgrey">
-            <Text fontSize="2xl">정보</Text>
-          </Center>
-          <Center
-            w="33%"
-            size="150px"
-            border="1px solid lightgrey"
-            borderBottom="none"
-          >
-            <LikeContainer like={like} onClick={handleLikeClick} />
-          </Center>
-          <Center w="33%" color="black" borderTop="1px solid lightgrey">
-            <Text fontSize="2xl">리뷰</Text>
-          </Center>
-        </Flex>
         <Button
           border="1px solid lightgrey"
           bg="white"
@@ -158,130 +148,161 @@ export function HsView({ hsId }) {
           <FontAwesomeIcon icon={faCommentDots} size="lg" />
           문의
         </Button>
-
-        <Td>
-          <FormLabel fontWeight="bold" fontSize="21px" color="grey">
-            병원 주소
-          </FormLabel>
-          <Text>{list.address}</Text>
-        </Td>
-        <Td>
-          <Flex>
-            <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-              전화번호
-            </FormLabel>
-            <Text>{list.phone} </Text>
-          </Flex>
-        </Td>
-        <Td>
-          <Flex>
-            <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-              오픈시간
-            </FormLabel>
-            <Text>{list.openHour}시</Text>
-            <Text>
-              {list.openMin === 0 ? "0" + list.openMin : list.openMin}분
-            </Text>
-          </Flex>
-        </Td>
-        {list.restHour !== 0 && (
-          <Td>
-            <Flex>
-              <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-                휴게시간
-              </FormLabel>
-              <Text>{list.restHour} 시</Text>
-              <Text>
-                {list.restMin === 0 ? "0" + list.restMin : list.restMin} 분
-              </Text>
-              <FormLabel marginLeft="10px">~</FormLabel>
-              <Text>{list.restCloseHour} 시</Text>
-              <Text>
-                {list.restCloseMin === 0
-                  ? "0" + list.restCloseMin
-                  : list.restCloseMin}{" "}
-                분
-              </Text>
-            </Flex>
-          </Td>
-        )}
-        <Td>
-          <Flex>
-            <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-              마감시간
-            </FormLabel>
-            <Text>{list.closeHour}시</Text>
-            <Text>
-              {list.closeMin === 0 ? "0" + list.closeMin : list.closeMin}분
-            </Text>
-            <FormLabel
-              marginLeft="30px"
-              fontWeight="bold"
-              fontSize="18px"
-              color="grey"
+        <Tabs variant="enclosed" w="100%">
+          <TabList>
+            <Tab w="33%" color="black" borderTop="1px solid lightgrey">
+              <Text fontSize="2xl">정보</Text>
+            </Tab>
+            <Box
+              w="33%"
+              size="150px"
+              border="1px solid lightgrey"
+              borderBottom="none"
             >
-              야간영업
-            </FormLabel>
-            <Checkbox size="lg" isChecked={list.nightCare}></Checkbox>
-          </Flex>
-        </Td>
-        <Td>
-          <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-            상세정보
-          </FormLabel>
-          <Text>{list.content}</Text>
-        </Td>
-        <Td>
-          <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-            홈페이지
-          </FormLabel>
-          <a href={list.homePage} target="_blank">
-            {list.homePage}
-          </a>
-        </Td>
-        {list.medicalCourse !== null && (
-          <Td>
-            <Flex>
-              <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-                진료과목
-              </FormLabel>
-              {list.medicalCourse &&
-                list.medicalCourse.map((medicalCourse, index) => (
-                  <React.Fragment key={index}>
-                    {medicalCourse.medicalCourseCategory}
-                    {index < list.medicalCourse.length - 1 && ", "}
-                  </React.Fragment>
-                ))}
-            </Flex>
-          </Td>
-        )}
-        {(list.holidays !== null || list.holidays.length > 0) && (
-          <Td display={list.holidays === [] ? "none" : "block"}>
-            <Flex>
-              <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-                휴무일
-              </FormLabel>
-              <Text>
-                {list.holidays &&
-                  list.holidays.map((holiday, index) => (
-                    <React.Fragment key={index}>
-                      {holiday.holiday}
-                      {index < list.holidays.length - 1 && ", "}
-                    </React.Fragment>
-                  ))}
-              </Text>
-            </Flex>
-          </Td>
-        )}
-
-        <Td>
-          <Flex>
-            <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-              야간영업
-            </FormLabel>
-            <Checkbox isChecked={list.nightCare}></Checkbox>
-          </Flex>
-        </Td>
+              <Center marginTop="7px">
+                <LikeContainer like={like} onClick={handleLikeClick} />
+              </Center>
+            </Box>
+            <Tab w="33%" color="black" borderTop="1px solid lightgrey">
+              <Text fontSize="2xl">리뷰</Text>
+            </Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Card>
+                <Td>
+                  <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                    병원 주소
+                  </FormLabel>
+                  <Text>{list.address}</Text>
+                </Td>
+                <Td>
+                  <Flex>
+                    <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                      전화번호
+                    </FormLabel>
+                    <Text>{list.phone} </Text>
+                  </Flex>
+                </Td>
+                <Td>
+                  <Flex>
+                    <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                      오픈시간
+                    </FormLabel>
+                    <Text>{list.openHour}시</Text>
+                    <Text>
+                      {list.openMin === 0 ? "0" + list.openMin : list.openMin}분
+                    </Text>
+                  </Flex>
+                </Td>
+                {list.restHour !== 0 && (
+                  <Td>
+                    <Flex>
+                      <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                        휴게시간
+                      </FormLabel>
+                      <Text>{list.restHour} 시</Text>
+                      <Text>
+                        {list.restMin === 0 ? "0" + list.restMin : list.restMin}{" "}
+                        분
+                      </Text>
+                      <FormLabel marginLeft="10px">~</FormLabel>
+                      <Text>{list.restCloseHour} 시</Text>
+                      <Text>
+                        {list.restCloseMin === 0
+                          ? "0" + list.restCloseMin
+                          : list.restCloseMin}{" "}
+                        분
+                      </Text>
+                    </Flex>
+                  </Td>
+                )}
+                <Td>
+                  <Flex>
+                    <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                      마감시간
+                    </FormLabel>
+                    <Text>{list.closeHour}시</Text>
+                    <Text>
+                      {list.closeMin === 0
+                        ? "0" + list.closeMin
+                        : list.closeMin}
+                      분
+                    </Text>
+                    <FormLabel
+                      marginLeft="30px"
+                      fontWeight="bold"
+                      fontSize="18px"
+                      color="grey"
+                    >
+                      야간영업
+                    </FormLabel>
+                    <Checkbox size="lg" isChecked={list.nightCare}></Checkbox>
+                  </Flex>
+                </Td>
+                <Td>
+                  <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                    상세정보
+                  </FormLabel>
+                  <Text>{list.content}</Text>
+                </Td>
+                <Td>
+                  <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                    홈페이지
+                  </FormLabel>
+                  <a href={list.homePage} target="_blank">
+                    {list.homePage}
+                  </a>
+                </Td>
+                {list.medicalCourse !== null && (
+                  <Td>
+                    <Flex>
+                      <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                        진료과목
+                      </FormLabel>
+                      {list.medicalCourse &&
+                        list.medicalCourse.map((medicalCourse, index) => (
+                          <React.Fragment key={index}>
+                            {medicalCourse.medicalCourseCategory}
+                            {index < list.medicalCourse.length - 1 && ", "}
+                          </React.Fragment>
+                        ))}
+                    </Flex>
+                  </Td>
+                )}
+                {(list.holidays !== null || list.holidays.length > 0) && (
+                  <Td display={list.holidays === [] ? "none" : "block"}>
+                    <Flex>
+                      <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                        휴무일
+                      </FormLabel>
+                      <Text>
+                        {list.holidays &&
+                          list.holidays.map((holiday, index) => (
+                            <React.Fragment key={index}>
+                              {holiday.holiday}
+                              {index < list.holidays.length - 1 && ", "}
+                            </React.Fragment>
+                          ))}
+                      </Text>
+                    </Flex>
+                  </Td>
+                )}
+                <Td>
+                  <Flex>
+                    <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                      야간영업
+                    </FormLabel>
+                    <Checkbox isChecked={list.nightCare}></Checkbox>
+                  </Flex>
+                </Td>
+              </Card>
+            </TabPanel>
+            <TabPanel>
+              <HsComment key={realId} businessId={realId} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Card>
     </Table>
   );
