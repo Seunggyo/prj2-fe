@@ -16,6 +16,7 @@ import {
   MenuList,
   Spinner,
   Stack,
+  Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -149,14 +150,22 @@ export function HsSearchComponent({
                     lineHeight="tight"
                     isTruncated
                   >
-                    {h.name}
+                    <Flex>
+                      {h.name}
+                      {/*<Stack direction="row" mt="2" spacing={2} align="center">*/}
+                      <Box as="span" ml="2" fontSize="sm" color="red">
+                        <FontAwesomeIcon icon={faHeart} color="red" />{" "}
+                        {h.countLike}
+                      </Box>
+                      {/*</Stack>*/}
+                    </Flex>
                   </Box>
                   <Box fontSize="12px">{h.oldAddress}</Box>
                   {/*<Box fontSize="14px">{h.phone}</Box>*/}
 
                   <Box>
-                    {h.openHour}:{h.openMin === 0 ? "00" : h.openMin}~
-                    {h.closeHour}:{h.closeMin === 0 ? "00" : h.closeMin}
+                    영업시간 : {h.openHour}:{h.openMin === 0 ? "00" : h.openMin}
+                    ~{h.closeHour}:{h.closeMin === 0 ? "00" : h.closeMin}
                     {h.restHour !== 0 ||
                       (h.restHour === null && (
                         <>
@@ -170,16 +179,16 @@ export function HsSearchComponent({
 
                   <Flex>
                     {/*<Stack direction="row" mt="2" spacing={2} align="center">*/}
-                    {/*    <Box as="span" ml="2" color="gray.600" fontSize="sm">*/}
-                    {/*        {h.commentCount} 댓글*/}
-                    {/*    </Box>*/}
+                    {/*  <Box as="span" ml="2" color="gray.600" fontSize="sm">*/}
+                    {/*    {h.commentCount} 댓글*/}
+                    {/*  </Box>*/}
                     {/*</Stack>*/}
-                    <Stack direction="row" mt="2" spacing={2} align="center">
-                      <Box as="span" ml="2" fontSize="sm" color="red">
-                        {h.countLike}{" "}
-                        <FontAwesomeIcon icon={faHeart} color="red" />
-                      </Box>
-                    </Stack>
+                    {/*<Stack direction="row" mt="2" spacing={2} align="center">*/}
+                    {/*  <Box as="span" ml="2" fontSize="sm" color="red">*/}
+                    {/*    {h.countLike}{" "}*/}
+                    {/*    <FontAwesomeIcon icon={faHeart} color="red" />*/}
+                    {/*  </Box>*/}
+                    {/*</Stack>*/}
                   </Flex>
                 </Box>
               </Box>

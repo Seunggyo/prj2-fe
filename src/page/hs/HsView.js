@@ -40,14 +40,16 @@ function LikeContainer({ like, onClick }) {
         <Button variant="ghost" size="xl" onClick={onClick}>
           {/*<FontAwesomeIcon icon={faHeart} size="xl" />*/}
           {like.like && (
-            <FontAwesomeIcon icon={fullHeart} size="2xl" color="red" />
+            <FontAwesomeIcon icon={fullHeart} size="xl" color="red" />
           )}
           {like.like || (
-            <FontAwesomeIcon icon={emptyHeart} size="2xl" color="red" />
+            <FontAwesomeIcon icon={emptyHeart} size="xl" color="red" />
           )}
         </Button>
       </Tooltip>
-      <Heading size="lg">{like.countLike}</Heading>
+      <Heading color="red" size="lg">
+        {like.countLike}
+      </Heading>
     </Flex>
   );
 }
@@ -101,9 +103,7 @@ export function HsView({ hsId }) {
     <Table>
       <Card w="370px">
         <CardHeader>
-          <Flex>
-            <Center className="font-dongle text-5xl">{list.name}</Center>
-          </Flex>
+          <Center className="font-dongle text-5xl">{list.name}</Center>
         </CardHeader>
         <Box
           w="100%"
@@ -128,7 +128,7 @@ export function HsView({ hsId }) {
               </Box>
             ))}
         </Box>
-        <Flex color="white" w="100%" h="100px" border="1px solid black">
+        <Flex color="white" w="100%" h="100px">
           <Center w="33%" color="black" borderTop="1px solid lightgrey">
             <Text fontSize="2xl">정보</Text>
           </Center>
@@ -211,10 +211,18 @@ export function HsView({ hsId }) {
               마감시간
             </FormLabel>
             <Text>{list.closeHour}시</Text>
-
             <Text>
               {list.closeMin === 0 ? "0" + list.closeMin : list.closeMin}분
             </Text>
+            <FormLabel
+              marginLeft="30px"
+              fontWeight="bold"
+              fontSize="18px"
+              color="grey"
+            >
+              야간영업
+            </FormLabel>
+            <Checkbox size="lg" isChecked={list.nightCare}></Checkbox>
           </Flex>
         </Td>
         <Td>
@@ -227,36 +235,42 @@ export function HsView({ hsId }) {
           <FormLabel fontWeight="bold" fontSize="18px" color="grey">
             홈페이지
           </FormLabel>
-          <Text>{list.homePage}</Text>
+          <a href={list.homePage} target="_blank">
+            {list.homePage}
+          </a>
         </Td>
         {list.medicalCourse !== null && (
           <Td>
-            <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-              진료과목
-            </FormLabel>
-            {list.medicalCourse &&
-              list.medicalCourse.map((medicalCourse, index) => (
-                <React.Fragment key={index}>
-                  {medicalCourse.medicalCourseCategory}
-                  {index < list.medicalCourse.length - 1 && ", "}
-                </React.Fragment>
-              ))}
+            <Flex>
+              <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                진료과목
+              </FormLabel>
+              {list.medicalCourse &&
+                list.medicalCourse.map((medicalCourse, index) => (
+                  <React.Fragment key={index}>
+                    {medicalCourse.medicalCourseCategory}
+                    {index < list.medicalCourse.length - 1 && ", "}
+                  </React.Fragment>
+                ))}
+            </Flex>
           </Td>
         )}
         {(list.holidays !== null || list.holidays.length > 0) && (
           <Td display={list.holidays === [] ? "none" : "block"}>
-            <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-              휴무일
-            </FormLabel>
-            <Text>
-              {list.holidays &&
-                list.holidays.map((holiday, index) => (
-                  <React.Fragment key={index}>
-                    {holiday.holiday}
-                    {index < list.holidays.length - 1 && ", "}
-                  </React.Fragment>
-                ))}
-            </Text>
+            <Flex>
+              <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+                휴무일
+              </FormLabel>
+              <Text>
+                {list.holidays &&
+                  list.holidays.map((holiday, index) => (
+                    <React.Fragment key={index}>
+                      {holiday.holiday}
+                      {index < list.holidays.length - 1 && ", "}
+                    </React.Fragment>
+                  ))}
+              </Text>
+            </Flex>
           </Td>
         )}
 
