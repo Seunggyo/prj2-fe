@@ -29,7 +29,7 @@ import React, { useContext, useEffect } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { LoginContext } from "../component/LoginProvider";
 import axios from "axios";
-import logo from "../assets/images/아프지마 로고.png";
+import logo from "../assets/images/로고1.png";
 
 export function SideBar() {
   const navigate = useNavigate();
