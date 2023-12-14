@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
+  Button,
   Center,
   Flex,
   Image,
@@ -16,11 +17,15 @@ import axios from "axios";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LoginContext } from "../../component/LoginProvider";
 
 export function DsSearchComponent({ onItemClick }) {
   const [dsList, setDsList] = useState([]);
+  const [isButtonActive, setIsButtonActive] = useState(true);
   const toast = useToast();
   const navigate = useNavigate();
+
+  const { isAuthenticated, authCheck, idCheck } = useContext(LoginContext);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -39,6 +44,11 @@ export function DsSearchComponent({ onItemClick }) {
   useEffect(() => {
     axios.get("/api/ds/list?" + params).then((r) => {
       setDsList(r.data.dsList);
+      const isMemberExists =
+        r.data.dsList.find((d) => d.memberId === idCheck()) !== undefined;
+      console.log(idCheck());
+      console.log(isMemberExists);
+      setIsButtonActive(isMemberExists);
     });
   }, [location]);
 
@@ -57,6 +67,9 @@ export function DsSearchComponent({ onItemClick }) {
           />
           <InputRightAddon children="검색" onClick={handleSearch} />
         </InputGroup>
+        {isAuthenticated() && authCheck() === "ds" && isButtonActive && (
+          <Button onClick={() => navigate("/home/ds/write")}>약국 추가</Button>
+        )}
       </Box>
       <Stack spacing={4}>
         {dsList.map((ds) => (
@@ -64,6 +77,7 @@ export function DsSearchComponent({ onItemClick }) {
             key={ds.id}
             borderWidth="1px"
             borderRadius="lg"
+            국
             overflow="hidden"
             onClick={() => onItemClick(ds.id)}
             // onClick={() => console.log(ds.id)}

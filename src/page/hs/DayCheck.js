@@ -26,14 +26,18 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 export function DayCheck() {
-  const navigate = useNavigate();
   const [dateValue, setDateValue] = useState([]);
   const [position, setPosition] = useState();
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: isOpen1,
+    onClose: onClose1,
+    onOpen: onOpen1,
+  } = useDisclosure();
   const toast = useToast();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
@@ -105,14 +109,12 @@ export function DayCheck() {
       });
   }
 
-  function handleOkClick(e, id) {
-    console.log(id);
-    e.stopPropagation();
-    if (!id) {
+  function handleOkClick() {
+    if (!position) {
       return;
     }
     axios
-      .put(`/api/hospital/reservation/ok/${id}`)
+      .put(`/api/hospital/reservation/ok/${position}`)
       .then(() => {
         toast({
           description: "예약 확인 되었습니다.",
@@ -210,7 +212,11 @@ export function DayCheck() {
                         <Button
                           id={l.id}
                           colorScheme={"green"}
-                          onClick={(e) => handleOkClick(e, l.id)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onOpen1();
+                            setPosition(l.id);
+                          }}
                         >
                           예약 확인
                         </Button>
@@ -286,7 +292,11 @@ export function DayCheck() {
                         <Button
                           id={l.id}
                           colorScheme={"green"}
-                          onClick={(e) => handleOkClick(e, l.id)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onOpen1();
+                            setPosition(l.id);
+                          }}
                         >
                           예약 확인
                         </Button>
@@ -391,6 +401,20 @@ export function DayCheck() {
             <Button onClick={onClose}>닫기</Button>
             <Button onClick={handleDeleteClick} colorScheme="red">
               예약취소
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal isOpen={isOpen1} onClose={onClose1}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>예약 확인</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>예약 확인하시겠습니까?</ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose1}>닫기</Button>
+            <Button onClick={handleOkClick} colorScheme="green">
+              예약 확인
             </Button>
           </ModalFooter>
         </ModalContent>

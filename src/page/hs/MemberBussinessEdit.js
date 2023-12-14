@@ -1,10 +1,11 @@
+import axios from "axios";
 import {
+  Box,
   Button,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
-  Center,
   Checkbox,
   CheckboxGroup,
   Divider,
@@ -12,7 +13,6 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
-  Grid,
   Heading,
   Image,
   Input,
@@ -24,46 +24,19 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  Spinner,
   Switch,
   Textarea,
-  Tooltip,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useImmer } from "use-immer";
-import { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  faHeart as fullHeart,
-  faTrashCan,
-} from "@fortawesome/free-solid-svg-icons";
-import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { useImmer } from "use-immer";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../component/LoginProvider";
 
-function LikeContainer({ like, onClick }) {
-  const { isAuthenticated } = useContext(LoginContext);
-  if (like === null) {
-    return <Spinner />;
-  }
-
-  return (
-    <Flex>
-      <Tooltip isDisabled={isAuthenticated()} hasArrow label={"로그인 하세요"}>
-        <Button variant="ghost" size="xl" onClick={onClick}>
-          {/*<FontAwesomeIcon icon={faHeart} size="xl" />*/}
-          {like.like && <FontAwesomeIcon icon={fullHeart} size="xl" />}
-          {like.like || <FontAwesomeIcon icon={emptyHeart} size="xl" />}
-        </Button>
-      </Tooltip>
-      <Heading size="lg">{like.countLike}</Heading>
-    </Flex>
-  );
-}
-
-export function HsEdit() {
+export function MemberBusinessEdit() {
   const [list, updateList] = useImmer([]);
   const { id } = useParams();
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -73,18 +46,15 @@ export function HsEdit() {
   const [uploadFiles, setUploadFiles] = useState(null);
   const [holiday, setHoliday] = useState([]);
   const [course, setCourse] = useState([]);
-  const [like, setLike] = useState(null);
-  const { isAuthenticated } = useContext(LoginContext);
+  const [params] = useSearchParams();
+  const { authCheck } = useContext(LoginContext);
 
   useEffect(() => {
-    axios.get("/api/hospital/id/" + id).then((r) => {
+    axios.get(`/api/hospital/get?${params}`).then((r) => {
       updateList(r.data);
       setHoliday(r.data.holidays.map((i) => i.holiday));
       setCourse(r.data.medicalCourse.map((i) => i.medicalCourseCategory));
     });
-  }, []);
-  useEffect(() => {
-    axios.get("/api/hospital/like/hospital/" + id).then((r) => setLike(r.data));
   }, []);
 
   const hour = () => {
@@ -232,31 +202,28 @@ export function HsEdit() {
   }
 
   return (
-    <Center>
-      <Card w={"xl"}>
+    <Box>
+      <Card>
         <CardHeader>
           <Heading>병원 정보 수정</Heading>
         </CardHeader>
         <CardBody>
-          <FormControl mb={5}>
+          <FormControl>
             <FormLabel>병원명</FormLabel>
             <Input value={list.name} onChange={handleNameChange} />
           </FormControl>
-          <FormControl mb={5}>
+          <FormControl>
             <FormLabel>병원 주소</FormLabel>
             <Input value={list.address} onChange={handleAddressChange} />
           </FormControl>
-          <FormControl mb={5}>
+          <FormControl>
             <FormLabel>전화번호</FormLabel>
             <Input value={list.phone} onChange={handlePhoneChange} />
           </FormControl>
-          <FormControl mb={5}>
+          <FormControl>
             <FormLabel>오픈시간</FormLabel>
-            <Grid mt={3} ml={3} templateColumns={"repeat(2 , 1fr)"}>
-              <FormLabel>시간</FormLabel>
-              <FormLabel ml={3}>분</FormLabel>
-            </Grid>
             <Flex>
+              <FormLabel>시간</FormLabel>
               <Select
                 onChange={handleOpenHourChange}
                 w={"sm"}
@@ -266,6 +233,7 @@ export function HsEdit() {
               >
                 {hour()}
               </Select>
+              <FormLabel>분</FormLabel>
               <Select
                 defaultValue={0}
                 onChange={handleOpenMinChange}
@@ -283,15 +251,10 @@ export function HsEdit() {
               </Select>
             </Flex>
           </FormControl>
-          <FormControl mb={5}>
+          <FormControl>
             <FormLabel>휴게시간</FormLabel>
-            <Grid templateColumns={"repeat(4, 1fr)"}>
-              <FormLabel>시작 시간</FormLabel>
-              <FormLabel ml={2}>분</FormLabel>
-              <FormLabel ml={2}>종료시간</FormLabel>
-              <FormLabel ml={3}>분</FormLabel>
-            </Grid>
             <Flex>
+              <FormLabel>시작 시간</FormLabel>
               <Select
                 onChange={handleRestHourChange}
                 w={"sm"}
@@ -301,6 +264,7 @@ export function HsEdit() {
               >
                 {hour()}
               </Select>
+              <FormLabel>분</FormLabel>
               <Select
                 defaultValue={0}
                 onChange={handleRestMinChange}
@@ -316,6 +280,7 @@ export function HsEdit() {
                 <option value={50}>50</option>
                 <option value={60}>60</option>
               </Select>
+              <FormLabel>종료시간</FormLabel>
               <Select
                 onChange={handleRestCloseHourChange}
                 w={"sm"}
@@ -325,6 +290,7 @@ export function HsEdit() {
               >
                 {hour()}
               </Select>
+              <FormLabel>분</FormLabel>
               <Select
                 defaultValue={0}
                 onChange={handleRestCloseMinChange}
@@ -381,17 +347,20 @@ export function HsEdit() {
             <FormLabel>홈페이지</FormLabel>
             <Input value={list.homePage} onChange={handleHomePageChange} />
           </FormControl>
-          <FormControl>
-            <FormLabel>진료과목</FormLabel>
-            <Flex>
-              <CheckboxGroup value={course} onChange={(e) => setCourse(e)}>
-                <Checkbox value="소아과">소아과</Checkbox>
-                <Checkbox value="내과">내과</Checkbox>
-                <Checkbox value="외과">외과</Checkbox>
-                <Checkbox value="치과">치과</Checkbox>
-              </CheckboxGroup>
-            </Flex>
-          </FormControl>
+
+          {authCheck() === "hs" && (
+            <FormControl>
+              <FormLabel>진료과목</FormLabel>
+              <Flex>
+                <CheckboxGroup value={course} onChange={(e) => setCourse(e)}>
+                  <Checkbox value="소아과">소아과</Checkbox>
+                  <Checkbox value="내과">내과</Checkbox>
+                  <Checkbox value="외과">외과</Checkbox>
+                  <Checkbox value="치과">치과</Checkbox>
+                </CheckboxGroup>
+              </Flex>
+            </FormControl>
+          )}
           <FormControl>
             <FormLabel>휴무일</FormLabel>
             <CheckboxGroup value={holiday} onChange={(e) => setHoliday(e)}>
@@ -453,15 +422,6 @@ export function HsEdit() {
           </FormControl>
         </CardBody>
         <CardFooter>
-          {isAuthenticated() && (
-            <Button
-              onClick={() =>
-                navigate("/home/hospital/hospitalReservation/" + id)
-              }
-            >
-              예약
-            </Button>
-          )}
           <Button onClick={onOpen} colorScheme="twitter">
             저장
           </Button>
@@ -485,6 +445,6 @@ export function HsEdit() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Center>
+    </Box>
   );
 }
