@@ -13,6 +13,8 @@ import {
   faHospital,
   faUser,
 } from "@fortawesome/free-regular-svg-icons";
+import logo from "./assets/images/로고1.png";
+import Snowfall from "react-snowfall";
 
 const images = [
   {
@@ -64,9 +66,19 @@ export function WelcomePage() {
   }
 
   return (
-    <div className="bg-blue-100 bg-opacity-40">
-      <Box className="max-w-screen-xl mx-auto ">
-        <AspectRatio ratio={20 / 6} position="relative">
+    <div className="bg-indigo-950">
+      <Snowfall
+        style={{
+          position: "fixed",
+          width: "100vw",
+          height: "100vh",
+          zIndex: 10,
+          color: "red",
+        }}
+      />
+
+      <Box className="mx-auto ">
+        <AspectRatio ratio={20 / 4} position="relative">
           <Box>
             {imageList.map((image) => (
               <Image
@@ -84,30 +96,39 @@ export function WelcomePage() {
       </Box>
 
       <body>
-        <div className="flex bg-blue-100 bg-opacity-20 justify-center relative">
+        <div className="flex bg-indigo-950  justify-center relative">
           <div
             className="sticky z-99 flex flex-col justify-center"
             style={{
               marginRight: "100px",
-              marginTop: "100px",
-              color: "#4C87B9",
+              marginTop: "50px",
+              color: "white",
               cursor: "pointer",
             }}
             onClick={() => navigate("/home")}
           >
-            <p>여기 로고 들어갈 수 있나?</p>
             <br />
-            <p className="text-4xl" style={{ marginBottom: "40px" }}>
+            <p
+              className="text-6xl font-dongle font-semibold text-center"
+              style={{ marginBottom: "40px" }}
+            >
               <strong>세종시의</strong> 의료가
             </p>
-            <p className="text-4xl" style={{ marginBottom: "40px" }}>
+            <p
+              className="text-6xl font-dongle font-semibold text-center"
+              style={{ marginBottom: "40px" }}
+            >
               필요한 모든 순간
             </p>
             <p
-              className="text-4xl"
+              className="text-6xl font-dongle font-semibold text-center"
               style={{ fontWeight: "bold", marginBottom: "20px" }}
             >
               병원 갈 땐, 아프지마
+            </p>
+            <br />
+            <p>
+              <Image src={logo} />
             </p>
             <div
               style={{
@@ -116,18 +137,13 @@ export function WelcomePage() {
                 backgroundColor: "white",
                 marginBottom: "200px",
               }}
-            >
-              <p className="flex">
-                아프지마? 로고?
-                <img src="/src/assets/images/QRimage.svg" alt="qr이미지" />
-              </p>
-            </div>
+            ></div>
           </div>
 
-          <div className="max-w-md overflow-y-auto bg-white w-full md:w-1/2">
-            <div className="flex bg-blue-100 pt-5 bg-opacity-20 flex items-center">
+          <div className="max-w-md overflow-y-auto bg-indigo-950 w-full md:w-1/2">
+            <div className="flex  pt-5  flex items-center">
               <div className="flex mx-auto flex-col md:flex-row">
-                <div className="bg-white max-w-md">
+                <div className=" max-w-md">
                   <div className=" flex flex-col">
                     <div className="p-4">
                       {/*<div className="flex rounded-xl bg-gray-100 h-16 items-center text-md mt-10 p-8">*/}
@@ -136,12 +152,13 @@ export function WelcomePage() {
                       {/*    병원 또는 약국명을 검색해 보세요.*/}
                       {/*  </h2>*/}
                       {/*</div>*/}
-                      <div className="flex justify-between h-30 mt-6 ">
+                      <div className="flex justify-between h-30  ">
                         <button
                           className="w-full mx-auto pt-10 flex flex-col items-center"
                           onClick={() => navigate("/home/hospital")}
                         >
                           <FontAwesomeIcon
+                            color="white"
                             icon={faHospital}
                             className="w-14 h-14"
                           />
@@ -157,6 +174,7 @@ export function WelcomePage() {
                           onClick={() => navigate("/home/ds")}
                         >
                           <FontAwesomeIcon
+                            color="white"
                             icon={faPills}
                             className="w-14 h-14"
                           />
@@ -172,6 +190,7 @@ export function WelcomePage() {
                           onClick={() => navigate("/home/drug")}
                         >
                           <FontAwesomeIcon
+                            color="white"
                             icon={faHouseChimneyMedical}
                             className="w-14 h-14"
                           />
@@ -183,12 +202,13 @@ export function WelcomePage() {
                           </h3>
                         </button>
                       </div>
-                      <div className="flex justify-between h-60 mt-6">
+                      <div className="flex justify-between h-40 mt-6">
                         <button
                           className="w-full mx-auto pt-10 flex flex-col items-center"
                           onClick={() => navigate("/home/board")}
                         >
                           <FontAwesomeIcon
+                            color="white"
                             icon={faUser}
                             className="w-14 h-14"
                           />
@@ -204,6 +224,7 @@ export function WelcomePage() {
                           onClick={() => navigate("/home/cs")}
                         >
                           <FontAwesomeIcon
+                            color="white"
                             icon={faEnvelope}
                             className="w-14 h-14"
                           />
@@ -219,6 +240,7 @@ export function WelcomePage() {
                           onClick={() => navigate("/home/member/login")}
                         >
                           <FontAwesomeIcon
+                            color="white"
                             icon={faHeart}
                             className="w-14 h-14"
                           />
@@ -231,7 +253,7 @@ export function WelcomePage() {
                         </button>
                       </div>
                     </div>
-                    <div className="w-full h-8 p-4 bg-green-200 bg-opacity-40 flex items-center justify-center">
+                    <div className="w-full h-8 p-4 bg-yellow-500 flex items-center justify-center">
                       <p className="font-bold text-center">
                         아프지마는 세종시의 메디컬 정보 제공사이트입니다.
                       </p>
@@ -244,7 +266,7 @@ export function WelcomePage() {
                             "rgb(245, 246, 250); color: rgb(130, 136, 150);",
                         }}
                       >
-                        <div className="mb-4">
+                        <div className="mb-4" style={{ color: "white" }}>
                           <b>개인정보 처리방침</b>
                           <br />
                           <p>
