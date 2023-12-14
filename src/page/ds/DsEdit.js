@@ -72,6 +72,7 @@ export function DsEdit() {
         id: ds.id,
         name: ds.name,
         address: ds.address,
+        oldAddress: ds.oldAddress,
         phone: ds.phone,
         openHour: ds.openHour,
         openMin: ds.openMin,
@@ -94,7 +95,7 @@ export function DsEdit() {
             description: ds.id + "번 게시글이 수정되었습니다",
             status: "success",
           }),
-        navigate("/home/ds/list"),
+        navigate("/home/ds"),
       )
       .catch((error) => {
         if (error.response.status === 400) {
@@ -112,6 +113,8 @@ export function DsEdit() {
       .finally(() => onClose());
   }
 
+  console.log(ds.nightCare);
+
   function handleDeleteFileSwitch(e) {
     if (e.target.checked) {
       // removeFileIds에 추가
@@ -122,10 +125,20 @@ export function DsEdit() {
     }
   }
 
-  return (
-    <Box>
-      <h1>{ds.id} 수정</h1>
+  const hour = () => {
+    const result = [];
+    for (let i = 1; i < 25; i++) {
+      result.push(
+        <option value={i} key={i}>
+          {i}시
+        </option>,
+      );
+    }
+    return result;
+  };
 
+  return (
+    <Box mx="20px">
       {/*약국 사진*/}
       {ds.files.length > 0 &&
         ds.files.map((file) => (
@@ -166,6 +179,16 @@ export function DsEdit() {
             })
           }
         />
+        <FormLabel>간단 주소</FormLabel>
+        <Textarea
+          value={ds.oldAddress}
+          onChange={(e) =>
+            updateDs((draft) => {
+              draft.oldAddress = e.target.value;
+            })
+          }
+          placeholder="동까지만 입력해주시면 됩니다 ex:)세종시 아람동"
+        />
       </FormControl>
 
       <FormControl>
@@ -190,6 +213,7 @@ export function DsEdit() {
           <Checkbox value="금요일">금요일</Checkbox>
           <Checkbox value="토요일">토요일</Checkbox>
           <Checkbox value="일요일">일요일</Checkbox>
+          <Checkbox value="공휴일">공요일</Checkbox>
         </CheckboxGroup>
       </FormControl>
 
@@ -200,34 +224,29 @@ export function DsEdit() {
             <Box>
               <Flex>
                 <Select
-                  defaultValue="7시"
+                  defaultValue={ds.openHour}
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.openHour = e.target.value;
                     })
                   }
                 >
-                  <option value="7시">7시</option>
-                  <option value="8시">8시</option>
-                  <option value="9시">9시</option>
-                  <option value="10시">10시</option>
-                  <option value="11시">11시</option>
-                  <option value="12시">12시</option>
+                  {hour()};
                 </Select>
                 <Select
-                  defaultValue="0분"
+                  defaultValue={ds.openMin}
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.openMin = e.target.value;
                     })
                   }
                 >
-                  <option value="0분">0분</option>
-                  <option value="10분">10분</option>
-                  <option value="20분">20분</option>
-                  <option value="30분">30분</option>
-                  <option value="40분">40분</option>
-                  <option value="50분">50분</option>
+                  <option value="0">0분</option>
+                  <option value="10">10분</option>
+                  <option value="20">20분</option>
+                  <option value="30">30분</option>
+                  <option value="40">40분</option>
+                  <option value="50">50분</option>
                 </Select>
               </Flex>
             </Box>
@@ -235,6 +254,7 @@ export function DsEdit() {
             <Box>
               <Flex>
                 <Select
+                  value={ds.closeHour}
                   defaultValue="16시"
                   onChange={(e) =>
                     updateDs((draft) => {
@@ -242,13 +262,10 @@ export function DsEdit() {
                     })
                   }
                 >
-                  <option value="16시">16시</option>
-                  <option value="17시">17시</option>
-                  <option value="18시">18시</option>
-                  <option value="19시">19시</option>
-                  <option value="20시">20시</option>
+                  {hour()};
                 </Select>
                 <Select
+                  value={ds.closeMin}
                   defaultValue="0분"
                   onChange={(e) =>
                     updateDs((draft) => {
@@ -256,12 +273,12 @@ export function DsEdit() {
                     })
                   }
                 >
-                  <option value="0분">0분</option>
-                  <option value="10분">10분</option>
-                  <option value="20분">20분</option>
-                  <option value="30분">30분</option>
-                  <option value="40분">40분</option>
-                  <option value="50분">50분</option>
+                  <option value="0">0분</option>
+                  <option value="10">10분</option>
+                  <option value="20">20분</option>
+                  <option value="30">30분</option>
+                  <option value="40">40분</option>
+                  <option value="50">50분</option>
                 </Select>
               </Flex>
             </Box>
@@ -279,6 +296,70 @@ export function DsEdit() {
                 />
               </Box>
             </Flex>
+          </Flex>
+          <Flex>
+            <FormLabel>휴식 시간</FormLabel>
+            <FormHelperText>
+              {/*TODO : 휴식 시간 체크 시 작성 칸 뜨게끔 수정해야 함*/}
+              휴식 시간이 없으시 선택안하시면 됩니다
+            </FormHelperText>
+          </Flex>
+          <Flex>
+            <Box>
+              <Flex>
+                <Select
+                  defaultValue="0"
+                  onChange={(e) =>
+                    updateDs((draft) => {
+                      draft.restHour = e.target.value;
+                    })
+                  }
+                >
+                  {hour()};
+                </Select>
+                <Select
+                  defaultValue="0"
+                  onChange={(e) =>
+                    updateDs((draft) => {
+                      draft.restMin = e.target.value;
+                    })
+                  }
+                >
+                  <option value="0">0분</option>
+                  <option value="10">10분</option>
+                  <option value="20">20분</option>
+                  <option value="30">30분</option>
+                  <option value="40">40분</option>
+                  <option value="50">50분</option>
+                </Select>
+                ~
+                <Select
+                  defaultValue="0"
+                  onChange={(e) =>
+                    updateDs((draft) => {
+                      draft.restCloseHour = e.target.value;
+                    })
+                  }
+                >
+                  {hour()};
+                </Select>
+                <Select
+                  defaultValue="0"
+                  onChange={(e) =>
+                    updateDs((draft) => {
+                      draft.restCloseMin = e.target.value;
+                    })
+                  }
+                >
+                  <option value="0">0분</option>
+                  <option value="10">10분</option>
+                  <option value="20">20분</option>
+                  <option value="30">30분</option>
+                  <option value="40">40분</option>
+                  <option value="50">50분</option>
+                </Select>
+              </Flex>
+            </Box>
           </Flex>
 
           <FormControl>

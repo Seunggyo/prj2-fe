@@ -65,6 +65,7 @@ import { PaymentDetail } from "./page/member/PaymentDetail";
 import { BusinessList } from "./page/hs/BusinessList";
 
 
+
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Outlet />}>
@@ -133,6 +134,7 @@ const routes = createBrowserRouter(
   ),
 );
 
+
 function App() {
   return (
     <LoginProvider>
@@ -140,5 +142,6 @@ function App() {
     </LoginProvider>
   );
 }
+
 
 export default App;

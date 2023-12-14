@@ -24,6 +24,9 @@ import {
 import { LoginContext } from "../../component/LoginProvider";
 import axios from "axios";
 import { DeleteIcon, EditIcon, NotAllowedIcon } from "@chakra-ui/icons";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 function CommentForm({ businessId, isSubmitting, onSubmit }) {
   const [comment, setComment] = useState("");
@@ -152,18 +155,70 @@ function CommentList({
       </CardHeader>
       <CardBody>
         <Stack divider={<StackDivider />} spacing="4">
-          {commentList.map((DsComment) => (
-            <CommentItem
-              key={DsComment.id}
-              isSubmitting={isSubmitting}
-              setIsSubmitting={setIsSubmitting}
-              DsComment={DsComment}
-              onDeleteModalOpen={onDeleteModalOpen}
-            />
-          ))}
+          {commentList.length > 0 &&
+            commentList.map((DsComment) => (
+              <CommentItem
+                key={DsComment.id}
+                isSubmitting={isSubmitting}
+                setIsSubmitting={setIsSubmitting}
+                DsComment={DsComment}
+                onDeleteModalOpen={onDeleteModalOpen}
+              />
+            ))}
         </Stack>
       </CardBody>
     </Card>
+  );
+}
+
+function PageButton({ variant, pageNumber, children, handleClick }) {
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
+
+  return (
+    <Button variant={variant} onClick={handleClick}>
+      {children}
+    </Button>
+  );
+}
+
+function Pagination({ pageInfo, handleClickPageButton }) {
+  const pageNumbers = [];
+  const navigate = useNavigate();
+
+  for (let i = pageInfo.startPageNumber; i <= pageInfo.endPageNumber; i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <Box>
+      {/* 뒤로가기*/}
+      {pageInfo.prevPageNumber && (
+        <PageButton variant="ghost" pageNumber={pageInfo.prevPageNumber}>
+          <FontAwesomeIcon icon={faAngleLeft} />
+        </PageButton>
+      )}
+
+      {pageNumbers.map((pageNumber) => (
+        <PageButton
+          key={pageNumber}
+          variant={
+            pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
+          }
+          pageNumber={pageNumber}
+          handleClick={() => handleClickPageButton(pageNumber)}
+        >
+          {pageNumber}
+        </PageButton>
+      ))}
+
+      {/*앞으로 가기*/}
+      {pageInfo.nextPageNumber && (
+        <PageButton variant="ghost" pageNumber={pageInfo.nextPageNumber}>
+          <FontAwesomeIcon icon={faAngleRight} />
+        </PageButton>
+      )}
+    </Box>
   );
 }
 
@@ -172,7 +227,8 @@ export function DsComment({ businessId }) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [commentList, setCommentList] = useState([]);
-
+  const [pageInfo, setPageInfo] = useState("");
+  const [pageNumber, setPageNumber] = useState(1);
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   // 임시로 값을 저장하는 용도로 사용할려고 씀
@@ -184,13 +240,18 @@ export function DsComment({ businessId }) {
     if (!isSubmitting) {
       const params = new URLSearchParams();
       params.set("id", businessId);
+      params.set("p", pageNumber);
 
-      axios
-        .get("/api/ds/comment/list?" + params)
-        .then((response) => setCommentList(response.data));
+      axios.get("/api/ds/comment/list?" + params).then((response) => {
+        setCommentList(response.data.dsComment);
+        setPageInfo(response.data.pageInfo);
+      });
     }
-  }, [isSubmitting]);
+  }, [isSubmitting, pageNumber]);
 
+  function handleClickPageButton(page) {
+    setPageNumber(page);
+  }
   // 클릭시 해야 하는 기능들
   function handleOnSubmit(comment) {
     setIsSubmitting(true);
@@ -265,6 +326,12 @@ export function DsComment({ businessId }) {
         commentList={commentList}
         onDeleteModalOpen={handleDeleteModalOpen}
       />
+      <Box>
+        <Pagination
+          pageInfo={pageInfo}
+          handleClickPageButton={handleClickPageButton}
+        />
+      </Box>
       {/*삭제 모달*/}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

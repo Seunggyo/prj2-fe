@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
+  Button,
   Center,
   Flex,
   Image,
@@ -16,6 +17,64 @@ import axios from "axios";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as PropTypes from "prop-types";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+
+// function PageButton({ variant, pageNumber, children }) {
+//   const [params] = useSearchParams();
+//   const navigate = useNavigate();
+//
+//   function handleClick() {
+//     params.set("p", pageNumber);
+//
+//     navigate("?" + params);
+//   }
+//
+//   return (
+//     <Button variant={variant} onClick={handleClick}>
+//       {children}
+//     </Button>
+//   );
+// }
+//
+// function Pagination({ pageInfo }) {
+//   const pageNumbers = [];
+//   const navigate = useNavigate();
+//
+//   for (let i = pageInfo.startPageNumber; i <= pageInfo.endPageNumber; i++) {
+//     pageNumbers.push(i);
+//   }
+//
+//   return (
+//     <Box>
+//       {/* 뒤로가기*/}
+//       {pageInfo.prevPageNumber && (
+//         <PageButton variant="ghost" pageNumber={pageInfo.prevPageNumber}>
+//           <FontAwesomeIcon icon={faAngleLeft} />
+//         </PageButton>
+//       )}
+//
+//       {pageNumbers.map((pageNumber) => (
+//         <PageButton
+//           key={pageNumber}
+//           variant={
+//             pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
+//           }
+//           pageNumber={pageNumber}
+//         >
+//           {pageNumber}
+//         </PageButton>
+//       ))}
+//
+//       {/*앞으로 가기*/}
+//       {pageInfo.nextPageNumber && (
+//         <PageButton variant="ghost" pageNumber={pageInfo.nextPageNumber}>
+//           <FontAwesomeIcon icon={faAngleRight} />
+//         </PageButton>
+//       )}
+//     </Box>
+//   );
+// }
 
 export function DsSearchComponent({ onItemClick }) {
   const [dsList, setDsList] = useState([]);
@@ -25,6 +84,7 @@ export function DsSearchComponent({ onItemClick }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const [keyword, setKeyword] = useState("");
+  // const [pageInfo, setPageInfo] = useState("");
   const [params] = useSearchParams();
   const location = useLocation();
 
@@ -33,12 +93,13 @@ export function DsSearchComponent({ onItemClick }) {
 
     params.set("k", keyword);
 
-    navigate("/ds?" + params);
+    navigate("/home/ds?" + params);
   }
 
   useEffect(() => {
-    axios.get("/api/ds/list?" + params).then((r) => {
+    axios.get("/api/ds/listMap?" + params).then((r) => {
       setDsList(r.data.dsList);
+      // setPageInfo(r.data.pageInfo);
     });
   }, [location]);
 
@@ -47,11 +108,12 @@ export function DsSearchComponent({ onItemClick }) {
   }
 
   return (
-    <Box>
+    // list 보여주는 박스
+    <Box w="280px">
       <Box>
-        <InputGroup size="sm">
+        <InputGroup size="sm" marginBottom="10px">
           <Input
-            placeholder="이름"
+            placeholder="이름,장소 검색"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
           />
@@ -92,11 +154,11 @@ export function DsSearchComponent({ onItemClick }) {
               >
                 {ds.name}
               </Box>
-              <Box fontSize="12px">{ds.address}</Box>
-              <Box fontSize="14px">{ds.phone}</Box>
+              <Box fontSize="12px">{ds.oldAddress}</Box>
+              {/*<Box fontSize="14px">번호 : {ds.phone}</Box>*/}
 
               <Box>
-                {ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}~
+                영업시간 :{ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}~
                 {ds.closeHour}:{ds.closeMin === 0 ? "00" : ds.closeMin}
                 {ds.restHour !== 0 && (
                   <>
@@ -125,6 +187,10 @@ export function DsSearchComponent({ onItemClick }) {
           </Box>
         ))}
       </Stack>
+      {/*페이징*/}
+      {/*<Box>*/}
+      {/*  <Pagination pageInfo={pageInfo} />*/}
+      {/*</Box>*/}
     </Box>
   );
 }
