@@ -124,7 +124,7 @@ function CommentItem({
   return (
     <Box>
       <Flex justifyContent="space-between">
-        <Heading size="xs">{drugComment.memberId}</Heading>
+        <Heading size="xs">{drugComment.memberNickName}</Heading>
         <Text fontSize="xs">{drugComment.inserted}</Text>
       </Flex>
       <Flex>

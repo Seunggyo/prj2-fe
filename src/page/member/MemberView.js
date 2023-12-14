@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import {
@@ -13,14 +13,26 @@ import {
   Heading,
   Spinner,
 } from "@chakra-ui/react";
+import { LoginContext } from "../../component/LoginProvider";
 
 function MemberView(props) {
   const [member, setMember] = useState(null);
+  const [access, setAccess] = useState(false);
   const [params] = useSearchParams();
 
   const navigate = useNavigate();
 
+  const { authCheck, isAuthenticated, hasAccess } = useContext(LoginContext);
+
   useEffect(() => {
+    if (
+      authCheck() !== "admin" &&
+      !isAuthenticated() &&
+      !hasAccess(params.get("id"))
+    ) {
+      navigate("/");
+    }
+
     axios.get("/api/member/info?" + params).then(({ data }) => setMember(data));
   }, []);
 
@@ -41,7 +53,10 @@ function MemberView(props) {
           <Box>email : {member.email}</Box>
           <Box>address : {member.address}</Box>
           {/* TODO auth user 제외 표시*/}
-          <Box>inserted : {member.inserted}</Box>
+          <Box>
+            inserted :{" "}
+            {new Date(member.inserted).toLocaleDateString().replace(/\./g, "")}
+          </Box>
         </CardBody>
         <CardFooter>
           <Flex>
