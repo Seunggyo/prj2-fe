@@ -2,7 +2,9 @@ import { Box, Image, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { nanoid } from "nanoid";
 
+const orderCode = nanoid();
 export function DrugBuy() {
   const [buy, setBuy] = useState(null);
   const [orderer, setOrderer] = useState(null);
@@ -12,12 +14,10 @@ export function DrugBuy() {
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [deliveryComment, setDeliveryComment] = useState("");
 
-  const { id } = useParams();
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("/api/drug/buy/id/" + id).then(({ data }) => setOrderer(data));
+    axios.get("/api/drug/buy").then(({ data }) => setOrderer(data));
   }, []);
 
   if (orderer === null) {
@@ -31,15 +31,13 @@ export function DrugBuy() {
   function handleOrderClick() {
     navigate("/payment", {
       state: {
-        orderName:
-          location.state.drugName + "*" + location.state.quantity + "개",
-        ordererName: orderer.memberId,
+        orderName: location.state.orderName,
+        ordererName: orderer.id,
         ordererPhone: orderer.phone,
         ordererEmail: orderer.email,
         ordererAddress: orderer.address,
-        amount: location.state.total,
-        quantity: location.state.quantity,
-        productName: location.state.drugName,
+        amount: location.state.amount,
+        orderCode,
 
         deliveryName,
         deliveryPhone,
@@ -106,7 +104,7 @@ export function DrugBuy() {
                     <input
                       name="name"
                       className="focus:outline-none px-3"
-                      value={orderer.memberId}
+                      value={orderer.id}
                       readOnly
                     />
                   </label>
@@ -202,9 +200,7 @@ export function DrugBuy() {
                     src={location.state.url}
                     alt={location.state.url}
                   />
-                  <span>
-                    {location.state.drugName} * {location.state.quantity} 개
-                  </span>
+                  <span>{location.state.orderName}</span>
                 </label>
               </fieldset>
             </section>
@@ -217,9 +213,7 @@ export function DrugBuy() {
           </button>
         </div>
         <div class="col-span-1 bg-white lg:block hidden">
-          <h1 class="py-6 border-b-2 text-xl text-gray-600 px-8">
-            Order Summary
-          </h1>
+          <h1 class="py-6 border-b-2 text-xl text-gray-600 px-8">주문 상품</h1>
           <ul class="py-6 border-b space-y-6 px-8">
             <li class="grid grid-cols-6 gap-2 border-b-1">
               <div class="col-span-1 self-center">
@@ -231,42 +225,17 @@ export function DrugBuy() {
               </div>
               <div class="flex flex-col col-span-3 pt-2">
                 <span class="text-gray-600 text-md font-semi-bold">
-                  Studio 2 Headphone
+                  상품 이름
                 </span>
                 <span class="text-gray-400 text-sm inline-block pt-2">
-                  Red Headphone
+                  상품 기능 ex) 간건강
                 </span>
               </div>
               <div class="col-span-2 pt-3">
                 <div class="flex items-center space-x-2 text-sm justify-between">
-                  <span class="text-gray-400">2 x €30.99</span>
+                  <span class="text-gray-400"> 상품 갯수 1개</span>
                   <span class="text-pink-400 font-semibold inline-block">
-                    €61.98
-                  </span>
-                </div>
-              </div>
-            </li>
-            <li class="grid grid-cols-6 gap-2 border-b-1">
-              <div class="col-span-1 self-center">
-                <img
-                  src="https://bit.ly/3lCyoSx"
-                  alt="Product"
-                  class="rounded w-full"
-                />
-              </div>
-              <div class="flex flex-col col-span-3 pt-2">
-                <span class="text-gray-600 text-md font-semi-bold">
-                  Apple iPhone 13
-                </span>
-                <span class="text-gray-400 text-sm inline-block pt-2">
-                  Phone
-                </span>
-              </div>
-              <div class="col-span-2 pt-3">
-                <div class="flex items-center space-x-2 text-sm justify-between">
-                  <span class="text-gray-400">1 x €785</span>
-                  <span class="text-pink-400 font-semibold inline-block">
-                    €785
+                    상품 금액
                   </span>
                 </div>
               </div>
@@ -277,14 +246,10 @@ export function DrugBuy() {
               <span>Subtotal</span>
               <span class="font-semibold text-pink-500">€846.98</span>
             </div>
-            <div class="flex justify-between py-4 text-gray-600">
-              <span>Shipping</span>
-              <span class="font-semibold text-pink-500">Free</span>
-            </div>
           </div>
           <div class="font-semibold text-xl px-8 flex justify-between py-8 text-gray-600">
             <span>Total</span>
-            <span>€846.98</span>
+            <span>100.000 원</span>
           </div>
         </div>
       </div>
