@@ -32,11 +32,11 @@ function MemberList(props) {
 
   const [params] = useSearchParams();
   const navigate = useNavigate();
-  const { authCheck } = useContext(LoginContext);
+  const { authCheck, fetched } = useContext(LoginContext);
   const location = useLocation();
 
   useEffect(() => {
-    if (authCheck() !== "admin") {
+    if (fetched && authCheck() !== "admin") {
       navigate("/");
     }
 
@@ -103,7 +103,7 @@ function MemberSearchComp() {
     const params = new URLSearchParams();
     params.set("k", keyword);
 
-    navigate("/member/list?" + params);
+    navigate("/home/member/list?" + params);
   }
 
   return (
@@ -125,7 +125,7 @@ function PageButton({ variant, pageNumber, children }) {
 
   function handleClick() {
     params.set("p", pageNumber);
-    navigate("/member/list?" + params);
+    navigate("/home/member/list?" + params);
   }
 
   return (

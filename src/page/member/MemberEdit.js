@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { LoginContext } from "../../component/LoginProvider";
 //TODO 수정 조건 추가하기
 function MemberEdit(props) {
   const [member, setMember] = useState(null);
@@ -30,7 +31,17 @@ function MemberEdit(props) {
   const toast = useToast();
   const navigate = useNavigate();
 
+  const { authCheck, isAuthenticated, hasAccess } = useContext(LoginContext);
+
   useEffect(() => {
+    if (
+      authCheck() !== "admin" &&
+      !isAuthenticated() &&
+      !hasAccess(params.get("id"))
+    ) {
+      navigate("/");
+    }
+
     axios.get("/api/member/info?" + params.toString()).then(({ data }) => {
       setMember(data);
       setNickName(data.nickName);
