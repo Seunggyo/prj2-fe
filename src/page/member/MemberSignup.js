@@ -20,6 +20,7 @@ import {
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import defaultImage from "../../assets/images/토오끼.jpg";
 
 export function MemberSignup() {
   const [id, setId] = useState("");
@@ -34,7 +35,8 @@ export function MemberSignup() {
   const [uploadFile, setUploadFile] = useState(null);
   const [mailNum, setMailNum] = useState("");
   const [authenticationNum, setAuthenticationNum] = useState(null);
-  const [uploadProfile, setUploadProfile] = useState("");
+  const [profile, setProfile] = useState(defaultImage);
+  const [previewFile, setPreviewFile] = useState("");
 
   const [idAvailable, setIdAvailable] = useState(false);
   const [nickNameAvailable, setNickNameAvailable] = useState(false);
@@ -164,7 +166,7 @@ export function MemberSignup() {
         address,
         auth,
         uploadFile,
-        uploadProfile: uploadProfile,
+        "uploadFileImg[]": profile,
       })
       .then(() => {
         toast({
@@ -201,9 +203,9 @@ export function MemberSignup() {
   const profileInput = useRef(null);
   function handleProfileChange(e) {
     if (e.target.files[0]) {
-      setUploadProfile(e.target.files[0]);
+      setProfile(e.target.files[0]);
     } else {
-      setUploadProfile(
+      setProfile(
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
       );
     }
@@ -211,7 +213,7 @@ export function MemberSignup() {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setUploadProfile(reader.result);
+        setPreviewFile(reader.result);
       }
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -283,7 +285,7 @@ export function MemberSignup() {
 
             {/*프로필 사진 표시되는 공간..추가중..*/}
             <Avatar
-              src="Image"
+              src={previewFile}
               style={{ margin: "20px" }}
               size="200"
               onClick={() => {
