@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -17,69 +17,15 @@ import axios from "axios";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import * as PropTypes from "prop-types";
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
-
-// function PageButton({ variant, pageNumber, children }) {
-//   const [params] = useSearchParams();
-//   const navigate = useNavigate();
-//
-//   function handleClick() {
-//     params.set("p", pageNumber);
-//
-//     navigate("?" + params);
-//   }
-//
-//   return (
-//     <Button variant={variant} onClick={handleClick}>
-//       {children}
-//     </Button>
-//   );
-// }
-//
-// function Pagination({ pageInfo }) {
-//   const pageNumbers = [];
-//   const navigate = useNavigate();
-//
-//   for (let i = pageInfo.startPageNumber; i <= pageInfo.endPageNumber; i++) {
-//     pageNumbers.push(i);
-//   }
-//
-//   return (
-//     <Box>
-//       {/* 뒤로가기*/}
-//       {pageInfo.prevPageNumber && (
-//         <PageButton variant="ghost" pageNumber={pageInfo.prevPageNumber}>
-//           <FontAwesomeIcon icon={faAngleLeft} />
-//         </PageButton>
-//       )}
-//
-//       {pageNumbers.map((pageNumber) => (
-//         <PageButton
-//           key={pageNumber}
-//           variant={
-//             pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
-//           }
-//           pageNumber={pageNumber}
-//         >
-//           {pageNumber}
-//         </PageButton>
-//       ))}
-//
-//       {/*앞으로 가기*/}
-//       {pageInfo.nextPageNumber && (
-//         <PageButton variant="ghost" pageNumber={pageInfo.nextPageNumber}>
-//           <FontAwesomeIcon icon={faAngleRight} />
-//         </PageButton>
-//       )}
-//     </Box>
-//   );
-// }
+import { LoginContext } from "../../component/LoginProvider";
 
 export function DsSearchComponent({ onItemClick }) {
   const [dsList, setDsList] = useState([]);
+  const [isButtonActive, setIsButtonActive] = useState(true);
   const toast = useToast();
   const navigate = useNavigate();
+
+  const { isAuthenticated, authCheck, idCheck } = useContext(LoginContext);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -100,6 +46,11 @@ export function DsSearchComponent({ onItemClick }) {
     axios.get("/api/ds/listMap?" + params).then((r) => {
       setDsList(r.data.dsList);
       // setPageInfo(r.data.pageInfo);
+      const isMemberExists =
+        r.data.dsList.find((d) => d.memberId === idCheck()) !== undefined;
+      console.log(idCheck());
+      console.log(isMemberExists);
+      setIsButtonActive(isMemberExists);
     });
   }, [location]);
 
@@ -119,6 +70,9 @@ export function DsSearchComponent({ onItemClick }) {
           />
           <InputRightAddon children="검색" onClick={handleSearch} />
         </InputGroup>
+        {isAuthenticated() && authCheck() === "ds" && isButtonActive && (
+          <Button onClick={() => navigate("/home/ds/write")}>약국 추가</Button>
+        )}
       </Box>
       <Stack spacing={4}>
         {dsList.map((ds) => (

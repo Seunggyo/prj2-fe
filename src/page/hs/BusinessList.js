@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 
+
 export function BusinessList() {
     const [list, setList] = useState([]);
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ export function BusinessList() {
 
     return (
         <Box>
-            <Heading>예약 내역을 확인하실 병원을 선택해주세요</Heading>
+            <Heading>예약 내역을 확인하실 기관을 선택해주세요</Heading>
 
             <Table>
                 <Thead>
@@ -30,7 +31,7 @@ export function BusinessList() {
                             <Tr id={l.id} _hover={{
                                 cursor: "pointer"
                             }}
-                                onClick={() => navigate("/hospital/businessCheck/" + l.id)}>
+                                onClick={() => navigate("/home/hospital/businessDayCheck?id=" + l.id)}>
                                 <Td>{l.name}</Td>
                             </Tr>
                         ))
@@ -39,6 +40,7 @@ export function BusinessList() {
                     </Tr>)}
                 </Tbody>
             </Table>
+
         </Box>
     );
 }

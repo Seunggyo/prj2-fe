@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
 export const LoginContext = createContext(null);
+
 function LoginProvider({ children }) {
   const [login, setLogin] = useState("");
   const [fetched, setFetched] = useState(false);
@@ -16,6 +17,10 @@ function LoginProvider({ children }) {
       setLogin(data);
       setFetched(true);
     });
+  }
+
+  function idCheck() {
+    return login.id;
   }
 
   // 인증
@@ -44,6 +49,7 @@ function LoginProvider({ children }) {
         isAuthenticated,
         hasAccess,
         authCheck,
+        idCheck,
         isAdmin,
         fetched,
       }}

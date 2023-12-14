@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
   Box,
@@ -23,6 +23,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import { LoginContext } from "../../component/LoginProvider";
 
 export function HsSearchComponent({
   onItemClick,
@@ -31,9 +32,10 @@ export function HsSearchComponent({
 }) {
   const navigate = useNavigate();
   const toast = useToast();
+  const { isAuthenticated, authCheck, idCheck } = useContext(LoginContext);
 
+  const [isButtonActive, setIsButtonActive] = useState(true);
   const [list, setList] = useState();
-  const [courseList, setCourseList] = useState("");
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [params] = useSearchParams();
 
@@ -41,6 +43,7 @@ export function HsSearchComponent({
   const [category, setCategory] = useState("all");
 
   const location = useLocation();
+
   function handleSearch() {
     const params = new URLSearchParams();
 
@@ -51,7 +54,14 @@ export function HsSearchComponent({
   }
 
   useEffect(() => {
-    axios.get("/api/hospital/list?" + params).then((r) => setList(r.data.list));
+    axios.get("/api/hospital/list?" + params).then((r) => {
+      setList(r.data.list);
+      const isMemberExists =
+        r.data.list.find((h) => h.memberId === idCheck()) !== undefined;
+      console.log(isMemberExists);
+      console.log(idCheck());
+      setIsButtonActive(!isMemberExists);
+    });
   }, [location]);
 
   if (list === null) {
@@ -113,6 +123,19 @@ export function HsSearchComponent({
                 </MenuItem>
               </MenuList>
             </Menu>
+            <Menu>
+              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                야간
+              </MenuButton>
+              <MenuList>
+                <MenuItem value="nightCare">야간</MenuItem>
+              </MenuList>
+            </Menu>
+            {isAuthenticated() && authCheck() === "hs" && isButtonActive && (
+              <Button onClick={() => navigate("/home/hospital/hospitalAdd/")}>
+                병원 추가
+              </Button>
+            )}
           </Flex>
         </Stack>
       </Box>
@@ -142,7 +165,6 @@ export function HsSearchComponent({
                   {/*    {ds.level}*/}
                   {/*  </Badge>*/}
                   {/*</Box>*/}
-
                   <Box
                     mt="1"
                     fontWeight="semibold"
@@ -176,7 +198,6 @@ export function HsSearchComponent({
                         </>
                       ))}
                   </Box>
-
                   <Flex>
                     {/*<Stack direction="row" mt="2" spacing={2} align="center">*/}
                     {/*  <Box as="span" ml="2" color="gray.600" fontSize="sm">*/}

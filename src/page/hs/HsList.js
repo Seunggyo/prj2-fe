@@ -1,12 +1,6 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
+import {useNavigate, useSearchParams} from "react-router-dom";
+import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
-import {
-  Map,
-  MapMarker,
-  useKakaoLoader,
-  ZoomControl,
-} from "react-kakao-maps-sdk";
 import {
   Badge,
   Box,
@@ -30,46 +24,46 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { LoginContext } from "../../component/LoginProvider";
+import {LoginContext} from "../../component/LoginProvider";
 
 export function HsList() {
-  const { isAuthenticated, isAdmin } = useContext(LoginContext);
-  const navigate = useNavigate();
-  const toast = useToast();
-  const [params] = useSearchParams();
+    const {isAuthenticated, isAdmin} = useContext(LoginContext);
+    const navigate = useNavigate();
+    const toast = useToast();
+    const [params] = useSearchParams();
 
-  const [list, setList] = useState([]);
-  const { isOpen, onClose, onOpen } = useDisclosure();
+    const [list, setList] = useState([]);
+    const {isOpen, onClose, onOpen} = useDisclosure();
 
-  const [position, setPosition] = useState();
+    const [position, setPosition] = useState();
 
   useEffect(() => {
     axios.get("/api/hospital/list?" + params).then((r) => setList(r.data.list));
   }, []);
 
-  function handleDeleteClick() {
-    if (!position) {
-      return;
+    function handleDeleteClick() {
+        if (!position) {
+            return;
+        }
+        axios
+            .delete(`/api/hospital/delete/${position}`)
+            .then(() => {
+                toast({
+                    description: "삭제가 완료되었습니다.",
+                    status: "success",
+                });
+            })
+            .catch(() => {
+                toast({
+                    description: "실패하였습니다.",
+                    status: "error",
+                });
+            })
+            .finally(() => {
+                setPosition(null);
+                onClose();
+            });
     }
-    axios
-      .delete(`/api/hospital/delete/${position}`)
-      .then(() => {
-        toast({
-          description: "삭제가 완료되었습니다.",
-          status: "success",
-        });
-      })
-      .catch(() => {
-        toast({
-          description: "실패하였습니다.",
-          status: "error",
-        });
-      })
-      .finally(() => {
-        setPosition(null);
-        onClose();
-      });
-  }
 
   return (
     <Box>

@@ -63,6 +63,8 @@ import { Payment } from "./page/tossPay/Payment";
 import { PaymentHistory } from "./page/member/PaymentHistory";
 import { PaymentDetail } from "./page/member/PaymentDetail";
 import { BusinessList } from "./page/hs/BusinessList";
+import { DayCheck } from "./page/hs/DayCheck";
+import { MemberBusinessEdit } from "./page/hs/MemberBussinessEdit";
 
 
 
@@ -97,6 +99,7 @@ const routes = createBrowserRouter(
           <Route path="reservationCheck" element={<HsReservationCheck />} />
           <Route path="businessCheck/:id" element={<HsBusinessCheck />} />
           <Route path="businessList" element={<BusinessList />} />
+          <Route path="businessDayCheck" element={<DayCheck />} />
         </Route>
         <Route path="member" element={<Member />}>
           <Route path="signup" element={<MemberSignup />} />
@@ -107,6 +110,7 @@ const routes = createBrowserRouter(
           <Route path="edit" element={<MemberEdit />} />
           <Route path="findId" element={<MemberFindId />} />
           <Route path="findPassword" element={<MemberFindPassword />} />
+          <Route path="businessedit" element={<MemberBusinessEdit />} />
           <Route path="paymentHistory" element={<PaymentHistory />} />
           <Route path="paymentDetail" element={<PaymentDetail />} />
         </Route>
@@ -134,7 +138,6 @@ const routes = createBrowserRouter(
   ),
 );
 
-
 function App() {
   return (
     <LoginProvider>
@@ -142,6 +145,5 @@ function App() {
     </LoginProvider>
   );
 }
-
 
 export default App;
