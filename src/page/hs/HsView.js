@@ -168,7 +168,7 @@ export function HsView({ hsId }) {
             </Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>
+            <TabPanel p="0">
               <Card>
                 <Td>
                   <FormLabel fontWeight="bold" fontSize="18px" color="grey">
@@ -298,7 +298,7 @@ export function HsView({ hsId }) {
                 </Td>
               </Card>
             </TabPanel>
-            <TabPanel>
+            <TabPanel p="0">
               <HsComment key={realId} businessId={realId} />
             </TabPanel>
           </TabPanels>

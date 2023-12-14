@@ -196,7 +196,7 @@ export function DsView({ dsId }) {
             </Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>
+            <TabPanel p="0">
               <Card>
                 <Td>
                   <FormLabel fontWeight="bold" fontSize="18px" color="grey">
@@ -253,14 +253,17 @@ export function DsView({ dsId }) {
                     <Text>
                       {ds.closeMin === 0 ? "0" + ds.closeMin : ds.closeMin}분
                     </Text>
-                  </Flex>
-                </Td>
-                <Td>
-                  <Flex>
-                    <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-                      야간 진료
-                    </FormLabel>
-                    <Checkbox size="lg" isChecked={ds.nightCare} isReadOnly />
+                    <Flex>
+                      <FormLabel
+                        marginLeft="20px"
+                        fontWeight="bold"
+                        fontSize="18px"
+                        color="grey"
+                      >
+                        야간 진료
+                      </FormLabel>
+                      <Checkbox size="lg" isChecked={ds.nightCare} isReadOnly />
+                    </Flex>
                   </Flex>
                 </Td>
                 <Td
@@ -304,7 +307,7 @@ export function DsView({ dsId }) {
                 </Td>
               </Card>
             </TabPanel>
-            <TabPanel>
+            <TabPanel p="0">
               <DsComment key={realId} businessId={realId} />
             </TabPanel>
           </TabPanels>
