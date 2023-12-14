@@ -211,7 +211,14 @@ export function MemberSignup() {
               </p>
               <Select
                 defaultValue={"user"}
-                onChange={(e) => setAuth(e.target.value)}
+                onChange={(e) => {
+                  setAuth(e.target.value);
+                  if (e.target.value === "hs" || e.target.value === "ds") {
+                    setBirthday("none");
+                  } else {
+                    setBirthday("");
+                  }
+                }}
               >
                 <option value={"user"}>유저</option>
                 <option value={"admin"}>관리자</option>
