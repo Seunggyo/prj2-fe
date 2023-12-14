@@ -97,7 +97,7 @@ export function DsSearchComponent({ onItemClick }) {
   }
 
   useEffect(() => {
-    axios.get("/api/ds/list?" + params).then((r) => {
+    axios.get("/api/ds/listMap?" + params).then((r) => {
       setDsList(r.data.dsList);
       // setPageInfo(r.data.pageInfo);
     });
