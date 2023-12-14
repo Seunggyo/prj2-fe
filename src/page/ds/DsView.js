@@ -23,6 +23,7 @@ import {
   Table,
   Td,
   Text,
+  Textarea,
   Tooltip,
   useDisclosure,
   useToast,
@@ -140,7 +141,7 @@ export function DsView({ dsId }) {
   }
 
   return (
-    <Table border="1px solid red">
+    <Table>
       <Card>
         <CardHeader>
           <Flex>
@@ -170,7 +171,7 @@ export function DsView({ dsId }) {
               </Box>
             ))}
         </Box>
-        <Flex color="white" w="100%" h="100px" border="1px solid black">
+        <Flex color="white" w="100%" h="100px" justifyContent="space-between">
           <Center w="33%" color="black" borderTop="1px solid lightgrey">
             <Text fontSize="2xl">정보</Text>
           </Center>
@@ -182,7 +183,12 @@ export function DsView({ dsId }) {
           >
             <LikeContainer like={like} onClick={handleLike} />
           </Center>
-          <Center w="33%" color="black" borderTop="1px solid lightgrey">
+          <Center
+            w="33%"
+            color="black"
+            borderTop="1px solid lightgrey"
+            onClick={() => navigate("?")}
+          >
             <Text fontSize="2xl">리뷰</Text>
           </Center>
         </Flex>
@@ -200,64 +206,7 @@ export function DsView({ dsId }) {
           <FontAwesomeIcon icon={faCommentDots} size="lg" />
           문의
         </Button>
-        {/*<FormControl>*/}
-        {/*  <FormLabel>업체 명</FormLabel>*/}
-        {/*  <Input border="none" value={ds.name} isReadOnly />*/}
-        {/*</FormControl>*/}
-        {/*<FormControl>*/}
-        {/*  <FormLabel>주소</FormLabel>*/}
-        {/*  <Input border="none" value={ds.address} isReadOnly />*/}
-        {/*</FormControl>*/}
-        {/*<FormControl>*/}
-        {/*  <FormLabel>번호</FormLabel>*/}
-        {/*  <Input border="none" value={ds.phone} isReadOnly />*/}
-        {/*</FormControl>*/}
 
-        {/*<FormControl*/}
-        {/*  display={*/}
-        {/*    ds.holidays > 0 && ds.holidays.length === 0 ? "none" : "block"*/}
-        {/*  }*/}
-        {/*>*/}
-        {/*  <FormLabel>휴무일</FormLabel>*/}
-        {/*  <Input*/}
-        {/*    border="none"*/}
-        {/*    value={*/}
-        {/*      ds.holidays != null &&*/}
-        {/*      ds.holidays.map((holiday) => holiday.holiday)*/}
-        {/*    }*/}
-        {/*    isReadOnly*/}
-        {/*  />*/}
-        {/*</FormControl>*/}
-
-        {/*<Box>*/}
-        {/*  <Flex>*/}
-        {/*    <FormControl>*/}
-        {/*      <Flex>*/}
-        {/*        <FormLabel>오픈 시간</FormLabel>*/}
-        {/*        <Input w={"100px"} value={ds.openHour} isReadOnly />*/}
-        {/*        <Input w={"100px"} mx={"30px"} value={ds.openMin} isReadOnly />*/}
-        {/*      </Flex>*/}
-
-        {/*      <Flex>*/}
-        {/*        <FormLabel>마감 시간</FormLabel>*/}
-        {/*        <Input w={"100px"} value={ds.closeHour} isReadOnly />*/}
-        {/*        <Input w={"100px"} mx={"30px"} value={ds.closeMin} isReadOnly />*/}
-        {/*        <FormLabel>야간 진료</FormLabel>*/}
-        {/*        <Checkbox isChecked={ds.nightCare} isReadOnly />*/}
-        {/*      </Flex>*/}
-        {/*      <Box display={ds.restHour === 0 ? "none" : "block"}>*/}
-        {/*        <Flex>*/}
-        {/*          <FormLabel>휴식 시간</FormLabel>*/}
-        {/*          <Input w={"100px"} value={ds.restHour} isReadOnly />*/}
-        {/*          <Input w={"100px"} value={ds.restMin} isReadOnly />*/}
-        {/*          ~*/}
-        {/*          <Input w={"100px"} value={ds.restCloseHour} isReadOnly />*/}
-        {/*          <Input w={"100px"} value={ds.restCloseMin} isReadOnly />*/}
-        {/*        </Flex>*/}
-        {/*      </Box>*/}
-        {/*    </FormControl>*/}
-        {/*  </Flex>*/}
-        {/*</Box>*/}
         <Td>
           <FormLabel fontWeight="bold" fontSize="21px" color="grey">
             병원 주소
@@ -306,60 +255,91 @@ export function DsView({ dsId }) {
               마감시간
             </FormLabel>
             <Text>{ds.closeHour}시</Text>
-
             <Text>{ds.closeMin === 0 ? "0" + ds.closeMin : ds.closeMin}분</Text>
+            <FormLabel
+              marginLeft="30px"
+              fontWeight="bold"
+              fontSize="18px"
+              color="grey"
+            >
+              야간 진료
+            </FormLabel>
+            <Checkbox size="lg" isChecked={ds.nightCare} isReadOnly />
           </Flex>
         </Td>
-        <Td>
+        <Td
+          display={ds.holidays && ds.holidays.length === 0 ? "none" : "block"}
+        >
+          <Flex>
+            <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+              휴무일
+            </FormLabel>
+            <Text>
+              {/*{ds.holidays != null &&*/}
+              {/*  ds.holidays.map((holiday) => holiday.holiday)}*/}
+              {ds.holidays &&
+                ds.holidays.map((holiday, index) => (
+                  <React.Fragment key={index}>
+                    {holiday.holiday}
+                    {index < ds.holidays.length - 1 && ", "}
+                  </React.Fragment>
+                ))}
+            </Text>
+          </Flex>
+        </Td>
+        <Td
+        // display={ds.content === "" || ds.content === null ? "none" : "block"}
+        >
+          <FormLabel fontWeight="bold" fontSize="18px" color="grey">
+            약국 소개
+          </FormLabel>
+          {/*<Textarea border="none" value={ds.content} isReadOnly />*/}
+          <Text>{ds.content}</Text>
+        </Td>
+        <Td
+        // display={ds.info === null ? "none" : "block"}
+        >
           <FormLabel fontWeight="bold" fontSize="18px" color="grey">
             상세정보
           </FormLabel>
-          <Text>{ds.content}</Text>
+          <Text>{ds.info}</Text>
         </Td>
-        <Td>
-          <FormLabel>약국 소개</FormLabel>
-          <Input border="none" value={ds.content} isReadOnly />
-        </Td>
-        <Td display={ds.info === "" ? "none" : "block"}>
-          <FormLabel>약국 정보</FormLabel>
-          <Input border="none" value={ds.info} isReadOnly />
-        </Td>
-        {/*{(hasAccess(ds.id) || isAdmin()) && (*/}
-        {/*  <Box>*/}
-        {/*    <Button*/}
-        {/*      colorScheme="blue"*/}
-        {/*      onClick={() => navigate("/home/ds/edit/" + realId)}*/}
-        {/*    >*/}
-        {/*      수정*/}
-        {/*    </Button>*/}
-        {/*    <Button*/}
-        {/*      colorScheme="red"*/}
-        {/*      mx="30px"*/}
-        {/*      onClick={() => {*/}
-        {/*        onOpen();*/}
-        {/*      }}*/}
-        {/*    >*/}
-        {/*      삭제*/}
-        {/*    </Button>*/}
-        {/*  </Box>*/}
-        {/*)}*/}
-        {/*/!*삭제 클릭시 모달*!/*/}
-        {/*<Modal isOpen={isOpen} onClose={onClose}>*/}
-        {/*  <ModalOverlay />*/}
-        {/*  <ModalContent>*/}
-        {/*    <ModalHeader>삭제 확인</ModalHeader>*/}
-        {/*    <ModalCloseButton />*/}
-        {/*    <ModalBody>삭제 시 복구 할 수 없습니다</ModalBody>*/}
+        {(hasAccess(ds.id) || isAdmin()) && (
+          <Box>
+            <Button
+              colorScheme="blue"
+              onClick={() => navigate("/home/ds/edit/" + realId)}
+            >
+              수정
+            </Button>
+            <Button
+              colorScheme="red"
+              mx="30px"
+              onClick={() => {
+                onOpen();
+              }}
+            >
+              삭제
+            </Button>
+          </Box>
+        )}
+        {/*삭제 클릭시 모달*/}
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>삭제 확인</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>삭제 시 복구 할 수 없습니다</ModalBody>
 
-        {/*    <ModalFooter>*/}
-        {/*      <Button onClick={onClose}>닫기</Button>*/}
-        {/*      <Button onClick={handleDelete} colorScheme="red">*/}
-        {/*        삭제*/}
-        {/*      </Button>*/}
-        {/*    </ModalFooter>*/}
-        {/*  </ModalContent>*/}
-        {/*</Modal>*/}
-        <DsComment businessId={realId} />
+            <ModalFooter>
+              <Button onClick={onClose}>닫기</Button>
+              <Button onClick={handleDelete} colorScheme="red">
+                삭제
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+        <DsComment key={realId} businessId={realId} />
       </Card>
     </Table>
   );

@@ -111,7 +111,7 @@ export function DsSearchComponent({ onItemClick }) {
     // list 보여주는 박스
     <Box w="280px">
       <Box>
-        <InputGroup size="sm">
+        <InputGroup size="sm" marginBottom="10px">
           <Input
             placeholder="이름,장소 검색"
             value={keyword}

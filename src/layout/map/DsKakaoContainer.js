@@ -206,7 +206,6 @@ const MainPage = () => {
           transition="width 0.5s"
           p={4}
           borderRight="1px solid #ccc"
-          border="1px solid black"
           position="relative"
           zIndex="11"
           // bg="black"
@@ -262,7 +261,6 @@ const MainPage = () => {
               bg="white"
               zIndex={9}
               display={isListVisible ? "block" : "none"}
-              border="1px solid black"
             >
               <ViewComponent dsId={dsId} />
             </Box>
