@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { AspectRatio, Box, Image } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,6 +15,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import logo from "./assets/images/로고1.png";
 import Snowfall from "react-snowfall";
+import { LoginContext } from "./component/LoginProvider";
 
 const images = [
   {
@@ -44,6 +45,9 @@ export function WelcomePage() {
   const nextIndex = useRef(1);
 
   const navigate = useNavigate();
+
+  const { fetchLogin, login, isAuthenticated, authCheck } =
+    useContext(LoginContext);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -235,22 +239,24 @@ export function WelcomePage() {
                             고객센터
                           </h3>
                         </button>
-                        <button
-                          className="w-full mx-auto pt-10 flex flex-col items-center"
-                          onClick={() => navigate("/home/member/login")}
-                        >
-                          <FontAwesomeIcon
-                            color="white"
-                            icon={faHeart}
-                            className="w-14 h-14"
-                          />
-                          <h3
-                            className="font-semibold mt-2"
-                            style={{ color: "#FF6347" }}
+                        {isAuthenticated() || (
+                          <button
+                            className="w-full mx-auto pt-10 flex flex-col items-center"
+                            onClick={() => navigate("/home/member/login")}
                           >
-                            로그인
-                          </h3>
-                        </button>
+                            <FontAwesomeIcon
+                                color="white"
+                              icon={faHeart}
+                              className="w-14 h-14"
+                            />
+                            <h3
+                              className="font-semibold mt-2"
+                              style={{ color: "#FF6347" }}
+                            >
+                              로그인
+                            </h3>
+                          </button>
+                        )}
                       </div>
                     </div>
                     <div className="w-full h-8 p-4 bg-yellow-500 flex items-center justify-center">

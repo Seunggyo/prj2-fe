@@ -65,6 +65,7 @@ export function MemberJoinList() {
         address: member.address,
         auth: member.auth,
         fileName: member.fileName,
+        profile: member.profile,
       })
       .then(() => {
         toast({

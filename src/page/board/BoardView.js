@@ -103,7 +103,12 @@ export function BoardView() {
 
   return (
     <Box className="mx-auto max-w-screen-full">
-      <h1 className="text-4xl font-semibold mb-8">자유 게시판</h1>
+      <h1
+        className="text-4xl font-semibold mb-8 cursor-pointer"
+        onClick={() => navigate("/home/board")}
+      >
+        자유 게시판
+      </h1>
       <Box p={8} bg="orange.100">
         <Box
           bg="white"
@@ -126,26 +131,35 @@ export function BoardView() {
               </CardHeader>
               <CardBody>
                 <Box mb={5}>
-                  <span className="font-dongle text-5xl text-gray-500">
-                    제 목
-                  </span>
-                  <Input value={board.title} readOnly />
+                  <p className="font-dongle text-5xl text-gray-500">제 목</p>
+                  <Input
+                    w="600px"
+                    style={{ borderColor: "#f1efef" }}
+                    value={board.title}
+                    readOnly
+                  />
                 </Box>
-                <Box mb={5}>
+                <Box mb={5} readOnly>
                   <span className="font-dongle text-5xl text-gray-500">
                     본 문
                   </span>
-                  <Textarea h={"sm"} value={board.content} readOnly />
+                  <div style={{ whiteSpace: "pre-line" }}>
+                    {board.content}
+                    {/* 이미지 출력 */}
+                    {board.files.map((file) => (
+                      <Card key={file.id} my={5}>
+                        <CardBody>
+                          <Image
+                            width="40%"
+                            mb="5"
+                            src={file.url}
+                            alt={file.fileName}
+                          />
+                        </CardBody>
+                      </Card>
+                    ))}
+                  </div>
                 </Box>
-
-                {/* 이미지 출력 */}
-                {board.files.map((file) => (
-                  <Card key={file.id} my={5}>
-                    <CardBody>
-                      <Image width="100%" src={file.url} alt={file.name} />
-                    </CardBody>
-                  </Card>
-                ))}
 
                 <Box mb={5} className="flex items-center">
                   <span className="mr-4 font-dongle text-3xl text-gray-500">
@@ -191,7 +205,7 @@ export function BoardView() {
             </Card>
           </Box>
           <Box width={{ base: "100%", md: "40%" }}>
-            <CommentContainer boardId={id} />
+            <CommentContainer boardId={id} category={"board"} />
           </Box>
 
           {/* 삭제 모달 */}
