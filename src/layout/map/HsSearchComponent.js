@@ -16,6 +16,7 @@ import {
   MenuList,
   Spinner,
   Stack,
+  Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -24,7 +25,11 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { LoginContext } from "../../component/LoginProvider";
 
-export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
+export function HsSearchComponent({
+  onItemClick,
+  onMedicalcourseClick,
+  medicalcourse,
+}) {
   const navigate = useNavigate();
   const toast = useToast();
   const { isAuthenticated, authCheck, idCheck } = useContext(LoginContext);
@@ -45,7 +50,7 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
     params.set("k", keyword);
     params.set("c", category);
 
-    navigate("/hospital?" + params);
+    navigate("/home/hospital?" + params);
   }
 
   useEffect(() => {
@@ -68,12 +73,12 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
   }
 
   return (
-    <Box w="340px">
+    <Box w="280px">
       <Box>
         <Stack spacing={4}>
           <InputGroup size="sm">
             <Input
-              placeholder="이름"
+              placeholder="이름,장소,진료과목 검색"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
             />
@@ -82,14 +87,16 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
           <Flex>
             <Menu>
               <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                진료과목
+                {medicalcourse === "" ? "진료과목" : medicalcourse}
               </MenuButton>
               <MenuList
                 onChange={(e) => {
                   setCategory(e.target);
                 }}
               >
-                <MenuItem value="all">전체</MenuItem>
+                <MenuItem onClick={() => handleClickMenuItem("")} value="all">
+                  전체
+                </MenuItem>
                 <MenuItem
                   onClick={() => handleClickMenuItem("소아과")}
                   value="소아과"
@@ -165,13 +172,22 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
                     lineHeight="tight"
                     isTruncated
                   >
-                    {h.name}
+                    <Flex>
+                      {h.name}
+                      {/*<Stack direction="row" mt="2" spacing={2} align="center">*/}
+                      <Box as="span" ml="2" fontSize="sm" color="red">
+                        <FontAwesomeIcon icon={faHeart} color="red" />{" "}
+                        {h.countLike}
+                      </Box>
+                      {/*</Stack>*/}
+                    </Flex>
                   </Box>
-                  <Box fontSize="12px">{h.address}</Box>
-                  <Box fontSize="14px">{h.phone}</Box>
+                  <Box fontSize="12px">{h.oldAddress}</Box>
+                  {/*<Box fontSize="14px">{h.phone}</Box>*/}
+
                   <Box>
-                    {h.openHour}:{h.openMin === 0 ? "00" : h.openMin}~
-                    {h.closeHour}:{h.closeMin === 0 ? "00" : h.closeMin}
+                    영업시간 : {h.openHour}:{h.openMin === 0 ? "00" : h.openMin}
+                    ~{h.closeHour}:{h.closeMin === 0 ? "00" : h.closeMin}
                     {h.restHour !== 0 ||
                       (h.restHour === null && (
                         <>
@@ -184,16 +200,16 @@ export function HsSearchComponent({ onItemClick, onMedicalcourseClick }) {
                   </Box>
                   <Flex>
                     {/*<Stack direction="row" mt="2" spacing={2} align="center">*/}
-                    {/*    <Box as="span" ml="2" color="gray.600" fontSize="sm">*/}
-                    {/*        {h.commentCount} 댓글*/}
-                    {/*    </Box>*/}
+                    {/*  <Box as="span" ml="2" color="gray.600" fontSize="sm">*/}
+                    {/*    {h.commentCount} 댓글*/}
+                    {/*  </Box>*/}
                     {/*</Stack>*/}
-                    <Stack direction="row" mt="2" spacing={2} align="center">
-                      <Box as="span" ml="2" fontSize="sm" color="red">
-                        {h.countLike}{" "}
-                        <FontAwesomeIcon icon={faHeart} color="red" />
-                      </Box>
-                    </Stack>
+                    {/*<Stack direction="row" mt="2" spacing={2} align="center">*/}
+                    {/*  <Box as="span" ml="2" fontSize="sm" color="red">*/}
+                    {/*    {h.countLike}{" "}*/}
+                    {/*    <FontAwesomeIcon icon={faHeart} color="red" />*/}
+                    {/*  </Box>*/}
+                    {/*</Stack>*/}
                   </Flex>
                 </Box>
               </Box>

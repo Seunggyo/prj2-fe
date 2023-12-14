@@ -110,6 +110,11 @@ export function HsEdit() {
       r.address = e.target.value;
     });
   }
+  function handleOldAddressChange(e) {
+    updateList((r) => {
+      r.oldAddress = e.target.value;
+    });
+  }
 
   function handlePhoneChange(e) {
     updateList((r) => {
@@ -177,6 +182,7 @@ export function HsEdit() {
         id: list.id,
         name: list.name,
         address: list.address,
+        oldAddress: list.oldAddress,
         phone: list.phone,
         openHour: list.openHour,
         openMin: list.openMin,
@@ -245,6 +251,12 @@ export function HsEdit() {
           <FormControl mb={5}>
             <FormLabel>병원 주소</FormLabel>
             <Input value={list.address} onChange={handleAddressChange} />
+            <FormLabel>병원 간단주소</FormLabel>
+            <Input
+              value={list.oldAddress}
+              onChange={handleOldAddressChange}
+              placeholder="동까지만 입력해주시면 됩니다 ex:)세종시 아람동"
+            />
           </FormControl>
           <FormControl mb={5}>
             <FormLabel>전화번호</FormLabel>
@@ -473,7 +485,7 @@ export function HsEdit() {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>저장</ModalHeader>
-          <ModalCloseButton />
+          {/*<ModalCloseButton />*/}
 
           <ModalBody>저장 하시겠습니까?</ModalBody>
 

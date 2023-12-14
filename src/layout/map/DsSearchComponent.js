@@ -30,6 +30,7 @@ export function DsSearchComponent({ onItemClick }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const [keyword, setKeyword] = useState("");
+  // const [pageInfo, setPageInfo] = useState("");
   const [params] = useSearchParams();
   const location = useLocation();
 
@@ -38,12 +39,13 @@ export function DsSearchComponent({ onItemClick }) {
 
     params.set("k", keyword);
 
-    navigate("/ds?" + params);
+    navigate("/home/ds?" + params);
   }
 
   useEffect(() => {
-    axios.get("/api/ds/list?" + params).then((r) => {
+    axios.get("/api/ds/listMap?" + params).then((r) => {
       setDsList(r.data.dsList);
+      // setPageInfo(r.data.pageInfo);
       const isMemberExists =
         r.data.dsList.find((d) => d.memberId === idCheck()) !== undefined;
       console.log(idCheck());
@@ -57,11 +59,12 @@ export function DsSearchComponent({ onItemClick }) {
   }
 
   return (
-    <Box>
+    // list 보여주는 박스
+    <Box w="280px">
       <Box>
-        <InputGroup size="sm">
+        <InputGroup size="sm" marginBottom="10px">
           <Input
-            placeholder="이름"
+            placeholder="이름,장소 검색"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
           />
@@ -77,7 +80,6 @@ export function DsSearchComponent({ onItemClick }) {
             key={ds.id}
             borderWidth="1px"
             borderRadius="lg"
-            국
             overflow="hidden"
             onClick={() => onItemClick(ds.id)}
             // onClick={() => console.log(ds.id)}
@@ -106,11 +108,11 @@ export function DsSearchComponent({ onItemClick }) {
               >
                 {ds.name}
               </Box>
-              <Box fontSize="12px">{ds.address}</Box>
-              <Box fontSize="14px">{ds.phone}</Box>
+              <Box fontSize="12px">{ds.oldAddress}</Box>
+              {/*<Box fontSize="14px">번호 : {ds.phone}</Box>*/}
 
               <Box>
-                {ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}~
+                영업시간 :{ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}~
                 {ds.closeHour}:{ds.closeMin === 0 ? "00" : ds.closeMin}
                 {ds.restHour !== 0 && (
                   <>
@@ -139,6 +141,10 @@ export function DsSearchComponent({ onItemClick }) {
           </Box>
         ))}
       </Stack>
+      {/*페이징*/}
+      {/*<Box>*/}
+      {/*  <Pagination pageInfo={pageInfo} />*/}
+      {/*</Box>*/}
     </Box>
   );
 }

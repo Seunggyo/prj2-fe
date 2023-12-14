@@ -1,8 +1,10 @@
-import { Box, Button, Image, Spinner } from "@chakra-ui/react";
+import { Box, Button, Center, Image, Spinner } from "@chakra-ui/react";
 import { TbReportMedical } from "react-icons/tb";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { DrugSearchComponent } from "./DrugSearchComponent";
+import { DrugPagination } from "./DrugPagination";
 
 export function DrugFuncList() {
   const [drugList, setDrugList] = useState(null);
@@ -10,9 +12,9 @@ export function DrugFuncList() {
   const { func } = useParams();
 
   useEffect(() => {
-    axios
-      .get("/api/drug/func/" + func)
-      .then((response) => setDrugList(response.data));
+    axios.get("/api/drug/func/" + func).then((response) => {
+      setDrugList(response.data);
+    });
   }, [func]);
 
   if (drugList === null) {
@@ -35,12 +37,14 @@ export function DrugFuncList() {
                     <Image src={drug.files[0].url} />
                   </div>
                   <div className="mt-10 text-center text-zinc-600 dark:text-zinc-400">
-                    <span className="text-4xl font-bold">{drug.name}</span>/{" "}
-                    {drug.func}
+                    <span className="text-5xl font-dongle font-semibold">
+                      {drug.name}
+                    </span>
+                    <span className="text-3xl font-dongle ">/ {drug.func}</span>
                   </div>
 
                   <ul className="mt-4 space-y-2 ">
-                    <li className=" flex items-center text-4xl font-dongle ">
+                    <li className=" flex items-center text-4xl font-dongle font-semibold ">
                       {/*<IconCheck className="text-white text-xs bg-green-500 rounded-full mr-2 p-1" />*/}
                       <TbReportMedical />
                       {drug.price}원

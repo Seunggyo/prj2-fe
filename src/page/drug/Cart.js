@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Image,
   Modal,
   ModalBody,
@@ -10,22 +11,19 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { LoginContext } from "../../component/LoginProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEraser } from "@fortawesome/free-solid-svg-icons";
 
 export function Cart() {
   const [cartList, setCartList] = useState(null);
+  const [amount, setAmount] = useState(0);
 
   const idRef = useRef(null);
 
@@ -36,7 +34,8 @@ export function Cart() {
 
   useEffect(() => {
     axios.get("/api/drug/cart/cartList").then((response) => {
-      setCartList(response.data);
+      setCartList(response.data.cartList);
+      setAmount(response.data.amount);
       if (!isAuthenticated()) {
         navigate("/home/member/login");
       }
@@ -46,7 +45,6 @@ export function Cart() {
   if (cartList === null) {
     return <Spinner />;
   }
-
   function handleDelete() {
     axios
       .delete("/api/drug/cart/remove/" + idRef.current)
@@ -67,55 +65,81 @@ export function Cart() {
 
   return (
     <Box marginRight="40px">
-      <Table>
-        <Thead>
-          <Tr>
-            <Th>상품 번호</Th>
-            <Th>사진</Th>
-            <Th>상품 이름</Th>
-            <Th>상품 갯수</Th>
-            <Th>상품 금액</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {cartList.map((cart) => (
-            <Tr key={cart.id}>
-              <Td>{cart.id}</Td>
-              <Td>
-                <Image w={"50px"} src={cart.url} alt={cart.url} />
-              </Td>
-              <Td>{cart.drugName}</Td>
-              <Td>{cart.quantity}</Td>
-              <Td>{cart.total}</Td>
-              <Button
-                colorScheme="teal"
-                variant="solid"
+      {/* 장바구니 css*/}
+      <Center>
+        <Box maxW="600px" marginTop="20px">
+          <div className="col-span-1 bg-white lg:block hidden">
+            <h1 className="py-6 border-b-2 text-xl text-gray-600 px-8">
+              장바구니
+            </h1>
+            {cartList.map((cart) => (
+              <ul className="py-6 border-b space-y-6 px-8" key={cart.id}>
+                <li className="grid grid-cols-6 gap-2 border-b-1">
+                  <div className="col-span-1 self-center">
+                    <Image
+                      src={cart.url}
+                      alt={cart.url}
+                      className="rounded w-full"
+                    />
+                  </div>
+                  <div className="flex flex-col col-span-3 pt-2">
+                    <span className="text-gray-600 text-md font-semi-bold">
+                      {cart.drugName}
+                    </span>
+                    <span className="text-gray-400 text-sm inline-block pt-2">
+                      {cart.func}
+                    </span>
+                  </div>
+                  <div className="col-span-2 pt-3">
+                    <div className="flex items-center space-x-2 text-sm justify-between">
+                      <span className="text-gray-400">{cart.quantity}</span>
+                      <span className="text-gray-600 font-semibold inline-block">
+                        {cart.total}
+                      </span>
+                      <Button
+                        size="xs"
+                        colorScheme="pink"
+                        onClick={() => {
+                          idRef.current = cart.id;
+                          onOpen();
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faEraser} />
+                      </Button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            ))}
+
+            <div className="font-semibold text-xl px-8 flex justify-between py-8 text-gray-600">
+              {/*TODO: 총 토탈 해야함 */}
+              <span>Total</span>
+              <span>100.000 원</span>
+            </div>
+            <Center>
+              <button
+                className="before:ease relative h-12 w-40 overflow-hidden border border-green-700 bg-green-700 text-white shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-green-500 hover:before:-translate-x-40"
                 onClick={() =>
-                  navigate("/home/drug/buy/" + cart.id, {
+                  navigate("/home/drug/buy", {
                     state: {
-                      url: cart.url,
-                      drugName: cart.drugName,
-                      quantity: cart.quantity,
-                      total: cart.total,
+                      amount,
+                      orderName:
+                        cartList[0].drugName +
+                        " 외 " +
+                        (cartList.length - 1) +
+                        " 개",
+                      url: cartList[0].url,
                     },
                   })
                 }
               >
-                주문
-              </Button>
-              <Button
-                colorScheme="pink"
-                onClick={() => {
-                  idRef.current = cart.id;
-                  onOpen();
-                }}
-              >
-                삭제
-              </Button>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
+                <span relative="relative z-10">주문</span>
+              </button>
+            </Center>
+          </div>
+        </Box>
+      </Center>
       {/* 삭제 모달 */}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

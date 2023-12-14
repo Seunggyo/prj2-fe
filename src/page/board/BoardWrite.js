@@ -15,11 +15,35 @@ export function BoardWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [boardType, setBoardType] = useState("병원");
+  const [uploadFiles, setUploadFiles] = useState(null);
   const [files, setFiles] = useState(null);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toast = useToast();
   const navigate = useNavigate();
+
+  const handleFileChange = (e) => {
+    // 파일 입력에서 선택한 파일들을 가져오기.
+    const selecteFiles = e.target.files;
+    const filesArray = [];
+
+    for (let i = 0; i < selecteFiles.length; i++) {
+      const file = selecteFiles[i];
+
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        // 파일 미리보기 URL을 생성하여 상태 업데이트
+        filesArray.push({ file, previewURL: reader.result });
+
+        setFiles([...filesArray]);
+      };
+      // 파일을 읽어와서 미리보기 URL을 생성
+      reader.readAsDataURL(file);
+    }
+    // TODO: 그냥 handleFileChange 함수의 코드가 미리보기기능을 제공하는 하나의 세트임.
+  };
 
   function handleSubmit() {
     setIsSubmitting(true);
@@ -28,7 +52,7 @@ export function BoardWrite() {
         title,
         content,
         category: boardType,
-        uploadFiles: files,
+        uploadFiles: uploadFiles,
       })
       .then(() => {
         toast({
@@ -87,43 +111,62 @@ export function BoardWrite() {
                 ></textarea>
               </div>
               <div className="flex space-x-24">
-                <div>
-                  <Flex>
-                    <span className="font-dongle text-4xl text-gray-500">
-                      게시판:
-                    </span>
-                    <Flex ml="4">
-                      <Select
-                        defaultValue={"병원"}
-                        onChange={(e) => {
-                          setBoardType(e.target.value);
-                        }}
-                      >
-                        <option value={"병원"}>병 원</option>
-                        <option value={"약국"}>약 국</option>
-                        <option value={"쇼핑몰"}>쇼핑몰</option>
-                        <option value={"자유"}>자 유</option>
-                      </Select>
-                    </Flex>
+                <Flex>
+                  <span className="font-dongle text-4xl text-gray-500">
+                    게시판:
+                  </span>
+                  <Flex ml="4">
+                    <Select
+                      defaultValue={"병원"}
+                      onChange={(e) => {
+                        setBoardType(e.target.value);
+                      }}
+                    >
+                      <option value={"병원"}>병 원</option>
+                      <option value={"약국"}>약 국</option>
+                      <option value={"쇼핑몰"}>쇼핑몰</option>
+                      <option value={"자유"}>자 유</option>
+                    </Select>
                   </Flex>
-                </div>
+                </Flex>
               </div>
-              <FormControl>
+
+              {/* 추가할 파일 선택 */}
+              <div>
                 <span className="font-dongle text-4xl text-gray-500">
                   첨부파일
                 </span>
                 <input
-                  className="block w-4/5 text-sm text-gray-900 border
-                  border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                  className="block w-1/5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={(e) => setFiles(e.target.files)}
+                  onChange={(e) => {
+                    handleFileChange(e);
+                    setUploadFiles(e.target.files);
+                  }}
                 />
-                <FormHelperText>
+
+                {/* 미리보기 이미지를 표시하는 부분 */}
+                <div style={{ display: "flex", marginTop: "10px" }}>
+                  {Array.isArray(files) &&
+                    files.map((file, index) => (
+                      <img
+                        key={index}
+                        src={file.previewURL}
+                        alt={`Preview ${index}`}
+                        style={{
+                          width: "180px",
+                          height: "auto",
+                          marginRight: "10px",
+                        }}
+                      />
+                    ))}
+                </div>
+                <span className="text-xs text-gray-500">
                   한 개의 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부해주세요.
-                </FormHelperText>
-              </FormControl>
+                </span>
+              </div>
 
               <Box className="flex justify-center">
                 <Button

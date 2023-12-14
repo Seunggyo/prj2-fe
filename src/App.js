@@ -54,15 +54,19 @@ import { DrugBuy } from "./page/drug/DrugBuy";
 import { HsReservationCheck } from "./page/hs/HsReservationCheck";
 import { HsView } from "./page/hs/HsView";
 import { HsBusinessCheck } from "./page/hs/HsBusinessCheck";
-import HsKakaoContainer from "./layout/map/HsKakaoContainer";
-import DsKakaoContainer from "./layout/map/DsKakaoContainer";
 import { WelcomePage } from "./WelcomePage";
-import { Payment } from "./page/tossPay/Payment";
-import { Success } from "./page/tossPay/Success";
+import DsKakaoContainer from "./layout/map/DsKakaoContainer";
+import HsKakaoContainer from "./layout/map/HsKakaoContainer";
 import { Fail } from "./page/tossPay/Fail";
+import { Success } from "./page/tossPay/Success";
+import { Payment } from "./page/tossPay/Payment";
+import { PaymentHistory } from "./page/member/PaymentHistory";
+import { PaymentDetail } from "./page/member/PaymentDetail";
 import { BusinessList } from "./page/hs/BusinessList";
 import { DayCheck } from "./page/hs/DayCheck";
 import { MemberBusinessEdit } from "./page/hs/MemberBussinessEdit";
+
+
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -83,7 +87,7 @@ const routes = createBrowserRouter(
           <Route path="edit/:id" element={<DrugEdit />} />
           <Route path="cart" element={<Cart />} />
           <Route path="func/:func" element={<DrugFuncList />} />
-          <Route path="buy/:id" element={<DrugBuy />} />
+          <Route path="buy" element={<DrugBuy />} />
         </Route>
         <Route path="hospital" element={<Hs />}>
           <Route index element={<HsKakaoContainer />} />
@@ -107,6 +111,8 @@ const routes = createBrowserRouter(
           <Route path="findId" element={<MemberFindId />} />
           <Route path="findPassword" element={<MemberFindPassword />} />
           <Route path="businessedit" element={<MemberBusinessEdit />} />
+          <Route path="paymentHistory" element={<PaymentHistory />} />
+          <Route path="paymentDetail" element={<PaymentDetail />} />
         </Route>
         <Route path="board" element={<Board />}>
           <Route index element={<BoardList />} />
@@ -117,7 +123,7 @@ const routes = createBrowserRouter(
         <Route path="cs" element={<CS />}>
           <Route index element={<CSList />} />
           <Route path="csWrite" element={<CSWrite />}></Route>
-          <Route path="csList/:id" element={<CSView />}></Route>
+          <Route path=":id" element={<CSView />}></Route>
           <Route path="csEdit/:id" element={<CSEdit />}></Route>
           <Route path="qaList" element={<QAList />}></Route>
           <Route path="qaWrite" element={<QAWrite />}></Route>

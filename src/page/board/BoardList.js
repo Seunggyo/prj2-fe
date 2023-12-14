@@ -215,22 +215,28 @@ export function BoardList() {
             <button
               disabled={!isAuthenticated()}
               onClick={() => navigate("/home/board/write")}
-              className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
+              className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold text-3xl"
             >
               <span className="relative z-10">글쓰기</span>
             </button>
           </Tooltip>
           <button
-            className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
+            className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold text-3xl"
             onClick={handleAllClick}
           >
             <span className="relative z-10">전체 글</span>
           </button>
           <button
-            className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
+            className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold text-3xl"
             onClick={handlePopClick}
           >
             <span className="relative z-10">인기 글</span>
+          </button>
+          <button
+            className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-3xl"
+            onClick={() => navigate("/home/cs")}
+          >
+            <span className="relative z-10">공 지</span>
           </button>
         </Box>
 
@@ -257,31 +263,89 @@ export function BoardList() {
             <Tr>
               <Th
                 onClick={sortNum}
-                style={{ cursor: "pointer" }}
-                className="bg-indigo-50"
+                sx={{
+                  fontSize: "1.2rem",
+                  lineHeight: "1.5rem",
+                  borderColor: "white",
+                  cursor: "pointer",
+                  fontFamily: "gowun",
+                  width: "110px",
+                }}
+                className="bg-indigo-50 border-r"
               >
                 번호
                 <FontAwesomeIcon icon={faAngleDown} />
               </Th>
-              <Th className="bg-indigo-50">카테고리</Th>
-              <Th className="bg-indigo-50 w-2/5">제 목</Th>
-              <Th className="bg-indigo-50">작성자</Th>
-              <Th className="bg-indigo-50">작성일</Th>
+              <Th
+                sx={{
+                  fontSize: "1.2rem",
+                  lineHeight: "1.5rem",
+                  borderColor: "white",
+                  fontFamily: "gowun",
+                  width: "150px",
+                }}
+                className="bg-indigo-50 border-r"
+              >
+                카테고리
+              </Th>
+              <Th
+                sx={{
+                  fontSize: "1.2rem",
+                  lineHeight: "1.5rem",
+                  borderColor: "white",
+                  fontFamily: "gowun",
+                }}
+                className="bg-indigo-50 w-1/3 border-r"
+              >
+                제 목
+              </Th>
+              <Th
+                sx={{
+                  fontSize: "1.2rem",
+                  lineHeight: "1.5rem",
+                  borderColor: "white",
+                  fontFamily: "gowun",
+                  width: "110px",
+                }}
+                className="bg-indigo-50 border-r"
+              >
+                작성자
+              </Th>
+              <Th
+                sx={{
+                  fontSize: "1.2rem",
+                  lineHeight: "1.5rem",
+                  borderColor: "white",
+                  fontFamily: "gowun",
+                  width: "110px",
+                }}
+                className="bg-indigo-50 border-r"
+              >
+                작성일
+              </Th>
               <Th
                 onClick={sortCount}
-                style={{ cursor: "pointer" }}
-                className="bg-indigo-50"
+                sx={{
+                  fontSize: "1.2rem",
+                  lineHeight: "1.5rem",
+                  borderColor: "white",
+                  cursor: "pointer",
+                  fontFamily: "gowun",
+                  width: "110px",
+                }}
+                className="bg-indigo-50 border-r"
               >
-                조회수
+                조회
                 <FontAwesomeIcon icon={faAngleDown} />
               </Th>
-              <Th className="bg-indigo-50"></Th>
+              <Th sx={{ width: "90px" }} className="bg-indigo-50"></Th>
             </Tr>
           </Thead>
           <Tbody>
             {boardList.map((board) => (
               <Tr
                 _hover={{
+                  bg: "gray.200",
                   cursor: "pointer",
                 }}
                 key={board.id}
@@ -292,15 +356,18 @@ export function BoardList() {
                 <Td className="h-16">
                   {board.title}
                   {board.countComment > 0 && (
-                    <Badge className="flex items-center h-full ml-3">
+                    <Badge className="flex items-center h-full ml-1">
                       <ChatIcon className="mr-1 text-lg" />
                       <span className="text-lg">{board.countComment}</span>
                     </Badge>
                   )}
                   {board.countFile > 0 && (
-                    <Badge>
-                      <FontAwesomeIcon icon={faImages} />
-                      {board.countFile}
+                    <Badge className="flex items-center h-full ml-1">
+                      <FontAwesomeIcon
+                        icon={faImages}
+                        className="mr-1 text-lg"
+                      />
+                      <span className="mr-1 text-lg">{board.countFile}</span>
                     </Badge>
                   )}
                 </Td>

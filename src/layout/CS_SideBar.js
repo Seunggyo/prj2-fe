@@ -11,7 +11,7 @@ export function CS_SideBar() {
       border="1px"
       borderColor="white"
       flexShrink={0}
-      width={{ base: "100%", md: "15%" }}
+      width={{ base: "100%", md: "12%" }}
       display="inline-block"
     >
       <Box mb={8} mt={3} textAlign="center">

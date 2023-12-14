@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import {
+  Avatar,
   Box,
   Flex,
   Menu,
@@ -34,17 +35,9 @@ export function NavBar() {
     <Box className="w-full">
       <div className="w-full text-gray-700 bg-white">
         <div className="w-full flex flex-col  px-4 mx-auto md:items-center md:justify-between md:flex-row ">
-          <div className="p-4 flex flex-row items-center justify-between mr-auto">
-            <button
-              className="text-4xl font-semibold tracking-widest "
-              onClick={() => navigate("/")}
-            >
-              아프지마
-            </button>
-          </div>
-
           {isAuthenticated() && (
             <Flex className="text-2xl font-bold text-teal-500 ml-40">
+              <Avatar src={login.profile}></Avatar>
               {login.nickName} 님 환영합니다!{" "}
             </Flex>
           )}

@@ -10,7 +10,7 @@ export function NavBarDrug() {
 
   return (
     <Flex marginLeft="370px">
-      <SideBar />
+      {/*<SideBar />*/}
       <Box>
         <nav className="sm:flex sm:justify-center sm:items-center mt-4">
           <div className="flex flex-col sm:flex-row ">
@@ -64,7 +64,7 @@ export function NavBarDrug() {
               수면질개선
             </a>
             <a
-              onClick={() => navigate("/home/drug/cart")}
+              onClick={() => navigate("/Home/drug/cart")}
               className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
               href="#"
             >

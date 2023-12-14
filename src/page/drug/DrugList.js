@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -19,13 +20,15 @@ import { TbReportMedical } from "react-icons/tb";
 import { Cart } from "./Cart";
 import { DrugPagination } from "./DrugPagination";
 import { DrugSearchComponent } from "./DrugSearchComponent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCartPlus,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 
 export function DrugList() {
   const [drugList, setDrugList] = useState(null);
   const [pageInfo, setPageInfo] = useState(null);
-
-  const { isOpen, onClose, onOpen } = useDisclosure();
-  const btnRef = React.useRef();
 
   const [params] = useSearchParams();
   const navigate = useNavigate();
@@ -44,60 +47,6 @@ export function DrugList() {
 
   return (
     <Box marginRight="40px">
-      <div>
-        <div className="flex items-center justify-end w-full">
-          {/*TODO: 우측 상단 메뉴버튼*/}
-          <Button
-            ref={btnRef}
-            colorScheme="teal"
-            onClick={onOpen}
-            class="flex text-gray-600 focus:outline-none mx-4 sm:mx-0"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-            </svg>
-            장바구니
-          </Button>
-          <Drawer
-            isOpen={isOpen}
-            placement="right"
-            onClose={onClose}
-            finalFocusRef={btnRef}
-          >
-            <DrawerOverlay />
-            <DrawerContent>
-              <DrawerCloseButton />
-
-              {/*제목글*/}
-              <DrawerHeader className="text-2xl font-medium text-gray-700">
-                장바구니 카트
-              </DrawerHeader>
-
-              {/*본문내용*/}
-              <DrawerBody>
-                <Cart />
-              </DrawerBody>
-
-              {/*TODO: 장바구니 사이드바 하단부 있어도 되고 없어도 댐*/}
-              <DrawerFooter>
-                <Button variant="outline" mr={3} onClick={onClose}>
-                  취소
-                </Button>
-                <Button colorScheme="blue">저장</Button>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
-        </div>
-      </div>
-
       <section className="min-h-screen w-full py-2 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-zinc-900 dark:to-zinc-800 flex items-center justify-center">
         <div className="container px-4 md:px-6">
           <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-3 md:gap-8">
@@ -112,12 +61,16 @@ export function DrugList() {
                     <Image src={drug.files[0].url} />
                   </div>
                   <div className="mt-10 text-center text-zinc-600 dark:text-zinc-400">
-                    <span className="text-4xl font-bold">{drug.name}</span>/{" "}
-                    {drug.func}
+                    <span className="text-5xl font-dongle font-semibold">
+                      {drug.name}
+                    </span>
+                    <span className=" text-3xl font-dongle ">
+                      / {drug.func}
+                    </span>
                   </div>
 
                   <ul className="mt-4 space-y-2 ">
-                    <li className=" flex items-center text-4xl font-dongle ">
+                    <li className=" flex items-center text-4xl font-dongle font-semibold ">
                       {/*<IconCheck className="text-white text-xs bg-green-500 rounded-full mr-2 p-1" />*/}
                       <TbReportMedical />
                       {drug.price}원
@@ -140,8 +93,12 @@ export function DrugList() {
         </div>
       </section>
 
-      <DrugSearchComponent />
-      <DrugPagination pageInfo={pageInfo} />
+      <Center marginTop="20px">
+        <DrugSearchComponent />
+      </Center>
+      <Center marginTop="20px">
+        <DrugPagination pageInfo={pageInfo} />
+      </Center>
     </Box>
   );
 }

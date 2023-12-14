@@ -4,6 +4,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Checkbox,
   Flex,
   FormHelperText,
   Heading,
@@ -65,6 +66,8 @@ function CommentItem({
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [commentEdited, setCommentEdited] = useState(drugComment.comment);
+  const [removeFileIds, setRemoveFileIds] = useState([]);
+  const [uploadFiles, setUploadFiles] = useState(null);
 
   const { hasAccess } = useContext(LoginContext);
 
@@ -76,9 +79,11 @@ function CommentItem({
     setIsSubmitting(true);
 
     axios
-      .put("/api/drug/comment/edit", {
+      .putForm("/api/drug/comment/edit", {
         id: drugComment.id,
         comment: commentEdited,
+        removeFileIds,
+        uploadFiles,
       })
       .then(() => {
         toast({
@@ -106,10 +111,20 @@ function CommentItem({
       });
   }
 
+  function handleRemoveFileSwitch(e) {
+    if (e.target.checked) {
+      // removeFileIds 에 추가
+      setRemoveFileIds([...removeFileIds, e.target.value]);
+    } else {
+      //removeFileIds 에서 삭제
+      setRemoveFileIds(removeFileIds.filter((item) => item !== e.target.value));
+    }
+  }
+
   return (
     <Box>
       <Flex justifyContent="space-between">
-        <Heading size="xs">{drugComment.memberId}</Heading>
+        <Heading size="xs">{drugComment.memberNickName}</Heading>
         <Text fontSize="xs">{drugComment.inserted}</Text>
       </Flex>
       <Flex>
@@ -127,17 +142,45 @@ function CommentItem({
 
           {isEditing && (
             <Box>
-              <Textarea
-                value={commentEdited}
-                onChange={(e) => setCommentEdited(e.target.value)}
-              />
-              <Button
-                isDisabled={isSubmitting}
-                colorScheme="blue"
-                onClick={handleSubmit}
-              >
-                저장
-              </Button>
+              {/*수정 할 때 파일 삭제*/}
+              <Flex>
+                {drugComment.files.map((file) => (
+                  <Box key={file.id} width="100px" border="1px solid black">
+                    <Checkbox
+                      colorScheme="red"
+                      value={file.id}
+                      onChange={handleRemoveFileSwitch}
+                    >
+                      삭제
+                    </Checkbox>
+                    <Box>
+                      <Image width="100%" src={file.url} />
+                    </Box>
+                  </Box>
+                ))}
+              </Flex>
+              <Box>
+                <Textarea
+                  value={commentEdited}
+                  onChange={(e) => setCommentEdited(e.target.value)}
+                />
+                {/*추가할 파일 선택*/}
+                <Flex>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={(e) => setUploadFiles(e.target.files)}
+                  />
+                  <Button
+                    isDisabled={isSubmitting}
+                    colorScheme="blue"
+                    onClick={handleSubmit}
+                  >
+                    저장
+                  </Button>
+                </Flex>
+              </Box>
             </Box>
           )}
         </Box>

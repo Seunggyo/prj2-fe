@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Flex,
@@ -17,8 +18,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import defaultImage from "../../assets/images/토오끼.jpg";
 
 export function MemberSignup() {
   const [id, setId] = useState("");
@@ -33,6 +35,8 @@ export function MemberSignup() {
   const [uploadFile, setUploadFile] = useState(null);
   const [mailNum, setMailNum] = useState("");
   const [authenticationNum, setAuthenticationNum] = useState(null);
+  const [profile, setProfile] = useState(defaultImage);
+  const [previewFile, setPreviewFile] = useState("");
 
   const [idAvailable, setIdAvailable] = useState(false);
   const [nickNameAvailable, setNickNameAvailable] = useState(false);
@@ -162,6 +166,7 @@ export function MemberSignup() {
         address,
         auth,
         uploadFile,
+        "uploadFileImg[]": profile,
       })
       .then(() => {
         toast({
@@ -194,6 +199,26 @@ export function MemberSignup() {
       .then(({ data }) => setAuthenticationNum(data));
   }
 
+  // useRef() 변수를 생성해서 사진을 클릭하면 파일 업로더를 띄울 수 있도록 onClick함수의 이벤트에 넣기..
+  const profileInput = useRef(null);
+  function handleProfileChange(e) {
+    if (e.target.files[0]) {
+      setProfile(e.target.files[0]);
+    } else {
+      setProfile(
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      );
+    }
+    // 화면에 프로필사진 표시..
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setPreviewFile(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  }
+
   return (
     <div className="relative flex flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none">
       <Box>
@@ -211,7 +236,14 @@ export function MemberSignup() {
               </p>
               <Select
                 defaultValue={"user"}
-                onChange={(e) => setAuth(e.target.value)}
+                onChange={(e) => {
+                  setAuth(e.target.value);
+                  if (e.target.value === "hs" || e.target.value === "ds") {
+                    setBirthday("none");
+                  } else {
+                    setBirthday("");
+                  }
+                }}
               >
                 <option value={"user"}>유저</option>
                 <option value={"admin"}>관리자</option>
@@ -244,6 +276,40 @@ export function MemberSignup() {
                 중복 확인
               </Button>
             </Flex>
+
+            {/*<Avatar>*/}
+            {/*  <input*/}
+            {/*    className="block w-1/5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"*/}
+            {/*    type="file"*/}
+            {/*    accept="image/*"*/}
+            {/*    multiple*/}
+            {/*    onChange={(e) => {*/}
+            {/*      handleSubmit(e);*/}
+            {/*      setUploadProfile(e.target.files);*/}
+            {/*    }}*/}
+            {/*  />*/}
+            {/*</Avatar>*/}
+
+            {/*프로필 사진 표시되는 공간..추가중..*/}
+            <Avatar
+              src={previewFile}
+              style={{ margin: "20px" }}
+              size="200"
+              onClick={() => {
+                profileInput.current.click();
+              }}
+            >
+              <input
+                type="file"
+                style={{ display: "none" }}
+                accept="image/*"
+                name="profile_img"
+                onChange={(e) => {
+                  handleProfileChange(e);
+                }}
+                ref={profileInput}
+              />
+            </Avatar>
 
             {/*password 패스워드*/}
             <div

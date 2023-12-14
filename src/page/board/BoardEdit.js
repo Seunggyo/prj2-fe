@@ -31,6 +31,7 @@ export function BoardEdit() {
   const [fileSwitch, setFileSwitch] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadFiles, setUploadFiles] = useState(null);
+  const [files, setFiles] = useState(null);
 
   const { id } = useParams();
 
@@ -45,6 +46,27 @@ export function BoardEdit() {
   if (board == null) {
     return <Spinner />;
   }
+
+  const handleFileChange = (e) => {
+    // 파일 입력에서 선택한 파일들을 가져오기.
+    const selecteFiles = e.target.files;
+    const filesArray = [];
+
+    for (let i = 0; i < selecteFiles.length; i++) {
+      const file = selecteFiles[i];
+
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        // 파일 미리보기 URL을 생성하여 상태 업데이트
+        filesArray.push({ file, previewURL: reader.result });
+
+        setFiles([...filesArray]);
+      };
+      // 파일을 읽어와서 미리보기 URL을 생성
+      reader.readAsDataURL(file);
+    }
+  };
 
   function handleSubmit() {
     setIsSubmitting(true);
@@ -186,7 +208,7 @@ export function BoardEdit() {
                 </Flex>
               </div>
               {/* 추가할 파일 선택 */}
-              <FormControl>
+              <div>
                 <span className="font-dongle text-4xl text-gray-500">
                   첨부파일
                 </span>
@@ -196,12 +218,31 @@ export function BoardEdit() {
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={(e) => setUploadFiles(e.target.files)}
+                  onChange={(e) => {
+                    handleFileChange(e);
+                    setUploadFiles(e.target.files);
+                  }}
                 />
-                <FormHelperText>
+                {/* 미리보기 이미지를 표시하는 부분 */}
+                <div style={{ display: "flex", marginTop: "10px" }}>
+                  {Array.isArray(files) &&
+                    files.map((file, index) => (
+                      <img
+                        key={index}
+                        src={file.previewURL}
+                        alt={`Preview ${index}`}
+                        style={{
+                          width: "180px",
+                          height: "auto",
+                          marginRight: "10px",
+                        }}
+                      />
+                    ))}
+                </div>
+                <span className="text-xs text-gray-500">
                   한 개의 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부해주세요.
-                </FormHelperText>
-              </FormControl>
+                </span>
+              </div>
 
               <Box className="flex justify-center">
                 <Button
@@ -223,13 +264,13 @@ export function BoardEdit() {
               <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                  <ModalHeader>저장 확인</ModalHeader>
+                  <ModalHeader>수정 확인</ModalHeader>
                   <ModalCloseButton />
-                  <ModalBody>저장 하시겠습니까?</ModalBody>
+                  <ModalBody>수정 하시겠습니까?</ModalBody>
                   <ModalFooter>
                     <Button onClick={onClose}>닫기</Button>
                     <Button onClick={handleSubmit} colorScheme="blue">
-                      저장
+                      수정
                     </Button>
                   </ModalFooter>
                 </ModalContent>
