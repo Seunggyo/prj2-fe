@@ -6,8 +6,6 @@ import {
   Flex,
   FormControl,
   FormHelperText,
-  FormLabel,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -17,7 +15,6 @@ import {
   ModalOverlay,
   Select,
   Spinner,
-  Textarea,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -29,9 +26,11 @@ export function QAEdit() {
   const [fileSwitch, setFileSwitch] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadFiles, setUploadFiles] = useState(null);
+  const [files, setFiles] = useState(null);
 
   // /edit/:id
   const { id } = useParams();
+
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -45,12 +44,42 @@ export function QAEdit() {
     return <Spinner />;
   }
 
+  const handleFileChange = (e) => {
+    // 파일 입력에서 선택한 파일들을 가져오기.
+    const selecteFiles = e.target.files;
+    const filesArray = [];
+
+    for (let i = 0; i < selecteFiles.length; i++) {
+      const file = selecteFiles[i];
+
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        // 파일 미리보기 URL을 생성하여 상태 업데이트
+        filesArray.push({ file, previewURL: reader.result });
+
+        setFiles([...filesArray]);
+      };
+      // 파일을 읽어와서 미리보기 URL을 생성
+      reader.readAsDataURL(file);
+    }
+  };
+
   function handleSubmit() {
     // 저장 버튼 클릭 시
-    // PUT /api/board/edit
+    // 파일이 들어가기에 putFome /api/cs/qaEdit
+    setIsSubmitting(true);
 
     axios
-      .put("/api/qa/edit", qa)
+      .putForm("/api/qa/edit", {
+        id: qa.id,
+        qaTitle: qa.qaTitle,
+        qaContent: qa.qaContent,
+        qaWriter: qa.qaWriter,
+        qaCategory: qa.qaCategory,
+        fileSwitch,
+        uploadFiles,
+      })
       .then(() => {
         toast({
           description: qa.id + "번 게시글이 수정되었습니다.",
@@ -159,7 +188,7 @@ export function QAEdit() {
               </div>
 
               {/* 추가할 파일 선택 */}
-              <FormControl>
+              <div>
                 <span className="font-dongle text-4xl text-gray-500">
                   첨부파일
                 </span>
@@ -169,12 +198,32 @@ export function QAEdit() {
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={(e) => setFiles(e.target.files)}
+                  onChange={(e) => {
+                    handleFileChange(e);
+                    setUploadFiles(e.target.files);
+                  }}
                 />
-                <FormHelperText>
+
+                {/* 미리보기 이미지를 표시하는 부분 */}
+                <div style={{ display: "flex", marginTop: "10px" }}>
+                  {Array.isArray(files) &&
+                    files.map((file, index) => (
+                      <img
+                        key={index}
+                        src={file.previewURL}
+                        alt={`Preview ${index}`}
+                        style={{
+                          width: "180px",
+                          height: "auto",
+                          marginRight: "10px",
+                        }}
+                      />
+                    ))}
+                </div>
+                <span className="text-xs text-gray-500">
                   한 개의 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부해주세요.
-                </FormHelperText>
-              </FormControl>
+                </span>
+              </div>
 
               <Box className="flex justify-center">
                 <Button

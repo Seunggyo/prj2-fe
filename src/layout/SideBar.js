@@ -10,6 +10,7 @@ import {
   Box,
   Button,
   Flex,
+  Image,
   Menu,
   MenuButton,
   MenuItem,
@@ -28,6 +29,7 @@ import React, { useContext, useEffect } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { LoginContext } from "../component/LoginProvider";
 import axios from "axios";
+import logo from "../assets/images/로고1.png";
 
 export function SideBar() {
   const navigate = useNavigate();
@@ -58,14 +60,22 @@ export function SideBar() {
         });
         navigate("/");
       })
-      .finally(() => onClose());
+      .finally(() => fetchLogin());
   }
 
   return (
     <Box>
-      <div className="fixed flex flex-col top-24 left-0 w-14 hover:w-64 md:w-64 bg-white h-full text-gray-600 transition-all duration-300 border-none z-10 sidebar">
+      <div className="fixed flex flex-col left-0 w-14 hover:w-64 md:w-64 bg-white h-full text-gray-600 border-none z-10 sidebar">
         <div className="fixed flex flex-col top-15 left-0 w-48 bg-white h-full border-r">
-          <div className="overflow-y-auto overflow-x-hidden flex-grow">
+          <div className=" overflow-x-hidden flex-grow">
+            <div className="p-4 flex flex-row items-center justify-between mr-auto">
+              <button
+                className=" tracking-widest text-5xl font-dongle font-semibold  "
+                onClick={() => navigate("/")}
+              >
+                <Image src={logo} w="100%" h="100%" />
+              </button>
+            </div>
             <ul className="flex flex-col py-7 space-y-2">
               <li className="px-5">
                 <div className="flex flex-row items-center h-8">
@@ -202,7 +212,12 @@ export function SideBar() {
                       </MenuItem>
                       <MenuItem>
                         {" "}
-                        <button className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                        <button
+                          onClick={() =>
+                            navigate("/home/member/paymentHistory")
+                          }
+                          className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                        >
                           결제 내역
                         </button>
                       </MenuItem>

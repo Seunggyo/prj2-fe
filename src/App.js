@@ -50,17 +50,21 @@ import { HsList } from "./page/hs/HsList";
 import { HsReservation } from "./page/hs/HsReservation";
 import { QAView } from "./page/customerService/QA/QAView";
 import { QAEdit } from "./page/customerService/QA/QAEdit";
-import { DrugBuy } from "./page/drug/DrugOrder";
+import { DrugBuy } from "./page/drug/DrugBuy";
 import { HsReservationCheck } from "./page/hs/HsReservationCheck";
 import { HsView } from "./page/hs/HsView";
 import { HsBusinessCheck } from "./page/hs/HsBusinessCheck";
-import { BusinessList } from "./page/hs/BusinessList";
 import { WelcomePage } from "./WelcomePage";
 import DsKakaoContainer from "./layout/map/DsKakaoContainer";
 import HsKakaoContainer from "./layout/map/HsKakaoContainer";
-import { Payment } from "./page/tossPay/Payment";
-import { Success } from "./page/tossPay/Success";
 import { Fail } from "./page/tossPay/Fail";
+import { Success } from "./page/tossPay/Success";
+import { Payment } from "./page/tossPay/Payment";
+import { PaymentHistory } from "./page/member/PaymentHistory";
+import { PaymentDetail } from "./page/member/PaymentDetail";
+import { BusinessList } from "./page/hs/BusinessList";
+
+
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -81,7 +85,7 @@ const routes = createBrowserRouter(
           <Route path="edit/:id" element={<DrugEdit />} />
           <Route path="cart" element={<Cart />} />
           <Route path="func/:func" element={<DrugFuncList />} />
-          <Route path="buy/:id" element={<DrugBuy />} />
+          <Route path="buy" element={<DrugBuy />} />
         </Route>
         <Route path="hospital" element={<Hs />}>
           <Route index element={<HsKakaoContainer />} />
@@ -92,6 +96,7 @@ const routes = createBrowserRouter(
           <Route path="hospitalReservation/:id" element={<HsReservation />} />
           <Route path="reservationCheck" element={<HsReservationCheck />} />
           <Route path="businessCheck/:id" element={<HsBusinessCheck />} />
+          <Route path="businessList" element={<BusinessList />} />
         </Route>
         <Route path="member" element={<Member />}>
           <Route path="signup" element={<MemberSignup />} />
@@ -102,6 +107,8 @@ const routes = createBrowserRouter(
           <Route path="edit" element={<MemberEdit />} />
           <Route path="findId" element={<MemberFindId />} />
           <Route path="findPassword" element={<MemberFindPassword />} />
+          <Route path="paymentHistory" element={<PaymentHistory />} />
+          <Route path="paymentDetail" element={<PaymentDetail />} />
         </Route>
         <Route path="board" element={<Board />}>
           <Route index element={<BoardList />} />
@@ -112,7 +119,7 @@ const routes = createBrowserRouter(
         <Route path="cs" element={<CS />}>
           <Route index element={<CSList />} />
           <Route path="csWrite" element={<CSWrite />}></Route>
-          <Route path="csList/:id" element={<CSView />}></Route>
+          <Route path=":id" element={<CSView />}></Route>
           <Route path="csEdit/:id" element={<CSEdit />}></Route>
           <Route path="qaList" element={<QAList />}></Route>
           <Route path="qaWrite" element={<QAWrite />}></Route>
@@ -127,6 +134,7 @@ const routes = createBrowserRouter(
   ),
 );
 
+
 function App() {
   return (
     <LoginProvider>
@@ -134,5 +142,6 @@ function App() {
     </LoginProvider>
   );
 }
+
 
 export default App;

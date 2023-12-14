@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import {
   Badge,
   Box,
   Button,
+  Center,
   Flex,
   Input,
   Select,
@@ -14,11 +15,17 @@ import {
   Td,
   Th,
   Thead,
+  Tooltip,
   Tr,
 } from "@chakra-ui/react";
 import { ChatIcon } from "@chakra-ui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImages } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleLeft,
+  faAngleRight,
+  faImages,
+} from "@fortawesome/free-solid-svg-icons";
+import { LoginContext } from "../../../component/LoginProvider";
 
 function PageButton({ variant, pageNumber, children }) {
   const [params] = useSearchParams();
@@ -44,46 +51,33 @@ function Pagination({ pageInfo }) {
   }
 
   return (
-    <Box>
-      {pageInfo.prevPageNumber && (
-        <button
-          pageNumber={pageInfo.prevPageNumber}
-          className="items-center px-6 py-2 text-lg bg-gradient-to-r from-violet-300
-          to-indigo-300 border border-fuchsia-100 hover:border-violet-100 text-white
-          font-semibold cursor-pointer leading-5 rounded-md transition duration-150
-          ease-in-out focus:outline-none focus:shadow-outline-blue
-          focus:border-blue-300 focus:z-10"
-        >
-          이 전
-        </button>
-      )}
+    <Center mt={5} mb={40}>
+      <Box>
+        {pageInfo.prevPageNumber && (
+          <PageButton variant="ghost" pageNumber={pageInfo.prevPageNumber}>
+            <FontAwesomeIcon icon={faAngleLeft} />
+          </PageButton>
+        )}
 
-      {pageNumbers.map((pageNumber) => (
-        <PageButton
-          key={pageNumber}
-          variant={
-            pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
-          }
-          pageNumber={pageNumber}
-          className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-fuchsia-100 hover:bg-fuchsia-200 cursor-pointer leading-5 rounded-md transition duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10"
-        >
-          {pageNumber}
-        </PageButton>
-      ))}
+        {pageNumbers.map((pageNumber) => (
+          <PageButton
+            key={pageNumber}
+            variant={
+              pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
+            }
+            pageNumber={pageNumber}
+          >
+            {pageNumber}
+          </PageButton>
+        ))}
 
-      {pageInfo.nextPageNumber && (
-        <button
-          pageNumber={pageInfo.nextPageNumber}
-          className="relative inline-flex items-center px-6 py-2 text-lg bg-gradient-to-r
-            from-violet-300 to-indigo-300 border border-fuchsia-100 hover:border-violet-100
-            text-white font-semibold cursor-pointer leading-5 rounded-md transition
-            duration-150 ease-in-out focus:outline-none focus:shadow-outline-blue
-            focus:border-blue-300 focus:z-10"
-        >
-          다 음
-        </button>
-      )}
-    </Box>
+        {pageInfo.nextPageNumber && (
+          <PageButton variant="ghost" pageNumber={pageInfo.nextPageNumber}>
+            <FontAwesomeIcon icon={faAngleRight} />
+          </PageButton>
+        )}
+      </Box>
+    </Center>
   );
 }
 
@@ -113,12 +107,14 @@ function SearchComponent() {
 export function QAList() {
   const [qaList, setQaList] = useState(null);
   const [pageInfo, setPageInfo] = useState(null);
-  const [categoryFilter, setCategoryFilter] = useState("건의사항");
 
   const navigate = useNavigate();
 
   const [params, setParams] = useSearchParams();
   const location = useLocation();
+
+  const { fetchLogin, login, isAuthenticated, authCheck } =
+    useContext(LoginContext);
 
   useEffect(() => {
     axios.get("/api/qa/qaList?" + params).then((r) => {
@@ -127,7 +123,7 @@ export function QAList() {
     });
   }, [location]);
 
-  if (qaList == null) {
+  if (qaList == null || pageInfo == null) {
     return <Spinner />;
   }
 
@@ -142,7 +138,10 @@ export function QAList() {
   }
 
   function handleCategoryChange(e) {
-    setCategoryFilter(e.target.value);
+    const params = new URLSearchParams();
+    params.set("f", e.target.value);
+
+    navigate("?" + params);
   }
 
   return (
@@ -153,13 +152,19 @@ export function QAList() {
           <Box p={8} bg="orange.100" className="w-full h-full">
             <Box bg="white" borderRadius="xl" boxShadow="lg" p={6}>
               <Flex justify="space-between" align="center">
-                <Button
-                  variant="solid"
-                  colorScheme="green"
-                  onClick={() => navigate("/home/cs/qaWrite")}
+                <Tooltip
+                  isDisabled={isAuthenticated()}
+                  hasArrow
+                  label={"로그인이 필요합니다!"}
                 >
-                  글 쓰 기
-                </Button>
+                  <button
+                    disabled={!isAuthenticated()}
+                    onClick={() => navigate("/home/cs/qaWrite")}
+                    className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-4xl"
+                  >
+                    <span className="relative z-10">글쓰기</span>
+                  </button>
+                </Tooltip>
 
                 <Flex>
                   <Select
@@ -178,13 +183,62 @@ export function QAList() {
               </Flex>
 
               <Table mt={8} variant="simple">
-                <Thead className="bg-red-100">
+                <Thead>
                   <Tr>
-                    <Th>번 호</Th>
-                    <Th>카테고리</Th>
-                    <Th className="w-2/4">제 목</Th>
-                    <Th>작성자</Th>
-                    <Th>작성일</Th>
+                    <Th
+                      sx={{
+                        fontSize: "1.2rem",
+                        lineHeight: "1.5rem",
+                        borderColor: "white",
+                        fontFamily: "gowun",
+                      }}
+                      className="bg-red-50 border-r"
+                    >
+                      번 호
+                    </Th>
+                    <Th
+                      sx={{
+                        fontSize: "1.2rem",
+                        lineHeight: "1.5rem",
+                        borderColor: "white",
+                        fontFamily: "gowun",
+                      }}
+                      className="bg-red-50 border-r"
+                    >
+                      카테고리
+                    </Th>
+                    <Th
+                      sx={{
+                        fontSize: "1.2rem",
+                        lineHeight: "1.5rem",
+                        borderColor: "white",
+                        fontFamily: "gowun",
+                      }}
+                      className="bg-red-50 border-r w-2/4"
+                    >
+                      제 목
+                    </Th>
+                    <Th
+                      sx={{
+                        fontSize: "1.2rem",
+                        lineHeight: "1.5rem",
+                        borderColor: "white",
+                        fontFamily: "gowun",
+                      }}
+                      className="bg-red-50 border-r"
+                    >
+                      작성자
+                    </Th>
+                    <Th
+                      sx={{
+                        fontSize: "1.2rem",
+                        lineHeight: "1.5rem",
+                        fontFamily: "gowun",
+                      }}
+                      className="bg-red-50"
+                    >
+                      작성일
+                    </Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -199,7 +253,7 @@ export function QAList() {
                     >
                       <Td>{qa.id}</Td>
                       <Td>{qa.qaCategory}</Td>
-                      <Td className="h-16">
+                      <Td>
                         {qa.qaTitle}
                         {qa.countComment > 0 && (
                           <Badge className="flex items-center h-full ml-3">
@@ -208,9 +262,12 @@ export function QAList() {
                           </Badge>
                         )}
                         {qa.countFile > 0 && (
-                          <Badge>
-                            <FontAwesomeIcon icon={faImages} />
-                            {qa.countFile}
+                          <Badge className="flex items-center h-full ml-1">
+                            <FontAwesomeIcon
+                              icon={faImages}
+                              className="mr-1 text-lg"
+                            />
+                            <span className="mr-1 text-lg">{qa.countFile}</span>
                           </Badge>
                         )}
                       </Td>
@@ -220,12 +277,7 @@ export function QAList() {
                   ))}
                 </Tbody>
               </Table>
-
-              <div class="flex justify-center p-6">
-                <nav class="flex space- x-2" aria-label="Pagination">
-                  <Pagination pageInfo={pageInfo} />
-                </nav>
-              </div>
+              <Pagination pageInfo={pageInfo} />
             </Box>
           </Box>
         </Flex>

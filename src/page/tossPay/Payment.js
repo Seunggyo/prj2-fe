@@ -3,10 +3,11 @@ import {
   loadPaymentWidget,
   PaymentWidgetInstance,
 } from "@tosspayments/payment-widget-sdk";
-import { nanoid } from "nanoid";
+
 import { Button, useQuery } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { nanoid } from "nanoid";
 
 const clientKey = "test_ck_kYG57Eba3GRQEjeLbEQj8pWDOxmA";
 const customerKey = nanoid();
@@ -20,13 +21,12 @@ export function Payment() {
   const paymentWidgetRef = useRef(null);
   const paymentMethodsWidgetRef = useRef(null);
   // const [price, setPrice] = useState(location.state.amount);
-  const [price, setPrice] = useState(location.state.total);
+  const [price, setPrice] = useState(location.state.amount);
 
   useEffect(() => {
     axios.post("api/order/orderWait", {
       orderId: orderId,
-      productName: location.state.productName,
-      quantity: location.state.quantity,
+      orderCode: location.state.orderCode,
       amount: location.state.amount,
       orderName: location.state.orderName,
 
@@ -106,9 +106,9 @@ export function Payment() {
                   // orderName: location.state.orderName,
                   // customerName: location.state.ordererName,
                   // customerEmail: location.state.ordererEmail,
-                  orderName: "orderName",
-                  customerName: "customerName",
-                  customerEmail: "Email",
+                  orderName: location.state.orderName,
+                  customerName: location.state.ordererName,
+                  customerEmail: location.state.ordererEmail,
                   successUrl: `${window.location.origin}/success`,
                   failUrl: `${window.location.origin}/fail`,
                 });
