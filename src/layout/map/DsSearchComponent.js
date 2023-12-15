@@ -60,7 +60,7 @@ export function DsSearchComponent({ onItemClick }) {
 
   return (
     // list 보여주는 박스
-    <Box w="260px">
+    <Box w="300px">
       <Box>
         <InputGroup size="sm" marginBottom="10px">
           <Input
@@ -82,32 +82,41 @@ export function DsSearchComponent({ onItemClick }) {
             borderRadius="lg"
             overflow="hidden"
             onClick={() => onItemClick(ds.id)}
-            // onClick={() => console.log(ds.id)}
+            p="2"
           >
-            {/*<Center>*/}
-            {/*  <Image*/}
-            {/*    src={ds.files.length > 0 ? ds.files[0].url : ""}*/}
-            {/*    w="200px"*/}
-            {/*    h="100px"*/}
-            {/*  />*/}
-            {/*</Center>*/}
-
             <Flex>
-              <Box w="380px" h="180px" p="6" fontSize="12px">
-                <Box
-                  fontWeight="semibold"
-                  as="h4"
-                  lineHeight="tight"
-                  isTruncated
-                >
-                  {ds.name}
+              <Box w="380px" h="120px">
+                <Flex>
+                  <Box
+                    fontWeight="semibold"
+                    as="h4"
+                    lineHeight="tight"
+                    isTruncated
+                    className="font-dongle text-3xl"
+                    mb="4px"
+                  >
+                    {ds.name}
+                  </Box>
+                  <Box
+                    as="span"
+                    mt="1"
+                    ml="2"
+                    fontSize="lg"
+                    color="red"
+                    mb="4px"
+                  >
+                    {ds.likeCount}{" "}
+                    <FontAwesomeIcon icon={faHeart} color="red" />
+                  </Box>
+                </Flex>
+                <Box mb="4px" fontSize="13px">
+                  {ds.oldAddress}
                 </Box>
-                <Box fontSize="12px">{ds.oldAddress}</Box>
-                {/*<Box fontSize="14px">번호 : {ds.phone}</Box>*/}
 
-                <Box>
-                  영업시간 :{ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}
-                  ~{ds.closeHour}:{ds.closeMin === 0 ? "00" : ds.closeMin}
+                <Box fontSize="14px">
+                  영업시간 : {ds.openHour}:
+                  {ds.openMin === 0 ? "00" : ds.openMin} ~ {ds.closeHour}:
+                  {ds.closeMin === 0 ? "00" : ds.closeMin}
                   {ds.restHour !== 0 && (
                     <>
                       <br />
@@ -117,34 +126,19 @@ export function DsSearchComponent({ onItemClick }) {
                     </>
                   )}
                 </Box>
-
-                <Flex>
-                  <Stack direction="row" mt="2" spacing={2} align="center">
-                    <Box as="span" ml="2" color="gray.600" fontSize="sm">
-                      {ds.commentCount} 댓글
-                    </Box>
-                  </Stack>
-                  <Stack direction="row" mt="2" spacing={2} align="center">
-                    <Box as="span" ml="2" fontSize="sm" color="red">
-                      {ds.likeCount}{" "}
-                      <FontAwesomeIcon icon={faHeart} color="red" />
-                    </Box>
-                  </Stack>
-                </Flex>
               </Box>
-              <Image
-                src={ds.files.length > 0 ? ds.files[0].url : ""}
-                w="200px"
-                h="100px"
-              />
+              <Box>
+                <Image
+                  src={ds.files.length > 0 ? ds.files[0].url : ""}
+                  objectFit="fill"
+                  w="240px"
+                  h="120px"
+                />
+              </Box>
             </Flex>
           </Box>
         ))}
       </Stack>
-      {/*페이징*/}
-      {/*<Box>*/}
-      {/*  <Pagination pageInfo={pageInfo} />*/}
-      {/*</Box>*/}
     </Box>
   );
 }
