@@ -28,6 +28,12 @@ import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { LoginContext } from "../../component/LoginProvider";
 import { DeleteIcon, EditIcon, NotAllowedIcon } from "@chakra-ui/icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faComment,
+  faCommentAlt,
+  faCommentDots,
+} from "@fortawesome/free-solid-svg-icons";
 
 function CommentForm({ drugId, isSubmitting, onSubmit, setFiles }) {
   const [comment, setComment] = useState("");
@@ -37,7 +43,7 @@ function CommentForm({ drugId, isSubmitting, onSubmit, setFiles }) {
   }
 
   return (
-    <Box>
+    <Box width="1150px" marginLeft="50px">
       <Textarea value={comment} onChange={(e) => setComment(e.target.value)} />
       <Flex>
         <Input
@@ -51,7 +57,7 @@ function CommentForm({ drugId, isSubmitting, onSubmit, setFiles }) {
           onClick={handleSubmit}
           colorScheme="blue"
         >
-          댓글등록
+          <FontAwesomeIcon icon={faCommentDots} />
         </Button>
       </Flex>
     </Box>
@@ -129,7 +135,7 @@ function CommentItem({
       </Flex>
       <Flex>
         {drugComment.files.map((file) => (
-          <Box key={file.id} width="300px" border="1px solid black">
+          <Box key={file.id} width="250px" border="1px solid black">
             <Image width="100%" src={file.url} />
           </Box>
         ))}
@@ -230,7 +236,7 @@ function CommentList({
   const { hasAccess } = useContext(LoginContext);
 
   return (
-    <Card>
+    <Card width={"1150px"} marginLeft={"50px"}>
       <CardHeader>
         <Heading>
           <Heading size="md">댓글 리스트</Heading>

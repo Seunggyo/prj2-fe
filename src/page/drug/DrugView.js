@@ -21,6 +21,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
+  Text,
   Tooltip,
   useDisclosure,
   useNumberInput,
@@ -33,8 +34,20 @@ import { DrugComment } from "./DrugComment";
 import { LoginContext } from "../../component/LoginProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCartPlus,
+  faEdit,
+  faHeart as fullHeart,
+  faRemove,
+  faShoppingCart,
+  faTrain,
+} from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+
+function ShoppingCartIcon() {
+  return null;
+}
 
 function CartContainer({ cart, onClick }) {
   const { getInputProps, getDecrementButtonProps, getIncrementButtonProps } =
@@ -56,17 +69,20 @@ function CartContainer({ cart, onClick }) {
   return (
     <Flex>
       <HStack maxW="150px">
-        <Button {...dec}>-</Button>
+        <Button {...dec} bg="whith" colorScheme="blue" variant="outline">
+          -
+        </Button>
         <Input {...input} />
-        <Button {...inc}>+</Button>
+        <Button {...inc} bg="whith" colorScheme="blue" variant="outline">
+          +
+        </Button>
       </HStack>
       <Button
         variant="ghost"
         onClick={() => onClick(input.value)}
-        colorScheme="pink"
-        bg="#ffd6d1"
+        colorScheme="blue"
       >
-        장바구니
+        <FontAwesomeIcon icon={faCartPlus} />
       </Button>
     </Flex>
   );
@@ -199,17 +215,9 @@ export function DrugView() {
   }
 
   return (
-    <Box marginLeft="300px" width="800px">
+    <Box marginLeft="150px" width="1200px" height="1000px">
       <Center>
-        <Card w={"lg"}>
-          <CardHeader>
-            <Flex justifyContent="space-between">
-              <Heading size="xl">{drug.id}번째 영양제</Heading>
-              {/*좋아요 버튼*/}
-              <LikeContainer like={like} onClick={handleLike} />
-            </Flex>
-          </CardHeader>
-
+        <Card w={"5xl"} marginLeft="50px">
           <CardBody pt="0">
             <Flex>
               {/*<Button onClick={() => handleShowImage(-1)}>이전</Button>*/}
@@ -219,7 +227,6 @@ export function DrugView() {
                     position="absolute"
                     key={file.id}
                     my={5}
-                    width="500px"
                     height="500px"
                     opacity={index === currentImageIndex ? 1 : 0}
                     transition="opacity 0.5s"
@@ -245,7 +252,20 @@ export function DrugView() {
                 </Box>
               ))}
             </Flex>
+          </CardBody>
+        </Card>
 
+        <Card w={"5xl"} marginLeft={"10px"}>
+          <CardHeader>
+            <Flex justifyContent="space-between">
+              <Text className="font-dongle font-semibold text-6xl ">
+                {drug.id}번째 영양제
+              </Text>
+              {/*좋아요 버튼*/}
+              <LikeContainer like={like} onClick={handleLike} />
+            </Flex>
+          </CardHeader>
+          <CardBody>
             <FormControl>
               <FormLabel>제품명</FormLabel>
               <Input value={drug.name} readOnly />
@@ -271,28 +291,32 @@ export function DrugView() {
               <FormLabel>등록 일자</FormLabel>
               <Input value={drug.inserted} readOnly />
             </FormControl>
-
+            <br />
             {/*장바구니*/}
             <Flex>
               <CartContainer cart={cart} onClick={handleCart} />
-            </Flex>
 
-            {isAdmin() && (
-              <>
-                <Button
-                  colorScheme="pink"
-                  onClick={() => navigate("/home/drug/edit/" + id)}
-                >
-                  수정
-                </Button>
-                <Button colorScheme="purple" onClick={onOpen}>
-                  삭제
-                </Button>
-              </>
-            )}
+              {isAdmin() && (
+                <>
+                  <Button
+                    bg="whith"
+                    color="black"
+                    onClick={() => navigate("/home/drug/edit/" + id)}
+                  >
+                    {" "}
+                    <FontAwesomeIcon icon={faEdit} />
+                  </Button>
+                  <Button bg="whith" color="black" onClick={onOpen}>
+                    <FontAwesomeIcon icon={faRemove} />
+                  </Button>
+                </>
+              )}
+            </Flex>
           </CardBody>
         </Card>
       </Center>
+
+      <br />
       {/* 삭제 모달 */}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

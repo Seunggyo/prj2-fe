@@ -3,6 +3,8 @@ import { Box, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LoginContext } from "../../component/LoginProvider";
+import Snowfall from "react-snowfall";
+import bgg from "../../assets/images/로그인화면.png";
 
 export function MemberLogin(props) {
   const [id, setId] = useState("");
@@ -34,22 +36,19 @@ export function MemberLogin(props) {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-900">
+    <div>
+      <Snowfall />
       <div className="flex justify-center h-screen">
-        <div className="hidden bg-cover lg:block lg:w-2/3">
-          <div className="rounded-xl">
+        <div className="hidden bg-cover lg:block lg:w-3/5">
+          <div className="rounded-xl mr-20">
             <div className="h-full w-full object-cover bg-opacity-40"></div>
 
             {/*TODO : 백그라운드 이미지 넣고 좌우 크기 수정해야함..*/}
-            <img
-              src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
-              alt="image 2"
-              className="h-full w-full object-cover"
-            />
+            <img src={bgg} alt="image 2" className="w-full object-cover" />
           </div>
         </div>
 
-        <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
+        <div className="flex items-center w-full max-w-md px-6  lg:w-2/6 mr-20">
           <div className="flex-1">
             <div className="text-center">
               <h2 className="font-dongle text-7xl font-bold text-center text-gray-700 dark:text-white">

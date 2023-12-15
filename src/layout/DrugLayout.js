@@ -33,10 +33,11 @@ export function DrugLayout() {
           <Button
             colorScheme="teal"
             onClick={onOpen}
-            class="flex text-gray-600 focus:outline-none mx-4 sm:mx-0 font-dongle font-semibold text-2xl"
+            class="flex text-gray-600 focus:outline-none mx-4 sm:mx-0 font-dongle font-semibold text-3xl"
           >
             <svg
-              className="h-5 w-5"
+              // className="h-5 w-5"
+              className="w-10"
               fill="none"
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -46,7 +47,7 @@ export function DrugLayout() {
             >
               <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
             </svg>
-            장바구니
+            <span className="w-20 mr-20">장바구니</span>
           </Button>
           <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
             <DrawerOverlay />
