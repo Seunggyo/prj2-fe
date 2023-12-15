@@ -107,10 +107,8 @@ export function HsView({ hsId }) {
 
   return (
     <Table>
-      <Card w="370px">
-        <CardHeader>
-          <Center className="font-dongle text-5xl">{list.name}</Center>
-        </CardHeader>
+      <Card>
+        <Center className="font-dongle text-5xl">{list.name}</Center>
         <Box
           w="100%"
           h="200px"

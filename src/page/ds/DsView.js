@@ -148,11 +148,7 @@ export function DsView({ dsId }) {
   return (
     <Table>
       <Card>
-        <CardHeader>
-          <Flex>
-            <Center className="font-dongle text-5xl">{ds.name}</Center>
-          </Flex>
-        </CardHeader>
+        <Center className="font-dongle text-5xl">{ds.name}</Center>
         <Box
           w="100%"
           h="200px"
@@ -170,12 +166,26 @@ export function DsView({ dsId }) {
                 <Image
                   src={file.url}
                   alt={file.name}
-                  width="350px"
+                  width="360px"
                   height="200px"
                 />
               </Box>
             ))}
         </Box>
+        <Button
+          border="1px solid lightgrey"
+          bg="white"
+          width="100%"
+          height="50px"
+          marginTop="10px"
+          marginRight="55px"
+          marginBottom="10px"
+          fontSize="1.5xl"
+          onClick={() => navigate("/home/cs/qaList")}
+        >
+          <FontAwesomeIcon icon={faCommentDots} size="lg" />
+          문의
+        </Button>
         <Tabs>
           <TabList>
             <Tab w="33%" color="black" borderTop="1px solid lightgrey">
