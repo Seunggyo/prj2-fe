@@ -200,7 +200,6 @@ export function HsSearchComponent({
                       w="100%"
                       h="120px"
                       borderRadius="8px"
-                      border="1px solid black"
                     />
                   </Box>
                 </Flex>

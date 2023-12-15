@@ -112,8 +112,9 @@ export function HsView({ hsId, onLikeSearch }) {
         <Box
           w="100%"
           h="200px"
-          sx={{ marginTop: "20px", marginBottom: "20px" }}
+          sx={{ marginTop: "10px", marginBottom: "10px" }}
           position="relative"
+          borderRadius="8px"
         >
           {list.files &&
             list.files.map((file, index) => (
@@ -126,7 +127,7 @@ export function HsView({ hsId, onLikeSearch }) {
                 <Image
                   src={file.url}
                   alt={file.name}
-                  width="380px"
+                  width="370px"
                   height="200px"
                 />
               </Box>
