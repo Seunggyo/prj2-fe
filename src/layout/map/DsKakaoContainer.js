@@ -204,12 +204,11 @@ const MainPage = () => {
           height="100vh"
           overflowY="auto"
           transition="width 0.5s"
-          p={4}
+          p={1}
           borderRight="1px solid #ccc"
           position="relative"
           zIndex="11"
-          // bg="black"
-          // color="white"
+          className="MyStack"
         >
           <DsSearchComponent onItemClick={handleItemClick} />
 
@@ -261,6 +260,7 @@ const MainPage = () => {
               bg="white"
               zIndex={9}
               display={isListVisible ? "block" : "none"}
+              className="MyStack"
             >
               <ViewComponent dsId={dsId} />
             </Box>

@@ -199,6 +199,7 @@ const MainPage = () => {
           borderRight="1px solid #ccc"
           position="relative"
           zIndex="11"
+          className="MyStack"
           // bg="black"
           // color="white"
         >
@@ -241,6 +242,7 @@ const MainPage = () => {
               bg="white"
               zIndex={9}
               display={isListVisible ? "block" : "none"}
+              className="MyStack"
             >
               <HsViewComponent hsId={hsId} />
             </Box>
