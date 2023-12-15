@@ -38,8 +38,6 @@ export function MemberLogin(props) {
       <div className="flex justify-center h-screen">
         <div className="hidden bg-cover lg:block lg:w-2/3">
           <div className="rounded-xl">
-            <div className="h-full w-full object-cover bg-opacity-40"></div>
-
             {/*TODO : 백그라운드 이미지 넣고 좌우 크기 수정해야함..*/}
             <img
               src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
@@ -102,25 +100,27 @@ export function MemberLogin(props) {
                 </button>
               </div>
 
-              <button
-                onClick={() => navigate("/home/member/findId")}
-                className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline ml-2"
-              >
-                아이디 찾기
-              </button>
+              <div className="mt-5">
+                <button
+                  onClick={() => navigate("/home/member/findId")}
+                  className="text-md text-gray-400 focus:text-red-500 hover:text-red-500 hover:underline ml-2"
+                >
+                  아이디 찾기
+                </button>
 
-              <button
-                onClick={() => navigate("/home/member/findPassword")}
-                className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline ml-2"
-              >
-                비밀번호 찾기
-              </button>
+                <button
+                  onClick={() => navigate("/home/member/findPassword")}
+                  className="text-md text-gray-400 focus:text-red-500 hover:text-red-500 hover:underline ml-4"
+                >
+                  비밀번호 찾기
+                </button>
+              </div>
 
-              <p className="mt-6 text-sm text-center text-gray-400">
+              <p className="mt-6 text-md text-center text-gray-400">
                 아직 가입을 안하셨나요?{" "}
                 <button
                   onClick={() => navigate("/home/member/signup")}
-                  className="text-blue-500 focus:outline-none focus:underline hover:underline"
+                  className="text-blue-500 hover:text-red-500 focus:outline-none focus:underline hover:underline"
                 >
                   가입하기
                 </button>

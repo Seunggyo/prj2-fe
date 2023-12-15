@@ -5,8 +5,8 @@ import { CS_SideBar } from "../../layout/CS_SideBar";
 
 export function CS() {
   return (
-    <Box p={{ base: "20px", lg: "40px" }}>
-      <Flex direction={{ base: "column", lg: "row" }}>
+    <Box p={{ base: "100px", lg: "20px" }}>
+      <Flex>
         <CS_SideBar />
         <Box flex="1" p={4}>
           <Outlet />

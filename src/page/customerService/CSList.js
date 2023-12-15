@@ -121,17 +121,13 @@ export function CSList() {
   const [orderByHit, setOrderByHit] = useState(null);
   const [orderByNum, setOrderByNum] = useState(null);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-  const [params, setParams] = useSearchParams();
-
   const location = useLocation();
+
+  const [params, setParams] = useSearchParams();
 
   const { fetchLogin, login, isAuthenticated, authCheck } =
     useContext(LoginContext);
-  const toast = useToast();
-
-  const { id } = useParams();
 
   useEffect(() => {
     axios.get("/api/cs/list?" + params).then((r) => {
@@ -142,25 +138,6 @@ export function CSList() {
 
   if (csList == null || pageInfo == null) {
     return <Spinner />;
-  }
-
-  function handleDelete() {
-    axios
-      .delete("/api/cs/remove/" + id)
-      .then((response) => {
-        toast({
-          description: id + "번 공지글이 삭제되었습니다.",
-          status: "success",
-        });
-        navigate("/home/cs");
-      })
-      .catch((error) => {
-        toast({
-          description: "삭제 중 문제가 발생하였습니다.",
-          status: "error",
-        });
-      })
-      .finally(() => onClose());
   }
 
   function handleRowClick(id) {
@@ -366,7 +343,7 @@ export function CSList() {
                     <Td>{cs.csTitle}</Td>
                     <Td>{cs.csWriter}</Td>
                     <Td>{cs.ago}</Td>
-                    <Td>{cs.csHit}</Td>
+                    <Td>{cs.increaseHit}</Td>
                   </Tr>
                 ))}
               </Tbody>

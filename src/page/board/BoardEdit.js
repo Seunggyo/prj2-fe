@@ -115,10 +115,10 @@ export function BoardEdit() {
 
   return (
     <div>
-      <h1 className="text-4xl font-bold text-indigo-400 mb-8">자유 게시판</h1>
+      <h1 className="text-4xl font-bold mb-8">자유 게시판</h1>
       <form>
-        <div className="bg-orange-50 min-h-screen md:px-40 pt-2">
-          <div className=" bg-white rounded-md px-6 py-12 max-w-full mx-auto">
+        <div className="bg-orange-50 min-h-screen md:px-40 rounded-xl">
+          <div className=" bg-white rounded-xl px-6 py-12 max-w-full mx-auto">
             <h1 className="text-center text-6xl font-dongle text-gray-500 mb-10">
               {id}번 게시글 수정하기
             </h1>
@@ -223,6 +223,7 @@ export function BoardEdit() {
                     setUploadFiles(e.target.files);
                   }}
                 />
+
                 {/* 미리보기 이미지를 표시하는 부분 */}
                 <div style={{ display: "flex", marginTop: "10px" }}>
                   {Array.isArray(files) &&

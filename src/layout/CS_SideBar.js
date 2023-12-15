@@ -6,17 +6,11 @@ export function CS_SideBar() {
   const navigate = useNavigate();
 
   return (
-    <Box
-      p={4}
-      border="1px"
-      borderColor="white"
-      flexShrink={0}
-      width={{ base: "100%", md: "12%" }}
-      display="inline-block"
-    >
+    <Box mt="50px" border="1px" borderColor="white" display="inline-block">
       <Box mb={8} mt={3} textAlign="center">
         <Text
-          fontSize="3xl"
+          className="font-gowun"
+          fontSize="4xl"
           fontWeight="bold"
           border="1px"
           borderColor="white"
@@ -29,7 +23,8 @@ export function CS_SideBar() {
 
       <Box mb={8} textAlign="center">
         <Text
-          fontSize="xl"
+          className="font-gowun"
+          fontSize="2xl"
           fontWeight="bold"
           border="1px"
           borderColor="white"
@@ -46,7 +41,8 @@ export function CS_SideBar() {
 
       <Box mb={8} mt={8} textAlign="center">
         <Text
-          fontSize="xl"
+          className="font-gowun"
+          fontSize="2xl"
           fontWeight="bold"
           border="1px"
           borderColor="white"
@@ -63,7 +59,8 @@ export function CS_SideBar() {
 
       <Box mb={4} mt={8} textAlign="center">
         <Text
-          fontSize="xl"
+          className="font-gowun"
+          fontSize="2xl"
           fontWeight="bold"
           border="1px"
           borderColor="white"

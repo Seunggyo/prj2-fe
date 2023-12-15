@@ -109,7 +109,7 @@ export function BoardView() {
       >
         자유 게시판
       </h1>
-      <Box p={8} bg="orange.100">
+      <Box p={6} bg="orange.100" borderRadius="xl">
         <Box
           bg="white"
           borderRadius="xl"
@@ -133,7 +133,7 @@ export function BoardView() {
                 <Box mb={5}>
                   <p className="font-dongle text-5xl text-gray-500">제 목</p>
                   <Input
-                    w="600px"
+                    w="450px"
                     style={{ borderColor: "#f1efef" }}
                     value={board.title}
                     readOnly
