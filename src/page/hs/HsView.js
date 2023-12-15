@@ -107,7 +107,7 @@ export function HsView({ hsId }) {
 
   return (
     <Table>
-      <Card>
+      <Card w="360px">
         <Center className="font-dongle text-5xl">{list.name}</Center>
         <Box
           w="100%"
@@ -156,6 +156,7 @@ export function HsView({ hsId }) {
               size="150px"
               border="1px solid lightgrey"
               borderBottom="none"
+              borderTopRadius="5px"
             >
               <Center marginTop="7px">
                 <LikeContainer like={like} onClick={handleLikeClick} />

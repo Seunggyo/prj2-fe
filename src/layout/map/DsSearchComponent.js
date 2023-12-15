@@ -60,7 +60,7 @@ export function DsSearchComponent({ onItemClick }) {
 
   return (
     // list 보여주는 박스
-    <Box w="280px">
+    <Box w="260px">
       <Box>
         <InputGroup size="sm" marginBottom="10px">
           <Input

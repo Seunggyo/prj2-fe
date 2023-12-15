@@ -58,8 +58,6 @@ export function HsSearchComponent({
       setList(r.data.list);
       const isMemberExists =
         r.data.list.find((h) => h.memberId === idCheck()) !== undefined;
-      console.log(isMemberExists);
-      console.log(idCheck());
       setIsButtonActive(!isMemberExists);
     });
   }, [location]);
@@ -73,10 +71,10 @@ export function HsSearchComponent({
   }
 
   return (
-    <Box w="280px">
+    <Box w="260px">
       <Box>
         <Stack spacing={4}>
-          <InputGroup size="sm">
+          <InputGroup size="sm" marginBottom="10px">
             <Input
               placeholder="이름,장소,진료과목 검색"
               value={keyword}

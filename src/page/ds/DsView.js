@@ -147,7 +147,7 @@ export function DsView({ dsId }) {
 
   return (
     <Table>
-      <Card>
+      <Card w="360px">
         <Center className="font-dongle text-5xl">{ds.name}</Center>
         <Box
           w="100%"
@@ -186,7 +186,7 @@ export function DsView({ dsId }) {
           <FontAwesomeIcon icon={faCommentDots} size="lg" />
           문의
         </Button>
-        <Tabs>
+        <Tabs variant="enclosed" w="100%">
           <TabList>
             <Tab w="33%" color="black" borderTop="1px solid lightgrey">
               <Text fontSize="2xl">정보</Text>
@@ -196,6 +196,7 @@ export function DsView({ dsId }) {
               size="150px"
               border="1px solid lightgrey"
               borderBottom="none"
+              borderTopRadius="5px"
             >
               <Center marginTop="7px">
                 <LikeContainer like={like} onClick={handleLike} />
