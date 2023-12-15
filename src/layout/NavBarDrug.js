@@ -12,14 +12,14 @@ export function NavBarDrug() {
     <Flex marginLeft="370px">
       {/*<SideBar />*/}
       <Box>
-        <nav className="sm:flex sm:justify-center sm:items-center mt-4">
+        <nav className="sm:flex sm:justify-center sm:items-center mt-4 font-dongle font-semibold text-3xl ">
           <div className="flex flex-col sm:flex-row ">
             <a
               onClick={() => navigate("/home/drug")}
               className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
               href="#"
             >
-              전체상품
+              베스트
             </a>
             <a
               onClick={() => navigate("/home/drug/func/stomach")}
@@ -65,7 +65,7 @@ export function NavBarDrug() {
             </a>
             <a
               onClick={() => navigate("/Home/drug/cart")}
-              className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
+              className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0 "
               href="#"
             >
               장바구니

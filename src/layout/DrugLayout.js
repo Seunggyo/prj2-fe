@@ -33,7 +33,7 @@ export function DrugLayout() {
           <Button
             colorScheme="teal"
             onClick={onOpen}
-            class="flex text-gray-600 focus:outline-none mx-4 sm:mx-0"
+            class="flex text-gray-600 focus:outline-none mx-4 sm:mx-0 font-dongle font-semibold text-2xl"
           >
             <svg
               className="h-5 w-5"
