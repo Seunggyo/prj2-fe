@@ -3,13 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
   faHospital,
+  faPenToSquare,
   faSquarePlus,
 } from "@fortawesome/free-regular-svg-icons";
 import { faCapsules } from "@fortawesome/free-solid-svg-icons";
 import {
   Box,
   Button,
-  Flex,
   Image,
   Menu,
   MenuButton,
@@ -135,7 +135,7 @@ export function SideBar() {
                   className="mb-3 relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 cursor-pointer text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
                 >
                   <span className="inline-flex justify-center items-center ml-4">
-                    <FontAwesomeIcon icon={faSquarePlus} />
+                    <FontAwesomeIcon icon={faPenToSquare} />
                   </span>
                   <span className="ml-2 text-4xl font-dongle font-semibold tracking-wide truncate">
                     자유 게시판

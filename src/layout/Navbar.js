@@ -36,8 +36,8 @@ export function NavBar() {
       <div className="w-full text-gray-700 bg-white">
         <div className="w-full flex flex-col  px-4 mx-auto md:items-center md:justify-between md:flex-row ">
           {isAuthenticated() && (
-            <Flex className="text-2xl font-bold text-teal-500 ml-40">
-              <Avatar src={login.profile}></Avatar>
+            <Flex className="text-2xl font-bold text-teal-500 ml-80 items-center ">
+              <Avatar src={login.profile} size="md"></Avatar>
               {login.nickName} 님 환영합니다!{" "}
             </Flex>
           )}

@@ -360,15 +360,3 @@ export function CSList() {
     </Box>
   );
 }
-// {/*TODO: admin 계정으로만으로 바꿔야댐.*/}
-// <Td>
-//   <Box>
-//     <Button
-//         onClick={() => navigate("/home/cs/edit/" + id)}
-//         mr={2}
-//     >
-//       수정
-//     </Button>
-//     /<Button onClick={onOpen}>삭제</Button>
-//   </Box>
-// </Td>
