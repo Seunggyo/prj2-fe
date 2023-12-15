@@ -84,60 +84,60 @@ export function DsSearchComponent({ onItemClick }) {
             onClick={() => onItemClick(ds.id)}
             // onClick={() => console.log(ds.id)}
           >
-            <Center>
+            {/*<Center>*/}
+            {/*  <Image*/}
+            {/*    src={ds.files.length > 0 ? ds.files[0].url : ""}*/}
+            {/*    w="200px"*/}
+            {/*    h="100px"*/}
+            {/*  />*/}
+            {/*</Center>*/}
+
+            <Flex>
+              <Box w="380px" h="180px" p="6" fontSize="12px">
+                <Box
+                  fontWeight="semibold"
+                  as="h4"
+                  lineHeight="tight"
+                  isTruncated
+                >
+                  {ds.name}
+                </Box>
+                <Box fontSize="12px">{ds.oldAddress}</Box>
+                {/*<Box fontSize="14px">번호 : {ds.phone}</Box>*/}
+
+                <Box>
+                  영업시간 :{ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}
+                  ~{ds.closeHour}:{ds.closeMin === 0 ? "00" : ds.closeMin}
+                  {ds.restHour !== 0 && (
+                    <>
+                      <br />
+                      ※휴게시간 {ds.restHour}:
+                      {ds.restMin === 0 ? "00" : ds.restMin}~{ds.restCloseHour}:
+                      {ds.restCloseMin === 0 ? "00" : ds.restCloseMin}
+                    </>
+                  )}
+                </Box>
+
+                <Flex>
+                  <Stack direction="row" mt="2" spacing={2} align="center">
+                    <Box as="span" ml="2" color="gray.600" fontSize="sm">
+                      {ds.commentCount} 댓글
+                    </Box>
+                  </Stack>
+                  <Stack direction="row" mt="2" spacing={2} align="center">
+                    <Box as="span" ml="2" fontSize="sm" color="red">
+                      {ds.likeCount}{" "}
+                      <FontAwesomeIcon icon={faHeart} color="red" />
+                    </Box>
+                  </Stack>
+                </Flex>
+              </Box>
               <Image
                 src={ds.files.length > 0 ? ds.files[0].url : ""}
                 w="200px"
                 h="100px"
               />
-            </Center>
-
-            <Box p="6">
-              {/*<Box d="flex" alignItems="baseline">*/}
-              {/*  <Badge borderRadius="full" px="2" colorScheme="teal">*/}
-              {/*    {ds.level}*/}
-              {/*  </Badge>*/}
-              {/*</Box>*/}
-
-              <Box
-                mt="1"
-                fontWeight="semibold"
-                as="h4"
-                lineHeight="tight"
-                isTruncated
-              >
-                {ds.name}
-              </Box>
-              <Box fontSize="12px">{ds.oldAddress}</Box>
-              {/*<Box fontSize="14px">번호 : {ds.phone}</Box>*/}
-
-              <Box>
-                영업시간 :{ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}~
-                {ds.closeHour}:{ds.closeMin === 0 ? "00" : ds.closeMin}
-                {ds.restHour !== 0 && (
-                  <>
-                    <br />
-                    ※휴게시간 {ds.restHour}:
-                    {ds.restMin === 0 ? "00" : ds.restMin}~{ds.restCloseHour}:
-                    {ds.restCloseMin === 0 ? "00" : ds.restCloseMin}
-                  </>
-                )}
-              </Box>
-
-              <Flex>
-                <Stack direction="row" mt="2" spacing={2} align="center">
-                  <Box as="span" ml="2" color="gray.600" fontSize="sm">
-                    {ds.commentCount} 댓글
-                  </Box>
-                </Stack>
-                <Stack direction="row" mt="2" spacing={2} align="center">
-                  <Box as="span" ml="2" fontSize="sm" color="red">
-                    {ds.likeCount}{" "}
-                    <FontAwesomeIcon icon={faHeart} color="red" />
-                  </Box>
-                </Stack>
-              </Flex>
-            </Box>
+            </Flex>
           </Box>
         ))}
       </Stack>
