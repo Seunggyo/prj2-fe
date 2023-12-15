@@ -88,6 +88,7 @@ export function DsSearchComponent({ onItemClick }) {
               <Box w="380px" h="120px">
                 <Flex>
                   <Box
+                    w="136px"
                     fontWeight="semibold"
                     as="h4"
                     lineHeight="tight"
@@ -95,7 +96,7 @@ export function DsSearchComponent({ onItemClick }) {
                     className="font-dongle text-3xl"
                     mb="4px"
                   >
-                    {ds.name}
+                    <Center>{ds.name}</Center>
                   </Box>
                   <Box
                     as="span"
@@ -133,6 +134,7 @@ export function DsSearchComponent({ onItemClick }) {
                   objectFit="fill"
                   w="240px"
                   h="120px"
+                  borderRadius="8px"
                 />
               </Box>
             </Flex>

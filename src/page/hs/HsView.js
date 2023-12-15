@@ -60,7 +60,7 @@ function LikeContainer({ like, onClick }) {
   );
 }
 
-export function HsView({ hsId }) {
+export function HsView({ hsId, onLikeSearch }) {
   const [list, setList] = useState([]);
   const [like, setLike] = useState(null);
   const { id } = useParams();

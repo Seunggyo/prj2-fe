@@ -177,7 +177,6 @@ export function DsView({ dsId }) {
           bg="white"
           width="100%"
           height="50px"
-          marginTop="10px"
           marginRight="55px"
           marginBottom="10px"
           fontSize="1.5xl"
