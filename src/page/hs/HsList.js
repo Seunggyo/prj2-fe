@@ -20,6 +20,7 @@ import {
   Table,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -29,6 +30,7 @@ import {
 import { LoginContext } from "../../component/LoginProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 function PageButton({ variant, pageNumber, children }) {
   const [params] = useSearchParams();
@@ -176,11 +178,15 @@ export function HsList() {
           <Table>
             <Thead>
               <Tr>
-                <Th>병원이름</Th>
-                <Th>병원주소</Th>
+                <Th w="15%">병원이름</Th>
+                <Th w="5%">
+                  <FontAwesomeIcon icon={faHeart} color="red" />
+                </Th>
+                <Th w="10%">전화번호</Th>
+                <Th w="30%">병원주소</Th>
+                <Th>운영시간</Th>
                 <Th>진료과목</Th>
-                <Th>전화번호</Th>
-                <Th>임시 삭제</Th>
+                <Th>휴무일</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -195,26 +201,44 @@ export function HsList() {
                       navigate("/home/hospital/hospitalEdit/" + h.id)
                     }
                   >
-                    <Td>
-                      {h.name}
-                      {h.countLike > 0 && <Badge>{h.countLike}</Badge>}
-                    </Td>
-                    <Td>{h.oldAddress}</Td>
-                    <Td>{h.medicalCourse}</Td>
+                    <Td>{h.name}</Td>
+                    <Td>{h.countLike > 0 && <Badge>{h.countLike}</Badge>}</Td>
                     <Td>{h.phone}</Td>
-
+                    <Td>{h.address}</Td>
                     <Td>
-                      <Button
-                        colorScheme="red"
-                        id={h.id}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onOpen();
-                          setPosition(h.id);
-                        }}
-                      >
-                        삭제
-                      </Button>
+                      {
+                        <Box>
+                          {h.openHour}:
+                          {h.openMin === 0 || h.openMin === null
+                            ? "00"
+                            : h.openMin}
+                          ~{h.closeHour}:{h.closeMin === 0 ? "00" : h.closeMin}
+                          <Box display={h.restHour === 0 ? "none" : "block"}>
+                            <Text fontSize="14px">휴게시간</Text>
+                            {h.restHour}:{h.restMin === 0 ? "00" : h.restMin}~
+                            {h.restCloseHour}:
+                            {h.restCloseMin === 0 ? "00" : h.restCloseMin}
+                          </Box>
+                        </Box>
+                      }
+                    </Td>
+                    <Td>
+                      {h.medicalCourse &&
+                        h.medicalCourse.map((medicalCourse, index) => (
+                          <React.Fragment key={index}>
+                            {medicalCourse.medicalCourseCategory}
+                            {index < h.medicalCourse.length - 1 && ", "}
+                          </React.Fragment>
+                        ))}
+                    </Td>
+                    <Td>
+                      {h.holidays &&
+                        h.holidays.map((holiday, index) => (
+                          <React.Fragment key={index}>
+                            {holiday.holiday}
+                            {index < h.holidays.length - 1 && ", "}
+                          </React.Fragment>
+                        ))}
                     </Td>
                   </Tr>
                 ))}
@@ -224,23 +248,6 @@ export function HsList() {
       </Box>
       <SearchComponent />
       <Pagination pageInfo={pageInfo} />
-
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>삭제</ModalHeader>
-          <ModalCloseButton />
-
-          <ModalBody>삭제 하시겠습니까?</ModalBody>
-
-          <ModalFooter>
-            <Button onClick={onClose}>닫기</Button>
-            <Button onClick={handleDeleteClick} colorScheme="red">
-              삭제
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </Box>
   );
 }
