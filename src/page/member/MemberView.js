@@ -3,15 +3,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import {
   Avatar,
-  Box,
   Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Center,
   Flex,
-  Heading,
   Modal,
   ModalBody,
   ModalCloseButton,
