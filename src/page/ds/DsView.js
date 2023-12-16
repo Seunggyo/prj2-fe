@@ -152,7 +152,7 @@ export function DsView({ dsId }) {
         <Box
           w="100%"
           h="200px"
-          sx={{ marginTop: "20px", marginBottom: "20px" }}
+          sx={{ marginTop: "10px", marginBottom: "10px" }}
           position="relative"
         >
           {ds.files &&

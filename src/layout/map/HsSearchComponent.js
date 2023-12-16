@@ -120,14 +120,6 @@ export function HsSearchComponent({
               </MenuItem>
             </MenuList>
           </Menu>
-          <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-              야간
-            </MenuButton>
-            <MenuList>
-              <MenuItem value="nightCare">야간</MenuItem>
-            </MenuList>
-          </Menu>
           {isAuthenticated() && authCheck() === "hs" && isButtonActive && (
             <Button onClick={() => navigate("/home/hospital/hospitalAdd/")}>
               병원 추가
@@ -148,7 +140,7 @@ export function HsSearchComponent({
                 p="2"
               >
                 <Flex>
-                  <Box h="120px">
+                  <Box w="174px" h="120px">
                     <Flex>
                       <Box
                         w="136px"
@@ -170,6 +162,7 @@ export function HsSearchComponent({
                         mr="5px"
                       >
                         {h.countLike}
+                        {""}
                         <FontAwesomeIcon icon={faHeart} color="red" />
                       </Box>
                     </Flex>

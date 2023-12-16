@@ -85,7 +85,7 @@ export function DsSearchComponent({ onItemClick }) {
             p="2"
           >
             <Flex>
-              <Box w="380px" h="120px">
+              <Box w="175px" h="120px">
                 <Flex>
                   <Box
                     w="136px"
@@ -105,6 +105,7 @@ export function DsSearchComponent({ onItemClick }) {
                     fontSize="lg"
                     color="red"
                     mb="4px"
+                    w="39px"
                   >
                     {ds.likeCount}{" "}
                     <FontAwesomeIcon icon={faHeart} color="red" />
