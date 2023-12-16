@@ -35,6 +35,7 @@ export function MemberSignup() {
   const [mailNum, setMailNum] = useState("");
   const [authenticationNum, setAuthenticationNum] = useState(null);
   const [profile, setProfile] = useState("");
+  const [previewProfile, setPreviewProfile] = useState(profile);
 
   const [idAvailable, setIdAvailable] = useState(false);
   const [nickNameAvailable, setNickNameAvailable] = useState(false);
@@ -200,12 +201,15 @@ export function MemberSignup() {
   // useRef() 변수를 생성해서 사진을 클릭하면 파일 업로더를 띄울 수 있도록 onClick함수의 이벤트에 넣기..
   const profileInput = useRef(null);
   function handleProfileChange(e) {
-    if (e.target.files && e.target.files[0]) {
-      setProfile(URL.createObjectURL(e.target.files[0]));
+    if (e.target.files[0]) {
+      const newProfile = URL.createObjectURL(e.target.files[0]);
+      setProfile(newProfile);
+      setPreviewProfile(newProfile);
     } else {
-      setProfile(
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-      );
+      const defaultProfile =
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+      setProfile(defaultProfile);
+      setPreviewProfile(defaultProfile);
     }
   }
 
@@ -271,7 +275,7 @@ export function MemberSignup() {
             <Box>
               <p>프로필 사진을 선택해주세요.</p>
               <Avatar
-                src={profile}
+                src={previewProfile}
                 style={{ margin: "20px", width: "16rem", height: "16rem" }}
                 onClick={() => {
                   profileInput.current.click();
