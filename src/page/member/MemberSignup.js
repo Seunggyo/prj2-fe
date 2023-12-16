@@ -20,7 +20,6 @@ import {
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import defaultImage from "../../assets/images/토오끼.jpg";
 
 export function MemberSignup() {
   const [id, setId] = useState("");
@@ -35,8 +34,7 @@ export function MemberSignup() {
   const [uploadFile, setUploadFile] = useState(null);
   const [mailNum, setMailNum] = useState("");
   const [authenticationNum, setAuthenticationNum] = useState(null);
-  const [profile, setProfile] = useState(defaultImage);
-  const [previewFile, setPreviewFile] = useState("");
+  const [previewProfile, setPreviewProfile] = useState(null);
 
   const [idAvailable, setIdAvailable] = useState(false);
   const [nickNameAvailable, setNickNameAvailable] = useState(false);
@@ -202,21 +200,13 @@ export function MemberSignup() {
   // useRef() 변수를 생성해서 사진을 클릭하면 파일 업로더를 띄울 수 있도록 onClick함수의 이벤트에 넣기..
   const profileInput = useRef(null);
   function handleProfileChange(e) {
-    if (e.target.files[0]) {
-      setProfile(e.target.files[0]);
+    if (e.target.files && e.target.files[0]) {
+      setPreviewProfile(URL.createObjectURL(e.target.files[0]));
     } else {
-      setProfile(
+      setPreviewProfile(
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
       );
     }
-    // 화면에 프로필사진 표시..
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setPreviewFile(reader.result);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
   }
 
   return (
@@ -291,25 +281,28 @@ export function MemberSignup() {
             {/*</Avatar>*/}
 
             {/*프로필 사진 표시되는 공간..추가중..*/}
-            <Avatar
-              src={previewFile}
-              style={{ margin: "20px" }}
-              size="200"
-              onClick={() => {
-                profileInput.current.click();
-              }}
-            >
-              <input
-                type="file"
-                style={{ display: "none" }}
-                accept="image/*"
-                name="profile_img"
-                onChange={(e) => {
-                  handleProfileChange(e);
+
+            <Box>
+              <p>프로필 사진을 선택해주세요</p>
+              <Avatar
+                src={previewProfile}
+                style={{ margin: "20px", width: "16rem", height: "16rem" }}
+                onClick={() => {
+                  profileInput.current.click();
                 }}
-                ref={profileInput}
-              />
-            </Avatar>
+              >
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  accept="image/*"
+                  name="profile_img"
+                  onChange={(e) => {
+                    handleProfileChange(e);
+                  }}
+                  ref={profileInput}
+                />
+              </Avatar>
+            </Box>
 
             {/*password 패스워드*/}
             <div
