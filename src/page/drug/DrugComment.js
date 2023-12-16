@@ -125,7 +125,7 @@ function CommentItem({
     <Box>
       <Flex justifyContent="space-between">
         <Heading size="xs">{drugComment.memberNickName}</Heading>
-        <Text fontSize="xs">{drugComment.inserted}</Text>
+        <Text fontSize="xs">{drugComment.ago}</Text>
       </Flex>
       <Flex>
         {drugComment.files.map((file) => (
