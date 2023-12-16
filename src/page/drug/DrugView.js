@@ -259,7 +259,7 @@ export function DrugView() {
           <CardHeader>
             <Flex justifyContent="space-between">
               <Text className="font-dongle font-semibold text-6xl ">
-                {drug.id}번째 영양제
+                {drug.name}
               </Text>
               {/*좋아요 버튼*/}
               <LikeContainer like={like} onClick={handleLike} />
@@ -292,6 +292,7 @@ export function DrugView() {
               <Input value={drug.inserted} readOnly />
             </FormControl>
             <br />
+
             {/*장바구니*/}
             <Flex>
               <CartContainer cart={cart} onClick={handleCart} />
