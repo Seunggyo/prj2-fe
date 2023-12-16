@@ -75,18 +75,20 @@ export function DrugWrite() {
         </CardHeader>
 
         <CardBody>
-          <FormControl mb={4}>
-            <FormLabel>제품명</FormLabel>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">제품명</FormLabel>
             <Input
+              fontSize="2xl"
               placeholder="영양제 제품명을 입력하세요."
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </FormControl>
 
-          <FormControl mb={4}>
-            <FormLabel>기능</FormLabel>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">기능</FormLabel>
             <Select
+              fontSize="2xl"
               defaultValue="위 건강"
               onChange={(e) => setFunc(e.target.value)}
             >
@@ -99,49 +101,54 @@ export function DrugWrite() {
             </Select>
           </FormControl>
 
-          <FormControl mb={4}>
-            <FormLabel>상세 내용</FormLabel>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">상세 내용</FormLabel>
             <Textarea
+              fontSize="2xl"
               placeholder="제품의 상세 내용을 입력하세요."
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
           </FormControl>
 
-          <FormControl mb={4}>
-            <FormLabel>판매가</FormLabel>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">판매가</FormLabel>
             <Input
+              fontSize="2xl"
               placeholder="제품의 판매 가격을 입력하세요."
               value={price}
               onChange={(e) => setPrice(e.target.value)}
             />
           </FormControl>
 
-          <FormControl mb={4}>
-            <FormLabel>배송비</FormLabel>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">배송비</FormLabel>
             <Input
+              fontSize="2xl"
               placeholder="배송비를 입력하세요."
               value={shipping}
               onChange={(e) => setShipping(e.target.value)}
             />
           </FormControl>
 
-          <FormControl mb={4}>
-            <FormLabel>이미지</FormLabel>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">이미지</FormLabel>
             <Input
+              fontSize="xl"
               type="file"
               accept="image/*"
               multiple
               onChange={(e) => setUploadFiles(e.target.files)}
             />
-            <FormHelperText>
+            <FormHelperText fontSize="2xl">
               등록 할 파일을 3MB 이내, 총 30MB 이내로 첨부하세요.
             </FormHelperText>
           </FormControl>
         </CardBody>
 
-        <CardFooter>
+        <CardFooter justifyContent="center">
           <Button
+            fontSize="2xl"
             isDisabled={isSubmitting}
             onClick={handleSubmit}
             colorScheme="blue"
