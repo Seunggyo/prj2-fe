@@ -20,13 +20,13 @@ import { LoginContext } from "../../component/LoginProvider";
 function MemberView(props) {
   const [member, setMember] = useState(null);
   const [access, setAccess] = useState(false);
+
   const [params] = useSearchParams();
-
   const navigate = useNavigate();
-
-  const { authCheck, isAuthenticated, hasAccess } = useContext(LoginContext);
-
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { login, authCheck, isAuthenticated, hasAccess } =
+    useContext(LoginContext);
 
   function handleDelete() {
     axios
@@ -64,7 +64,7 @@ function MemberView(props) {
   }
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 mx-16">
       <div className="container mx-auto my-5 p-5">
         <div className="md:flex no-wrap md:-mx-2 ">
           <div className="w-full md:w-3/12 md:mx-2">
@@ -75,7 +75,7 @@ function MemberView(props) {
                     width: "16rem",
                     height: "16rem",
                   }}
-                  src="https://bit.ly/ryan-florence"
+                  src={login.profile}
                 />
               </div>
               <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">
@@ -105,7 +105,7 @@ function MemberView(props) {
                   <span className="ml-auto">
                     {new Date(member.inserted)
                       .toLocaleDateString()
-                      .replace(/\./g, "")}
+                      .replace(/\.$/, "")}
                   </span>
                 </li>
               </ul>
@@ -189,14 +189,10 @@ function MemberView(props) {
                 </Flex>
               </div>
               <div className="text-gray-700 mt-6">
-                <div className="grid grid-cols-4">
-                  <div className="px-4 py-2 font-semibold">이 름</div>
-                  <div className="px-4 py-2">해야하나..?</div>
-                </div>
                 <div className="grid md:grid-cols-2 text-md">
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">아 이 디</div>
-                    <div className="px-4 py-2">{member.id}</div>
+                    <div className="px-4 py-2">{login.id}</div>
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">성 별</div>

@@ -34,7 +34,7 @@ export function NavBar() {
   return (
     <Box className="w-full">
       <div className="w-full text-gray-700 bg-white">
-        <div className="w-full flex flex-col  px-4 mx-auto md:items-center md:justify-between md:flex-row ">
+        <div className="w-full flex px-4 md:flex-row justify-end  ">
           {isAuthenticated() && (
             <Flex className="text-2xl font-bold text-teal-500 ml-80 items-center ">
               <Avatar src={login.profile} size="md"></Avatar>
@@ -50,7 +50,10 @@ export function NavBar() {
                 <MenuList>
                   <MenuItem>
                     {" "}
-                    <button className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                    <button
+                      onClick={() => navigate("/home/member/list")}
+                      className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                    >
                       회원 목록
                     </button>
                   </MenuItem>
@@ -111,15 +114,6 @@ export function NavBar() {
             >
               고객센터
             </button>
-
-            {authCheck() === "admin" && (
-              <button
-                className="px-4 py-2 mt-2 text-xl font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                onClick={() => navigate("/home/member/list")}
-              >
-                회원목록
-              </button>
-            )}
           </nav>
         </div>
       </div>

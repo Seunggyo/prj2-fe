@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -23,15 +24,16 @@ function MemberEdit(props) {
   const [member, setMember] = useState(null);
   const [nickName, setNickName] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [birthday, setBirthday] = useState();
+  const [profile, setProfile] = useState();
 
   const [params] = useSearchParams();
   const toast = useToast();
   const navigate = useNavigate();
 
-  const { authCheck, isAuthenticated, hasAccess } = useContext(LoginContext);
+  const { login, authCheck, isAuthenticated, hasAccess } =
+    useContext(LoginContext);
 
   useEffect(() => {
     if (
@@ -63,6 +65,7 @@ function MemberEdit(props) {
         phone,
         birthday,
         address,
+        profile,
       })
       .then(() => {
         toast({
@@ -79,6 +82,13 @@ function MemberEdit(props) {
       });
   }
 
+  const profileInput = useRef(null);
+  function handleProfileChange(e) {
+    if (e.target.files.length > 0) {
+      setProfile(URL.createObjectURL(e.target.files[0]));
+    }
+  }
+
   return (
     <Center>
       <Card>
@@ -93,6 +103,20 @@ function MemberEdit(props) {
               onChange={(e) => setNickName(e.target.value)}
             />
           </FormControl>
+          <Avatar
+            src={login.profile}
+            style={{ margin: "20px", width: "16rem", height: "16rem" }}
+            onClick={() => profileInput.current.click()}
+          >
+            <input
+              type="file"
+              style={{ display: "none" }}
+              accept="image/*"
+              name="profile_img"
+              onChange={handleProfileChange}
+              ref={profileInput}
+            />
+          </Avatar>
           <FormControl>
             <FormLabel>phone</FormLabel>
             <Input
