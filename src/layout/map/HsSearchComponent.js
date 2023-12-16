@@ -79,7 +79,15 @@ export function HsSearchComponent({
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
           />
-          <InputRightAddon children="검색" onClick={handleSearch} />
+          <Button
+            className={`mx-2 px-4 py-2 font-semibold text-gray-100 ${
+              keyword ? "bg-indigo-300" : "bg-gray-500 cursor-not-allowed"
+            }`}
+            disabled={!keyword}
+            onClick={handleSearch}
+          >
+            검색
+          </Button>
         </InputGroup>
         <Flex>
           <Menu>
