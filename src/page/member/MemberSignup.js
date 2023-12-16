@@ -34,7 +34,7 @@ export function MemberSignup() {
   const [uploadFile, setUploadFile] = useState(null);
   const [mailNum, setMailNum] = useState("");
   const [authenticationNum, setAuthenticationNum] = useState(null);
-  const [previewProfile, setPreviewProfile] = useState(null);
+  const [profile, setProfile] = useState(null);
 
   const [idAvailable, setIdAvailable] = useState(false);
   const [nickNameAvailable, setNickNameAvailable] = useState(false);
@@ -201,9 +201,9 @@ export function MemberSignup() {
   const profileInput = useRef(null);
   function handleProfileChange(e) {
     if (e.target.files && e.target.files[0]) {
-      setPreviewProfile(URL.createObjectURL(e.target.files[0]));
+      setProfile(URL.createObjectURL(e.target.files[0]));
     } else {
-      setPreviewProfile(
+      setProfile(
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
       );
     }
@@ -267,25 +267,11 @@ export function MemberSignup() {
               </Button>
             </Flex>
 
-            {/*<Avatar>*/}
-            {/*  <input*/}
-            {/*    className="block w-1/5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"*/}
-            {/*    type="file"*/}
-            {/*    accept="image/*"*/}
-            {/*    multiple*/}
-            {/*    onChange={(e) => {*/}
-            {/*      handleSubmit(e);*/}
-            {/*      setUploadProfile(e.target.files);*/}
-            {/*    }}*/}
-            {/*  />*/}
-            {/*</Avatar>*/}
-
-            {/*프로필 사진 표시되는 공간..추가중..*/}
-
+            {/*프로필 미리보기 보여지는 곳*/}
             <Box>
-              <p>프로필 사진을 선택해주세요</p>
+              <p>프로필 사진을 선택해주세요.</p>
               <Avatar
-                src={previewProfile}
+                src={profile}
                 style={{ margin: "20px", width: "16rem", height: "16rem" }}
                 onClick={() => {
                   profileInput.current.click();
@@ -303,7 +289,6 @@ export function MemberSignup() {
                 />
               </Avatar>
             </Box>
-
             {/*password 패스워드*/}
             <div
               className="relative h-11 w-full min-w-[200px]"
