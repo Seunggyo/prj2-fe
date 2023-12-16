@@ -35,7 +35,7 @@ export function MemberSignup() {
   const [mailNum, setMailNum] = useState("");
   const [authenticationNum, setAuthenticationNum] = useState(null);
   const [profile, setProfile] = useState("");
-  const [previewProfile, setPreviewProfile] = useState(profile);
+  const [previewProfile, setPreviewProfile] = useState("");
 
   const [idAvailable, setIdAvailable] = useState(false);
   const [nickNameAvailable, setNickNameAvailable] = useState(false);
@@ -202,15 +202,20 @@ export function MemberSignup() {
   const profileInput = useRef(null);
   function handleProfileChange(e) {
     if (e.target.files[0]) {
-      const newProfile = URL.createObjectURL(e.target.files[0]);
-      setProfile(newProfile);
-      setPreviewProfile(newProfile);
+      setProfile(e.target.files[0]);
     } else {
-      const defaultProfile =
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
-      setProfile(defaultProfile);
-      setPreviewProfile(defaultProfile);
+      setProfile(
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      );
     }
+    // 화면에 프로필사진 표시..
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setPreviewProfile(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
   }
 
   return (
