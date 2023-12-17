@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Box,
+  Img,
   Spinner,
   Table,
   Tbody,
@@ -36,6 +37,7 @@ export function PaymentHistory() {
       <Table>
         <Thead>
           <Tr>
+            <Th>사진</Th>
             <Th>이름</Th>
             <Th>가격</Th>
             <Th>주문시각</Th>
@@ -44,6 +46,9 @@ export function PaymentHistory() {
         <Tbody>
           {orderList.map((order) => (
             <Tr key={order.orderId} onClick={() => handleHistoryClick(order)}>
+              <Td>
+                <Img src={order.url} alt={order.url} w={"50px"} />
+              </Td>
               <Td>{order.orderName}</Td>
               <Td>{order.amount}</Td>
               <Td>{order.inserted}</Td>
