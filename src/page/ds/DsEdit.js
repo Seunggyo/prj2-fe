@@ -1,12 +1,19 @@
 import {
   Box,
   Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Center,
   Checkbox,
   CheckboxGroup,
   Flex,
   FormControl,
   FormHelperText,
   FormLabel,
+  Grid,
+  Heading,
   Image,
   Input,
   Modal,
@@ -19,6 +26,7 @@ import {
   Select,
   Spinner,
   Switch,
+  Text,
   Textarea,
   useDisclosure,
   useToast,
@@ -27,8 +35,6 @@ import React, { useEffect, useState } from "react";
 import { useImmer } from "use-immer";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 export function DsEdit() {
   const [ds, updateDs] = useImmer(null);
@@ -138,122 +144,141 @@ export function DsEdit() {
   };
 
   return (
-    <Box mx="20px">
+    <Center>
       {/*약국 사진*/}
-      {ds.files.length > 0 &&
-        ds.files.map((file) => (
-          <Box key={file.id} border="3px solid black" width="50%">
-            <FormControl display="flex" alignItems="center">
-              <FormLabel>
-                <FontAwesomeIcon icon={faTrashCan} color="red" />
+      {/*{ds.files.length > 0 &&*/}
+      {/*  ds.files.map((file) => (*/}
+      {/*    <Box key={file.id} border="3px solid black" width="50%">*/}
+      {/*      <FormControl display="flex" alignItems="center">*/}
+      {/*        <FormLabel>*/}
+      {/*          <FontAwesomeIcon icon={faTrashCan} color="red" />*/}
+      {/*        </FormLabel>*/}
+      {/*        <Switch*/}
+      {/*          value={file.id}*/}
+      {/*          colorScheme="red"*/}
+      {/*          onChange={handleDeleteFileSwitch}*/}
+      {/*        />*/}
+      {/*      </FormControl>*/}
+      {/*      <Image width="100%" height="300px" src={file.url} alt={file.name} />*/}
+      {/*    </Box>*/}
+      {/*  ))}*/}
+      <Card w={"xl"} boxShadow="lg" fontFamily="dongle">
+        <CardHeader bg="green.200" textAlign="center" py={4}>
+          <Heading fontSize="5xl" color="white" fontFamily="dongle">
+            약국 정보 수정
+          </Heading>
+        </CardHeader>
+        <CardBody>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">약국 명</FormLabel>
+            <Input
+              fontSize="2xl"
+              value={ds.name}
+              onChange={(e) =>
+                updateDs((draft) => {
+                  draft.name = e.target.value;
+                })
+              }
+            />
+          </FormControl>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">주소</FormLabel>
+            <Textarea
+              fontSize="2xl"
+              value={ds.address}
+              onChange={(e) =>
+                updateDs((draft) => {
+                  draft.address = e.target.value;
+                })
+              }
+            />
+            <FormLabel fontSize="2xl">간단 주소</FormLabel>
+            <Textarea
+              fontSize="2xl"
+              value={ds.oldAddress}
+              onChange={(e) =>
+                updateDs((draft) => {
+                  draft.oldAddress = e.target.value;
+                })
+              }
+              placeholder="동까지만 입력해주시면 됩니다 ex:)세종시 아람동"
+            />
+          </FormControl>
+
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">번호</FormLabel>
+            <Input
+              fontSize="2xl"
+              value={ds.phone}
+              onChange={(e) =>
+                updateDs((draft) => {
+                  draft.phone = e.target.value;
+                })
+              }
+            />
+          </FormControl>
+
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">휴무일</FormLabel>
+            <CheckboxGroup value={holidays} onChange={(e) => setHolidays(e)}>
+              <Checkbox value="월요일">월요일</Checkbox>
+              <Checkbox value="화요일">화요일</Checkbox>
+              <Checkbox value="수요일">수요일</Checkbox>
+              <Checkbox value="목요일">목요일</Checkbox>
+              <Checkbox value="금요일">금요일</Checkbox>
+              <Checkbox value="토요일">토요일</Checkbox>
+              <Checkbox value="일요일">일요일</Checkbox>
+              <Checkbox value="공휴일">공요일</Checkbox>
+            </CheckboxGroup>
+          </FormControl>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">오픈 시간</FormLabel>
+            <Grid mt={3} ml={3} templateColumns={"repeat(2 , 1fr)"}>
+              <FormLabel fontSize="2xl">시간</FormLabel>
+              <FormLabel ml={3} fontSize="2xl">
+                분
               </FormLabel>
-              <Switch
-                value={file.id}
-                colorScheme="red"
-                onChange={handleDeleteFileSwitch}
-              />
-            </FormControl>
-            <Image width="100%" height="300px" src={file.url} alt={file.name} />
-          </Box>
-        ))}
-
-      <FormControl>
-        <FormLabel>업체 명</FormLabel>
-        <Input
-          value={ds.name}
-          onChange={(e) =>
-            updateDs((draft) => {
-              draft.name = e.target.value;
-            })
-          }
-        />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>주소</FormLabel>
-        <Textarea
-          value={ds.address}
-          onChange={(e) =>
-            updateDs((draft) => {
-              draft.address = e.target.value;
-            })
-          }
-        />
-        <FormLabel>간단 주소</FormLabel>
-        <Textarea
-          value={ds.oldAddress}
-          onChange={(e) =>
-            updateDs((draft) => {
-              draft.oldAddress = e.target.value;
-            })
-          }
-          placeholder="동까지만 입력해주시면 됩니다 ex:)세종시 아람동"
-        />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>번호</FormLabel>
-        <Input
-          value={ds.phone}
-          onChange={(e) =>
-            updateDs((draft) => {
-              draft.phone = e.target.value;
-            })
-          }
-        />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>휴무일</FormLabel>
-        <CheckboxGroup value={holidays} onChange={(e) => setHolidays(e)}>
-          <Checkbox value="월요일">월요일</Checkbox>
-          <Checkbox value="화요일">화요일</Checkbox>
-          <Checkbox value="수요일">수요일</Checkbox>
-          <Checkbox value="목요일">목요일</Checkbox>
-          <Checkbox value="금요일">금요일</Checkbox>
-          <Checkbox value="토요일">토요일</Checkbox>
-          <Checkbox value="일요일">일요일</Checkbox>
-          <Checkbox value="공휴일">공요일</Checkbox>
-        </CheckboxGroup>
-      </FormControl>
-
-      <FormControl>
-        <Box>
-          <Flex>
-            <FormLabel>오픈 시간</FormLabel>
-            <Box>
+            </Grid>
+            <Flex>
+              <Select
+                fontSize="2xl"
+                defaultValue={ds.openHour}
+                onChange={(e) =>
+                  updateDs((draft) => {
+                    draft.openHour = e.target.value;
+                  })
+                }
+              >
+                {hour()};
+              </Select>
+              <Select
+                fontSize="2xl"
+                defaultValue={ds.openMin}
+                onChange={(e) =>
+                  updateDs((draft) => {
+                    draft.openMin = e.target.value;
+                  })
+                }
+              >
+                <option value="0">0분</option>
+                <option value="10">10분</option>
+                <option value="20">20분</option>
+                <option value="30">30분</option>
+                <option value="40">40분</option>
+                <option value="50">50분</option>
+              </Select>
+            </Flex>
+            <FormControl mb={4}>
+              <FormLabel fontSize="2xl">마감 시간</FormLabel>
+              <Grid mt={3} ml={3} templateColumns={"repeat(2 , 1fr)"}>
+                <FormLabel fontSize="2xl">시간</FormLabel>
+                <FormLabel ml={3} fontSize="2xl">
+                  분
+                </FormLabel>
+              </Grid>
               <Flex>
                 <Select
-                  defaultValue={ds.openHour}
-                  onChange={(e) =>
-                    updateDs((draft) => {
-                      draft.openHour = e.target.value;
-                    })
-                  }
-                >
-                  {hour()};
-                </Select>
-                <Select
-                  defaultValue={ds.openMin}
-                  onChange={(e) =>
-                    updateDs((draft) => {
-                      draft.openMin = e.target.value;
-                    })
-                  }
-                >
-                  <option value="0">0분</option>
-                  <option value="10">10분</option>
-                  <option value="20">20분</option>
-                  <option value="30">30분</option>
-                  <option value="40">40분</option>
-                  <option value="50">50분</option>
-                </Select>
-              </Flex>
-            </Box>
-            <FormLabel mx="20px">마감 시간</FormLabel>
-            <Box>
-              <Flex>
-                <Select
+                  fontSize="2xl"
                   value={ds.closeHour}
                   defaultValue="16시"
                   onChange={(e) =>
@@ -265,6 +290,7 @@ export function DsEdit() {
                   {hour()};
                 </Select>
                 <Select
+                  fontSize="2xl"
                   value={ds.closeMin}
                   defaultValue="0분"
                   onChange={(e) =>
@@ -281,10 +307,10 @@ export function DsEdit() {
                   <option value="50">50분</option>
                 </Select>
               </Flex>
-            </Box>
-            <FormLabel mx="20px">야간 업무</FormLabel>
-            <Flex>
-              <Box>
+            </FormControl>
+            <FormControl>
+              <Flex>
+                <FormLabel fontSize="2xl">야간 업무</FormLabel>
                 <Checkbox
                   value={ds.nightCare}
                   isChecked={ds.nightCare}
@@ -294,20 +320,31 @@ export function DsEdit() {
                     })
                   }
                 />
-              </Box>
-            </Flex>
-          </Flex>
-          <Flex>
-            <FormLabel>휴식 시간</FormLabel>
-            <FormHelperText>
-              {/*TODO : 휴식 시간 체크 시 작성 칸 뜨게끔 수정해야 함*/}
-              휴식 시간이 없으시 선택안하시면 됩니다
-            </FormHelperText>
-          </Flex>
-          <Flex>
-            <Box>
+                <FormHelperText marginLeft="10px" fontSize="xl">
+                  야간 업무가 없으시 선택 안하셔도 됩니다
+                </FormHelperText>
+              </Flex>
+            </FormControl>
+            <FormControl>
+              <Flex>
+                <FormLabel fontSize="2xl">휴식 시간</FormLabel>
+                <FormHelperText fontSize="xl">
+                  휴식 시간이 없으시 선택안하시면 됩니다
+                </FormHelperText>
+              </Flex>
+              <Grid mt={3} ml={3} templateColumns={"repeat(4 , 1fr)"}>
+                <FormLabel fontSize="2xl">시작 시간</FormLabel>
+                <FormLabel ml={3} fontSize="2xl">
+                  분
+                </FormLabel>
+                <FormLabel fontSize="2xl">종료 시간</FormLabel>
+                <FormLabel ml={3} fontSize="2xl">
+                  분
+                </FormLabel>
+              </Grid>
               <Flex>
                 <Select
+                  fontSize="2xl"
                   defaultValue="0"
                   onChange={(e) =>
                     updateDs((draft) => {
@@ -318,6 +355,7 @@ export function DsEdit() {
                   {hour()};
                 </Select>
                 <Select
+                  fontSize="2xl"
                   defaultValue="0"
                   onChange={(e) =>
                     updateDs((draft) => {
@@ -332,8 +370,9 @@ export function DsEdit() {
                   <option value="40">40분</option>
                   <option value="50">50분</option>
                 </Select>
-                ~
+                <Text fontSize="2xl">{"~"}</Text>
                 <Select
+                  fontSize="2xl"
                   defaultValue="0"
                   onChange={(e) =>
                     updateDs((draft) => {
@@ -344,6 +383,7 @@ export function DsEdit() {
                   {hour()};
                 </Select>
                 <Select
+                  fontSize="2xl"
                   defaultValue="0"
                   onChange={(e) =>
                     updateDs((draft) => {
@@ -359,12 +399,12 @@ export function DsEdit() {
                   <option value="50">50분</option>
                 </Select>
               </Flex>
-            </Box>
-          </Flex>
-
-          <FormControl>
-            <FormLabel>약국 소개</FormLabel>
+            </FormControl>
+          </FormControl>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">약국 소개</FormLabel>
             <Textarea
+              fontSize="2xl"
               value={ds.content}
               onChange={(e) =>
                 updateDs((draft) => {
@@ -374,9 +414,10 @@ export function DsEdit() {
             />
           </FormControl>
 
-          <FormControl>
-            <FormLabel>약국 정보</FormLabel>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">약국 정보</FormLabel>
             <Textarea
+              fontSize="2xl"
               value={ds.info}
               onChange={(e) =>
                 updateDs((draft) => {
@@ -386,9 +427,10 @@ export function DsEdit() {
             />
           </FormControl>
 
-          <FormControl>
-            <FormLabel>가게 사진</FormLabel>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">가게 사진</FormLabel>
             <Input
+              fontSize="xl"
               type="file"
               accept="image/*"
               multiple
@@ -408,13 +450,23 @@ export function DsEdit() {
               한 개 파일은 1MB 이내, 총 파일은 10MB 이내로 첨부 가능합니다
             </FormHelperText>
           </FormControl>
-        </Box>
-      </FormControl>
+        </CardBody>
 
-      <Button onClick={onOpen} colorScheme="blue">
-        저장
-      </Button>
-      <Button onClick={() => navigate(-1)}>취소</Button>
+        <CardFooter marginLeft="350px">
+          <Flex>
+            <Button onClick={onOpen} colorScheme="teal" marginX="5px">
+              저장
+            </Button>
+            <Button
+              onClick={() => navigate(-1)}
+              marginLeft="4"
+              colorScheme="red"
+            >
+              취소
+            </Button>
+          </Flex>
+        </CardFooter>
+      </Card>
 
       {/* 수정 모달 */}
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -432,6 +484,6 @@ export function DsEdit() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Box>
+    </Center>
   );
 }
