@@ -23,8 +23,6 @@ import {
 import {
   faCommentDots,
   faHeart as fullHeart,
-  faLocationDot,
-  faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import React, { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../component/LoginProvider";
@@ -66,6 +64,7 @@ export function HsView({ hsId }) {
   const { id } = useParams();
   const [currentImageShowIndex, setCurrentImageShowIndex] = useState(0);
   const navigate = useNavigate();
+  const { isAuthenticated } = useContext(LoginContext);
 
   const realId = hsId || id;
   const imageShowLength = list.files ? list.files.length : 0;
@@ -295,6 +294,22 @@ export function HsView({ hsId }) {
                     </FormLabel>
                     <Checkbox isChecked={list.nightCare}></Checkbox>
                   </Flex>
+                </Td>
+                <Td>
+                  {isAuthenticated() && (
+                    <Button
+                      onClick={() =>
+                        realId
+                          ? navigate(
+                              "/home/hospital/hospitalReservation/" + realId,
+                            )
+                          : null
+                      }
+                      isDisabled={!realId}
+                    >
+                      예약
+                    </Button>
+                  )}
                 </Td>
               </Card>
             </TabPanel>

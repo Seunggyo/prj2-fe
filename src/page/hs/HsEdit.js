@@ -18,7 +18,6 @@ import {
   Input,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
@@ -110,6 +109,7 @@ export function HsEdit() {
       r.address = e.target.value;
     });
   }
+
   function handleOldAddressChange(e) {
     updateList((r) => {
       r.oldAddress = e.target.value;
@@ -250,7 +250,7 @@ export function HsEdit() {
           </FormControl>
           <FormControl mb={5}>
             <FormLabel>병원 주소</FormLabel>
-            <Input value={list.address} onChange={handleAddressChange} />
+            <Input mb={5} value={list.address} onChange={handleAddressChange} />
             <FormLabel>병원 간단주소</FormLabel>
             <Input
               value={list.oldAddress}
@@ -274,12 +274,10 @@ export function HsEdit() {
                 w={"sm"}
                 placeholder="시간"
                 value={list.openHour}
-                defaultValue={0}
               >
                 {hour()}
               </Select>
               <Select
-                defaultValue={0}
                 onChange={handleOpenMinChange}
                 value={list.openMin}
                 w={"sm"}
@@ -309,12 +307,10 @@ export function HsEdit() {
                 w={"sm"}
                 placeholder="시간"
                 value={list.restHour}
-                defaultValue={0}
               >
                 {hour()}
               </Select>
               <Select
-                defaultValue={0}
                 onChange={handleRestMinChange}
                 value={list.restMin}
                 w={"sm"}
@@ -333,12 +329,10 @@ export function HsEdit() {
                 w={"sm"}
                 placeholder="시간"
                 value={list.restCloseHour}
-                defaultValue={0}
               >
                 {hour()}
               </Select>
               <Select
-                defaultValue={0}
                 onChange={handleRestCloseMinChange}
                 value={list.restCloseMin}
                 w={"sm"}
@@ -356,21 +350,21 @@ export function HsEdit() {
           </FormControl>
           <FormControl>
             <FormLabel>마감시간</FormLabel>
-            <Flex>
+            <Grid templateColumns={"repeat(2, 1fr)"}>
               <FormLabel>시간</FormLabel>
+              <FormLabel>분</FormLabel>
+            </Grid>
+            <Flex>
               <Select
                 value={list.closeHour}
-                defaultValue={0}
                 onChange={handleCloseHourChange}
                 w={"sm"}
                 placeholder="시간"
               >
                 {hour()}
               </Select>
-              <FormLabel>분</FormLabel>
               <Select
                 value={list.closeMin}
-                defaultValue={0}
                 w={"sm"}
                 placeholder="분"
                 onChange={handleCloseMinChange}

@@ -47,7 +47,7 @@ export function DsSearchComponent({ onItemClick }) {
       setDsList(r.data.dsList);
       // setPageInfo(r.data.pageInfo);
       const isMemberExists =
-        r.data.dsList.find((d) => d.memberId === idCheck()) !== undefined;
+        r.data.dsList.find((d) => d.memberId === idCheck()) === undefined;
       console.log(idCheck());
       console.log(isMemberExists);
       setIsButtonActive(isMemberExists);

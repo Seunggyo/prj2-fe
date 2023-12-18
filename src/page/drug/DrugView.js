@@ -100,7 +100,7 @@ function LikeContainer({ like, onClick }) {
   return (
     <Flex gap={2} alignItems="center">
       <Tooltip isDisabled={isAuthenticated()} hasArrow label={"로그인 하세요."}>
-        <Box onClick={onClick}>
+        <Box cursor={"pointer"} onClick={onClick}>
           {like.like && <LikeIcon type="like" />}
           {like.like || <LikeIcon />}
         </Box>

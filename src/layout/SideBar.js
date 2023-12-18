@@ -9,7 +9,6 @@ import { faCapsules } from "@fortawesome/free-solid-svg-icons";
 import {
   Box,
   Button,
-  Flex,
   Image,
   Menu,
   MenuButton,
@@ -65,7 +64,7 @@ export function SideBar() {
 
   return (
     <Box>
-      <div className="fixed flex flex-col left-0 w-14 hover:w-64 md:w-64 bg-white h-full text-gray-600 border-none z-10 sidebar">
+      <div>
         <div className="fixed flex flex-col top-15 left-0 w-48 bg-white h-full border-r">
           <div className=" overflow-x-hidden flex-grow">
             <div className="p-4 flex flex-row items-center justify-between mr-auto">
@@ -226,6 +225,20 @@ export function SideBar() {
                             </button>
                           </MenuItem>
                         )}
+                      {isAuthenticated() && authCheck() === "hs" && (
+                        <MenuItem>
+                          <button
+                            onClick={() =>
+                              navigate(
+                                `/home/hospital/businessList?${urlParams}`,
+                              )
+                            }
+                            className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                          >
+                            내 병원 예약 확인
+                          </button>
+                        </MenuItem>
+                      )}
                       <MenuItem>
                         {" "}
                         <button

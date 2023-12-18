@@ -16,7 +16,6 @@ import {
   MenuList,
   Spinner,
   Stack,
-  Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -57,10 +56,9 @@ export function HsSearchComponent({
     axios.get("/api/hospital/list?" + params).then((r) => {
       setList(r.data.list);
       const isMemberExists =
-        r.data.list.find((h) => h.memberId === idCheck()) !== undefined;
+        r.data.list.find((h) => h.memberId === idCheck()) === undefined;
       console.log(isMemberExists);
-      console.log(idCheck());
-      setIsButtonActive(!isMemberExists);
+      setIsButtonActive(isMemberExists);
     });
   }, [location]);
 
@@ -131,11 +129,13 @@ export function HsSearchComponent({
                 <MenuItem value="nightCare">야간</MenuItem>
               </MenuList>
             </Menu>
-            {isAuthenticated() && authCheck() === "hs" && isButtonActive && (
-              <Button onClick={() => navigate("/home/hospital/hospitalAdd/")}>
-                병원 추가
-              </Button>
-            )}
+            {isAuthenticated() &&
+              authCheck() === "hs" &&
+              isButtonActive === true && (
+                <Button onClick={() => navigate("/home/hospital/hospitalAdd/")}>
+                  병원 추가
+                </Button>
+              )}
           </Flex>
         </Stack>
       </Box>
