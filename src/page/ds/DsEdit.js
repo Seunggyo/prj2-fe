@@ -464,6 +464,9 @@ export function DsEdit() {
             >
               취소
             </Button>
+            <Button onClick={onOpen} colorScheme="teal" marginX="5px">
+              삭제
+            </Button>
           </Flex>
         </CardFooter>
       </Card>

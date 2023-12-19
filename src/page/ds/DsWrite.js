@@ -316,7 +316,7 @@ export function DsWrite() {
           </FormControl>
 
           <FormControl marginTop="10px">
-            <FormLabel fontSize="2xl">가게 사진</FormLabel>
+            <FormLabel fontSize="2xl">약국 사진</FormLabel>
             <Input
               type="file"
               accept="image/*"
