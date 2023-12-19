@@ -67,7 +67,7 @@ function MemberEdit(props) {
         phone,
         birthday,
         address,
-        profile,
+        profileFile: profile,
       })
       .then(() => {
         toast({

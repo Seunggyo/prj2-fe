@@ -65,14 +65,14 @@ export function MemberFindId() {
                         />
                       </div>
                     </div>
-                    <button
-                      type="submit"
-                      onClick={handleButtonClick}
-                      className="w-full mt-1 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                    >
-                      인 증 하 기
-                    </button>
                   </form>
+                  <button
+                    type="submit"
+                    onClick={handleButtonClick}
+                    className="w-full mt-1 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                  >
+                    인 증 하 기
+                  </button>
                 </div>
 
                 {/*아이디 인증 성공 시 출력*/}

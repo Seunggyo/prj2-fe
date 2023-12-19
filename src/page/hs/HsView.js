@@ -62,10 +62,16 @@ export function HsView({ hsId, onLikeSearch }) {
   const { id } = useParams();
   const [currentImageShowIndex, setCurrentImageShowIndex] = useState(0);
   const navigate = useNavigate();
-  const { isAuthenticated } = useContext(LoginContext);
+  const { login, authCheck, isAuthenticated } = useContext(LoginContext);
 
   const realId = hsId || id;
   const imageShowLength = list.files ? list.files.length : 0;
+
+  const urlParams = new URLSearchParams();
+
+  if (login !== null) {
+    urlParams.set("id", login.id);
+  }
 
   useEffect(() => {
     if (imageShowLength > 0) {
@@ -297,13 +303,20 @@ export function HsView({ hsId, onLikeSearch }) {
                     <Checkbox isChecked={list.nightCare}></Checkbox>
                   </Flex>
                 </Td>
-                <Td>
-                  {isAuthenticated() && (
-                    <Button onClick={() => navigate("/home/cs/qaList")}>
+                <Tooltip
+                  isDisabled={isAuthenticated()}
+                  hasArrow
+                  label={"로그인이 필요합니다!"}
+                >
+                  <Td>
+                    <Button
+                      isDisabled={!isAuthenticated()}
+                      onClick={() => navigate("/home/cs/qaList?" + urlParams)}
+                    >
                       문의
                     </Button>
-                  )}
-                </Td>
+                  </Td>
+                </Tooltip>
               </Card>
             </TabPanel>
             <TabPanel p="0">
