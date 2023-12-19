@@ -53,7 +53,7 @@ function CommentForm({ comment, setComment, onSubmit, businessId }) {
 }
 
 function CommentItem({ c, toast, setIsSubmitting, onDeleteModalOpen }) {
-  const { hasAccess, authCheck } = useContext(LoginContext);
+  const { hasAccess, isAdmin } = useContext(LoginContext);
   const [isEditing, setIsEditing] = useState(false);
   const [commentEdited, setCommentEdited] = useState(c.comment);
 
@@ -100,7 +100,7 @@ function CommentItem({ c, toast, setIsSubmitting, onDeleteModalOpen }) {
       <Flex>
         <Box flex={1}>
           <Text>{c.comment}</Text>
-            <Text>{c.ago}</Text>
+          <Text>{c.ago}</Text>
           {isEditing && (
             <Box>
               <Textarea
@@ -113,7 +113,7 @@ function CommentItem({ c, toast, setIsSubmitting, onDeleteModalOpen }) {
             </Box>
           )}
         </Box>
-        {(hasAccess(c.memberId) || isAdmin) && (
+        {(hasAccess(c.memberId) || isAdmin()) && (
           <Box>
             {isEditing || (
               <Button
