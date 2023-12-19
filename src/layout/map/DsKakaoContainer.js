@@ -171,62 +171,20 @@ const MainPage = () => {
 
   return (
     <Box>
-      <div>
-        {/*<Input type="text" onChange={handleInputChange} value={inputValue} />*/}
-        {/*<button onClick={handleSearch}>검색</button>*/}
-        {/*<Button onClick={handleDsSearch}>약국</Button>*/}
-        {/*<Button onClick={handleHsSearch}>병원</Button>*/}
-      </div>
       <Box display="flex" position="relative">
-        {/* 토글 버튼 */}
-        {/*<button*/}
-        {/*  onClick={toggleListVisibility}*/}
-        {/*  style={{*/}
-        {/*    position: "absolute",*/}
-        {/*    left: isListVisible ? "350px" : "0",*/}
-        {/*    top: "400px",*/}
-        {/*    zIndex: 10,*/}
-        {/*    border: "1px solid #ccc", // 테두리 추가*/}
-        {/*    backgroundColor: "white", // 배경색 추가*/}
-        {/*    padding: "10px", // 패딩 추가*/}
-        {/*    cursor: "pointer", // 마우스 오버 시 커서 변경*/}
-        {/*    borderRadius: "4px", // 테두리 둥글게 설정*/}
-        {/*    boxShadow: "0 2px 5px rgba(0,0,0,0.2)", // 그림자 효과 추가*/}
-        {/*    transition: "all 0.5s ease", // 모든 전환 효과에 애니메이션 적용*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*{isListVisible ? "<" : ">"}*/}
-        {/*</button>*/}
         {/* 장소 리스트를 보여주는 컴포넌트 */}
         <VStack
-          // width={isListVisible ? "500px" : "0"} // isListVisible 상태에 따라 너비를 조정합니다.
           width="400px"
           height="100vh"
           overflowY="auto"
           transition="width 0.5s"
-          p={4}
+          p={1}
           borderRight="1px solid #ccc"
           position="relative"
           zIndex="11"
-          // bg="black"
-          // color="white"
+          className="MyStack"
         >
           <DsSearchComponent onItemClick={handleItemClick} />
-
-          {/*{markers.map((marker, index) => (*/}
-          {/*  <Box*/}
-          {/*    key={index}*/}
-          {/*    p={4}*/}
-          {/*    border="1px solid #ddd"*/}
-          {/*    borderRadius="md"*/}
-          {/*    mb={2}*/}
-          {/*    _hover={{ bg: "gray.100" }}*/}
-          {/*    cursor="pointer"*/}
-          {/*    onClick={() => handleListItemClick(index)}*/}
-          {/*  >*/}
-          {/*    <Text fontSize="lg">{marker.content}</Text>*/}
-          {/*  </Box>*/}
-          {/*))}*/}
         </VStack>
         <Box display="flex" position="relative" w="100%">
           {/* 토글 버튼 */}
@@ -261,6 +219,7 @@ const MainPage = () => {
               bg="white"
               zIndex={9}
               display={isListVisible ? "block" : "none"}
+              className="MyStack"
             >
               <ViewComponent dsId={dsId} />
             </Box>

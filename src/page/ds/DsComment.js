@@ -5,6 +5,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Center,
   Flex,
   Heading,
   Modal,
@@ -26,7 +27,11 @@ import axios from "axios";
 import { DeleteIcon, EditIcon, NotAllowedIcon } from "@chakra-ui/icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleLeft,
+  faAngleRight,
+  faPaperPlane,
+} from "@fortawesome/free-solid-svg-icons";
 
 function CommentForm({ businessId, isSubmitting, onSubmit }) {
   const [comment, setComment] = useState("");
@@ -36,11 +41,21 @@ function CommentForm({ businessId, isSubmitting, onSubmit }) {
   }
 
   return (
-    <Box>
-      <Textarea value={comment} onChange={(e) => setComment(e.target.value)} />
-      <Button isDisabled={isSubmitting} onClick={handleSubmit}>
-        쓰기
-      </Button>
+    <Box marginTop="10px" marginBottom="10px">
+      <Flex>
+        <Textarea
+          placeholder="댓글을 작성해주세요"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <Center onClick={handleSubmit}>
+          <Button h="full" size={5} isDisabled={isSubmitting} w="80px">
+            <Heading>
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </Heading>
+          </Button>
+        </Center>
+      </Flex>
     </Box>
   );
 }
@@ -94,8 +109,10 @@ function CommentItem({
   return (
     <Box>
       <Flex justifyContent="space-between">
-        <Heading>{DsComment.memberNickName}</Heading>
-        <Text>{DsComment.ago}</Text>
+        <Heading fontSize="2xl" marginBottom="10px">
+          {DsComment.memberNickName}
+        </Heading>
+        <Text fontSize="medium">{DsComment.ago}</Text>
       </Flex>
       <Flex>
         <Box flex={1}>
@@ -120,7 +137,12 @@ function CommentItem({
         {hasAccess(DsComment.memberId) && (
           <Box>
             {isEditing || (
-              <Button colorScheme="purple" onClick={() => setIsEditing(true)}>
+              <Button
+                variant="ghost"
+                colorScheme="green"
+                marginRight="5px"
+                onClick={() => setIsEditing(true)}
+              >
                 <EditIcon />
               </Button>
             )}
@@ -130,6 +152,7 @@ function CommentItem({
               </Button>
             )}
             <Button
+              variant="ghost"
               onClick={() => onDeleteModalOpen(DsComment.id)}
               colorScheme="red"
             >

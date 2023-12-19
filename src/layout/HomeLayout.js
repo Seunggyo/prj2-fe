@@ -9,9 +9,9 @@ export function HomeLayout() {
     <div>
       <div>
         <Box style={{ display: "flex", flexWrap: "wrap" }}>
-          <SideBar style={{ minWidth: "250px" }} />
+          <SideBar style={{ minWidth: "220px" }} />
         </Box>
-        <Box ml="250px">
+        <Box ml="220px">
           <NavBar />
           <Outlet />
         </Box>

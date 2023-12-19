@@ -1,0 +1,14 @@
+.MyStack::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.MyStack::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: #c4c6c8;
+}
+
+.MyStack::-webkit-scrollbar-track-piece {
+    background: #f0f0f3;
+    background: rgba(var(--gray90), 1);
+}

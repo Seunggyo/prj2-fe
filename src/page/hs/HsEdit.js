@@ -32,7 +32,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useImmer } from "use-immer";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -42,6 +42,8 @@ import {
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LoginContext } from "../../component/LoginProvider";
+import { FaBookmark, FaRegCalendarAlt, FaTimes } from "react-icons/fa";
+import { FaTrashCan } from "react-icons/fa6";
 
 function LikeContainer({ like, onClick }) {
   const { isAuthenticated } = useContext(LoginContext);
@@ -67,6 +69,11 @@ export function HsEdit() {
   const [list, updateList] = useImmer([]);
   const { id } = useParams();
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: isDeleteOpen,
+    onClose: onDeleteClose,
+    onOpen: onDeleteOpen,
+  } = useDisclosure();
   const navigate = useNavigate();
   const toast = useToast();
   const [removeFileIds, setRemoveFileIds] = useState([]);
@@ -237,36 +244,59 @@ export function HsEdit() {
     });
   }
 
+  function handleDelete() {
+    axios
+      .delete("/api/hospital/delete/" + id)
+      .then((response) => {
+        toast({
+          description: id + "번 정보가 삭제되었습니다",
+          status: "success",
+        });
+        navigate("/home/hospital/hospitalList");
+      })
+      .catch((error) => {
+        toast({
+          description: "삭제 중 문제가 발생하였습니다.",
+          status: "error",
+        });
+      })
+      .finally(() => onClose());
+  }
+
   return (
     <Center>
-      <Card w={"xl"}>
-        <CardHeader>
-          <Heading>병원 정보 수정</Heading>
+      <Card w={"xl"} boxShadow="lg" fontFamily="dongle">
+        <CardHeader bg="blue.200" textAlign="center" py={4}>
+          <Heading fontSize="5xl" color="white" fontFamily="dongle">
+            병원 정보 수정
+          </Heading>
         </CardHeader>
         <CardBody>
-          <FormControl mb={5}>
-            <FormLabel>병원명</FormLabel>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">병원명</FormLabel>
             <Input value={list.name} onChange={handleNameChange} />
           </FormControl>
-          <FormControl mb={5}>
-            <FormLabel>병원 주소</FormLabel>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">병원 주소</FormLabel>
             <Input value={list.address} onChange={handleAddressChange} />
-            <FormLabel>병원 간단주소</FormLabel>
+            <FormLabel fontSize="2xl">병원 간단주소</FormLabel>
             <Input
               value={list.oldAddress}
               onChange={handleOldAddressChange}
               placeholder="동까지만 입력해주시면 됩니다 ex:)세종시 아람동"
             />
           </FormControl>
-          <FormControl mb={5}>
-            <FormLabel>전화번호</FormLabel>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">전화번호</FormLabel>
             <Input value={list.phone} onChange={handlePhoneChange} />
           </FormControl>
-          <FormControl mb={5}>
-            <FormLabel>오픈시간</FormLabel>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">오픈시간</FormLabel>
             <Grid mt={3} ml={3} templateColumns={"repeat(2 , 1fr)"}>
-              <FormLabel>시간</FormLabel>
-              <FormLabel ml={3}>분</FormLabel>
+              <FormLabel fontSize="2xl">시간</FormLabel>
+              <FormLabel ml={3} fontSize="2xl">
+                분
+              </FormLabel>
             </Grid>
             <Flex>
               <Select
@@ -275,6 +305,7 @@ export function HsEdit() {
                 placeholder="시간"
                 value={list.openHour}
                 defaultValue={0}
+                fontSize="2xl"
               >
                 {hour()}
               </Select>
@@ -284,6 +315,7 @@ export function HsEdit() {
                 value={list.openMin}
                 w={"sm"}
                 placeholder="분"
+                fontSize="2xl"
               >
                 <option value={0}>00</option>
                 <option value={10}>10</option>
@@ -295,13 +327,19 @@ export function HsEdit() {
               </Select>
             </Flex>
           </FormControl>
-          <FormControl mb={5}>
-            <FormLabel>휴게시간</FormLabel>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">휴게시간</FormLabel>
             <Grid templateColumns={"repeat(4, 1fr)"}>
-              <FormLabel>시작 시간</FormLabel>
-              <FormLabel ml={2}>분</FormLabel>
-              <FormLabel ml={2}>종료시간</FormLabel>
-              <FormLabel ml={3}>분</FormLabel>
+              <FormLabel fontSize="2xl">시작 시간</FormLabel>
+              <FormLabel ml={2} fontSize="2xl">
+                분
+              </FormLabel>
+              <FormLabel ml={2} fontSize="2xl">
+                종료시간
+              </FormLabel>
+              <FormLabel ml={3} fontSize="2xl">
+                분
+              </FormLabel>
             </Grid>
             <Flex>
               <Select
@@ -310,6 +348,7 @@ export function HsEdit() {
                 placeholder="시간"
                 value={list.restHour}
                 defaultValue={0}
+                fontSize="2xl"
               >
                 {hour()}
               </Select>
@@ -319,6 +358,7 @@ export function HsEdit() {
                 value={list.restMin}
                 w={"sm"}
                 placeholder="분"
+                fontSize="2xl"
               >
                 <option value={0}>00</option>
                 <option value={10}>10</option>
@@ -334,6 +374,7 @@ export function HsEdit() {
                 placeholder="시간"
                 value={list.restCloseHour}
                 defaultValue={0}
+                fontSize="2xl"
               >
                 {hour()}
               </Select>
@@ -343,6 +384,7 @@ export function HsEdit() {
                 value={list.restCloseMin}
                 w={"sm"}
                 placeholder="분"
+                fontSize="2xl"
               >
                 <option value={0}>00</option>
                 <option value={10}>10</option>
@@ -355,25 +397,26 @@ export function HsEdit() {
             </Flex>
           </FormControl>
           <FormControl>
-            <FormLabel>마감시간</FormLabel>
+            <FormLabel fontSize="2xl">마감시간</FormLabel>
             <Flex>
-              <FormLabel>시간</FormLabel>
               <Select
                 value={list.closeHour}
                 defaultValue={0}
                 onChange={handleCloseHourChange}
                 w={"sm"}
                 placeholder="시간"
+                fontSize="2xl"
               >
                 {hour()}
               </Select>
-              <FormLabel>분</FormLabel>
+              <FormLabel fontSize="2xl">시</FormLabel>
               <Select
                 value={list.closeMin}
                 defaultValue={0}
                 w={"sm"}
                 placeholder="분"
                 onChange={handleCloseMinChange}
+                fontSize="2xl"
               >
                 <option value={0}>00</option>
                 <option value={10}>10</option>
@@ -383,20 +426,33 @@ export function HsEdit() {
                 <option value={50}>50</option>
                 <option value={60}>60</option>
               </Select>
+              <FormLabel fontSize="2xl">분</FormLabel>
             </Flex>
           </FormControl>
           <FormControl>
-            <FormLabel>상세정보</FormLabel>
-            <Textarea value={list.content} onChange={handleContentChange} />
+            <FormLabel fontSize="2xl">상세정보</FormLabel>
+            <Textarea
+              value={list.content}
+              onChange={handleContentChange}
+              fontSize="2xl"
+            />
           </FormControl>
           <FormControl>
-            <FormLabel>홈페이지</FormLabel>
-            <Input value={list.homePage} onChange={handleHomePageChange} />
+            <FormLabel fontSize="2xl">홈페이지</FormLabel>
+            <Input
+              value={list.homePage}
+              onChange={handleHomePageChange}
+              fontSize="2xl"
+            />
           </FormControl>
           <FormControl>
-            <FormLabel>진료과목</FormLabel>
+            <FormLabel fontSize="2xl">진료과목</FormLabel>
             <Flex>
-              <CheckboxGroup value={course} onChange={(e) => setCourse(e)}>
+              <CheckboxGroup
+                value={course}
+                onChange={(e) => setCourse(e)}
+                fontSize="2xl"
+              >
                 <Checkbox value="소아과">소아과</Checkbox>
                 <Checkbox value="내과">내과</Checkbox>
                 <Checkbox value="외과">외과</Checkbox>
@@ -405,7 +461,7 @@ export function HsEdit() {
             </Flex>
           </FormControl>
           <FormControl>
-            <FormLabel>휴무일</FormLabel>
+            <FormLabel fontSize="2xl">휴무일</FormLabel>
             <CheckboxGroup value={holiday} onChange={(e) => setHoliday(e)}>
               <Checkbox value="월요일">월요일</Checkbox>
               <Checkbox value="화요일">화요일</Checkbox>
@@ -417,6 +473,11 @@ export function HsEdit() {
               <Checkbox value="공휴일">공휴일</Checkbox>
             </CheckboxGroup>
           </FormControl>
+        </CardBody>
+      </Card>
+
+      <Card w={"xl"} boxShadow="lg" fontFamily="dongle">
+        <CardBody>
           {list.files?.length > 0 &&
             list.files.map((file) => (
               <Card
@@ -441,43 +502,59 @@ export function HsEdit() {
                 </CardFooter>
               </Card>
             ))}
-          <FormControl mb={5}>
-            <FormLabel>이미지</FormLabel>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">이미지</FormLabel>
             <Input
               type="file"
               accept="image/*"
               multiple
               onChange={(e) => setUploadFiles(e.target.files)}
             />
-            <FormHelperText>
+            <FormHelperText fontSize="2xl">
               한 개 파일은 3MB, 총 용량은 10MB 이내로 첨부하세요.
             </FormHelperText>
           </FormControl>
           <FormControl>
-            <FormLabel>야간영업</FormLabel>
+            <FormLabel fontSize="2xl">야간영업</FormLabel>
             <Checkbox
               isChecked={list.nightCare}
               value={list.nightCare}
               onChange={handleNightChange}
+              fontSize="2xl"
             >
               야간영업을 하시면 체크 해주세요
             </Checkbox>
           </FormControl>
         </CardBody>
         <CardFooter>
-          {isAuthenticated() && (
+          <Flex>
             <Button
-              onClick={() =>
-                navigate("/home/hospital/hospitalReservation/" + id)
-              }
+              onClick={onOpen}
+              leftIcon={<FaBookmark />}
+              colorScheme="teal"
+              marginX="5px"
             >
-              예약
+              저장
             </Button>
-          )}
-          <Button onClick={onOpen} colorScheme="twitter">
-            저장
-          </Button>
-          <Button onClick={() => navigate(-1)}>취소</Button>
+            <Button
+              leftIcon={<FaTimes />}
+              onClick={() => navigate(-1)}
+              marginLeft="4"
+              colorScheme="blue"
+              marginRight="15px"
+            >
+              취소
+            </Button>
+            <Button
+              leftIcon={<FaTrashCan />}
+              onClick={onDeleteOpen}
+              marginX="5px"
+              colorScheme="red"
+              variant="solid"
+            >
+              삭제
+            </Button>
+          </Flex>
         </CardFooter>
       </Card>
 
@@ -493,6 +570,27 @@ export function HsEdit() {
             <Button onClick={onClose}>닫기</Button>
             <Button onClick={handleSubmitClick} colorScheme="twitter">
               저장
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal isOpen={isDeleteOpen} onClose={onDeleteClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader fontSize="2xl" fontWeight="bold">
+            삭제 확인
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody fontSize="xl">
+            삭제하시면 이 데이터는 복구할 수 없습니다. 정말로 삭제하시겠습니까?
+          </ModalBody>
+
+          <ModalFooter>
+            <Button variant="outline" onClick={onDeleteClose}>
+              취소
+            </Button>
+            <Button onClick={handleDelete} colorScheme="red" marginLeft={3}>
+              삭제 하기
             </Button>
           </ModalFooter>
         </ModalContent>

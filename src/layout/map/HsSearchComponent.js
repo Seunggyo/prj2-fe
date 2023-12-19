@@ -58,8 +58,6 @@ export function HsSearchComponent({
       setList(r.data.list);
       const isMemberExists =
         r.data.list.find((h) => h.memberId === idCheck()) !== undefined;
-      console.log(isMemberExists);
-      console.log(idCheck());
       setIsButtonActive(!isMemberExists);
     });
   }, [location]);
@@ -73,71 +71,69 @@ export function HsSearchComponent({
   }
 
   return (
-    <Box w="280px">
+    <Box w="300px">
       <Box>
-        <Stack spacing={4}>
-          <InputGroup size="sm">
-            <Input
-              placeholder="이름,장소,진료과목 검색"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-            <InputRightAddon children="검색" onClick={handleSearch} />
-          </InputGroup>
-          <Flex>
-            <Menu>
-              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                {medicalcourse === "" ? "진료과목" : medicalcourse}
-              </MenuButton>
-              <MenuList
-                onChange={(e) => {
-                  setCategory(e.target);
-                }}
+        <InputGroup size="sm" marginBottom="10px">
+          <Input
+            placeholder="이름,장소,진료과목 검색"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+          />
+          <Button
+            className={`mx-2 px-4 py-2 font-semibold text-gray-100 ${
+              keyword ? "bg-indigo-300" : "bg-gray-500 cursor-not-allowed"
+            }`}
+            disabled={!keyword}
+            onClick={handleSearch}
+          >
+            검색
+          </Button>
+        </InputGroup>
+        <Flex>
+          <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+              {medicalcourse === "" ? "진료과목" : medicalcourse}
+            </MenuButton>
+            <MenuList
+              onChange={(e) => {
+                setCategory(e.target);
+              }}
+            >
+              <MenuItem onClick={() => handleClickMenuItem("")} value="all">
+                전체
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleClickMenuItem("소아과")}
+                value="소아과"
               >
-                <MenuItem onClick={() => handleClickMenuItem("")} value="all">
-                  전체
-                </MenuItem>
-                <MenuItem
-                  onClick={() => handleClickMenuItem("소아과")}
-                  value="소아과"
-                >
-                  소아과
-                </MenuItem>
-                <MenuItem
-                  onClick={() => handleClickMenuItem("내과")}
-                  value="내과"
-                >
-                  내과
-                </MenuItem>
-                <MenuItem
-                  onClick={() => handleClickMenuItem("외과")}
-                  value="외과"
-                >
-                  외과
-                </MenuItem>
-                <MenuItem
-                  onClick={() => handleClickMenuItem("치과")}
-                  value="치과"
-                >
-                  치과
-                </MenuItem>
-              </MenuList>
-            </Menu>
-            <Menu>
-              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                야간
-              </MenuButton>
-              <MenuList>
-                <MenuItem value="nightCare">야간</MenuItem>
-              </MenuList>
-            </Menu>
-            {isAuthenticated() && authCheck() === "hs" && isButtonActive && (
-              <Button onClick={() => navigate("/home/hospital/hospitalAdd/")}>
-                병원 추가
-              </Button>
-            )}
-          </Flex>
-        </Stack>
+                소아과
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleClickMenuItem("내과")}
+                value="내과"
+              >
+                내과
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleClickMenuItem("외과")}
+                value="외과"
+              >
+                외과
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleClickMenuItem("치과")}
+                value="치과"
+              >
+                치과
+              </MenuItem>
+            </MenuList>
+          </Menu>
+          {isAuthenticated() && authCheck() === "hs" && isButtonActive && (
+            <Button onClick={() => navigate("/home/hospital/hospitalAdd/")}>
+              병원 추가
+            </Button>
+          )}
+        </Flex>
       </Box>
       <Box>
         <Stack spacing={4}>
@@ -149,69 +145,65 @@ export function HsSearchComponent({
                 borderRadius="lg"
                 overflow="hidden"
                 onClick={() => onItemClick(h.id)}
-                // onClick={() => console.log(ds.id)}
+                p="2"
               >
-                <Center>
-                  <Image
-                    src={h.files && h.files.length > 0 ? h.files[0].url : ""}
-                    w="200px"
-                    h="100px"
-                  />
-                </Center>
-
-                <Box p="6">
-                  {/*<Box d="flex" alignItems="baseline">*/}
-                  {/*  <Badge borderRadius="full" px="2" colorScheme="teal">*/}
-                  {/*    {ds.level}*/}
-                  {/*  </Badge>*/}
-                  {/*</Box>*/}
-                  <Box
-                    mt="1"
-                    fontWeight="semibold"
-                    as="h4"
-                    lineHeight="tight"
-                    isTruncated
-                  >
+                <Flex>
+                  <Box w="174px" h="120px">
                     <Flex>
-                      {h.name}
-                      {/*<Stack direction="row" mt="2" spacing={2} align="center">*/}
-                      <Box as="span" ml="2" fontSize="sm" color="red">
-                        <FontAwesomeIcon icon={faHeart} color="red" />{" "}
-                        {h.countLike}
+                      <Box
+                        w="136px"
+                        fontWeight="semibold"
+                        as="h4"
+                        lineHeight="tight"
+                        isTruncated
+                        className="font-dongle text-3xl"
+                        mb="4px"
+                      >
+                        {h.name}
                       </Box>
-                      {/*</Stack>*/}
+                      <Box
+                        as="span"
+                        mt="1"
+                        fontSize="lg"
+                        color="red"
+                        mb="4px"
+                        mr="5px"
+                      >
+                        {h.countLike}
+                        {""}
+                        <FontAwesomeIcon icon={faHeart} color="red" />
+                      </Box>
                     </Flex>
-                  </Box>
-                  <Box fontSize="12px">{h.oldAddress}</Box>
-                  {/*<Box fontSize="14px">{h.phone}</Box>*/}
+                    <Box mb="4px" fontSize="13px">
+                      {h.oldAddress}
+                    </Box>
 
-                  <Box>
-                    영업시간 : {h.openHour}:{h.openMin === 0 ? "00" : h.openMin}
-                    ~{h.closeHour}:{h.closeMin === 0 ? "00" : h.closeMin}
-                    {h.restHour !== 0 ||
-                      (h.restHour === null && (
-                        <>
-                          <br />
-                          ※휴게시간 {h.restHour}:
-                          {h.restMin === 0 ? "00" : h.restMin}~{h.restCloseHour}
-                          :{h.restCloseMin === 0 ? "00" : h.restCloseMin}
-                        </>
-                      ))}
+                    <Box fontSize="14px">
+                      영업시간 : {h.openHour}:
+                      {h.openMin === 0 ? "00" : h.openMin}~{h.closeHour}:
+                      {h.closeMin === 0 ? "00" : h.closeMin}
+                      {h.restHour !== 0 ||
+                        (h.restHour === null && (
+                          <>
+                            <br />
+                            ※휴게시간 {h.restHour}:
+                            {h.restMin === 0 ? "00" : h.restMin}~
+                            {h.restCloseHour}:
+                            {h.restCloseMin === 0 ? "00" : h.restCloseMin}
+                          </>
+                        ))}
+                    </Box>
                   </Box>
-                  <Flex>
-                    {/*<Stack direction="row" mt="2" spacing={2} align="center">*/}
-                    {/*  <Box as="span" ml="2" color="gray.600" fontSize="sm">*/}
-                    {/*    {h.commentCount} 댓글*/}
-                    {/*  </Box>*/}
-                    {/*</Stack>*/}
-                    {/*<Stack direction="row" mt="2" spacing={2} align="center">*/}
-                    {/*  <Box as="span" ml="2" fontSize="sm" color="red">*/}
-                    {/*    {h.countLike}{" "}*/}
-                    {/*    <FontAwesomeIcon icon={faHeart} color="red" />*/}
-                    {/*  </Box>*/}
-                    {/*</Stack>*/}
-                  </Flex>
-                </Box>
+                  <Box w="109px" flexShrink={0}>
+                    <Image
+                      src={h.files.length > 0 ? h.files[0].url : ""}
+                      objectFit="fill"
+                      w="100%"
+                      h="120px"
+                      borderRadius="8px"
+                    />
+                  </Box>
+                </Flex>
               </Box>
             ))}
         </Stack>

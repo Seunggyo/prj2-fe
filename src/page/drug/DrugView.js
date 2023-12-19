@@ -289,7 +289,7 @@ export function DrugView() {
 
             <FormControl>
               <FormLabel>등록 일자</FormLabel>
-              <Input value={drug.inserted} readOnly />
+              <Input value={drug.ago} readOnly />
             </FormControl>
             <br />
 

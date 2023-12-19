@@ -147,16 +147,12 @@ export function DsView({ dsId }) {
 
   return (
     <Table>
-      <Card>
-        <CardHeader>
-          <Flex>
-            <Center className="font-dongle text-5xl">{ds.name}</Center>
-          </Flex>
-        </CardHeader>
+      <Card w="360px">
+        <Center className="font-dongle text-5xl">{ds.name}</Center>
         <Box
           w="100%"
           h="200px"
-          sx={{ marginTop: "20px", marginBottom: "20px" }}
+          sx={{ marginTop: "10px", marginBottom: "10px" }}
           position="relative"
         >
           {ds.files &&
@@ -170,13 +166,26 @@ export function DsView({ dsId }) {
                 <Image
                   src={file.url}
                   alt={file.name}
-                  width="350px"
+                  width="360px"
                   height="200px"
                 />
               </Box>
             ))}
         </Box>
-        <Tabs>
+        <Button
+          border="1px solid lightgrey"
+          bg="white"
+          width="100%"
+          height="50px"
+          marginRight="55px"
+          marginBottom="10px"
+          fontSize="1.5xl"
+          onClick={() => navigate("/home/cs/qaList")}
+        >
+          <FontAwesomeIcon icon={faCommentDots} size="lg" />
+          문의
+        </Button>
+        <Tabs variant="enclosed" w="100%">
           <TabList>
             <Tab w="33%" color="black" borderTop="1px solid lightgrey">
               <Text fontSize="2xl">정보</Text>
@@ -186,6 +195,7 @@ export function DsView({ dsId }) {
               size="150px"
               border="1px solid lightgrey"
               borderBottom="none"
+              borderTopRadius="5px"
             >
               <Center marginTop="7px">
                 <LikeContainer like={like} onClick={handleLike} />
