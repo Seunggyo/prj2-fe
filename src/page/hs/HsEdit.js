@@ -43,6 +43,7 @@ import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LoginContext } from "../../component/LoginProvider";
 import { FaBookmark, FaRegCalendarAlt, FaTimes } from "react-icons/fa";
+import { FaTrashCan } from "react-icons/fa6";
 
 function LikeContainer({ like, onClick }) {
   const { isAuthenticated } = useContext(LoginContext);
@@ -68,6 +69,11 @@ export function HsEdit() {
   const [list, updateList] = useImmer([]);
   const { id } = useParams();
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: isDeleteOpen,
+    onClose: onDeleteClose,
+    onOpen: onDeleteOpen,
+  } = useDisclosure();
   const navigate = useNavigate();
   const toast = useToast();
   const [removeFileIds, setRemoveFileIds] = useState([]);
@@ -236,6 +242,25 @@ export function HsEdit() {
     updateList((r) => {
       r.restCloseHour = e.target.value;
     });
+  }
+
+  function handleDelete() {
+    axios
+      .delete("/api/hospital/delete/" + id)
+      .then((response) => {
+        toast({
+          description: id + "번 정보가 삭제되었습니다",
+          status: "success",
+        });
+        navigate("/home/hospital/hospitalList");
+      })
+      .catch((error) => {
+        toast({
+          description: "삭제 중 문제가 발생하였습니다.",
+          status: "error",
+        });
+      })
+      .finally(() => onClose());
   }
 
   return (
@@ -502,32 +527,34 @@ export function HsEdit() {
           </FormControl>
         </CardBody>
         <CardFooter>
-          {isAuthenticated() && (
+          <Flex>
             <Button
-              marginLeft={"350px"}
-              colorScheme="blue"
-              leftIcon={<FaRegCalendarAlt />}
-              onClick={() =>
-                navigate("/home/hospital/hospitalReservation/" + id)
-              }
+              onClick={onOpen}
+              leftIcon={<FaBookmark />}
+              colorScheme="teal"
+              marginX="5px"
             >
-              예약
+              저장
             </Button>
-          )}
-          <Button
-            onClick={onOpen}
-            leftIcon={<FaBookmark />}
-            colorScheme="green"
-          >
-            저장
-          </Button>
-          <Button
-            onClick={() => navigate(-1)}
-            leftIcon={<FaTimes />}
-            colorScheme="red"
-          >
-            취소
-          </Button>
+            <Button
+              leftIcon={<FaTimes />}
+              onClick={() => navigate(-1)}
+              marginLeft="4"
+              colorScheme="blue"
+              marginRight="15px"
+            >
+              취소
+            </Button>
+            <Button
+              leftIcon={<FaTrashCan />}
+              onClick={onDeleteOpen}
+              marginX="5px"
+              colorScheme="red"
+              variant="solid"
+            >
+              삭제
+            </Button>
+          </Flex>
         </CardFooter>
       </Card>
 
@@ -543,6 +570,27 @@ export function HsEdit() {
             <Button onClick={onClose}>닫기</Button>
             <Button onClick={handleSubmitClick} colorScheme="twitter">
               저장
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal isOpen={isDeleteOpen} onClose={onDeleteClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader fontSize="2xl" fontWeight="bold">
+            삭제 확인
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody fontSize="xl">
+            삭제하시면 이 데이터는 복구할 수 없습니다. 정말로 삭제하시겠습니까?
+          </ModalBody>
+
+          <ModalFooter>
+            <Button variant="outline" onClick={onDeleteClose}>
+              취소
+            </Button>
+            <Button onClick={handleDelete} colorScheme="red" marginLeft={3}>
+              삭제 하기
             </Button>
           </ModalFooter>
         </ModalContent>

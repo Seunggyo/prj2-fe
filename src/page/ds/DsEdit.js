@@ -35,6 +35,10 @@ import React, { useEffect, useState } from "react";
 import { useImmer } from "use-immer";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { FaBookmark, FaTimes } from "react-icons/fa";
+import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaTrashCan } from "react-icons/fa6";
 
 export function DsEdit() {
   const [ds, updateDs] = useImmer(null);
@@ -46,6 +50,11 @@ export function DsEdit() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: isDeleteOpen,
+    onClose: onDeleteClose,
+    onOpen: onDeleteOpen,
+  } = useDisclosure();
 
   useEffect(() => {
     axios.get("/api/ds/id/" + id).then((response) => {
@@ -119,8 +128,6 @@ export function DsEdit() {
       .finally(() => onClose());
   }
 
-  console.log(ds.nightCare);
-
   function handleDeleteFileSwitch(e) {
     if (e.target.checked) {
       // removeFileIds에 추가
@@ -142,6 +149,25 @@ export function DsEdit() {
     }
     return result;
   };
+
+  function handleDelete() {
+    axios
+      .delete("/api/ds/delete/" + id)
+      .then((response) => {
+        toast({
+          description: id + "번 정보가 삭제되었습니다",
+          status: "success",
+        });
+        navigate("/home/ds/list");
+      })
+      .catch((error) => {
+        toast({
+          description: "삭제 중 문제가 발생하였습니다.",
+          status: "error",
+        });
+      })
+      .finally(() => onClose());
+  }
 
   return (
     <Center>
@@ -452,19 +478,32 @@ export function DsEdit() {
           </FormControl>
         </CardBody>
 
-        <CardFooter marginLeft="350px">
+        <CardFooter>
           <Flex>
-            <Button onClick={onOpen} colorScheme="teal" marginX="5px">
+            <Button
+              leftIcon={<FaBookmark />}
+              onClick={onOpen}
+              colorScheme="teal"
+              marginX="5px"
+            >
               저장
             </Button>
             <Button
+              leftIcon={<FaTimes />}
               onClick={() => navigate(-1)}
               marginLeft="4"
-              colorScheme="red"
+              colorScheme="blue"
+              marginRight="15px"
             >
               취소
             </Button>
-            <Button onClick={onOpen} colorScheme="teal" marginX="5px">
+            <Button
+              leftIcon={<FaTrashCan />}
+              onClick={onDeleteOpen}
+              marginX="5px"
+              colorScheme="red"
+              variant="solid"
+            >
               삭제
             </Button>
           </Flex>
@@ -483,6 +522,27 @@ export function DsEdit() {
             <Button onClick={onClose}>닫기</Button>
             <Button onClick={handleSubmit} colorScheme="blue">
               저장
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal isOpen={isDeleteOpen} onClose={onDeleteClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader fontSize="2xl" fontWeight="bold">
+            삭제 확인
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody fontSize="xl">
+            삭제하시면 이 데이터는 복구할 수 없습니다. 정말로 삭제하시겠습니까?
+          </ModalBody>
+
+          <ModalFooter>
+            <Button variant="outline" onClick={onDeleteClose}>
+              취소
+            </Button>
+            <Button onClick={handleDelete} colorScheme="red" marginLeft={3}>
+              삭제 하기
             </Button>
           </ModalFooter>
         </ModalContent>
