@@ -1,17 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
+  Badge,
   Box,
   Button,
   Center,
   Flex,
   Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Select,
   Spinner,
   Table,
@@ -21,21 +15,15 @@ import {
   Thead,
   Tooltip,
   Tr,
-  useDisclosure,
-  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
   faAngleLeft,
   faAngleRight,
+  faImages,
 } from "@fortawesome/free-solid-svg-icons";
 import { LoginContext } from "../../component/LoginProvider";
 
@@ -121,17 +109,13 @@ export function CSList() {
   const [orderByHit, setOrderByHit] = useState(null);
   const [orderByNum, setOrderByNum] = useState(null);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-  const [params, setParams] = useSearchParams();
-
   const location = useLocation();
+
+  const [params, setParams] = useSearchParams();
 
   const { fetchLogin, login, isAuthenticated, authCheck } =
     useContext(LoginContext);
-  const toast = useToast();
-
-  const { id } = useParams();
 
   useEffect(() => {
     axios.get("/api/cs/list?" + params).then((r) => {
@@ -142,25 +126,6 @@ export function CSList() {
 
   if (csList == null || pageInfo == null) {
     return <Spinner />;
-  }
-
-  function handleDelete() {
-    axios
-      .delete("/api/cs/remove/" + id)
-      .then((response) => {
-        toast({
-          description: id + "번 공지글이 삭제되었습니다.",
-          status: "success",
-        });
-        navigate("/home/cs");
-      })
-      .catch((error) => {
-        toast({
-          description: "삭제 중 문제가 발생하였습니다.",
-          status: "error",
-        });
-      })
-      .finally(() => onClose());
   }
 
   function handleRowClick(id) {
@@ -227,20 +192,14 @@ export function CSList() {
         <Box p={8} bg="orange.100">
           <Box bg="white" borderRadius="xl" boxShadow="lg" p={6}>
             <Flex justify="space-between" align="center">
-              <Tooltip
-                isDisabled={isAuthenticated()}
-                hasArrow
-                label={"로그인이 필요합니다!"}
-              >
+              {isAuthenticated() && authCheck() === "admin" && (
                 <button
-                  disabled={!isAuthenticated()}
-                  onClick={() => navigate("/home/cs/qaWrite")}
+                  onClick={() => navigate("/home/cs/csWrite")}
                   className="relative h-12 w-40 overflow-hidden text-indigo-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-500 before:duration-300 before:ease-out hover:text-white  hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold font text-4xl"
                 >
                   <span className="relative z-10">글쓰기</span>
                 </button>
-              </Tooltip>
-
+              )}
               <Flex>
                 <Select
                   mr={4}
@@ -363,10 +322,20 @@ export function CSList() {
                   >
                     <Td>{cs.id}</Td>
                     <Td>{cs.csCategory}</Td>
-                    <Td>{cs.csTitle}</Td>
+                    <Td>
+                      {cs.csTitle}
+                      {cs.countFile > 0 && (
+                        <Badge className="flex items-center h-full ml-1">
+                          <FontAwesomeIcon
+                            icon={faImages}
+                            className="mr-1 text-lg"
+                          />
+                        </Badge>
+                      )}
+                    </Td>
                     <Td>{cs.csWriter}</Td>
                     <Td>{cs.ago}</Td>
-                    <Td>{cs.csHit}</Td>
+                    <Td>{cs.increaseHit}</Td>
                   </Tr>
                 ))}
               </Tbody>
@@ -383,15 +352,3 @@ export function CSList() {
     </Box>
   );
 }
-// {/*TODO: admin 계정으로만으로 바꿔야댐.*/}
-// <Td>
-//   <Box>
-//     <Button
-//         onClick={() => navigate("/home/cs/edit/" + id)}
-//         mr={2}
-//     >
-//       수정
-//     </Button>
-//     /<Button onClick={onOpen}>삭제</Button>
-//   </Box>
-// </Td>

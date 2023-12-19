@@ -4,7 +4,7 @@ import { Box } from "@chakra-ui/react";
 
 export function Board() {
   return (
-    <Box p={{ base: "20px", lg: "40px" }}>
+    <Box p={{ base: "100px", lg: "20px" }}>
       <Outlet />
     </Box>
   );

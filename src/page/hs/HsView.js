@@ -56,7 +56,7 @@ function LikeContainer({ like, onClick }) {
   );
 }
 
-export function HsView({ hsId }) {
+export function HsView({ hsId, onLikeSearch }) {
   const [list, setList] = useState([]);
   const [like, setLike] = useState(null);
   const { id } = useParams();
@@ -103,15 +103,14 @@ export function HsView({ hsId }) {
 
   return (
     <Table>
-      <Card w="370px">
-        <CardHeader>
-          <Center className="font-dongle text-5xl">{list.name}</Center>
-        </CardHeader>
+      <Card w="360px">
+        <Center className="font-dongle text-5xl">{list.name}</Center>
         <Box
           w="100%"
           h="200px"
-          sx={{ marginTop: "20px", marginBottom: "20px" }}
+          sx={{ marginTop: "10px", marginBottom: "10px" }}
           position="relative"
+          borderRadius="8px"
         >
           {list.files &&
             list.files.map((file, index) => (
@@ -124,7 +123,7 @@ export function HsView({ hsId }) {
                 <Image
                   src={file.url}
                   alt={file.name}
-                  width="380px"
+                  width="370px"
                   height="200px"
                 />
               </Box>
@@ -159,6 +158,7 @@ export function HsView({ hsId }) {
               size="150px"
               border="1px solid lightgrey"
               borderBottom="none"
+              borderTopRadius="5px"
             >
               <Center marginTop="7px">
                 <LikeContainer like={like} onClick={handleLikeClick} />

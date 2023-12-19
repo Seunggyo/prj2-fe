@@ -4,10 +4,7 @@ import {
   Flex,
   FormControl,
   FormHelperText,
-  FormLabel,
-  Input,
   Select,
-  Textarea,
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -18,6 +15,7 @@ export function CSWrite() {
   const [csTitle, setCsTitle] = useState("");
   const [csContent, setCsContent] = useState("");
   const [csCategory, setCsCategory] = useState("안내사항");
+  const [uploadFiles, setUploadFiles] = useState(null);
   const [files, setFiles] = useState(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,13 +23,34 @@ export function CSWrite() {
   const toast = useToast();
   const navigate = useNavigate();
 
+  const handleFileChange = (e) => {
+    // 파일 입력에서 선택한 파일들을 가져오기.
+    const selecteFiles = e.target.files;
+    const filesArray = [];
+
+    for (let i = 0; i < selecteFiles.length; i++) {
+      const file = selecteFiles[i];
+
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        // 파일 미리보기 URL을 생성하여 상태 업데이트
+        filesArray.push({ file, previewURL: reader.result });
+
+        setFiles([...filesArray]);
+      };
+      // 파일을 읽어와서 미리보기 URL을 생성
+      reader.readAsDataURL(file);
+    }
+  };
+
   function handleSubmit() {
     axios
-      .post("/api/cs/add", {
+      .postForm("/api/cs/add", {
         csTitle,
         csContent,
         csCategory: csCategory,
-        uploadFiles: files,
+        uploadFiles: uploadFiles,
       })
       .then(() => {
         toast({
@@ -90,22 +109,20 @@ export function CSWrite() {
                 ></textarea>
               </div>
               <div className="flex space-x-24">
-                <div>
-                  <Flex ml="4">
-                    <Select
-                      defaultValue={"안내사항"}
-                      onChange={(e) => {
-                        setCsCategory(e.target.value);
-                      }}
-                    >
-                      <option value={"안내사항"}>안내사항</option>
-                      <option value={"긴급안내"}>긴급안내</option>
-                      <option value={"출시소식"}>출시소식</option>
-                      <option value={"이벤트"}>이벤트</option>
-                      <option value={"당첨자발표"}>당첨자발표</option>
-                    </Select>
-                  </Flex>
-                </div>
+                <Flex ml="4">
+                  <Select
+                    defaultValue={"안내사항"}
+                    onChange={(e) => {
+                      setCsCategory(e.target.value);
+                    }}
+                  >
+                    <option value={"안내사항"}>안내사항</option>
+                    <option value={"긴급안내"}>긴급안내</option>
+                    <option value={"출시소식"}>출시소식</option>
+                    <option value={"이벤트"}>이벤트</option>
+                    <option value={"당첨자발표"}>당첨자발표</option>
+                  </Select>
+                </Flex>
               </div>
               <FormControl>
                 <span className="font-dongle text-4xl text-gray-500">
@@ -117,8 +134,29 @@ export function CSWrite() {
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={(e) => setFiles(e.target.files)}
+                  onChange={(e) => {
+                    handleFileChange(e);
+                    setUploadFiles(e.target.files);
+                  }}
                 />
+
+                {/* 미리보기 이미지를 표시하는 부분 */}
+                <div style={{ display: "flex", marginTop: "10px" }}>
+                  {Array.isArray(files) &&
+                    files.map((file, index) => (
+                      <img
+                        key={index}
+                        src={file.previewURL}
+                        alt={`Preview ${index}`}
+                        style={{
+                          width: "180px",
+                          height: "auto",
+                          marginRight: "10px",
+                        }}
+                      />
+                    ))}
+                </div>
+
                 <FormHelperText>
                   한 개의 파일은 3MB 이내, 총 용량은 30MB 이내로 첨부해주세요.
                 </FormHelperText>

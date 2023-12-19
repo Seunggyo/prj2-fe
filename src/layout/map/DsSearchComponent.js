@@ -60,7 +60,7 @@ export function DsSearchComponent({ onItemClick }) {
 
   return (
     // list 보여주는 박스
-    <Box w="280px">
+    <Box w="300px">
       <Box>
         <InputGroup size="sm" marginBottom="10px">
           <Input
@@ -68,7 +68,15 @@ export function DsSearchComponent({ onItemClick }) {
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
           />
-          <InputRightAddon children="검색" onClick={handleSearch} />
+          <Button
+            className={`mx-2 px-4 py-2 font-semibold text-gray-100 ${
+              keyword ? "bg-indigo-300" : "bg-gray-500 cursor-not-allowed"
+            }`}
+            disabled={!keyword}
+            onClick={handleSearch}
+          >
+            검색
+          </Button>
         </InputGroup>
         {isAuthenticated() && authCheck() === "ds" && isButtonActive && (
           <Button onClick={() => navigate("/home/ds/write")}>약국 추가</Button>
@@ -82,69 +90,66 @@ export function DsSearchComponent({ onItemClick }) {
             borderRadius="lg"
             overflow="hidden"
             onClick={() => onItemClick(ds.id)}
-            // onClick={() => console.log(ds.id)}
+            p="2"
           >
-            <Center>
-              <Image
-                src={ds.files.length > 0 ? ds.files[0].url : ""}
-                w="200px"
-                h="100px"
-              />
-            </Center>
-
-            <Box p="6">
-              {/*<Box d="flex" alignItems="baseline">*/}
-              {/*  <Badge borderRadius="full" px="2" colorScheme="teal">*/}
-              {/*    {ds.level}*/}
-              {/*  </Badge>*/}
-              {/*</Box>*/}
-
-              <Box
-                mt="1"
-                fontWeight="semibold"
-                as="h4"
-                lineHeight="tight"
-                isTruncated
-              >
-                {ds.name}
-              </Box>
-              <Box fontSize="12px">{ds.oldAddress}</Box>
-              {/*<Box fontSize="14px">번호 : {ds.phone}</Box>*/}
-
-              <Box>
-                영업시간 :{ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}~
-                {ds.closeHour}:{ds.closeMin === 0 ? "00" : ds.closeMin}
-                {ds.restHour !== 0 && (
-                  <>
-                    <br />
-                    ※휴게시간 {ds.restHour}:
-                    {ds.restMin === 0 ? "00" : ds.restMin}~{ds.restCloseHour}:
-                    {ds.restCloseMin === 0 ? "00" : ds.restCloseMin}
-                  </>
-                )}
-              </Box>
-
-              <Flex>
-                <Stack direction="row" mt="2" spacing={2} align="center">
-                  <Box as="span" ml="2" color="gray.600" fontSize="sm">
-                    {ds.commentCount} 댓글
+            <Flex>
+              <Box w="175px" h="120px">
+                <Flex>
+                  <Box
+                    w="136px"
+                    fontWeight="semibold"
+                    as="h4"
+                    lineHeight="tight"
+                    isTruncated
+                    className="font-dongle text-3xl"
+                    mb="4px"
+                  >
+                    <Center>{ds.name}</Center>
                   </Box>
-                </Stack>
-                <Stack direction="row" mt="2" spacing={2} align="center">
-                  <Box as="span" ml="2" fontSize="sm" color="red">
+                  <Box
+                    as="span"
+                    mt="1"
+                    ml="2"
+                    fontSize="lg"
+                    color="red"
+                    mb="4px"
+                    w="39px"
+                  >
                     {ds.likeCount}{" "}
                     <FontAwesomeIcon icon={faHeart} color="red" />
                   </Box>
-                </Stack>
-              </Flex>
-            </Box>
+                </Flex>
+                <Box mb="4px" fontSize="13px">
+                  {ds.oldAddress}
+                </Box>
+
+                <Box fontSize="14px">
+                  영업시간 : {ds.openHour}:
+                  {ds.openMin === 0 ? "00" : ds.openMin} ~ {ds.closeHour}:
+                  {ds.closeMin === 0 ? "00" : ds.closeMin}
+                  {ds.restHour !== 0 && (
+                    <>
+                      <br />
+                      ※휴게시간 {ds.restHour}:
+                      {ds.restMin === 0 ? "00" : ds.restMin}~{ds.restCloseHour}:
+                      {ds.restCloseMin === 0 ? "00" : ds.restCloseMin}
+                    </>
+                  )}
+                </Box>
+              </Box>
+              <Box>
+                <Image
+                  src={ds.files.length > 0 ? ds.files[0].url : ""}
+                  objectFit="fill"
+                  w="240px"
+                  h="120px"
+                  borderRadius="8px"
+                />
+              </Box>
+            </Flex>
           </Box>
         ))}
       </Stack>
-      {/*페이징*/}
-      {/*<Box>*/}
-      {/*  <Pagination pageInfo={pageInfo} />*/}
-      {/*</Box>*/}
     </Box>
   );
 }

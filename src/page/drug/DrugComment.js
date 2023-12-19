@@ -4,6 +4,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Center,
   Checkbox,
   Flex,
   FormHelperText,
@@ -24,10 +25,17 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { LoginContext } from "../../component/LoginProvider";
 import { DeleteIcon, EditIcon, NotAllowedIcon } from "@chakra-ui/icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faComment,
+  faCommentAlt,
+  faCommentDots,
+} from "@fortawesome/free-solid-svg-icons";
+import { faComments } from "@fortawesome/free-regular-svg-icons";
 
 function CommentForm({ drugId, isSubmitting, onSubmit, setFiles }) {
   const [comment, setComment] = useState("");
@@ -37,7 +45,7 @@ function CommentForm({ drugId, isSubmitting, onSubmit, setFiles }) {
   }
 
   return (
-    <Box>
+    <Box width="1150px" marginLeft="50px">
       <Textarea value={comment} onChange={(e) => setComment(e.target.value)} />
       <Flex>
         <Input
@@ -51,7 +59,7 @@ function CommentForm({ drugId, isSubmitting, onSubmit, setFiles }) {
           onClick={handleSubmit}
           colorScheme="blue"
         >
-          댓글등록
+          <FontAwesomeIcon icon={faCommentDots} />
         </Button>
       </Flex>
     </Box>
@@ -125,11 +133,11 @@ function CommentItem({
     <Box>
       <Flex justifyContent="space-between">
         <Heading size="xs">{drugComment.memberNickName}</Heading>
-        <Text fontSize="xs">{drugComment.inserted}</Text>
+        <Text fontSize="xs">{drugComment.ago}</Text>
       </Flex>
       <Flex>
         {drugComment.files.map((file) => (
-          <Box key={file.id} width="300px" border="1px solid black">
+          <Box key={file.id} width="250px">
             <Image width="100%" src={file.url} />
           </Box>
         ))}
@@ -145,7 +153,7 @@ function CommentItem({
               {/*수정 할 때 파일 삭제*/}
               <Flex>
                 {drugComment.files.map((file) => (
-                  <Box key={file.id} width="100px" border="1px solid black">
+                  <Box key={file.id} width="100px" border="1px solid pink">
                     <Checkbox
                       colorScheme="red"
                       value={file.id}
@@ -154,7 +162,7 @@ function CommentItem({
                       삭제
                     </Checkbox>
                     <Box>
-                      <Image width="100%" src={file.url} />
+                      <Image width="100%" src={file.url} height="100%" />
                     </Box>
                   </Box>
                 ))}
@@ -230,26 +238,30 @@ function CommentList({
   const { hasAccess } = useContext(LoginContext);
 
   return (
-    <Card>
-      <CardHeader>
-        <Heading>
-          <Heading size="md">댓글 리스트</Heading>
-        </Heading>
-      </CardHeader>
-      <CardBody>
-        <Stack divider={<StackDivider />} spacing="4">
-          {drugCommentList.map((drugComment) => (
-            <CommentItem
-              key={drugComment.id}
-              isSubmitting={isSubmitting}
-              setIsSubmitting={setIsSubmitting}
-              drugComment={drugComment}
-              onDeleteModalOpen={onDeleteModalOpen}
-            />
-          ))}
-        </Stack>
-      </CardBody>
-    </Card>
+    <Center mt={5}>
+      <Card width={"1150px"} marginLeft={"50px"}>
+        <CardHeader>
+          <Heading>
+            <Heading size="md">
+              <FontAwesomeIcon icon={faComments} /> REVIEW
+            </Heading>
+          </Heading>
+        </CardHeader>
+        <CardBody>
+          <Stack divider={<StackDivider />} spacing="4">
+            {drugCommentList.map((drugComment) => (
+              <CommentItem
+                key={drugComment.id}
+                isSubmitting={isSubmitting}
+                setIsSubmitting={setIsSubmitting}
+                drugComment={drugComment}
+                onDeleteModalOpen={onDeleteModalOpen}
+              />
+            ))}
+          </Stack>
+        </CardBody>
+      </Card>
+    </Center>
   );
 }
 

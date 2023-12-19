@@ -93,14 +93,14 @@ function CommentItem({ c, toast, setIsSubmitting, onDeleteModalOpen }) {
   return (
     <Box>
       <Flex justifyContent={"space-between"}>
-        <Heading size="xs">{c.memberNickName}</Heading>
+        <Heading fontSize="2xl" marginBottom="10px">
+          {c.memberNickName}
+        </Heading>
       </Flex>
       <Flex>
-        <Box>
-          <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="sm">
-            {c.comment}
-          </Text>
-          <Text>{c.ago}</Text>
+        <Box flex={1}>
+          <Text>{c.comment}</Text>
+            <Text>{c.ago}</Text>
           {isEditing && (
             <Box>
               <Textarea
@@ -113,13 +113,13 @@ function CommentItem({ c, toast, setIsSubmitting, onDeleteModalOpen }) {
             </Box>
           )}
         </Box>
-        {(hasAccess(c.memberId) || authCheck() === "admin") && (
+        {(hasAccess(c.memberId) || isAdmin) && (
           <Box>
             {isEditing || (
               <Button
                 variant="ghost"
-                size="xs"
                 colorScheme="green"
+                marginRight="5px"
                 onClick={() => setIsEditing(true)}
               >
                 <EditIcon />
@@ -128,7 +128,6 @@ function CommentItem({ c, toast, setIsSubmitting, onDeleteModalOpen }) {
             {isEditing && (
               <Button
                 variant="ghost"
-                size={"xs"}
                 colorScheme={"gray"}
                 onClick={() => setIsEditing(false)}
               >

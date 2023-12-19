@@ -113,7 +113,7 @@ export function QAList() {
   const [params, setParams] = useSearchParams();
   const location = useLocation();
 
-  const { fetchLogin, login, isAuthenticated, authCheck } =
+  const { fetchLogin, login, isAuthenticated, authCheck, hasAccess } =
     useContext(LoginContext);
 
   useEffect(() => {
