@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { AspectRatio, Box, Image } from "@chakra-ui/react";
+import { AspectRatio, Box, Center, Flex, Image } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouseChimneyMedical,
-  faMagnifyingGlass,
   faPills,
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -16,6 +15,9 @@ import {
 import logo from "./assets/images/로고1.png";
 import Snowfall from "react-snowfall";
 import { LoginContext } from "./component/LoginProvider";
+import bgg from "./assets/images/배경화면.jpg";
+import ch from "./assets/images/크리스마스 배너.PNG";
+import { faTree } from "@fortawesome/free-solid-svg-icons/faTree";
 
 const images = [
   {
@@ -36,11 +38,45 @@ const images = [
 
   {
     id: 4,
-    src: "https://t1.daumcdn.net/cfile/tistory/99CA613359CC878433",
+    src: ch,
     current: false,
   },
 ];
 export function WelcomePage() {
+  /*------------------반짝이----------------------*/
+  const [text, setText] = useState("크리스마스크리스마스크리스마스크리스크");
+  const [introduceColors, setIntroduceColors] = useState([]);
+  useEffect(() => {
+    let nonSpaceCharCount = 0;
+    if (text !== null) {
+      setIntroduceColors(
+        Array.from(text).map((char, index) => {
+          if (char !== " ") {
+            const color = nonSpaceCharCount % 2 === 0 ? "#41A541" : "tomato";
+            nonSpaceCharCount++;
+            return color;
+          }
+          return null;
+        }),
+      );
+    }
+  }, [text]);
+
+  useEffect(() => {
+    if (text !== null) {
+      const interval = setInterval(() => {
+        setIntroduceColors((currentColors) =>
+          currentColors.map(
+            (color) => color && (color === "#41A541" ? "tomato" : "#41A541"),
+          ),
+        );
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, []);
+
+  /*-------------------------------------*/
   const [imageList, setImageList] = useState(images);
   const nextIndex = useRef(1);
 
@@ -70,7 +106,14 @@ export function WelcomePage() {
   }
 
   return (
-    <div className="bg-indigo-950">
+    <div
+      class="h-screen"
+      style={{
+        backgroundImage: `url(${bgg})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+      }}
+    >
       <Snowfall
         style={{
           position: "fixed",
@@ -87,7 +130,7 @@ export function WelcomePage() {
             {imageList.map((image) => (
               <Image
                 position="absolute"
-                w="100%"
+                w="90%"
                 key={image.id}
                 src={image.src}
                 zIndex={image.current ? 1 : 0}
@@ -99,63 +142,81 @@ export function WelcomePage() {
         </AspectRatio>
       </Box>
 
-      <body>
-        <div className="flex bg-indigo-950  justify-center relative">
+      <div>
+        <div className="flex justify-center relative">
           <div
             className="sticky z-99 flex flex-col justify-center"
             style={{
               marginRight: "100px",
-              marginTop: "50px",
               color: "white",
               cursor: "pointer",
             }}
             onClick={() => navigate("/home")}
           >
             <br />
+
+            <Flex justifyContent="center">
+              {text !== null &&
+                text.split("").map((char, index) => (
+                  <span
+                    style={{
+                      color: introduceColors[index] || "inherit",
+                      marginBottom: "30px",
+                      marginRight: "8px",
+                    }}
+                    key={index}
+                  >
+                    {char !== " " ? <FontAwesomeIcon icon={faTree} /> : " "}
+                  </span>
+                ))}
+            </Flex>
             <p
-              className="text-6xl font-dongle font-semibold text-center"
-              style={{ marginBottom: "40px" }}
+              className="text-7xl font-dongle font-semibold text-center"
+              style={{ marginBottom: "30px" }}
             >
               <strong>세종시의</strong> 의료가
             </p>
             <p
-              className="text-6xl font-dongle font-semibold text-center"
-              style={{ marginBottom: "40px" }}
+              className="text-7xl font-dongle font-semibold text-center"
+              style={{ marginBottom: "30px" }}
             >
               필요한 모든 순간
             </p>
             <p
-              className="text-6xl font-dongle font-semibold text-center"
+              className="text-7xl font-dongle font-semibold text-center"
               style={{ fontWeight: "bold", marginBottom: "20px" }}
             >
               병원 갈 땐, 아프지마
             </p>
             <br />
             <p>
-              <Image src={logo} />
+              {/*<Image*/}
+              {/*  src={ch}*/}
+              {/*  style={{*/}
+              {/*    width: "500px",*/}
+              {/*    height: "200px",*/}
+              {/*  }}*/}
+              {/*/>*/}
             </p>
-            <div
-              style={{
-                border: "2px solid white",
-                borderRadius: "8px",
-                backgroundColor: "white",
-                marginBottom: "200px",
-              }}
-            ></div>
+            {/*<div*/}
+            {/*  style={{*/}
+            {/*    border: "2px solid white",*/}
+            {/*    borderRadius: "8px",*/}
+            {/*    backgroundColor: "white",*/}
+            {/*    // marginBottom: "200px",*/}
+            {/*  }}*/}
+            {/*></div>*/}
           </div>
 
-          <div className="max-w-md overflow-y-auto bg-indigo-950 w-full md:w-1/2">
-            <div className="flex  pt-5  flex items-center">
+          <div className="max-w-md overflow-y-auto  w-full md:w-1/2">
+            <div
+              className="flex  pt-5  flex items-center "
+              style={{ marginTop: "10px" }}
+            >
               <div className="flex mx-auto flex-col md:flex-row">
                 <div className=" max-w-md">
                   <div className=" flex flex-col">
                     <div className="p-4">
-                      {/*<div className="flex rounded-xl bg-gray-100 h-16 items-center text-md mt-10 p-8">*/}
-                      {/*  <FontAwesomeIcon icon={faMagnifyingGlass} />*/}
-                      {/*  <h2 className="text-gray-500 ml-2">*/}
-                      {/*    병원 또는 약국명을 검색해 보세요.*/}
-                      {/*  </h2>*/}
-                      {/*</div>*/}
                       <div className="flex justify-between h-30  ">
                         <button
                           className="w-full mx-auto pt-10 flex flex-col items-center"
@@ -245,7 +306,7 @@ export function WelcomePage() {
                             onClick={() => navigate("/home/member/login")}
                           >
                             <FontAwesomeIcon
-                                color="white"
+                              color="white"
                               icon={faHeart}
                               className="w-14 h-14"
                             />
@@ -290,7 +351,7 @@ export function WelcomePage() {
             </div>
           </div>
         </div>
-      </body>
+      </div>
     </div>
   );
 }

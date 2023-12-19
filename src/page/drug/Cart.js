@@ -19,7 +19,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { LoginContext } from "../../component/LoginProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEraser } from "@fortawesome/free-solid-svg-icons";
+import { faEraser, faRemove } from "@fortawesome/free-solid-svg-icons";
 
 export function Cart() {
   const [cartList, setCartList] = useState(null);
@@ -98,13 +98,16 @@ export function Cart() {
                       </span>
                       <Button
                         size="xs"
-                        colorScheme="pink"
                         onClick={() => {
                           idRef.current = cart.id;
                           onOpen();
                         }}
                       >
-                        <FontAwesomeIcon icon={faEraser} />
+                        <FontAwesomeIcon
+                          icon={faRemove}
+                          color="black"
+                          bg="white"
+                        />
                       </Button>
                     </div>
                   </div>
