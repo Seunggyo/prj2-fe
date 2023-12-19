@@ -7,9 +7,10 @@ import {
   Select,
   useToast,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { LoginContext } from "../../../component/LoginProvider";
 
 export function QAWrite() {
   const [qaTitle, setQaTitle] = useState("");
@@ -18,11 +19,14 @@ export function QAWrite() {
   const [uploadFiles, setUploadFiles] = useState(null);
   const [files, setFiles] = useState(null);
 
+  const urlParams = new URLSearchParams();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toast = useToast();
   const navigate = useNavigate();
 
+  const { login } = useContext(LoginContext);
   const handleFileChange = (e) => {
     // 파일 입력에서 선택한 파일들을 가져오기.
     const selecteFiles = e.target.files;
@@ -46,6 +50,11 @@ export function QAWrite() {
 
   function handleSubmit() {
     setIsSubmitting(true);
+
+    if (login !== null) {
+      urlParams.set("id", login.id);
+    }
+
     axios
       .postForm("/api/qa/add", {
         qaTitle,
@@ -58,7 +67,7 @@ export function QAWrite() {
           description: "새 글이 저장되었습니다.",
           status: "success",
         });
-        navigate("/home/cs/qaList");
+        navigate("/home/cs/qaList?" + urlParams);
       })
       .catch((error) => {
         console.log(error.response.status);

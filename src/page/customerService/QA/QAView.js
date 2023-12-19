@@ -39,7 +39,13 @@ export function QAView() {
 
   const { id } = useParams();
 
-  const { hasAccess, authCheck } = useContext(LoginContext);
+  const { hasAccess, authCheck, login } = useContext(LoginContext);
+
+  const urlParams = new URLSearchParams();
+
+  if (login !== null) {
+    urlParams.set("id", login.id);
+  }
 
   useEffect(() => {
     axios.get("/api/qa/id/" + id).then((response) => setQa(response.data));
@@ -57,7 +63,7 @@ export function QAView() {
           description: id + "번 공지글이 삭제되었습니다.",
           status: "success",
         });
-        navigate("/home/cs/qaList");
+        navigate("/home/cs/qaList?" + urlParams);
       })
       .catch((error) => {
         toast({

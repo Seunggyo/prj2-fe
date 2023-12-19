@@ -81,7 +81,7 @@ function Pagination({ pageInfo }) {
   );
 }
 
-function SearchComponent() {
+function SearchComponent({ login }) {
   const [keyword, setKeyword] = useState("");
   const navigate = useNavigate();
 
@@ -90,6 +90,7 @@ function SearchComponent() {
     const params = new URLSearchParams();
     params.set("k", keyword);
 
+    params.set("id", login.id);
     navigate("?" + params);
   }
   return (
@@ -117,10 +118,22 @@ export function QAList() {
     useContext(LoginContext);
 
   useEffect(() => {
-    axios.get("/api/qa/qaList?" + params).then((r) => {
-      setQaList(r.data.qaList);
-      setPageInfo(r.data.pageInfo);
-    });
+    if (
+      authCheck() === "user" ||
+      authCheck() === "ds" ||
+      authCheck() === "hs"
+    ) {
+      axios.get("/api/qa/qaList?" + params).then((r) => {
+        setQaList(r.data.qaList);
+        setPageInfo(r.data.pageInfo);
+      });
+    }
+    if (authCheck() === "admin") {
+      axios.get("/api/qa/adminQaList?" + params).then((r) => {
+        setQaList(r.data.qaList);
+        setPageInfo(r.data.pageInfo);
+      });
+    }
   }, [location]);
 
   if (qaList == null || pageInfo == null) {
@@ -141,6 +154,7 @@ export function QAList() {
     const params = new URLSearchParams();
     params.set("f", e.target.value);
 
+    params.set("id", login.id);
     navigate("?" + params);
   }
 
@@ -178,7 +192,7 @@ export function QAList() {
                     <option value={"물품관련"}>물품관련</option>
                     <option value={"기타"}>기타</option>
                   </Select>
-                  <SearchComponent />
+                  <SearchComponent login={login} />
                 </Flex>
               </Flex>
 
