@@ -5,7 +5,6 @@ import {
   Center,
   Flex,
   FormControl,
-  FormLabel,
   Input,
   Spinner,
   Table,
@@ -16,12 +15,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import axios from "axios";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { LoginContext } from "../../component/LoginProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
@@ -59,36 +53,106 @@ function MemberList(props) {
 
   return (
     <Box>
-      <h1>memberList</h1>
       <MemberSearchComp />
-      <Table>
-        <Thead>
-          <Tr>
-            <Th>id</Th>
-            <Th>password</Th>
-            <Th>nickName</Th>
-            <Th>birthday</Th>
-            <Th>phone</Th>
-            <Th>email</Th>
-            <Th>auth</Th>
-            <Th>inserted</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {memberList.map((member) => (
-            <Tr key={member.id} onClick={() => handleMemberClick(member.id)}>
-              <Td>{member.id}</Td>
-              <Td>{member.password}</Td>
-              <Td>{member.nickName}</Td>
-              <Td>{member.birthday}</Td>
-              <Td>{member.phone}</Td>
-              <Td>{member.email}</Td>
-              <Td>{member.auth}</Td>
-              <Td>{member.inserted}</Td>
+
+      <Box
+        bg="white"
+        rounded="lg"
+        shadow="md"
+        overflowY="auto"
+        h="450px"
+        w="85vw"
+      >
+        <Table variant="striped" colorScheme="green" mt="5">
+          <Thead>
+            <Tr>
+              <Th bg="orange.100" fontSize="18" style={{ textAlign: "center" }}>
+                아 이 디
+              </Th>
+              <Th
+                bg="orange.100"
+                fontSize="18 "
+                style={{ textAlign: "center" }}
+              >
+                패 스 워 드
+              </Th>
+              <Th bg="orange.100" fontSize="18" style={{ textAlign: "center" }}>
+                닉 네 임
+              </Th>
+              <Th bg="orange.100" fontSize="18" style={{ textAlign: "center" }}>
+                생 년 월 일
+              </Th>
+              <Th bg="orange.100" fontSize="18" style={{ textAlign: "center" }}>
+                전 화 번 호
+              </Th>
+              <Th bg="orange.100" fontSize="18" style={{ textAlign: "center" }}>
+                이 메 일
+              </Th>
+              <Th bg="orange.100" fontSize="18" style={{ textAlign: "center" }}>
+                권 한
+              </Th>
+              <Th
+                bg="orange.100"
+                fontSize="18"
+                style={{ textAlign: "center", padding: "20px" }}
+              >
+                가 입 일 자
+              </Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
+          </Thead>
+
+          <Box borderBottom="1px solid #E2E8F0" />
+
+          <Tbody>
+            {memberList.map((member) => (
+              <Tr key={member.id} onClick={() => handleMemberClick(member.id)}>
+                <Td>
+                  <Flex align="center" px={6}>
+                    {member.id}
+                  </Flex>
+                </Td>
+                <Td>
+                  <Flex align="center" px={6}>
+                    {member.password}
+                  </Flex>
+                </Td>
+                <Td>
+                  <Flex align="center" px={6}>
+                    {member.nickName}
+                  </Flex>
+                </Td>
+                <Td>
+                  <Flex align="center" px={6}>
+                    {member.birthday}
+                  </Flex>
+                </Td>
+                <Td>
+                  <Flex align="center" px={6}>
+                    {member.phone}
+                  </Flex>
+                </Td>
+                <Td>
+                  <Flex align="center" px={6}>
+                    {member.email}
+                  </Flex>
+                </Td>
+                <Td>
+                  <Flex align="center" px={6}>
+                    {member.auth}
+                  </Flex>
+                </Td>
+                <Td>
+                  <Flex align="center" px={6}>
+                    {new Date(member.inserted)
+                      .toLocaleDateString()
+                      .replace(/\.$/, "")}
+                  </Flex>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </Box>
       <MemberPagination pageInfo={pageInfo} />
     </Box>
   );
@@ -109,10 +173,16 @@ function MemberSearchComp() {
   return (
     <Box>
       <FormControl>
-        <FormLabel>멤버 조회</FormLabel>
-        <Flex width={"300px"}>
-          <Input onChange={(e) => setKeyword(e.target.value)} />
-          <Button onClick={handleMemberSearch}>검색</Button>
+        <h1 className="text-4xl font-semibold mb-8">회 원 리 스 트</h1>
+        <Flex width="400px" alignItems="center">
+          <Input
+            variant="filled"
+            placeholder="검색어를 입력하세요"
+            onChange={(e) => setKeyword(e.target.value)}
+          />
+          <Button ml="2" w="100px" onClick={handleMemberSearch}>
+            검색
+          </Button>
         </Flex>
       </FormControl>
     </Box>

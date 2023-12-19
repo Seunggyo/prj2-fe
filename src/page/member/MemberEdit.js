@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -23,15 +24,18 @@ function MemberEdit(props) {
   const [member, setMember] = useState(null);
   const [nickName, setNickName] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [birthday, setBirthday] = useState();
+  const [profile, setProfile] = useState();
+  const [previewProfile, setPreviewProfile] = useState(null);
 
   const [params] = useSearchParams();
   const toast = useToast();
   const navigate = useNavigate();
+  const profileInput = useRef(null);
 
-  const { authCheck, isAuthenticated, hasAccess } = useContext(LoginContext);
+  const { login, authCheck, isAuthenticated, hasAccess } =
+    useContext(LoginContext);
 
   useEffect(() => {
     if (
@@ -57,12 +61,13 @@ function MemberEdit(props) {
 
   function handleEditClick() {
     axios
-      .put("/api/member/edit", {
+      .putForm("/api/member/edit", {
         id: member.id,
         nickName,
         phone,
         birthday,
         address,
+        profile,
       })
       .then(() => {
         toast({
@@ -79,6 +84,31 @@ function MemberEdit(props) {
       });
   }
 
+  function handleProfileChange(e) {
+    if (e.target.files[0]) {
+      setProfile(e.target.files[0]);
+    }
+
+    // 화면에 프로필사진 표시..
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setPreviewProfile(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  }
+
+  function handleFileSwitch(e) {
+    if (e.target.checked) {
+      // fileSwitch 에 추가
+      setFileSwitch([...fileSwitch, e.target.value]);
+    } else {
+      // fileSwitch 에서 삭제
+      setFileSwitch(fileSwitch.filter((item) => item !== e.target.value));
+    }
+  }
+
   return (
     <Center>
       <Card>
@@ -93,6 +123,20 @@ function MemberEdit(props) {
               onChange={(e) => setNickName(e.target.value)}
             />
           </FormControl>
+          <Avatar
+            src={previewProfile || login.profile}
+            style={{ margin: "20px", width: "16rem", height: "16rem" }}
+            onClick={() => profileInput.current.click()}
+          >
+            <input
+              type="file"
+              style={{ display: "none" }}
+              accept="image/*"
+              name="profile_img"
+              onChange={handleProfileChange}
+              ref={profileInput}
+            />
+          </Avatar>
           <FormControl>
             <FormLabel>phone</FormLabel>
             <Input

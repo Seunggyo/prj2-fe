@@ -257,7 +257,7 @@ export function BoardList() {
         </Box>
       </Box>
 
-      <Box p={8} bg="orange.100">
+      <Box p={6} bg="orange.100" borderRadius="xl">
         <Table bg="white" borderRadius="xl" boxShadow="lg" p={6}>
           <Thead>
             <Tr>

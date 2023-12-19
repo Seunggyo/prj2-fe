@@ -20,7 +20,6 @@ import {
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import defaultImage from "../../assets/images/토오끼.jpg";
 
 export function MemberSignup() {
   const [id, setId] = useState("");
@@ -35,8 +34,8 @@ export function MemberSignup() {
   const [uploadFile, setUploadFile] = useState(null);
   const [mailNum, setMailNum] = useState("");
   const [authenticationNum, setAuthenticationNum] = useState(null);
-  const [profile, setProfile] = useState(defaultImage);
-  const [previewFile, setPreviewFile] = useState("");
+  const [profile, setProfile] = useState("");
+  const [previewProfile, setPreviewProfile] = useState("");
 
   const [idAvailable, setIdAvailable] = useState(false);
   const [nickNameAvailable, setNickNameAvailable] = useState(false);
@@ -213,7 +212,7 @@ export function MemberSignup() {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setPreviewFile(reader.result);
+        setPreviewProfile(reader.result);
       }
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -277,40 +276,28 @@ export function MemberSignup() {
               </Button>
             </Flex>
 
-            {/*<Avatar>*/}
-            {/*  <input*/}
-            {/*    className="block w-1/5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"*/}
-            {/*    type="file"*/}
-            {/*    accept="image/*"*/}
-            {/*    multiple*/}
-            {/*    onChange={(e) => {*/}
-            {/*      handleSubmit(e);*/}
-            {/*      setUploadProfile(e.target.files);*/}
-            {/*    }}*/}
-            {/*  />*/}
-            {/*</Avatar>*/}
-
-            {/*프로필 사진 표시되는 공간..추가중..*/}
-            <Avatar
-              src={previewFile}
-              style={{ margin: "20px" }}
-              size="200"
-              onClick={() => {
-                profileInput.current.click();
-              }}
-            >
-              <input
-                type="file"
-                style={{ display: "none" }}
-                accept="image/*"
-                name="profile_img"
-                onChange={(e) => {
-                  handleProfileChange(e);
+            {/*프로필 미리보기 보여지는 곳*/}
+            <Box>
+              <p>프로필 사진을 선택해주세요.</p>
+              <Avatar
+                src={previewProfile}
+                style={{ margin: "20px", width: "16rem", height: "16rem" }}
+                onClick={() => {
+                  profileInput.current.click();
                 }}
-                ref={profileInput}
-              />
-            </Avatar>
-
+              >
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  accept="image/*"
+                  name="profile_img"
+                  onChange={(e) => {
+                    handleProfileChange(e);
+                  }}
+                  ref={profileInput}
+                />
+              </Avatar>
+            </Box>
             {/*password 패스워드*/}
             <div
               className="relative h-11 w-full min-w-[200px]"

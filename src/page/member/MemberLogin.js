@@ -101,25 +101,27 @@ export function MemberLogin(props) {
                 </button>
               </div>
 
-              <button
-                onClick={() => navigate("/home/member/findId")}
-                className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline ml-2"
-              >
-                아이디 찾기
-              </button>
+              <div className="mt-5">
+                <button
+                  onClick={() => navigate("/home/member/findId")}
+                  className="text-md text-gray-400 focus:text-red-500 hover:text-red-500 hover:underline ml-2"
+                >
+                  아이디 찾기
+                </button>
 
-              <button
-                onClick={() => navigate("/home/member/findPassword")}
-                className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline ml-2"
-              >
-                비밀번호 찾기
-              </button>
+                <button
+                  onClick={() => navigate("/home/member/findPassword")}
+                  className="text-md text-gray-400 focus:text-red-500 hover:text-red-500 hover:underline ml-4"
+                >
+                  비밀번호 찾기
+                </button>
+              </div>
 
-              <p className="mt-6 text-sm text-center text-gray-400">
+              <p className="mt-6 text-md text-center text-gray-400">
                 아직 가입을 안하셨나요?{" "}
                 <button
                   onClick={() => navigate("/home/member/signup")}
-                  className="text-blue-500 focus:outline-none focus:underline hover:underline"
+                  className="text-blue-500 hover:text-red-500 focus:outline-none focus:underline hover:underline"
                 >
                   가입하기
                 </button>

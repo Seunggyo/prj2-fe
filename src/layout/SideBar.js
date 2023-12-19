@@ -3,13 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
   faHospital,
+  faPenToSquare,
   faSquarePlus,
 } from "@fortawesome/free-regular-svg-icons";
 import { faCapsules } from "@fortawesome/free-solid-svg-icons";
 import {
   Box,
   Button,
-  Flex,
   Image,
   Menu,
   MenuButton,
@@ -22,6 +22,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Tooltip,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -39,7 +40,7 @@ export function SideBar() {
 
   const urlParams = new URLSearchParams();
 
-  const { fetchLogin, login, isAuthenticated, authCheck } =
+  const { fetchLogin, login, isAuthenticated, authCheck, hasAccess } =
     useContext(LoginContext);
 
   useEffect(() => {
@@ -135,7 +136,7 @@ export function SideBar() {
                   className="mb-3 relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 cursor-pointer text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
                 >
                   <span className="inline-flex justify-center items-center ml-4">
-                    <FontAwesomeIcon icon={faSquarePlus} />
+                    <FontAwesomeIcon icon={faPenToSquare} />
                   </span>
                   <span className="ml-2 text-4xl font-dongle font-semibold tracking-wide truncate">
                     자유 게시판
@@ -190,12 +191,19 @@ export function SideBar() {
                     </svg>
                   </span>
                   <Menu>
-                    <MenuButton
-                      rightIcon={<ChevronDownIcon />}
-                      className="ml-2 text-4xl font-dongle font-semibold tracking-wide text-gray-500"
+                    <Tooltip
+                      isDisabled={isAuthenticated()}
+                      hasArrow
+                      label={"로그인이 필요합니다!"}
                     >
-                      개인 정보
-                    </MenuButton>
+                      <MenuButton
+                        disabled={!isAuthenticated()}
+                        rightIcon={<ChevronDownIcon />}
+                        className="ml-2 text-4xl font-dongle font-semibold tracking-wide text-gray-500"
+                      >
+                        개인 정보
+                      </MenuButton>
+                    </Tooltip>
                     <MenuList>
                       {isAuthenticated() && (
                         <MenuItem>
@@ -253,7 +261,10 @@ export function SideBar() {
                       </MenuItem>
                       <MenuItem>
                         {" "}
-                        <button className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                        <button
+                          onClick={() => navigate("/home/cs/qaList")}
+                          className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                        >
                           문의 답변
                         </button>
                       </MenuItem>

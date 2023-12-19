@@ -106,26 +106,24 @@ export function QAWrite() {
             </div>
 
             <div className="flex space-x-24">
-              <div>
-                <Flex>
-                  <span className="font-dongle text-4xl text-gray-500">
-                    유 형:
-                  </span>
-                  <Flex ml="4">
-                    <Select
-                      defaultValue={"건의사항"}
-                      onChange={(e) => {
-                        setQaCategory(e.target.value);
-                      }}
-                    >
-                      <option value={"건의사항"}>건의사항</option>
-                      <option value={"이벤트관련"}>이벤트관련</option>
-                      <option value={"물품관련"}>물품관련</option>
-                      <option value={"기타"}>기타</option>
-                    </Select>
-                  </Flex>
+              <Flex>
+                <span className="font-dongle text-4xl text-gray-500">
+                  유 형:
+                </span>
+                <Flex ml="4">
+                  <Select
+                    defaultValue={"건의사항"}
+                    onChange={(e) => {
+                      setQaCategory(e.target.value);
+                    }}
+                  >
+                    <option value={"건의사항"}>건의사항</option>
+                    <option value={"이벤트관련"}>이벤트관련</option>
+                    <option value={"물품관련"}>물품관련</option>
+                    <option value={"기타"}>기타</option>
+                  </Select>
                 </Flex>
-              </div>
+              </Flex>
             </div>
             <FormControl>
               <span className="font-dongle text-4xl text-gray-500">
