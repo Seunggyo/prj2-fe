@@ -171,13 +171,22 @@ export function DsList() {
                         {ds.openHour}:{ds.openMin === 0 ? "00" : ds.openMin}~
                         {ds.closeHour}:{ds.closeMin === 0 ? "00" : ds.closeMin}
                         <Box display={ds.restHour === 0 ? "none" : "block"}>
-                          ※휴게시간
-                          {ds.restHour}:{ds.restMin === 0 ? "00" : ds.restMin}~
+                          ※휴게시간: {ds.restHour}:
+                          {ds.restMin === 0 ? "00" : ds.restMin}~
                           {ds.restCloseHour}:
                           {ds.restCloseMin === 0 ? "00" : ds.restCloseMin}
                         </Box>
                       </Box>
                     }
+                  </Td>
+                  <Td>
+                    {ds.holidays &&
+                      ds.holidays.map((holiday, index) => (
+                        <React.Fragment key={index}>
+                          {holiday.holiday}
+                          {index < ds.holidays.length - 1 && ", "}
+                        </React.Fragment>
+                      ))}
                   </Td>
                 </Tr>
               ))}

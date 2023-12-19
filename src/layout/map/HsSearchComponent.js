@@ -174,6 +174,15 @@ export function HsSearchComponent({
                       </Box>
                     </Flex>
                     <Box mb="4px" fontSize="13px">
+                      {h.medicalCourse &&
+                        h.medicalCourse.map((medicalCourse, index) => (
+                          <React.Fragment key={index}>
+                            {medicalCourse.medicalCourseCategory}
+                            {index < h.medicalCourse.length - 1 && ", "}
+                          </React.Fragment>
+                        ))}
+                    </Box>
+                    <Box mb="4px" fontSize="13px">
                       {h.oldAddress}
                     </Box>
 
