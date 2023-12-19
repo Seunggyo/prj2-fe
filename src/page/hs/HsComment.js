@@ -53,7 +53,7 @@ function CommentForm({ comment, setComment, onSubmit, businessId }) {
 }
 
 function CommentItem({ c, toast, setIsSubmitting, onDeleteModalOpen }) {
-  const { hasAccess, isAdmin } = useContext(LoginContext);
+  const { hasAccess, authCheck } = useContext(LoginContext);
   const [isEditing, setIsEditing] = useState(false);
   const [commentEdited, setCommentEdited] = useState(c.comment);
 
@@ -100,6 +100,7 @@ function CommentItem({ c, toast, setIsSubmitting, onDeleteModalOpen }) {
       <Flex>
         <Box flex={1}>
           <Text>{c.comment}</Text>
+            <Text>{c.ago}</Text>
           {isEditing && (
             <Box>
               <Textarea
@@ -217,7 +218,6 @@ export function HsComment({ businessId }) {
     if (!isSubmitting) {
       const params = new URLSearchParams();
       params.set("id", businessId);
-      console.log(params.toString());
       axios
         .get("/api/hospital/comment/list?" + params)
         .then((r) => setCommentList(r.data));

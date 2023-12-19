@@ -14,6 +14,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Stack,
   Table,
   Tbody,
   Td,
@@ -21,6 +22,7 @@ import {
   Th,
   Thead,
   Tr,
+  useColorModeValue,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -133,9 +135,31 @@ export function DayCheck() {
   }
 
   return (
-    <Box>
-      <Flex>
-        <Text fontSize={"2xl"}>예약확인하실 달을 선택해주세요</Text>
+    <Flex
+      direction={"column"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
+      minH={"100vh"}
+      p={5}
+    >
+      <Stack
+        spacing={6}
+        mx="auto"
+        maxW={1000}
+        boxShadow="2xl"
+        p={6}
+        bg={useColorModeValue("white", "gray.700")}
+        borderRadius="lg"
+      >
+        <Heading
+          mb={6}
+          textAlign="center"
+          size="lg"
+          color={useColorModeValue("gray.700", "white")}
+        >
+          예약확인하실 달을 선택해주세요
+        </Heading>
         <Menu>
           <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
             2023년
@@ -168,86 +192,10 @@ export function DayCheck() {
             </MenuItem>
           </MenuList>
         </Menu>
-      </Flex>
-      {dateButton || (
-        <Box>
-          <Table>
-            <Thead>
-              <Tr>
-                <Th>예약자</Th>
-                <Th>예약 날짜</Th>
-                <Th>예약 시간</Th>
-                <Th>예약 특이사항</Th>
-                <Th>예약자 전화번호</Th>
-                <Th>확인된 예약</Th>
-                <Th>예약 확인</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {listReservation && listReservation.length !== 0 ? (
-                listReservation.map((l) => (
-                  <Tr key={l.id}>
-                    <Td>{l.nickName}</Td>
-                    <Td>{new Date(l.reservationDate).toLocaleDateString()}</Td>
-                    <Td>
-                      {l.reservationHour < 13
-                        ? "오전 " + l.reservationHour
-                        : "오후 " + (l.reservationHour - 12)}
-                      :
-                      {l.reservationMin === 0
-                        ? "0" + l.reservationMin
-                        : l.reservationMin}
-                    </Td>
-                    <Td>
-                      {l.comment !== null ? l.comment : "상세 내용이 없습니다."}
-                    </Td>
-                    <Td>{l.phone}</Td>
-                    <Td>
-                      {l.isReservationCheck === true
-                        ? "확인 완료"
-                        : "확인이 필요합니다."}
-                    </Td>
-                    <Td>
-                      {l.isReservationCheck === false ? (
-                        <Button
-                          id={l.id}
-                          colorScheme={"green"}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onOpen1();
-                            setPosition(l.id);
-                          }}
-                        >
-                          예약 확인
-                        </Button>
-                      ) : (
-                        <Button
-                          id={l.id}
-                          colorScheme={"red"}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onOpen();
-                            setPosition(l.id);
-                          }}
-                        >
-                          예약 취소
-                        </Button>
-                      )}
-                    </Td>
-                  </Tr>
-                ))
-              ) : (
-                <Text>예약정보가 없습니다.</Text>
-              )}
-            </Tbody>
-          </Table>
-        </Box>
-      )}
-      {dateButton && (
-        <Box>
-          <Box>
-            <Heading>예약내역</Heading>
-            <Table>
+
+        {dateButton || (
+          <Box overflowX={"auto"} boxShadow={"lg"}>
+            <Table size={"sm"} variant={"striped"} colorScheme={"white"}>
               <Thead>
                 <Tr>
                   <Th>예약자</Th>
@@ -257,12 +205,11 @@ export function DayCheck() {
                   <Th>예약자 전화번호</Th>
                   <Th>확인된 예약</Th>
                   <Th>예약 확인</Th>
-                  <Th>예약 취소</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {dateValue && futureListReservations.length !== 0 ? (
-                  futureListReservations.map((l) => (
+                {listReservation && listReservation.length !== 0 ? (
+                  listReservation.map((l) => (
                     <Tr key={l.id}>
                       <Td>{l.nickName}</Td>
                       <Td>
@@ -289,30 +236,31 @@ export function DayCheck() {
                           : "확인이 필요합니다."}
                       </Td>
                       <Td>
-                        <Button
-                          id={l.id}
-                          colorScheme={"green"}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onOpen1();
-                            setPosition(l.id);
-                          }}
-                        >
-                          예약 확인
-                        </Button>
-                      </Td>
-                      <Td>
-                        <Button
-                          id={l.id}
-                          colorScheme={"red"}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onOpen();
-                            setPosition(l.id);
-                          }}
-                        >
-                          예약 취소
-                        </Button>
+                        {l.isReservationCheck === false ? (
+                          <Button
+                            id={l.id}
+                            colorScheme={"green"}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onOpen1();
+                              setPosition(l.id);
+                            }}
+                          >
+                            예약 확인
+                          </Button>
+                        ) : (
+                          <Button
+                            id={l.id}
+                            colorScheme={"red"}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onOpen();
+                              setPosition(l.id);
+                            }}
+                          >
+                            예약 취소
+                          </Button>
+                        )}
                       </Td>
                     </Tr>
                   ))
@@ -322,103 +270,186 @@ export function DayCheck() {
               </Tbody>
             </Table>
           </Box>
-
-          <Heading>예약 확인 내역</Heading>
+        )}
+        {dateButton && (
           <Box>
-            <Table>
-              <Thead>
-                <Tr>
-                  <Th>예약자</Th>
-                  <Th>예약 날짜</Th>
-                  <Th>예약 시간</Th>
-                  <Th>예약 특이사항</Th>
-                  <Th>예약자 전화번호</Th>
-                  <Th>확인된 예약</Th>
-                  <Th>예약 취소</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {dateValue && futureCheckListReservation.length !== 0 ? (
-                  futureCheckListReservation.map((l) => (
-                    <Tr key={l.id}>
-                      <Td>{l.nickName}</Td>
-                      <Td>
-                        {new Date(l.reservationDate).toLocaleDateString()}
-                      </Td>
-                      <Td>
-                        {l.reservationHour < 13
-                          ? "오전 " + l.reservationHour
-                          : "오후 " + (l.reservationHour - 12)}
-                        :
-                        {l.reservationMin === 0
-                          ? "0" + l.reservationMin
-                          : l.reservationMin}
-                      </Td>
-                      <Td>
-                        {l.comment !== null
-                          ? l.comment
-                          : "상세 내용이 없습니다."}
-                      </Td>
-                      <Td>{l.phone}</Td>
-                      <Td>
-                        {l.isReservationCheck === true
-                          ? "확인 완료"
-                          : "확인이 필요합니다."}
-                      </Td>
-                      <Td>
-                        <Button
-                          id={l.id}
-                          colorScheme={"red"}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onOpen();
-                            setPosition(l.id);
-                          }}
-                        >
-                          예약 취소
-                        </Button>
-                      </Td>
-                    </Tr>
-                  ))
-                ) : (
-                  <Text>예약정보가 없습니다.</Text>
-                )}
-              </Tbody>
-            </Table>
+            <Box>
+              <Heading>예약내역</Heading>
+              <Table size={"sm"} variant={"striped"} colorScheme={"white"}>
+                <Thead>
+                  <Tr>
+                    <Th>예약자</Th>
+                    <Th>예약 날짜</Th>
+                    <Th>예약 시간</Th>
+                    <Th>예약 특이사항</Th>
+                    <Th>예약자 전화번호</Th>
+                    <Th>확인된 예약</Th>
+                    <Th>예약 확인</Th>
+                    <Th>예약 취소</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {dateValue && futureListReservations.length !== 0 ? (
+                    futureListReservations.map((l) => (
+                      <Tr key={l.id}>
+                        <Td>{l.nickName}</Td>
+                        <Td>
+                          {new Date(l.reservationDate).toLocaleDateString()}
+                        </Td>
+                        <Td>
+                          {l.reservationHour < 13
+                            ? "오전 " + l.reservationHour
+                            : "오후 " + (l.reservationHour - 12)}
+                          :
+                          {l.reservationMin === 0
+                            ? "0" + l.reservationMin
+                            : l.reservationMin}
+                        </Td>
+                        <Td>
+                          {l.comment !== null
+                            ? l.comment
+                            : "상세 내용이 없습니다."}
+                        </Td>
+                        <Td>{l.phone}</Td>
+                        <Td>
+                          {l.isReservationCheck === true
+                            ? "확인 완료"
+                            : "확인이 필요합니다."}
+                        </Td>
+                        <Td>
+                          <Button
+                            id={l.id}
+                            colorScheme={"green"}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onOpen1();
+                              setPosition(l.id);
+                            }}
+                          >
+                            예약 확인
+                          </Button>
+                        </Td>
+                        <Td>
+                          <Button
+                            id={l.id}
+                            colorScheme={"red"}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onOpen();
+                              setPosition(l.id);
+                            }}
+                          >
+                            예약 취소
+                          </Button>
+                        </Td>
+                      </Tr>
+                    ))
+                  ) : (
+                    <Text>예약정보가 없습니다.</Text>
+                  )}
+                </Tbody>
+              </Table>
+            </Box>
+
+            <Heading mt={5} mb={3}>
+              예약 확인 내역
+            </Heading>
+            <Box>
+              <Table size={"sm"} variant={"striped"} colorScheme={"white"}>
+                <Thead>
+                  <Tr>
+                    <Th>예약자</Th>
+                    <Th>예약 날짜</Th>
+                    <Th>예약 시간</Th>
+                    <Th>예약 특이사항</Th>
+                    <Th>예약자 전화번호</Th>
+                    <Th>확인된 예약</Th>
+                    <Th>예약 취소</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {dateValue && futureCheckListReservation.length !== 0 ? (
+                    futureCheckListReservation.map((l) => (
+                      <Tr key={l.id}>
+                        <Td>{l.nickName}</Td>
+                        <Td>
+                          {new Date(l.reservationDate).toLocaleDateString()}
+                        </Td>
+                        <Td>
+                          {l.reservationHour < 13
+                            ? "오전 " + l.reservationHour
+                            : "오후 " + (l.reservationHour - 12)}
+                          :
+                          {l.reservationMin === 0
+                            ? "0" + l.reservationMin
+                            : l.reservationMin}
+                        </Td>
+                        <Td>
+                          {l.comment !== null
+                            ? l.comment
+                            : "상세 내용이 없습니다."}
+                        </Td>
+                        <Td>{l.phone}</Td>
+                        <Td>
+                          {l.isReservationCheck === true
+                            ? "확인 완료"
+                            : "확인이 필요합니다."}
+                        </Td>
+                        <Td>
+                          <Button
+                            id={l.id}
+                            colorScheme={"red"}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onOpen();
+                              setPosition(l.id);
+                            }}
+                          >
+                            예약 취소
+                          </Button>
+                        </Td>
+                      </Tr>
+                    ))
+                  ) : (
+                    <Text>예약정보가 없습니다.</Text>
+                  )}
+                </Tbody>
+              </Table>
+            </Box>
           </Box>
-        </Box>
-      )}
+        )}
 
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>예약취소</ModalHeader>
-          <ModalCloseButton />
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>예약취소</ModalHeader>
+            <ModalCloseButton />
 
-          <ModalBody>예약취소 하시겠습니까?</ModalBody>
+            <ModalBody>예약취소 하시겠습니까?</ModalBody>
 
-          <ModalFooter>
-            <Button onClick={onClose}>닫기</Button>
-            <Button onClick={handleDeleteClick} colorScheme="red">
-              예약취소
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-      <Modal isOpen={isOpen1} onClose={onClose1}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>예약 확인</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>예약 확인하시겠습니까?</ModalBody>
-          <ModalFooter>
-            <Button onClick={onClose1}>닫기</Button>
-            <Button onClick={handleOkClick} colorScheme="green">
-              예약 확인
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </Box>
+            <ModalFooter>
+              <Button onClick={onClose}>닫기</Button>
+              <Button onClick={handleDeleteClick} colorScheme="red">
+                예약취소
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+        <Modal isOpen={isOpen1} onClose={onClose1}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>예약 확인</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>예약 확인하시겠습니까?</ModalBody>
+            <ModalFooter>
+              <Button onClick={onClose1}>닫기</Button>
+              <Button onClick={handleOkClick} colorScheme="green">
+                예약 확인
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Stack>
+    </Flex>
   );
 }

@@ -310,7 +310,6 @@ export function HsEdit() {
                 {hour()}
               </Select>
               <Select
-                defaultValue={0}
                 onChange={handleOpenMinChange}
                 value={list.openMin}
                 w={"sm"}
@@ -347,13 +346,11 @@ export function HsEdit() {
                 w={"sm"}
                 placeholder="시간"
                 value={list.restHour}
-                defaultValue={0}
                 fontSize="2xl"
               >
                 {hour()}
               </Select>
               <Select
-                defaultValue={0}
                 onChange={handleRestMinChange}
                 value={list.restMin}
                 w={"sm"}
@@ -373,13 +370,11 @@ export function HsEdit() {
                 w={"sm"}
                 placeholder="시간"
                 value={list.restCloseHour}
-                defaultValue={0}
                 fontSize="2xl"
               >
                 {hour()}
               </Select>
               <Select
-                defaultValue={0}
                 onChange={handleRestCloseMinChange}
                 value={list.restCloseMin}
                 w={"sm"}
@@ -401,7 +396,6 @@ export function HsEdit() {
             <Flex>
               <Select
                 value={list.closeHour}
-                defaultValue={0}
                 onChange={handleCloseHourChange}
                 w={"sm"}
                 placeholder="시간"
@@ -412,7 +406,6 @@ export function HsEdit() {
               <FormLabel fontSize="2xl">시</FormLabel>
               <Select
                 value={list.closeMin}
-                defaultValue={0}
                 w={"sm"}
                 placeholder="분"
                 onChange={handleCloseMinChange}
@@ -511,7 +504,7 @@ export function HsEdit() {
               onChange={(e) => setUploadFiles(e.target.files)}
             />
             <FormHelperText fontSize="2xl">
-              한 개 파일은 3MB, 총 용량은 10MB 이내로 첨부하세요.
+              한 개 파일은 3MB, 총 용량은 30MB 이내로 첨부하세요.
             </FormHelperText>
           </FormControl>
           <FormControl>

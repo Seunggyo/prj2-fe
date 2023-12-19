@@ -170,7 +170,6 @@ export function HsSearchComponent({
                         mr="5px"
                       >
                         {h.countLike}
-                        {""}
                         <FontAwesomeIcon icon={faHeart} color="red" />
                       </Box>
                     </Flex>
