@@ -275,7 +275,7 @@ export function DayCheck() {
           <Box>
             <Box>
               <Heading>예약내역</Heading>
-              <Table>
+              <Table size={"sm"} variant={"striped"} colorScheme={"white"}>
                 <Thead>
                   <Tr>
                     <Th>예약자</Th>
@@ -351,9 +351,11 @@ export function DayCheck() {
               </Table>
             </Box>
 
-            <Heading>예약 확인 내역</Heading>
+            <Heading mt={5} mb={3}>
+              예약 확인 내역
+            </Heading>
             <Box>
-              <Table>
+              <Table size={"sm"} variant={"striped"} colorScheme={"white"}>
                 <Thead>
                   <Tr>
                     <Th>예약자</Th>

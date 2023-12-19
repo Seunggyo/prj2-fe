@@ -90,12 +90,20 @@ export function HsReservationCheck() {
   }
 
   return (
-    <Box>
-      <Box>
+    <Box bgColor={"white"} p={5}>
+      <Box m={5} bgColor={"white"} borderRadius={"md"} p={5} shadow={"md"}>
         <Text fontSize={"xl"}>{idCheck()}님의 예약 내역</Text>
         <Flex>
-          <Button onClick={handleUnCheckButtonClick}>예약 확인 된 내역</Button>
-          <Button onClick={handleCheckButtonClick}>예약 확인 안된 내역</Button>
+          <Button
+            onClick={handleUnCheckButtonClick}
+            colorScheme={"teal"}
+            mr={3}
+          >
+            예약 확인 안된 내역
+          </Button>
+          <Button onClick={handleCheckButtonClick} colorScheme={"green"}>
+            예약 확인 된 내역
+          </Button>
         </Flex>
       </Box>
       <Center>

@@ -20,10 +20,7 @@ import {
   Text,
   Tooltip,
 } from "@chakra-ui/react";
-import {
-  faCommentDots,
-  faHeart as fullHeart,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
 import React, { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../component/LoginProvider";
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
@@ -31,6 +28,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { HsComment } from "./HsComment";
+import { CalendarIcon } from "@chakra-ui/icons";
 
 function LikeContainer({ like, onClick }) {
   const { isAuthenticated } = useContext(LoginContext);
@@ -100,8 +98,7 @@ export function HsView({ hsId }) {
     axios
       .post("/api/hospital/like", { businessId: list.id })
       .then((r) => setLike(r.data))
-      .catch(() => console.log("bad"))
-      .finally(() => console.log("done"));
+      .catch(() => console.log("bad"));
   }
 
   return (
@@ -142,10 +139,15 @@ export function HsView({ hsId }) {
           marginRight="55px"
           marginBottom="10px"
           fontSize="1.5xl"
-          onClick={() => navigate("/home/cs/qaList")}
+          onClick={() =>
+            realId
+              ? navigate("/home/hospital/hospitalReservation/" + realId)
+              : null
+          }
+          isDisabled={!realId || !isAuthenticated()}
         >
-          <FontAwesomeIcon icon={faCommentDots} size="lg" />
-          문의
+          <CalendarIcon mr={2} />
+          예약
         </Button>
         <Tabs variant="enclosed" w="100%">
           <TabList>
@@ -297,17 +299,8 @@ export function HsView({ hsId }) {
                 </Td>
                 <Td>
                   {isAuthenticated() && (
-                    <Button
-                      onClick={() =>
-                        realId
-                          ? navigate(
-                              "/home/hospital/hospitalReservation/" + realId,
-                            )
-                          : null
-                      }
-                      isDisabled={!realId}
-                    >
-                      예약
+                    <Button onClick={() => navigate("/home/cs/qaList")}>
+                      문의
                     </Button>
                   )}
                 </Td>

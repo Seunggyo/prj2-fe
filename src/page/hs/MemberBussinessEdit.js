@@ -25,6 +25,7 @@ import {
   ModalOverlay,
   Select,
   Switch,
+  Text,
   Textarea,
   useDisclosure,
   useToast,
@@ -48,13 +49,30 @@ export function MemberBusinessEdit() {
   const [course, setCourse] = useState([]);
   const [params] = useSearchParams();
   const { authCheck } = useContext(LoginContext);
+  const [dsList, updateDsList] = useImmer([]);
 
   useEffect(() => {
-    axios.get(`/api/hospital/get?${params}`).then((r) => {
-      updateList(r.data);
-      setHoliday(r.data.holidays.map((i) => i.holiday));
-      setCourse(r.data.medicalCourse.map((i) => i.medicalCourseCategory));
-    });
+    if (authCheck() === "hs") {
+      axios.get(`/api/hospital/get?${params}`).then((r) => {
+        if (r.data.length === 0) {
+          updateList(null);
+        } else {
+          updateList(r.data);
+          setHoliday(r.data.holidays.map((i) => i.holiday));
+          setCourse(r.data.medicalCourse.map((i) => i.medicalCourseCategory));
+        }
+      });
+    }
+    if (authCheck() === "ds") {
+      axios.get(`/api/ds/get?${params}`).then((r) => {
+        if (r.data.length === 0) {
+          updateList(null);
+        } else {
+          updateList(r.data);
+          setHoliday(r.data.holidays.map((i) => i.holiday));
+        }
+      });
+    }
   }, []);
 
   const hour = () => {
@@ -201,7 +219,13 @@ export function MemberBusinessEdit() {
     });
   }
 
-  return (
+  return list === null ? (
+    <Box>
+      <Text fontSize={"xl"}>
+        데이터가 없습니다. 우선 정보 등록이 필요합니다.
+      </Text>
+    </Box>
+  ) : (
     <Box>
       <Card>
         <CardHeader>

@@ -30,7 +30,7 @@ export function BusinessList() {
       direction={"column"}
       align={"center"}
       justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      bg={useColorModeValue("white", "gray.800")}
       h={"100vh"}
       p={5}
     >
