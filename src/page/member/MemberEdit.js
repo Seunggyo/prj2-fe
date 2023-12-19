@@ -27,10 +27,12 @@ function MemberEdit(props) {
   const [address, setAddress] = useState("");
   const [birthday, setBirthday] = useState();
   const [profile, setProfile] = useState();
+  const [previewProfile, setPreviewProfile] = useState(null);
 
   const [params] = useSearchParams();
   const toast = useToast();
   const navigate = useNavigate();
+  const profileInput = useRef(null);
 
   const { login, authCheck, isAuthenticated, hasAccess } =
     useContext(LoginContext);
@@ -59,7 +61,7 @@ function MemberEdit(props) {
 
   function handleEditClick() {
     axios
-      .put("/api/member/edit", {
+      .putForm("/api/member/edit", {
         id: member.id,
         nickName,
         phone,
@@ -82,10 +84,28 @@ function MemberEdit(props) {
       });
   }
 
-  const profileInput = useRef(null);
   function handleProfileChange(e) {
-    if (e.target.files.length > 0) {
-      setProfile(URL.createObjectURL(e.target.files[0]));
+    if (e.target.files[0]) {
+      setProfile(e.target.files[0]);
+    }
+
+    // 화면에 프로필사진 표시..
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setPreviewProfile(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  }
+
+  function handleFileSwitch(e) {
+    if (e.target.checked) {
+      // fileSwitch 에 추가
+      setFileSwitch([...fileSwitch, e.target.value]);
+    } else {
+      // fileSwitch 에서 삭제
+      setFileSwitch(fileSwitch.filter((item) => item !== e.target.value));
     }
   }
 
@@ -104,7 +124,7 @@ function MemberEdit(props) {
             />
           </FormControl>
           <Avatar
-            src={login.profile}
+            src={previewProfile || login.profile}
             style={{ margin: "20px", width: "16rem", height: "16rem" }}
             onClick={() => profileInput.current.click()}
           >

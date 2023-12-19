@@ -178,8 +178,6 @@ function CommentList({
   isSubmitting,
   setIsSubmitting,
 }) {
-  const { hasAccess } = useContext(LoginContext);
-
   return (
     <Center mt={5}>
       <Card w={"lg"}>

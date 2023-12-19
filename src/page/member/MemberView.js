@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import {
   Avatar,
@@ -28,24 +28,26 @@ function MemberView(props) {
   const { login, authCheck, isAuthenticated, hasAccess } =
     useContext(LoginContext);
 
-  function handleDelete() {
-    axios
-      // .delete("/api/cs/remove/" + id)
-      // .then((response) => {
-      //   toast({
-      //     description: id + "번 공지글이 삭제되었습니다.",
-      //     status: "success",
-      //   });
-      //   navigate("/home/cs");
-      // })
-      // .catch((error) => {
-      //   toast({
-      //     description: "삭제 중 문제가 발생하였습니다.",
-      //     status: "error",
-      //   });
-      // })
-      .finally(() => onClose());
-  }
+  // TODO: 회원탈퇴 추가해야함.
+  // const { id } = useParams();
+  // function handleDelete() {
+  //   axios
+  //     .delete("/api/cs/remove/" + id)
+  //     .then((response) => {
+  //       toast({
+  //         description: id + "번 회원이 탈퇴되었습니다.",
+  //         status: "success",
+  //       });
+  //       navigate("/home/cs");
+  //     })
+  //     .catch((error) => {
+  //       toast({
+  //         description: "탈퇴 중 문제가 발생하였습니다.",
+  //         status: "error",
+  //       });
+  //     })
+  //     .finally(() => onClose());
+  // }
 
   useEffect(() => {
     if (
@@ -75,7 +77,7 @@ function MemberView(props) {
                     width: "16rem",
                     height: "16rem",
                   }}
-                  src={login.profile}
+                  src={member.profile}
                 />
               </div>
               <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">
@@ -350,9 +352,9 @@ function MemberView(props) {
 
           <ModalFooter>
             <Button onClick={onClose}>취소</Button>
-            <Button onClick={handleDelete} colorScheme="red">
-              삭제
-            </Button>
+            {/*<Button onClick={handleDelete} colorScheme="red">*/}
+            {/*  삭제*/}
+            {/*</Button>*/}
           </ModalFooter>
         </ModalContent>
       </Modal>

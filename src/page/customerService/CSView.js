@@ -92,6 +92,28 @@ export function CSView() {
                   />
                 </Box>
 
+                <Box mb={5} readOnly>
+                  <span className="font-dongle text-5xl text-gray-500">
+                    본 문
+                  </span>
+                  <div style={{ whiteSpace: "pre-line" }}>
+                    {cs.csContent}
+                    {/* 이미지 출력 */}
+                    {cs.files.map((file) => (
+                      <Card key={file.id} my={5}>
+                        <CardBody>
+                          <Image
+                            width="40%"
+                            mb="5"
+                            src={file.url}
+                            alt={file.fileName}
+                          />
+                        </CardBody>
+                      </Card>
+                    ))}
+                  </div>
+                </Box>
+
                 <Box mb={5} className="flex items-center">
                   <span className="mr-4 font-dongle text-3xl text-gray-500">
                     작성자 :
@@ -111,7 +133,7 @@ export function CSView() {
               </CardBody>
 
               <CardFooter justifyContent="flex-end">
-                {(hasAccess(cs.csWriter) || authCheck() === "admin") && (
+                {authCheck() === "admin" && (
                   <Box>
                     <button
                       onClick={() => navigate("/home/cs/csEdit/" + cs.id)}

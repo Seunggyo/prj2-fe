@@ -22,6 +22,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Tooltip,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -39,7 +40,7 @@ export function SideBar() {
 
   const urlParams = new URLSearchParams();
 
-  const { fetchLogin, login, isAuthenticated, authCheck } =
+  const { fetchLogin, login, isAuthenticated, authCheck, hasAccess } =
     useContext(LoginContext);
 
   useEffect(() => {
@@ -190,12 +191,19 @@ export function SideBar() {
                     </svg>
                   </span>
                   <Menu>
-                    <MenuButton
-                      rightIcon={<ChevronDownIcon />}
-                      className="ml-2 text-4xl font-dongle font-semibold tracking-wide text-gray-500"
+                    <Tooltip
+                      isDisabled={isAuthenticated()}
+                      hasArrow
+                      label={"로그인이 필요합니다!"}
                     >
-                      개인 정보
-                    </MenuButton>
+                      <MenuButton
+                        disabled={!isAuthenticated()}
+                        rightIcon={<ChevronDownIcon />}
+                        className="ml-2 text-4xl font-dongle font-semibold tracking-wide text-gray-500"
+                      >
+                        개인 정보
+                      </MenuButton>
+                    </Tooltip>
                     <MenuList>
                       {isAuthenticated() && (
                         <MenuItem>
