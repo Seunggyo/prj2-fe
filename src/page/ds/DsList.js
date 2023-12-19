@@ -148,11 +148,10 @@ export function DsList() {
                 <Th>
                   <FontAwesomeIcon icon={faHeart} color="red" />
                 </Th>
-                <Th>리뷰</Th>
                 <Th>전화번호</Th>
                 <Th>약국주소</Th>
                 <Th>운영시간</Th>
-                <Th>가게사진</Th>
+                <Th>휴무일</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -164,7 +163,6 @@ export function DsList() {
                 >
                   <Td>{ds.name}</Td>
                   <Td>{ds.likeCount}</Td>
-                  <Td>{ds.commentCount > 0 && ds.commentCount}</Td>
                   <Td>{ds.phone}</Td>
                   <Td>{ds.oldAddress}</Td>
                   <Td>
@@ -180,11 +178,6 @@ export function DsList() {
                         </Box>
                       </Box>
                     }
-                  </Td>
-                  <Td>
-                    {ds.files > 0 && (
-                      <Image w={"100px"} h={"100px"} src={ds.files[0].url} />
-                    )}
                   </Td>
                 </Tr>
               ))}

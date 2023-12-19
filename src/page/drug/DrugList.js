@@ -23,6 +23,7 @@ import { DrugSearchComponent } from "./DrugSearchComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartPlus,
+  faPrescriptionBottleMedical,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -72,8 +73,15 @@ export function DrugList() {
                   <ul className="mt-4 space-y-2 ">
                     <li className=" flex items-center text-4xl font-dongle font-semibold ">
                       {/*<IconCheck className="text-white text-xs bg-green-500 rounded-full mr-2 p-1" />*/}
-                      <TbReportMedical />
-                      {drug.price}원
+                      <span className="ml-36">
+                        <FontAwesomeIcon
+                          icon={faPrescriptionBottleMedical}
+                          color="pink"
+                          ml={"10px"}
+                        />
+                      </span>
+
+                      <span className="ml-2">{drug.price}원</span>
                     </li>
                   </ul>
                 </div>

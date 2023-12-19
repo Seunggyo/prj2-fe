@@ -9,14 +9,16 @@ import {
   CheckboxGroup,
   Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
+  Grid,
   Heading,
   Input,
   Select,
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -101,37 +103,54 @@ export function HsAdd() {
 
   return (
     <Center>
-      <Card w={"xl"}>
-        <CardHeader>
-          <Heading>병원 정보 입력</Heading>
+      <Card w={"lg"} boxShadow="lg" fontFamily="dongle">
+        <CardHeader bg="blue.200" textAlign="center" py={4}>
+          <Heading fontSize="5xl" color="white" fontFamily="dongle">
+            병원 정보 등록
+          </Heading>
         </CardHeader>
         <CardBody>
-          <FormControl>
-            <FormLabel>병원명</FormLabel>
-            <Input value={name} onChange={(e) => setName(e.target.value)} />
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">병원명</FormLabel>
+            <Input
+              fontSize="2xl"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </FormControl>
-          <FormControl>
-            <FormLabel>병원 주소</FormLabel>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">병원 주소</FormLabel>
             <Input
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
-            <FormLabel>병원 간단주소</FormLabel>
+            <FormLabel fontSize="2xl">병원 간단주소</FormLabel>
             <Input
+              fontSize="2xl"
               value={oldAddress}
               onChange={(e) => setOldAddress(e.target.value)}
               placeholder="동까지만 입력해주시면 됩니다 ex:)세종시 아람동"
             />
           </FormControl>
-          <FormControl>
-            <FormLabel>전화번호</FormLabel>
-            <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">전화번호</FormLabel>
+            <Input
+              fontSize="2xl"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
           </FormControl>
-          <FormControl>
-            <FormLabel>오픈시간</FormLabel>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">오픈시간</FormLabel>
+            <Grid mt={3} ml={3} templateColumns={"repeat(2 , 1fr)"}>
+              <FormLabel fontSize="2xl">시간</FormLabel>
+              <FormLabel ml={3} fontSize="2xl">
+                분
+              </FormLabel>
+            </Grid>
             <Flex>
-              <FormLabel>시간</FormLabel>
               <Select
+                fontSize="2xl"
                 onChange={(e) => setOpenHour(e.target.value)}
                 w={"sm"}
                 placeholder="시간"
@@ -139,8 +158,8 @@ export function HsAdd() {
               >
                 {hour()}
               </Select>
-              <FormLabel>분</FormLabel>
               <Select
+                fontSize="2xl"
                 onChange={(e) => setOpenMin(e.target.value)}
                 value={openMin}
                 w={"sm"}
@@ -156,25 +175,41 @@ export function HsAdd() {
               </Select>
             </Flex>
           </FormControl>
-          <FormControl>
-            <FormLabel>휴게시간</FormLabel>
+          <FormControl mb={2}>
             <Flex>
-              <FormLabel>시작 시간</FormLabel>
+              <FormLabel fontSize="2xl">휴게시간</FormLabel>
+              <FormHelperText>
+                휴식 시간이 없으시 선택안하시면 됩니다
+              </FormHelperText>
+            </Flex>
+            <Grid mt={3} ml={3} templateColumns={"repeat(4 , 1fr)"}>
+              <FormLabel fontSize="2xl">시작 시간</FormLabel>
+              <FormLabel ml={3} fontSize="2xl">
+                분
+              </FormLabel>
+              <FormLabel fontSize="2xl">끝나는 시간</FormLabel>
+              <FormLabel ml={3} fontSize="2xl">
+                분
+              </FormLabel>
+            </Grid>
+            <Flex marginRight="8px">
               <Select
                 onChange={(e) => setRestHour(e.target.value)}
                 w={"sm"}
                 placeholder="시간"
                 value={restHour}
                 defaultValue={0}
+                fontSize="2xl"
               >
                 {hour()}
               </Select>
-              <FormLabel> :</FormLabel>
               <Select
                 onChange={(e) => setRestMin(e.target.value)}
                 value={restMin}
                 w={"sm"}
                 placeholder="분"
+                marginRight="7px"
+                fontSize="2xl"
               >
                 <option value={0}>00</option>
                 <option value={10}>10</option>
@@ -184,22 +219,23 @@ export function HsAdd() {
                 <option value={50}>50</option>
                 <option value={60}>60</option>
               </Select>
-              <FormLabel>휴게종료시간</FormLabel>
+
               <Select
                 onChange={(e) => setRestCloseHour(e.target.value)}
                 w={"sm"}
                 placeholder="시간"
                 value={restCloseHour}
                 defaultValue={0}
+                fontSize="2xl"
               >
                 {hour()}
               </Select>
-              <FormLabel> :</FormLabel>
               <Select
                 onChange={(e) => setRestCloseMin(e.target.value)}
                 value={restCloseMin}
                 w={"sm"}
                 placeholder="분"
+                fontSize="2xl"
               >
                 <option value={0}>00</option>
                 <option value={10}>10</option>
@@ -211,11 +247,17 @@ export function HsAdd() {
               </Select>
             </Flex>
           </FormControl>
-          <FormControl>
-            <FormLabel>마감시간</FormLabel>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">마감시간</FormLabel>
+            <Grid mt={3} ml={3} templateColumns={"repeat(2 , 1fr)"}>
+              <FormLabel fontSize="2xl">시간</FormLabel>
+              <FormLabel ml={3} fontSize="2xl">
+                분
+              </FormLabel>
+            </Grid>
             <Flex>
-              <FormLabel>시간</FormLabel>
               <Select
+                fontSize="2xl"
                 value={closeHour}
                 onChange={(e) => setCloseHour(e.target.value)}
                 w={"sm"}
@@ -223,8 +265,8 @@ export function HsAdd() {
               >
                 {hour()}
               </Select>
-              <FormLabel>분</FormLabel>
               <Select
+                fontSize="2xl"
                 value={closeMin}
                 w={"sm"}
                 placeholder="분"
@@ -240,8 +282,19 @@ export function HsAdd() {
               </Select>
             </Flex>
           </FormControl>
-          <FormControl>
-            <FormLabel>진료과목</FormLabel>
+          <FormControl mb={2}>
+            <Flex>
+              <FormLabel fontSize="2xl">야간영업</FormLabel>
+              <Checkbox
+                value={nightCare}
+                onChange={(e) => setNightCare(e.target.checked)}
+              >
+                야간영업을 하시면 체크 해주세요
+              </Checkbox>
+            </Flex>
+          </FormControl>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">진료과목</FormLabel>
             <Flex>
               <CheckboxGroup value={course} onChange={handleCourseChange}>
                 <Checkbox value="소아과">소아과</Checkbox>
@@ -251,8 +304,8 @@ export function HsAdd() {
               </CheckboxGroup>
             </Flex>
           </FormControl>
-          <FormControl>
-            <FormLabel>휴무일</FormLabel>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">휴무일</FormLabel>
             <CheckboxGroup value={holiday} onChange={(e) => setHoliday(e)}>
               <Checkbox value="월요일">월요일</Checkbox>
               <Checkbox value="화요일">화요일</Checkbox>
@@ -265,26 +318,35 @@ export function HsAdd() {
             </CheckboxGroup>
           </FormControl>
 
-          <FormControl>
-            <FormLabel>소개</FormLabel>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">병원 소개</FormLabel>
             <Textarea
+              placeholder="300글자 이내로 작성해주세요"
+              fontSize="2xl"
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
           </FormControl>
-          <FormControl>
-            <FormLabel>정보</FormLabel>
-            <Textarea value={info} onChange={(e) => setInfo(e.target.value)} />
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">병원 정보</FormLabel>
+            <Textarea
+              placeholder="300글자 이내로 작성해주세요"
+              fontSize="2xl"
+              value={info}
+              onChange={(e) => setInfo(e.target.value)}
+            />
           </FormControl>
-          <FormControl>
-            <FormLabel>홈페이지</FormLabel>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">홈페이지</FormLabel>
             <Input
+              placeholder="https:// 가 포함된 주소로 적어주세요"
+              fontSize="2xl"
               value={homePage}
               onChange={(e) => setHomePage(e.target.value)}
             />
           </FormControl>
-          <FormControl>
-            <FormLabel>병원 사진</FormLabel>
+          <FormControl mb={2}>
+            <FormLabel fontSize="2xl">병원 사진</FormLabel>
             <Input
               type="file"
               accept="image/*"
@@ -292,19 +354,13 @@ export function HsAdd() {
               onChange={(e) => setHsFiles(e.target.files)}
             />
           </FormControl>
-          <FormControl>
-            <FormLabel>야간영업</FormLabel>
-            <Checkbox
-              value={nightCare}
-              onChange={(e) => setNightCare(e.target.checked)}
-            >
-              야간영업을 하시면 체크 해주세요
-            </Checkbox>
-          </FormControl>
         </CardBody>
         <CardFooter>
           <Button onClick={handleClickSubmit} colorScheme="twitter">
             저장
+          </Button>
+          <Button colorScheme="red" marginLeft="4">
+            취소
           </Button>
         </CardFooter>
       </Card>
