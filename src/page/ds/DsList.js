@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
+  Center,
   Flex,
   Heading,
   Image,
@@ -92,15 +93,26 @@ function SearchComponent() {
   }
 
   return (
-    <Box>
+    <Box marginTop="20px">
       <Flex>
-        <Select value={category} onChange={(e) => setCategory(e.target.value)}>
+        <Select
+          marginRight="20px"
+          w="20%"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
           <option value="all">전체</option>
           <option value="name">이름</option>
           <option value="address">주소</option>
         </Select>
-        <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
-        <Button onClick={handleSearch}>검색</Button>
+        <Input
+          w="60%"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+        <Button marginLeft="20px" colorScheme="blue" onClick={handleSearch}>
+          검색
+        </Button>
       </Flex>
     </Box>
   );

@@ -478,7 +478,12 @@ export function HsEdit() {
                 sx={{ marginTop: "20px", marginBottom: "20px" }}
               >
                 <CardBody>
-                  <Image src={file.url} alt={file.name} width="100%" />
+                  <Image
+                    src={file.url}
+                    alt={file.name}
+                    width="400px"
+                    h="400px"
+                  />
                 </CardBody>
                 <Divider />
                 <CardFooter>

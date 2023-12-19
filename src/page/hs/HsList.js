@@ -103,16 +103,27 @@ function SearchComponent() {
   }
 
   return (
-    <Box>
+    <Box marginTop="20px">
       <Flex>
-        <Select value={list} onChange={(e) => setList(e.target.value)}>
+        <Select
+          marginRight="20px"
+          w="20%"
+          value={list}
+          onChange={(e) => setList(e.target.value)}
+        >
           <option value="all">전체</option>
           <option value="name">이름</option>
           <option value="address">주소</option>
           <option value="medicalCourse">진료과목</option>
         </Select>
-        <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
-        <Button onClick={handleSearch}>검색</Button>
+        <Input
+          w="60%"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+        <Button colorScheme="blue" onClick={handleSearch}>
+          검색
+        </Button>
       </Flex>
     </Box>
   );
@@ -179,9 +190,6 @@ export function HsList() {
             <Thead>
               <Tr>
                 <Th w="15%">병원이름</Th>
-                <Th w="5%">
-                  <FontAwesomeIcon icon={faHeart} color="red" />
-                </Th>
                 <Th w="10%">전화번호</Th>
                 <Th w="30%">병원주소</Th>
                 <Th>운영시간</Th>
@@ -202,7 +210,6 @@ export function HsList() {
                     }
                   >
                     <Td>{h.name}</Td>
-                    <Td>{h.countLike > 0 && <Badge>{h.countLike}</Badge>}</Td>
                     <Td>{h.phone}</Td>
                     <Td>{h.address}</Td>
                     <Td>
