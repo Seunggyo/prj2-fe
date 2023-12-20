@@ -46,12 +46,13 @@ export function DayCheck() {
   const id = query.get("id");
   const [list, setList] = useState([]);
   const [dateButton, setDateButton] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     axios
       .get(`/api/hospital/reservation/month?id=${id}`)
       .then((e) => setList(e.data));
-  }, []);
+  }, [isSubmitting]);
 
   function handleClickMonth(e) {
     setDateButton(true);
@@ -91,6 +92,7 @@ export function DayCheck() {
     if (!position) {
       return;
     }
+    setIsSubmitting(true);
     axios
       .delete(`/api/hospital/reservation/remove/${position}`)
       .then(() => {
@@ -108,6 +110,7 @@ export function DayCheck() {
       .finally(() => {
         setPosition(null);
         onClose();
+        setIsSubmitting(false);
       });
   }
 
@@ -115,6 +118,7 @@ export function DayCheck() {
     if (!position) {
       return;
     }
+    setIsSubmitting(true);
     axios
       .put(`/api/hospital/reservation/ok/${position}`)
       .then(() => {
@@ -131,6 +135,8 @@ export function DayCheck() {
       })
       .finally(() => {
         setPosition(null);
+        onClose1();
+        setIsSubmitting(false);
       });
   }
 

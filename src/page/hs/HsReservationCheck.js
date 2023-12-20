@@ -28,21 +28,24 @@ import { LoginContext } from "../../component/LoginProvider";
 export function HsReservationCheck() {
   const [list, updateList] = useImmer([]);
   const [checkList, updateCheckList] = useImmer([]);
-  const { idCheck } = useContext(LoginContext);
+  const { idCheck, login } = useContext(LoginContext);
   const [position, setPosition] = useState();
   const [checkButton, setCheckButton] = useState(false);
   const [unCheckButton, setUnCheckButton] = useState(true);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [params] = useSearchParams();
   const toast = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   useEffect(() => {
-    axios
-      .get("/api/hospital/reservation?" + params)
-      .then((e) => updateList(e.data));
-    axios
-      .get("/api/hospital/reservation/check?" + params)
-      .then((e) => updateCheckList(e.data));
-  }, []);
+    if (!isSubmitting) {
+      axios
+        .get("/api/hospital/reservation?" + params)
+        .then((e) => updateList(e.data));
+      axios
+        .get("/api/hospital/reservation/check?" + params)
+        .then((e) => updateCheckList(e.data));
+    }
+  }, [isSubmitting]);
 
   function isReservationInFuture(reservation) {
     const todaysDate = new Date();
@@ -59,6 +62,7 @@ export function HsReservationCheck() {
     if (!position) {
       return;
     }
+    setIsSubmitting(true);
     axios
       .delete(`/api/hospital/reservation/remove/${position}`)
       .then(() => {
@@ -76,6 +80,7 @@ export function HsReservationCheck() {
       .finally(() => {
         setPosition(null);
         onClose();
+        setIsSubmitting(false);
       });
   }
 
@@ -92,7 +97,7 @@ export function HsReservationCheck() {
   return (
     <Box bgColor={"white"} p={5}>
       <Box m={5} bgColor={"white"} borderRadius={"md"} p={5} shadow={"md"}>
-        <Text fontSize={"xl"}>{idCheck()}님의 예약 내역</Text>
+        <Text fontSize={"xl"}>{login.nickName}님의 예약 내역</Text>
         <Flex>
           <Button
             onClick={handleUnCheckButtonClick}
