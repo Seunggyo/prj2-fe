@@ -254,7 +254,7 @@ export function CSList() {
                       borderColor: "white",
                       fontFamily: "gowun",
                     }}
-                    className="bg-red-50 border-r w-1/3"
+                    className="bg-red-50 border-r w-2/4"
                   >
                     제목
                   </Th>

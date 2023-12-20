@@ -45,6 +45,7 @@ export function CSWrite() {
   };
 
   function handleSubmit() {
+    setIsSubmitting(true);
     axios
       .postForm("/api/cs/add", {
         csTitle,
