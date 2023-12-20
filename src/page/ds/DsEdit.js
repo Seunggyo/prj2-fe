@@ -370,8 +370,8 @@ export function DsEdit() {
               </Grid>
               <Flex>
                 <Select
+                  value={ds.restHour}
                   fontSize="2xl"
-                  defaultValue="0"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.restHour = e.target.value;
@@ -381,8 +381,8 @@ export function DsEdit() {
                   {hour()};
                 </Select>
                 <Select
+                  value={ds.restMin}
                   fontSize="2xl"
-                  defaultValue="0"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.restMin = e.target.value;
@@ -398,8 +398,8 @@ export function DsEdit() {
                 </Select>
                 <Text fontSize="2xl">{"~"}</Text>
                 <Select
+                  value={ds.restCloseHour}
                   fontSize="2xl"
-                  defaultValue="0"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.restCloseHour = e.target.value;
@@ -409,8 +409,8 @@ export function DsEdit() {
                   {hour()};
                 </Select>
                 <Select
+                  value={ds.restCloseMin}
                   fontSize="2xl"
-                  defaultValue="0"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.restCloseMin = e.target.value;

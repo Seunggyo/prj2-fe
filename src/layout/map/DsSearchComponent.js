@@ -69,10 +69,7 @@ export function DsSearchComponent({ onItemClick }) {
             onChange={(e) => setKeyword(e.target.value)}
           />
           <Button
-            className={`mx-2 px-4 py-2 font-semibold text-gray-100 ${
-              keyword ? "bg-indigo-300" : "bg-gray-500 cursor-not-allowed"
-            }`}
-            disabled={!keyword}
+            className={`mx-2 px-4 py-2 font-semibold text-gray-100`}
             onClick={handleSearch}
           >
             검색
