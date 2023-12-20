@@ -371,7 +371,7 @@ export function BoardList() {
                     </Badge>
                   )}
                 </Td>
-                <Td>{board.writer}</Td>
+                <Td>{board.nickName}</Td>
                 <Td>{board.ago}</Td>
                 <Td>{board.increaseHit}</Td>
                 <Td>
