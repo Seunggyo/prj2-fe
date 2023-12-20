@@ -173,9 +173,6 @@ function CommentList({
 }) {
   return (
     <Card>
-      <CardHeader>
-        <Heading size="md">댓글 리스트</Heading>
-      </CardHeader>
       <CardBody>
         <Stack divider={<StackDivider />} spacing="4">
           {commentList.length > 0 &&

@@ -54,7 +54,7 @@ export function Success() {
         );
 
         console.log(response.data); // 성공 응답 데이터 출력
-        // TODO: 구매 완료 비즈니스 로직 구현
+        navigate("/home/drug");
         // 예: 성공 메시지 표시, 다른 페이지로 리디렉션 등
         console.log("결제 성공!");
       } catch (error) {

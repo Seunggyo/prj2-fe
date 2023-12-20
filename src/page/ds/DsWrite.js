@@ -74,7 +74,7 @@ export function DsWrite() {
           description: "정보가 잘 저장되었습니다",
           status: "success",
         });
-        navigate("/home/ds/list");
+        navigate("/home/ds");
       })
       .catch((error) => {
         if (error.response.status === 400) {
@@ -167,6 +167,7 @@ export function DsWrite() {
                 {hour()}
               </Select>
               <Select
+                fontSize="2xl"
                 defaultValue="0"
                 onChange={(e) => setOpenMin(e.target.value)}
               >
@@ -189,12 +190,14 @@ export function DsWrite() {
             </Grid>
             <Flex>
               <Select
+                fontSize="2xl"
                 defaultValue="16"
                 onChange={(e) => setCloseHour(e.target.value)}
               >
                 {hour()};
               </Select>
               <Select
+                fontSize="2xl"
                 defaultValue="0"
                 onChange={(e) => setCloseMin(e.target.value)}
               >
@@ -213,16 +216,16 @@ export function DsWrite() {
                   size="lg"
                   onChange={(e) => setNightCare(e.target.checked)}
                 />
-                <Center marginX="8px">
-                  <Text>야간 업무 진행시 체크해 주세요</Text>
-                </Center>
+                <FormHelperText marginX="8px" fontSize="xl">
+                  야간 업무 진행시 체크해 주세요
+                </FormHelperText>
               </Flex>
             </FormControl>
             <FormControl mb={2}>
               <Box>
                 <Flex>
                   <FormLabel fontSize="2xl">휴식</FormLabel>
-                  <FormHelperText>
+                  <FormHelperText fontSize="xl">
                     휴식 시간이 없으시 선택안하시면 됩니다
                   </FormHelperText>
                 </Flex>
@@ -239,12 +242,14 @@ export function DsWrite() {
                 <FormControl>
                   <Flex>
                     <Select
+                      fontSize="2xl"
                       defaultValue="0"
                       onChange={(e) => setRestHour(e.target.value)}
                     >
                       {hour()}
                     </Select>
                     <Select
+                      fontSize="2xl"
                       defaultValue="0"
                       onChange={(e) => setRestMin(e.target.value)}
                     >
@@ -257,12 +262,14 @@ export function DsWrite() {
                     </Select>
                     <Text fontSize="2xl">{" ~ "}</Text>
                     <Select
+                      fontSize="2xl"
                       defaultValue="0"
                       onChange={(e) => setRestCloseHour(e.target.value)}
                     >
                       {hour()}
                     </Select>
                     <Select
+                      fontSize="2xl"
                       defaultValue="0"
                       onChange={(e) => setRestCloseMin(e.target.value)}
                     >

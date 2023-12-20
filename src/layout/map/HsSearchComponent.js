@@ -4,19 +4,16 @@ import axios from "axios";
 import {
   Box,
   Button,
-  Center,
   Flex,
   Image,
   Input,
   InputGroup,
-  InputRightAddon,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   Spinner,
   Stack,
-  Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -47,6 +44,8 @@ export function HsSearchComponent({
   function handleSearch() {
     const params = new URLSearchParams();
 
+    handleClickMenuItem("");
+
     params.set("k", keyword);
     params.set("c", category);
 
@@ -58,7 +57,7 @@ export function HsSearchComponent({
       setList(r.data.list);
       const isMemberExists =
         r.data.list.find((h) => h.memberId === idCheck()) !== undefined;
-      setIsButtonActive(!isMemberExists);
+      setIsButtonActive(isMemberExists);
     });
   }, [location]);
 
@@ -80,10 +79,7 @@ export function HsSearchComponent({
             onChange={(e) => setKeyword(e.target.value)}
           />
           <Button
-            className={`mx-2 px-4 py-2 font-semibold text-gray-100 ${
-              keyword ? "bg-indigo-300" : "bg-gray-500 cursor-not-allowed"
-            }`}
-            disabled={!keyword}
+            className={`mx-2 px-4 py-2 font-semibold text-gray-100`}
             onClick={handleSearch}
           >
             검색
