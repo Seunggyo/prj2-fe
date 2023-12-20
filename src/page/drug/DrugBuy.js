@@ -1,4 +1,4 @@
-import { Box, Image, Spinner } from "@chakra-ui/react";
+import { Box, Image, Spinner, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -15,6 +15,7 @@ export function DrugBuy() {
   const [deliveryComment, setDeliveryComment] = useState("");
 
   const navigate = useNavigate();
+  const toast = useToast();
 
   useEffect(() => {
     axios.get("/api/drug/buy").then(({ data }) => setOrderer(data));
@@ -29,22 +30,34 @@ export function DrugBuy() {
   }
 
   function handleOrderClick() {
-    navigate("/payment", {
-      state: {
-        orderName: location.state.orderName,
-        ordererName: orderer.id,
-        ordererPhone: orderer.phone,
-        ordererEmail: orderer.email,
-        ordererAddress: orderer.address,
-        amount: location.state.amount,
-        orderCode,
+    if (
+      deliveryName === "" ||
+      deliveryComment === "" ||
+      deliveryPhone === "" ||
+      deliveryAddress === ""
+    ) {
+      toast({
+        description: "배송지 정보를 입력 해 주세요",
+        status: "warning",
+      });
+    } else {
+      navigate("/payment", {
+        state: {
+          orderName: location.state.orderName,
+          ordererName: orderer.id,
+          ordererPhone: orderer.phone,
+          ordererEmail: orderer.email,
+          ordererAddress: orderer.address,
+          amount: location.state.amount,
+          orderCode,
 
-        deliveryName,
-        deliveryPhone,
-        deliveryAddress,
-        deliveryComment,
-      },
-    });
+          deliveryName,
+          deliveryPhone,
+          deliveryAddress,
+          deliveryComment,
+        },
+      });
+    }
   }
 
   return (
@@ -211,46 +224,6 @@ export function DrugBuy() {
           >
             {location.state.total}원 결제
           </button>
-        </div>
-        <div class="col-span-1 bg-white lg:block hidden">
-          <h1 class="py-6 border-b-2 text-xl text-gray-600 px-8">주문 상품</h1>
-          <ul class="py-6 border-b space-y-6 px-8">
-            <li class="grid grid-cols-6 gap-2 border-b-1">
-              <div class="col-span-1 self-center">
-                <img
-                  src="https://bit.ly/3oW8yej"
-                  alt="Product"
-                  class="rounded w-full"
-                />
-              </div>
-              <div class="flex flex-col col-span-3 pt-2">
-                <span class="text-gray-600 text-md font-semi-bold">
-                  상품 이름
-                </span>
-                <span class="text-gray-400 text-sm inline-block pt-2">
-                  상품 기능 ex) 간건강
-                </span>
-              </div>
-              <div class="col-span-2 pt-3">
-                <div class="flex items-center space-x-2 text-sm justify-between">
-                  <span class="text-gray-400"> 상품 갯수 1개</span>
-                  <span class="text-pink-400 font-semibold inline-block">
-                    상품 금액
-                  </span>
-                </div>
-              </div>
-            </li>
-          </ul>
-          <div class="px-8 border-b">
-            <div class="flex justify-between py-4 text-gray-600">
-              <span>Subtotal</span>
-              <span class="font-semibold text-pink-500">€846.98</span>
-            </div>
-          </div>
-          <div class="font-semibold text-xl px-8 flex justify-between py-8 text-gray-600">
-            <span>Total</span>
-            <span>100.000 원</span>
-          </div>
         </div>
       </div>
     </Box>
