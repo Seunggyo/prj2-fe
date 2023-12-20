@@ -19,6 +19,8 @@ import { LoginContext } from "../../component/LoginProvider";
 
 function MemberView(props) {
   const [member, setMember] = useState(null);
+  const [boardList, setBoardList] = useState(null);
+  const [commentList, setCommentList] = useState(null);
   const [access, setAccess] = useState(false);
 
   const [params] = useSearchParams();
@@ -58,10 +60,14 @@ function MemberView(props) {
       navigate("/");
     }
 
-    axios.get("/api/member/info?" + params).then(({ data }) => setMember(data));
+    axios.get("/api/member/info?" + params).then(({ data }) => {
+      setMember(data.member);
+      setBoardList(data.boardList);
+      setCommentList(data.commentList);
+    });
   }, []);
 
-  if (member === null) {
+  if (member === null || boardList === null || commentList === null) {
     return <Spinner />;
   }
 
@@ -211,41 +217,17 @@ function MemberView(props) {
                         />
                       </svg>
                     </span>
-                    <span className="tracking-wide">활 동</span>
+                    <span className="tracking-wide">최근 작성 게시글</span>
                   </div>
                   <ul className="list-inside space-y-2">
-                    <li>
-                      <div className="text-teal-600">
-                        아프지마 company owner
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        2020년 3월부터 현재까지
-                      </div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">
-                        아프지마 company owner
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        2020년 3월부터 현재까지
-                      </div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">
-                        아프지마 company owner
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        2020년 3월부터 현재까지
-                      </div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">
-                        아프지마 company owner
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        2020년 3월부터 현재까지
-                      </div>
-                    </li>
+                    {boardList.map((board) => (
+                      <li>
+                        <div className="text-teal-600">{board.title}</div>
+                        <div className="text-gray-500 text-xs">
+                          {board.inserted}
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 <div>
@@ -271,25 +253,17 @@ function MemberView(props) {
                         />
                       </svg>
                     </span>
-                    <span className="tracking-wide">Education</span>
+                    <span className="tracking-wide">최근 작성 댓글</span>
                   </div>
                   <ul className="list-inside space-y-2">
-                    <li>
-                      <div className="text-teal-600">
-                        Masters Degree in Oxford
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        2020년 3월부터 현재까지
-                      </div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">
-                        Bachelors Degreen in LPU
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        2020년 3월부터 현재까지
-                      </div>
-                    </li>
+                    {commentList.map((comment) => (
+                      <li>
+                        <div className="text-teal-600">{comment.comment}</div>
+                        <div className="text-gray-500 text-xs">
+                          {comment.inserted}
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
