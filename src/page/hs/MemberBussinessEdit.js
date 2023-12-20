@@ -39,6 +39,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../component/LoginProvider";
 import { FaBookmark, FaTimes } from "react-icons/fa";
+import { HsEdit } from "./HsEdit";
 
 export function MemberBusinessEdit() {
   const [list, updateList] = useImmer([]);
@@ -163,44 +164,93 @@ export function MemberBusinessEdit() {
   }
 
   function handleSubmitClick() {
-    axios
-      .putForm("/api/hospital/edit", {
-        id: list.id,
-        name: list.name,
-        address: list.address,
-        phone: list.phone,
-        openHour: list.openHour,
-        openMin: list.openMin,
-        restHour: list.restHour,
-        restMin: list.restMin,
-        restCloseHour: list.restCloseHour,
-        restCloseMin: list.restCloseMin,
-        closeHour: list.closeHour,
-        closeMin: list.closeMin,
-        content: list.content,
-        info: list.info,
-        homePage: list.homePage,
-        nightCare: list.nightCare,
-        oldAddress: list.oldAddress,
-        holiday,
-        course,
-        uploadFiles,
-        removeFileIds,
-      })
-      .then(() => {
-        toast({
-          description: "수정이 완료되었습니다.",
-          status: "success",
-        });
-        navigate(-1);
-      })
-      .catch(() => {
-        toast({
-          description: "문제가 발생하였습니다.",
-          status: "error",
-        });
-      })
-      .finally(() => onClose);
+    if (list.category === "hospital") {
+      axios
+        .putForm("/api/hospital/edit", {
+          id: list.id,
+          name: list.name,
+          address: list.address,
+          phone: list.phone,
+          openHour: list.openHour,
+          openMin: list.openMin,
+          restHour: list.restHour,
+          restMin: list.restMin,
+          restCloseHour: list.restCloseHour,
+          restCloseMin: list.restCloseMin,
+          closeHour: list.closeHour,
+          closeMin: list.closeMin,
+          content: list.content,
+          info: list.info,
+          homePage: list.homePage,
+          nightCare: list.nightCare,
+          oldAddress: list.oldAddress,
+          holiday,
+          course,
+          uploadFiles,
+          removeFileIds,
+        })
+        .then(() => {
+          toast({
+            description: "수정이 완료되었습니다.",
+            status: "success",
+          });
+          navigate(-1);
+        })
+        .catch(() => {
+          toast({
+            description: "문제가 발생하였습니다.",
+            status: "error",
+          });
+        })
+        .finally(() => onClose);
+    }
+
+    if (list.category === "drugStore") {
+      axios
+        .putForm("/api/ds/edit", {
+          id: list.id,
+          name: list.name,
+          address: list.address,
+          oldAddress: list.oldAddress,
+          phone: list.phone,
+          openHour: list.openHour,
+          openMin: list.openMin,
+          closeHour: list.closeHour,
+          closeMin: list.closeMin,
+          nightCare: list.nightCare,
+          content: list.content,
+          restHour: list.restHour,
+          restMin: list.restMin,
+          restCloseHour: list.restCloseHour,
+          restCloseMin: list.restCloseMin,
+          updateHolidays: holiday,
+          info: list.info,
+          uploadFile: uploadFiles,
+          deleteFileIds: removeFileIds,
+        })
+        .then(
+          () =>
+            toast({
+              description: list.id + "번 게시글이 수정되었습니다",
+              status: "success",
+            }),
+          navigate(-1),
+        )
+        .catch((error) => {
+          if (error.response.status === 400) {
+            toast({
+              description: "요청이 잘못 되었습니다",
+              status: "error",
+            });
+          } else {
+            toast({
+              description: "수정 중에 문제가 발생하였습니다",
+              status: "error",
+            });
+          }
+        })
+        .finally(() => onClose());
+    }
   }
 
   function handleRemoveFileSwitch(e) {
@@ -223,9 +273,15 @@ export function MemberBusinessEdit() {
     });
   }
 
-  function handleOldAddressChange() {
+  function handleOldAddressChange(e) {
     updateList((r) => {
       r.oldAddress = e.target.value;
+    });
+  }
+
+  function handleInfoChange(e) {
+    updateList((r) => {
+      r.info = e.target.value;
     });
   }
 
@@ -249,9 +305,9 @@ export function MemberBusinessEdit() {
             <Input value={list.name} onChange={handleNameChange} />
           </FormControl>
           <FormControl mb={4}>
-            <FormLabel fontSize={"2xl"}>병원 주소</FormLabel>
+            <FormLabel fontSize={"2xl"}>기관 주소</FormLabel>
             <Input value={list.address} onChange={handleAddressChange} />
-            <FormLabel fontSize="2xl">병원 간단주소</FormLabel>
+            <FormLabel fontSize="2xl">기관 간단주소</FormLabel>
             <Input
               value={list.oldAddress}
               onChange={handleOldAddressChange}
@@ -402,7 +458,7 @@ export function MemberBusinessEdit() {
             </Flex>
           </FormControl>
           <FormControl>
-            <FormLabel fontSize="2xl">상세정보</FormLabel>
+            <FormLabel fontSize="2xl">기관 정보</FormLabel>
             <Textarea
               value={list.content}
               onChange={handleContentChange}
@@ -410,13 +466,23 @@ export function MemberBusinessEdit() {
             />
           </FormControl>
           <FormControl>
-            <FormLabel fontSize="2xl">홈페이지</FormLabel>
-            <Input
-              value={list.homePage}
-              onChange={handleHomePageChange}
+            <FormLabel fontSize="2xl">기관 특징</FormLabel>
+            <Textarea
+              value={list.info}
+              onChange={handleInfoChange}
               fontSize="2xl"
             />
           </FormControl>
+          {authCheck() === "hs" && (
+            <FormControl>
+              <FormLabel fontSize="2xl">홈페이지</FormLabel>
+              <Input
+                value={list.homePage}
+                onChange={handleHomePageChange}
+                fontSize="2xl"
+              />
+            </FormControl>
+          )}
 
           {authCheck() === "hs" && (
             <FormControl>
@@ -457,7 +523,7 @@ export function MemberBusinessEdit() {
 
       <Card w={"xl"} boxShadow="lg" fontFamily="dongle">
         <CardBody>
-          {list.files?.length > 0 &&
+          {list.files != null &&
             list.files.map((file) => (
               <Card
                 key={file.id}
