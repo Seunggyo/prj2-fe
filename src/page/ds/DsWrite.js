@@ -29,9 +29,9 @@ export function DsWrite() {
   const [address, setAddress] = useState("");
   const [oldAddress, setOldAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [openHour, setOpenHour] = useState(7);
+  const [openHour, setOpenHour] = useState(0);
   const [openMin, setOpenMin] = useState(0);
-  const [closeHour, setCloseHour] = useState(7);
+  const [closeHour, setCloseHour] = useState(0);
   const [closeMin, setCloseMin] = useState(0);
   const [restHour, setRestHour] = useState(0);
   const [restMin, setRestMin] = useState(0);
@@ -161,14 +161,12 @@ export function DsWrite() {
             <Flex>
               <Select
                 fontSize="2xl"
-                defaultValue="7"
                 onChange={(e) => setOpenHour(e.target.value)}
               >
                 {hour()}
               </Select>
               <Select
                 fontSize="2xl"
-                defaultValue="0"
                 onChange={(e) => setOpenMin(e.target.value)}
               >
                 <option value="0">0분</option>
@@ -191,14 +189,12 @@ export function DsWrite() {
             <Flex>
               <Select
                 fontSize="2xl"
-                defaultValue="16"
                 onChange={(e) => setCloseHour(e.target.value)}
               >
                 {hour()};
               </Select>
               <Select
                 fontSize="2xl"
-                defaultValue="0"
                 onChange={(e) => setCloseMin(e.target.value)}
               >
                 <option value="0">0분</option>
@@ -243,14 +239,12 @@ export function DsWrite() {
                   <Flex>
                     <Select
                       fontSize="2xl"
-                      defaultValue="0"
                       onChange={(e) => setRestHour(e.target.value)}
                     >
                       {hour()}
                     </Select>
                     <Select
                       fontSize="2xl"
-                      defaultValue="0"
                       onChange={(e) => setRestMin(e.target.value)}
                     >
                       <option value="0">0분</option>
@@ -263,14 +257,12 @@ export function DsWrite() {
                     <Text fontSize="2xl">{" ~ "}</Text>
                     <Select
                       fontSize="2xl"
-                      defaultValue="0"
                       onChange={(e) => setRestCloseHour(e.target.value)}
                     >
                       {hour()}
                     </Select>
                     <Select
                       fontSize="2xl"
-                      defaultValue="0"
                       onChange={(e) => setRestCloseMin(e.target.value)}
                     >
                       <option value="0">0분</option>
