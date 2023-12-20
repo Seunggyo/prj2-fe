@@ -222,7 +222,7 @@ export function DrugBuy() {
             onClick={handleOrderClick}
             class="submit-button px-4 py-3 rounded-full bg-green-700 text-white focus:ring focus:outline-none w-full text-xl font-semibold transition-colors"
           >
-            {location.state.total}원 결제
+            {location.state.amount}원 결제
           </button>
         </div>
       </div>
