@@ -12,11 +12,11 @@ import {
   faHospital,
   faUser,
 } from "@fortawesome/free-regular-svg-icons";
-import logo from "./assets/images/로고1.png";
+import logo from "../assets/images/로고1.png";
 import Snowfall from "react-snowfall";
-import { LoginContext } from "./component/LoginProvider";
-import bgg from "./assets/images/배경화면.jpg";
-import ch from "./assets/images/크리스마스 배너.PNG";
+import { LoginContext } from "../component/LoginProvider";
+import bgg from "../assets/images/배경화면.jpg";
+import ch from "../assets/images/크리스마스 배너.PNG";
 import { faTree } from "@fortawesome/free-solid-svg-icons/faTree";
 
 const images = [

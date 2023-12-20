@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Snowfall from "react-snowfall";
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 
 export function MemberFindPassword() {
   const [member, setMember] = useState(null);
@@ -10,12 +11,18 @@ export function MemberFindPassword() {
   const [email, setEmail] = useState("");
   const [authenticationNum, setAuthenticationNum] = useState("");
   const [inputNum, setInputNum] = useState("");
+  const [idAuthentication, setIdAuthentication] = useState(false);
   const [text, setText] = useState("");
 
   const navigate = useNavigate();
 
   function handleButtonClick() {
-    axios.get("/api/member/info?id=" + id).then(({ data }) => setMember(data));
+    axios.get("/api/member/info?id=" + id).then(({ data }) => {
+      setMember(data);
+      if (data.id === id) {
+        setIdAuthentication(true);
+      }
+    });
   }
 
   function SendMail() {
@@ -68,12 +75,17 @@ export function MemberFindPassword() {
                   placeholder="Your id"
                   onChange={(e) => setId(e.target.value)}
                   className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  disabled={idAuthentication}
                 />
+                {}
                 <button
-                  className="w-full mt-1 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                  className={`${
+                    idAuthentication ? "bg-red-500" : "bg-blue-500"
+                  } 
+                  w-full mt-1 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-md`}
                   onClick={handleButtonClick}
                 >
-                  인 증 하 기
+                  {idAuthentication ? "인 증 성 공!" : "인 증 하 기"}
                 </button>
               </div>
               <div>

@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Spinner } from "@chakra-ui/react";
 
-export function PaymentHistory() {
+export function HistoryAll() {
   const [orderList, setOrderList] = useState(null);
   const { id } = useParams();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("/api/order/history").then(({ data }) => setOrderList(data));
+    axios.get("/api/order/historyAll").then(({ data }) => setOrderList(data));
   }, []);
 
   if (orderList === null) {
@@ -34,6 +34,9 @@ export function PaymentHistory() {
             className="w-full   p-2"
             style={{ maxWidth: "900px" }}
           >
+            <div className="font-dongle text-4xl">
+              {order.ordererName}님의 주문현황
+            </div>
             <div
               className="flex bg-white border border-gray-300 p-4"
               style={{ flexDirection: "row" }}
@@ -88,6 +91,7 @@ export function PaymentHistory() {
                 </div>
               </div>
             </div>
+            <div className="border-dashed border border-gray-300 mt-5"></div>
           </div>
         ))}
       </div>

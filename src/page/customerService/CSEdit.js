@@ -56,10 +56,10 @@ export function CSEdit() {
     axios
       .putForm("/api/cs/edit", {
         id: cs.id,
-        csTitle,
-        csContent,
-        csWriter,
-        csCategory,
+        csTitle: cs.csTitle,
+        csContent: cs.csContent,
+        csWriter: cs.csWriter,
+        csCategory: cs.csCategory,
         fileSwitch,
         uploadFiles,
       })
@@ -135,7 +135,7 @@ export function CSEdit() {
                   value={cs.csTitle}
                   onChange={(e) =>
                     updateCs((draft) => {
-                      cs.csTitle = e.target.value;
+                      draft.csTitle = e.target.value;
                     })
                   }
                   className="ml-2 outline-none py-1 p-2 w-3/5 text-md border-2 rounded-md"

@@ -1,7 +1,7 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 import React from "react";
-import { CS_SideBar } from "../../layout/CS_SideBar";
+import { CS_SideBar } from "./CS_SideBar";
 
 export function CS() {
   return (
