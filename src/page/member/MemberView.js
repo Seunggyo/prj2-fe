@@ -52,14 +52,6 @@ function MemberView(props) {
   // }
 
   useEffect(() => {
-    if (
-      authCheck() !== "admin" &&
-      !isAuthenticated() &&
-      !hasAccess(params.get("id"))
-    ) {
-      navigate("/");
-    }
-
     axios.get("/api/member/info?" + params).then(({ data }) => {
       setMember(data.member);
       setBoardList(data.boardList);
@@ -141,22 +133,28 @@ function MemberView(props) {
                   <span className="tracking-wide text-xl">개인 정보</span>
                 </div>
 
-                <Flex>
-                  <button
-                    onClick={() =>
-                      navigate("/home/member/edit?" + params.toString())
-                    }
-                    className="ml-60 py-2 rounded-md relative h-12 w-32 overflow-hidden text-blue-500 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-blue-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold"
-                  >
-                    <span className="relative z-10  text-4xl">수 정 하 기</span>
-                  </button>
-                  <button
-                    onClick={onOpen}
-                    className="ml-8 py-2 rounded-md relative h-12 w-32 overflow-hidden text-blue-500 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-blue-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold "
-                  >
-                    <span className="relative z-10  text-4xl">삭 제 하 기</span>
-                  </button>
-                </Flex>
+                {isAuthenticated() && (
+                  <Flex>
+                    <button
+                      onClick={() =>
+                        navigate("/home/member/edit?" + params.toString())
+                      }
+                      className="ml-60 py-2 rounded-md relative h-12 w-32 overflow-hidden text-blue-500 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-blue-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold"
+                    >
+                      <span className="relative z-10  text-4xl">
+                        수 정 하 기
+                      </span>
+                    </button>
+                    <button
+                      onClick={onOpen}
+                      className="ml-8 py-2 rounded-md relative h-12 w-32 overflow-hidden text-blue-500 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-blue-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold "
+                    >
+                      <span className="relative z-10  text-4xl">
+                        삭 제 하 기
+                      </span>
+                    </button>
+                  </Flex>
+                )}
               </div>
               <div className="text-gray-700 mt-6">
                 <div className="grid md:grid-cols-2 text-md">
@@ -220,11 +218,24 @@ function MemberView(props) {
                     <span className="tracking-wide">최근 작성 게시글</span>
                   </div>
                   <ul className="list-inside space-y-2">
+                    {boardList.length === 0 && (
+                      <li>
+                        <div className="text-teal-600">
+                          최근 활동이 없습니다.
+                        </div>
+                      </li>
+                    )}
+
                     {boardList.map((board) => (
                       <li>
-                        <div className="text-teal-600">{board.title}</div>
+                        <div
+                          className="text-teal-600 hover:underline cursor-pointer"
+                          onClick={() => navigate("/home/board/" + board.id)}
+                        >
+                          {board.title}
+                        </div>
                         <div className="text-gray-500 text-xs">
-                          {board.inserted}
+                          {board.insert}
                         </div>
                       </li>
                     ))}
@@ -256,9 +267,23 @@ function MemberView(props) {
                     <span className="tracking-wide">최근 작성 댓글</span>
                   </div>
                   <ul className="list-inside space-y-2">
+                    {commentList.length === 0 && (
+                      <li>
+                        <div className="text-teal-600">
+                          최근 활동이 없습니다.
+                        </div>
+                      </li>
+                    )}
                     {commentList.map((comment) => (
                       <li>
-                        <div className="text-teal-600">{comment.comment}</div>
+                        <div
+                          className="text-teal-600 hover:underline cursor-pointer"
+                          onClick={() =>
+                            navigate("/home/board/" + comment.boardId)
+                          }
+                        >
+                          {comment.comment}
+                        </div>
                         <div className="text-gray-500 text-xs">
                           {comment.inserted}
                         </div>
