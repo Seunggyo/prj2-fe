@@ -6,6 +6,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Center,
   Checkbox,
   CheckboxGroup,
   Divider,
@@ -13,6 +14,7 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
+  Grid,
   Heading,
   Image,
   Input,
@@ -34,8 +36,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useImmer } from "use-immer";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../component/LoginProvider";
+import { FaBookmark, FaTimes } from "react-icons/fa";
 
 export function MemberBusinessEdit() {
   const [list, updateList] = useImmer([]);
@@ -54,7 +57,7 @@ export function MemberBusinessEdit() {
   useEffect(() => {
     if (authCheck() === "hs") {
       axios.get(`/api/hospital/get?${params}`).then((r) => {
-        if (r.data.length === 0) {
+        if (r.data.length === 0 || r.data === null) {
           updateList(null);
         } else {
           updateList(r.data);
@@ -178,6 +181,7 @@ export function MemberBusinessEdit() {
         info: list.info,
         homePage: list.homePage,
         nightCare: list.nightCare,
+        oldAddress: list.oldAddress,
         holiday,
         course,
         uploadFiles,
@@ -219,6 +223,12 @@ export function MemberBusinessEdit() {
     });
   }
 
+  function handleOldAddressChange() {
+    updateList((r) => {
+      r.oldAddress = e.target.value;
+    });
+  }
+
   return list === null ? (
     <Box>
       <Text fontSize={"xl"}>
@@ -226,44 +236,56 @@ export function MemberBusinessEdit() {
       </Text>
     </Box>
   ) : (
-    <Box>
-      <Card>
-        <CardHeader>
-          <Heading>병원 정보 수정</Heading>
+    <Center>
+      <Card w={"xl"} boxShadow="lg" fontFamily="dongle">
+        <CardHeader bg="blue.200" textAlign="center" py={4}>
+          <Heading fontSize="5xl" color="white" fontFamily="dongle">
+            기관 정보 수정
+          </Heading>
         </CardHeader>
         <CardBody>
-          <FormControl>
-            <FormLabel>병원명</FormLabel>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">기관명</FormLabel>
             <Input value={list.name} onChange={handleNameChange} />
           </FormControl>
-          <FormControl>
-            <FormLabel>병원 주소</FormLabel>
+          <FormControl mb={4}>
+            <FormLabel fontSize={"2xl"}>병원 주소</FormLabel>
             <Input value={list.address} onChange={handleAddressChange} />
+            <FormLabel fontSize="2xl">병원 간단주소</FormLabel>
+            <Input
+              value={list.oldAddress}
+              onChange={handleOldAddressChange}
+              placeholder="동까지만 입력해주시면 됩니다 ex:)세종시 아람동"
+            />
           </FormControl>
-          <FormControl>
-            <FormLabel>전화번호</FormLabel>
+          <FormControl mb={4}>
+            <FormLabel fontSize={"2xl"}>전화번호</FormLabel>
             <Input value={list.phone} onChange={handlePhoneChange} />
           </FormControl>
-          <FormControl>
-            <FormLabel>오픈시간</FormLabel>
+          <FormControl mb={4}>
+            <FormLabel fontSize={"2xl"}>오픈시간</FormLabel>
+            <Grid mt={3} ml={3} templateColumns={"repeat(2 , 1fr)"}>
+              <FormLabel fontSize="2xl">시간</FormLabel>
+              <FormLabel ml={3} fontSize="2xl">
+                분
+              </FormLabel>
+            </Grid>
             <Flex>
-              <FormLabel>시간</FormLabel>
               <Select
                 onChange={handleOpenHourChange}
                 w={"sm"}
                 placeholder="시간"
                 value={list.openHour}
-                defaultValue={0}
+                fontSize="2xl"
               >
                 {hour()}
               </Select>
-              <FormLabel>분</FormLabel>
               <Select
-                defaultValue={0}
                 onChange={handleOpenMinChange}
                 value={list.openMin}
                 w={"sm"}
                 placeholder="분"
+                fontSize={"2xl"}
               >
                 <option value={0}>00</option>
                 <option value={10}>10</option>
@@ -275,26 +297,37 @@ export function MemberBusinessEdit() {
               </Select>
             </Flex>
           </FormControl>
-          <FormControl>
-            <FormLabel>휴게시간</FormLabel>
+          <FormControl mb={4}>
+            <FormLabel fontSize="2xl">휴게시간</FormLabel>
+            <Grid templateColumns={"repeat(4, 1fr)"}>
+              <FormLabel fontSize="2xl">시작 시간</FormLabel>
+              <FormLabel ml={2} fontSize="2xl">
+                분
+              </FormLabel>
+              <FormLabel ml={2} fontSize="2xl">
+                종료시간
+              </FormLabel>
+              <FormLabel ml={3} fontSize="2xl">
+                분
+              </FormLabel>
+            </Grid>
             <Flex>
-              <FormLabel>시작 시간</FormLabel>
               <Select
                 onChange={handleRestHourChange}
                 w={"sm"}
                 placeholder="시간"
                 value={list.restHour}
-                defaultValue={0}
+                fontSize={"2xl"}
               >
                 {hour()}
               </Select>
-              <FormLabel>분</FormLabel>
+
               <Select
-                defaultValue={0}
                 onChange={handleRestMinChange}
                 value={list.restMin}
                 w={"sm"}
                 placeholder="분"
+                fontSize="2xl"
               >
                 <option value={0}>00</option>
                 <option value={10}>10</option>
@@ -304,23 +337,23 @@ export function MemberBusinessEdit() {
                 <option value={50}>50</option>
                 <option value={60}>60</option>
               </Select>
-              <FormLabel>종료시간</FormLabel>
+
               <Select
                 onChange={handleRestCloseHourChange}
                 w={"sm"}
                 placeholder="시간"
                 value={list.restCloseHour}
-                defaultValue={0}
+                fontSize="2xl"
               >
                 {hour()}
               </Select>
-              <FormLabel>분</FormLabel>
+
               <Select
-                defaultValue={0}
                 onChange={handleRestCloseMinChange}
                 value={list.restCloseMin}
                 w={"sm"}
                 placeholder="분"
+                fontSize="2xl"
               >
                 <option value={0}>00</option>
                 <option value={10}>10</option>
@@ -333,25 +366,30 @@ export function MemberBusinessEdit() {
             </Flex>
           </FormControl>
           <FormControl>
-            <FormLabel>마감시간</FormLabel>
+            <FormLabel fontSize="2xl">마감시간</FormLabel>
+            <Grid mt={3} ml={3} templateColumns={"repeat(2 , 1fr)"}>
+              <FormLabel fontSize="2xl">시간</FormLabel>
+              <FormLabel ml={3} fontSize="2xl">
+                분
+              </FormLabel>
+            </Grid>
             <Flex>
-              <FormLabel>시간</FormLabel>
               <Select
                 value={list.closeHour}
-                defaultValue={0}
                 onChange={handleCloseHourChange}
                 w={"sm"}
                 placeholder="시간"
+                fontSize={"2xl"}
               >
                 {hour()}
               </Select>
-              <FormLabel>분</FormLabel>
+
               <Select
                 value={list.closeMin}
-                defaultValue={0}
                 w={"sm"}
                 placeholder="분"
                 onChange={handleCloseMinChange}
+                fontSize={"2xl"}
               >
                 <option value={0}>00</option>
                 <option value={10}>10</option>
@@ -364,19 +402,31 @@ export function MemberBusinessEdit() {
             </Flex>
           </FormControl>
           <FormControl>
-            <FormLabel>상세정보</FormLabel>
-            <Textarea value={list.content} onChange={handleContentChange} />
+            <FormLabel fontSize="2xl">상세정보</FormLabel>
+            <Textarea
+              value={list.content}
+              onChange={handleContentChange}
+              fontSize="2xl"
+            />
           </FormControl>
           <FormControl>
-            <FormLabel>홈페이지</FormLabel>
-            <Input value={list.homePage} onChange={handleHomePageChange} />
+            <FormLabel fontSize="2xl">홈페이지</FormLabel>
+            <Input
+              value={list.homePage}
+              onChange={handleHomePageChange}
+              fontSize="2xl"
+            />
           </FormControl>
 
           {authCheck() === "hs" && (
             <FormControl>
-              <FormLabel>진료과목</FormLabel>
+              <FormLabel fontSize="2xl">진료과목</FormLabel>
               <Flex>
-                <CheckboxGroup value={course} onChange={(e) => setCourse(e)}>
+                <CheckboxGroup
+                  fontSize="2xl"
+                  value={course}
+                  onChange={(e) => setCourse(e)}
+                >
                   <Checkbox value="소아과">소아과</Checkbox>
                   <Checkbox value="내과">내과</Checkbox>
                   <Checkbox value="외과">외과</Checkbox>
@@ -386,8 +436,12 @@ export function MemberBusinessEdit() {
             </FormControl>
           )}
           <FormControl>
-            <FormLabel>휴무일</FormLabel>
-            <CheckboxGroup value={holiday} onChange={(e) => setHoliday(e)}>
+            <FormLabel fontSize="2xl">휴무일</FormLabel>
+            <CheckboxGroup
+              fontSize="2xl"
+              value={holiday}
+              onChange={(e) => setHoliday(e)}
+            >
               <Checkbox value="월요일">월요일</Checkbox>
               <Checkbox value="화요일">화요일</Checkbox>
               <Checkbox value="수요일">수요일</Checkbox>
@@ -398,6 +452,11 @@ export function MemberBusinessEdit() {
               <Checkbox value="공휴일">공휴일</Checkbox>
             </CheckboxGroup>
           </FormControl>
+        </CardBody>
+      </Card>
+
+      <Card w={"xl"} boxShadow="lg" fontFamily="dongle">
+        <CardBody>
           {list.files?.length > 0 &&
             list.files.map((file) => (
               <Card
@@ -423,33 +482,49 @@ export function MemberBusinessEdit() {
               </Card>
             ))}
           <FormControl mb={5}>
-            <FormLabel>이미지</FormLabel>
+            <FormLabel fontSize="2xl">이미지</FormLabel>
             <Input
               type="file"
               accept="image/*"
               multiple
               onChange={(e) => setUploadFiles(e.target.files)}
             />
-            <FormHelperText>
-              한 개 파일은 3MB, 총 용량은 10MB 이내로 첨부하세요.
+            <FormHelperText fontSize="2xl">
+              한 개 파일은 3MB, 총 용량은 30MB 이내로 첨부하세요.
             </FormHelperText>
           </FormControl>
           <FormControl>
-            <FormLabel>야간영업</FormLabel>
+            <FormLabel fontSize="2xl">야간영업</FormLabel>
             <Checkbox
               isChecked={list.nightCare}
               value={list.nightCare}
               onChange={handleNightChange}
+              fontSize="2xl"
             >
               야간영업을 하시면 체크 해주세요
             </Checkbox>
           </FormControl>
         </CardBody>
         <CardFooter>
-          <Button onClick={onOpen} colorScheme="twitter">
-            저장
-          </Button>
-          <Button onClick={() => navigate(-1)}>취소</Button>
+          <Flex>
+            <Button
+              onClick={onOpen}
+              leftIcon={<FaBookmark />}
+              colorScheme="teal"
+              marginX="5px"
+            >
+              저장
+            </Button>
+            <Button
+              leftIcon={<FaTimes />}
+              onClick={() => navigate(-1)}
+              marginLeft="4"
+              colorScheme="blue"
+              marginRight="15px"
+            >
+              취소
+            </Button>
+          </Flex>
         </CardFooter>
       </Card>
 
@@ -469,6 +544,6 @@ export function MemberBusinessEdit() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Box>
+    </Center>
   );
 }
