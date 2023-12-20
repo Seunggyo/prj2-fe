@@ -138,7 +138,8 @@ export function DrugView() {
   const toast = useToast();
   const navigate = useNavigate();
 
-  const { isAdmin } = useContext(LoginContext);
+  const { isAdmin, isAuthenticated } = useContext(LoginContext);
+
   const { id } = useParams();
 
   useEffect(() => {
@@ -193,11 +194,14 @@ export function DrugView() {
         });
       })
       .catch((error) => {
-        //TODO: 로그인 안하고 누르면 로그인 페이지로 보내기
-        toast({
-          description: " 장바구니에 넣는 중 문제가 발생하였습니다.",
-          status: "error",
-        });
+        if (!isAuthenticated()) {
+          navigate("/home/member/login");
+        } else {
+          toast({
+            description: " 장바구니에 넣는 중 문제가 발생하였습니다.",
+            status: "error",
+          });
+        }
       })
       .finally(() => onClose);
   }
