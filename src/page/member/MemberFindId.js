@@ -2,6 +2,7 @@ import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Snowfall from "react-snowfall";
 
 export function MemberFindId() {
   const [email, setEmail] = useState("");
@@ -22,15 +23,15 @@ export function MemberFindId() {
 
   return (
     <div>
+      <Snowfall />
       <div className="bg-white dark:bg-gray-900">
         <div className="flex justify-center h-screen">
           <div className="hidden bg-cover lg:block lg:w-2/3">
             <div className="rounded-xl">
               {/*TODO : 백그라운드 이미지 넣고 좌우 크기 수정해야함..*/}
               <img
-                src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
-                alt="image 2"
-                className="h-full w-full object-cover"
+                src="https://image.idus.com/image/files/361c932c88bf402ab08f19d8afda9e31_720.jpg"
+                style={{ height: "800px", width: "1100px" }}
               />
             </div>
           </div>
@@ -65,14 +66,14 @@ export function MemberFindId() {
                         />
                       </div>
                     </div>
-                    <button
-                      type="submit"
-                      onClick={handleButtonClick}
-                      className="w-full mt-1 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                    >
-                      인 증 하 기
-                    </button>
                   </form>
+                  <button
+                    type="submit"
+                    onClick={handleButtonClick}
+                    className="w-full mt-1 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                  >
+                    인 증 하 기
+                  </button>
                 </div>
 
                 {/*아이디 인증 성공 시 출력*/}

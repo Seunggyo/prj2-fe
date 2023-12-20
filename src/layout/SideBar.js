@@ -80,7 +80,7 @@ export function SideBar() {
             <ul className="flex flex-col py-7 space-y-2">
               <li className="px-5">
                 <div className="flex flex-row items-center h-8">
-                  <div className="text-lg font-bold tracking-wide text-gray-500">
+                  <div className="text-xl font-bold tracking-wide text-gray-500">
                     메 뉴
                   </div>
                 </div>
@@ -108,9 +108,6 @@ export function SideBar() {
                   </span>
                   <span className="ml-2 text-4xl font-dongle font-semibold tracking-wide truncate">
                     약 국
-                  </span>
-                  <span className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-indigo-500 bg-indigo-50 rounded-full">
-                    New
                   </span>
                 </p>
               </li>
@@ -152,8 +149,8 @@ export function SideBar() {
                   <span className="ml-2 text-sm tracking-wide truncate">
                     알 림
                   </span>
-                  <span className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-500 bg-red-50 rounded-full">
-                    1.2k
+                  <span className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-500 bg-indigo-50 rounded-full">
+                    New
                   </span>
                 </p>
               </li>
@@ -162,7 +159,7 @@ export function SideBar() {
 
               <li className="px-5">
                 <div className="flex flex-row items-center h-8">
-                  <div className="text-xl font-bold font-semibold tracking-wide text-gray-500">
+                  <div className="text-xl font-semibold tracking-wide text-gray-500">
                     설 정
                   </div>
                 </div>
@@ -276,7 +273,9 @@ export function SideBar() {
                       <MenuItem>
                         {" "}
                         <button
-                          onClick={() => navigate("/home/cs/qaList")}
+                          onClick={() =>
+                            navigate("/home/cs/qaList?" + urlParams)
+                          }
                           className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                         >
                           문의 답변

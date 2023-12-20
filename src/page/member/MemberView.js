@@ -77,7 +77,7 @@ function MemberView(props) {
                     width: "16rem",
                     height: "16rem",
                   }}
-                  src={member.profile}
+                  src={login.profile}
                 />
               </div>
               <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">
@@ -154,8 +154,8 @@ function MemberView(props) {
 
           <div className="w-full md:w-9/12 mx-2 h-64">
             <div className="bg-white p-3 shadow-sm rounded-sm">
-              <div className="flex items-center space-x-2 font-semibold mt-3">
-                <span clas="text-green-500">
+              <div className="flex items-center justify-between space-x-2 font-semibold mt-3">
+                <div class="flex items-center">
                   <svg
                     className="h-5"
                     xmlns="http://www.w3.org/2000/svg"
@@ -170,21 +170,21 @@ function MemberView(props) {
                       d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                     />
                   </svg>
-                </span>
+                  <span className="tracking-wide text-xl">개인 정보</span>
+                </div>
 
-                <span className="tracking-wide text-xl">개인 정보</span>
                 <Flex>
                   <button
                     onClick={() =>
                       navigate("/home/member/edit?" + params.toString())
                     }
-                    className="ml-60 py-2 rounded-md relative h-12 w-32 overflow-hidden text-violet-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-violet-600 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold"
+                    className="ml-60 py-2 rounded-md relative h-12 w-32 overflow-hidden text-blue-500 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-blue-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold"
                   >
                     <span className="relative z-10  text-4xl">수 정 하 기</span>
                   </button>
                   <button
                     onClick={onOpen}
-                    className="ml-8 py-2 rounded-md relative h-12 w-32 overflow-hidden text-violet-600 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-violet-600 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold "
+                    className="ml-8 py-2 rounded-md relative h-12 w-32 overflow-hidden text-blue-500 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-blue-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold "
                   >
                     <span className="relative z-10  text-4xl">삭 제 하 기</span>
                   </button>

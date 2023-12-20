@@ -67,7 +67,7 @@ function MemberEdit(props) {
         phone,
         birthday,
         address,
-        profile,
+        profileFile: profile,
       })
       .then(() => {
         toast({
@@ -161,8 +161,15 @@ function MemberEdit(props) {
         </CardBody>
         <CardFooter>
           <Flex>
-            <Button onClick={handleEditClick}>확인</Button>
-            <Button>취소</Button>
+            <button
+              onClick={handleEditClick}
+              className="ml-60 py-2 rounded-md relative h-15 w-20 overflow-hidden text-blue-500 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-blue-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold"
+            >
+              <span className="relative z-10  text-5xl">확 인</span>
+            </button>
+            <button className="ml-2 py-2 rounded-md relative h-15 w-20 overflow-hidden text-blue-500 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-blue-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold">
+              <span className="relative z-10  text-5xl">취 소</span>
+            </button>
           </Flex>
         </CardFooter>
       </Card>

@@ -18,8 +18,9 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { LoginContext } from "../../../component/LoginProvider";
 
 export function QAEdit() {
   const [qa, updateQa] = useImmer(null);
@@ -35,6 +36,14 @@ export function QAEdit() {
   const toast = useToast();
 
   const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const urlParams = new URLSearchParams();
+
+  const { login, authCheck, isAuthenticated } = useContext(LoginContext);
+
+  if (login !== null) {
+    urlParams.set("id", login.id);
+  }
 
   useEffect(() => {
     axios.get("/api/qa/id/" + id).then((response) => updateQa(response.data));
@@ -86,7 +95,7 @@ export function QAEdit() {
           status: "success",
         });
 
-        navigate("/home/cs/qaList");
+        navigate("/home/cs/qaList?" + urlParams);
       })
       .catch((error) => {
         if (error.response.status === 400) {

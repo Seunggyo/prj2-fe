@@ -77,14 +77,20 @@ export function DsView({ dsId }) {
   const { id } = useParams();
   const [currentImageShowIndex, setCurrentImageShowIndex] = useState(0);
 
-  const { isAuthenticated } = useContext(LoginContext);
-
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const [ds, setDs] = useState("");
   const [like, setLike] = useState("");
 
   const realId = dsId || id;
+
+  const urlParams = new URLSearchParams();
+
+  const { login, authCheck, isAuthenticated } = useContext(LoginContext);
+
+  if (login !== null) {
+    urlParams.set("id", login.id);
+  }
 
   const imageShowLength = ds.files ? ds.files.length : 0;
   useEffect(() => {
@@ -173,38 +179,26 @@ export function DsView({ dsId }) {
               </Box>
             ))}
         </Box>
-        <Button
-          border="1px solid lightgrey"
-          bg="white"
-          width="100%"
-          height="50px"
-          marginTop="10px"
-          marginRight="55px"
-          marginBottom="10px"
-          fontSize="1.5xl"
-          onClick={() =>
-            realId
-              ? navigate("/home/hospital/hospitalReservation/" + realId)
-              : null
-          }
-          isDisabled={!realId || !isAuthenticated()}
+        <Tooltip
+          isDisabled={isAuthenticated()}
+          hasArrow
+          label={"로그인이 필요합니다!"}
         >
-          <CalendarIcon mr={2} />
-          예약
-        </Button>
-        {/*<Button*/}
-        {/*  border="1px solid lightgrey"*/}
-        {/*  bg="white"*/}
-        {/*  width="100%"*/}
-        {/*  height="50px"*/}
-        {/*  marginRight="55px"*/}
-        {/*  marginBottom="10px"*/}
-        {/*  fontSize="1.5xl"*/}
-        {/*  onClick={() => navigate("/home/cs/qaList")}*/}
-        {/*>*/}
-        {/*  <FontAwesomeIcon icon={faCommentDots} size="lg" />*/}
-        {/*  문의*/}
-        {/*</Button>*/}
+          <Button
+            isDisabled={!isAuthenticated()}
+            border="1px solid lightgrey"
+            bg="white"
+            width="100%"
+            height="50px"
+            marginRight="55px"
+            marginBottom="10px"
+            fontSize="1.5xl"
+            onClick={() => navigate("/home/cs/qaList?" + urlParams)}
+          >
+            <FontAwesomeIcon icon={faCommentDots} size="lg" />
+            문의
+          </Button>
+        </Tooltip>
         <Tabs variant="enclosed" w="100%">
           <TabList>
             <Tab w="33%" color="black" borderTop="1px solid lightgrey">
@@ -342,22 +336,6 @@ export function DsView({ dsId }) {
             </TabPanel>
           </TabPanels>
         </Tabs>
-        <Td>
-          {isAuthenticated() && (
-            <Button
-              border="1px solid lightgrey"
-              bg="white"
-              color="green"
-              width="100%"
-              height="50px"
-              fontSize="1.5xl"
-              onClick={() => navigate("/home/cs/qaList")}
-            >
-              <FontAwesomeIcon icon={faCommentDots} size="lg" />
-              문의
-            </Button>
-          )}
-        </Td>
       </Card>
     </Table>
   );

@@ -38,7 +38,7 @@ export function NavBar() {
           {isAuthenticated() && (
             <Flex className="text-2xl font-bold text-teal-500 ml-80 items-center ">
               <Avatar src={login.profile} size="md"></Avatar>
-              {login.nickName} 님 환영합니다!{" "}
+              {login.nickName} 님{" "}
             </Flex>
           )}
           <nav class="z-50 flex-col mr-20 pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row">

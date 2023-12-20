@@ -1,7 +1,8 @@
-import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Box, Input } from "@chakra-ui/react";
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Snowfall from "react-snowfall";
 
 export function MemberFindPassword() {
   const [member, setMember] = useState(null);
@@ -32,14 +33,14 @@ export function MemberFindPassword() {
 
   return (
     <div className="bg-white dark:bg-gray-900">
+      <Snowfall />
       <div className="flex justify-center h-screen">
         <div className="hidden bg-cover lg:block lg:w-2/3">
           <div className="rounded-xl">
             {/*TODO : 백그라운드 이미지 넣고 좌우 크기 수정해야함..*/}
             <img
-              src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
-              alt="image 2"
-              className="h-full w-full object-cover"
+              src="https://png.pngtree.com/thumb_back/fw800/background/20231101/pngtree-cozy-christmas-eve-a-warm-and-inviting-living-room-image_13945006.jpg"
+              style={{ height: "800px", width: "1100px" }}
             />
           </div>
         </div>
