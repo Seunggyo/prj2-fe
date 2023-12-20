@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -12,17 +12,21 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
 } from "@chakra-ui/react";
 
 export function PaymentHistory() {
   const [orderList, setOrderList] = useState(null);
   const { id } = useParams();
 
+  const toast = useToast();
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   useEffect(() => {
     axios.get("/api/order/history").then(({ data }) => setOrderList(data));
-  }, []);
+  }, [location]);
 
   if (orderList === null) {
     return <Spinner />;
@@ -33,6 +37,26 @@ export function PaymentHistory() {
       state: { order },
     });
   };
+
+  function handleDeleteClick(orderId) {
+    axios
+      .delete("/api/order/remove?orderId=" + orderId)
+      .then(() => {
+        toast({
+          description: "삭제되었습니다.",
+          status: "success",
+        });
+        // 삭제 후에 목록 갱신
+        axios.get("/api/order/history").then(({ data }) => setOrderList(data));
+      })
+      .catch(() => {
+        toast({
+          description: "오류가 발생했습니다.",
+          status: "error",
+        });
+      });
+  }
+
   return (
     <div className="container mx-auto p-4">
       <div
@@ -89,12 +113,27 @@ export function PaymentHistory() {
                   </div>
                   <div className="text-gray-500">{order.inserted}</div>
                 </div>
-                <div style={{ paddingTop: "10px", paddingRight: "10px" }}>
+                <div
+                  style={{
+                    paddingTop: "10px",
+                    paddingRight: "10px",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
                   <Button
+                    colorScheme={"teal"}
                     style={{ justifyContent: "flex-end" }}
                     onClick={() => handleHistoryClick(order)}
                   >
                     상세보기
+                  </Button>
+                  <Button
+                    colorScheme={"red"}
+                    style={{ justifyContent: "flex-end" }}
+                    onClick={() => handleDeleteClick(order.orderId)}
+                  >
+                    주문 취소
                   </Button>
                 </div>
               </div>
