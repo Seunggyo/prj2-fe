@@ -43,6 +43,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { LoginContext } from "../../component/LoginProvider";
 import { DsComment } from "./DsComment";
+import { CalendarIcon } from "@chakra-ui/icons";
 
 function LikeContainer({ like, onClick }) {
   const { isAuthenticated } = useContext(LoginContext);
@@ -76,7 +77,7 @@ export function DsView({ dsId }) {
   const { id } = useParams();
   const [currentImageShowIndex, setCurrentImageShowIndex] = useState(0);
 
-  const { hasAccess, isAdmin } = useContext(LoginContext);
+  const { isAuthenticated } = useContext(LoginContext);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -177,14 +178,33 @@ export function DsView({ dsId }) {
           bg="white"
           width="100%"
           height="50px"
+          marginTop="10px"
           marginRight="55px"
           marginBottom="10px"
           fontSize="1.5xl"
-          onClick={() => navigate("/home/cs/qaList")}
+          onClick={() =>
+            realId
+              ? navigate("/home/hospital/hospitalReservation/" + realId)
+              : null
+          }
+          isDisabled={!realId || !isAuthenticated()}
         >
-          <FontAwesomeIcon icon={faCommentDots} size="lg" />
-          문의
+          <CalendarIcon mr={2} />
+          예약
         </Button>
+        {/*<Button*/}
+        {/*  border="1px solid lightgrey"*/}
+        {/*  bg="white"*/}
+        {/*  width="100%"*/}
+        {/*  height="50px"*/}
+        {/*  marginRight="55px"*/}
+        {/*  marginBottom="10px"*/}
+        {/*  fontSize="1.5xl"*/}
+        {/*  onClick={() => navigate("/home/cs/qaList")}*/}
+        {/*>*/}
+        {/*  <FontAwesomeIcon icon={faCommentDots} size="lg" />*/}
+        {/*  문의*/}
+        {/*</Button>*/}
         <Tabs variant="enclosed" w="100%">
           <TabList>
             <Tab w="33%" color="black" borderTop="1px solid lightgrey">
@@ -322,6 +342,22 @@ export function DsView({ dsId }) {
             </TabPanel>
           </TabPanels>
         </Tabs>
+        <Td>
+          {isAuthenticated() && (
+            <Button
+              border="1px solid lightgrey"
+              bg="white"
+              color="green"
+              width="100%"
+              height="50px"
+              fontSize="1.5xl"
+              onClick={() => navigate("/home/cs/qaList")}
+            >
+              <FontAwesomeIcon icon={faCommentDots} size="lg" />
+              문의
+            </Button>
+          )}
+        </Td>
       </Card>
     </Table>
   );
