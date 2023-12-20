@@ -179,26 +179,6 @@ export function DsView({ dsId }) {
               </Box>
             ))}
         </Box>
-        <Tooltip
-          isDisabled={isAuthenticated()}
-          hasArrow
-          label={"로그인이 필요합니다!"}
-        >
-          <Button
-            isDisabled={!isAuthenticated()}
-            border="1px solid lightgrey"
-            bg="white"
-            width="100%"
-            height="50px"
-            marginRight="55px"
-            marginBottom="10px"
-            fontSize="1.5xl"
-            onClick={() => navigate("/home/cs/qaList?" + urlParams)}
-          >
-            <FontAwesomeIcon icon={faCommentDots} size="lg" />
-            문의
-          </Button>
-        </Tooltip>
         <Tabs variant="enclosed" w="100%">
           <TabList>
             <Tab w="33%" color="black" borderTop="1px solid lightgrey">
@@ -329,6 +309,26 @@ export function DsView({ dsId }) {
                   </FormLabel>
                   <Text>{ds.info}</Text>
                 </Td>
+                <Tooltip
+                  isDisabled={isAuthenticated()}
+                  hasArrow
+                  label={"로그인이 필요합니다!"}
+                >
+                  <Button
+                    marginTop="10px"
+                    border="1px solid lightgrey"
+                    bg="white"
+                    color="green"
+                    width="100%"
+                    height="50px"
+                    fontSize="1.5xl"
+                    isDisabled={!isAuthenticated()}
+                    onClick={() => navigate("/home/cs/qaList?" + urlParams)}
+                  >
+                    <FontAwesomeIcon icon={faCommentDots} size="lg" />
+                    문의
+                  </Button>
+                </Tooltip>
               </Card>
             </TabPanel>
             <TabPanel p="0">

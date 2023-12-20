@@ -298,14 +298,6 @@ export function HsView({ hsId, onLikeSearch }) {
                     </Flex>
                   </Td>
                 )}
-                <Td>
-                  <Flex>
-                    <FormLabel fontWeight="bold" fontSize="18px" color="grey">
-                      야간영업
-                    </FormLabel>
-                    <Checkbox isChecked={list.nightCare}></Checkbox>
-                  </Flex>
-                </Td>
                 <Tooltip
                   isDisabled={isAuthenticated()}
                   hasArrow
@@ -313,12 +305,12 @@ export function HsView({ hsId, onLikeSearch }) {
                 >
                   <Td>
                     <Button
-                        border="1px solid lightgrey"
-                        bg="white"
-                        color="green"
-                        width="100%"
-                        height="50px"
-                        fontSize="1.5xl"
+                      border="1px solid lightgrey"
+                      bg="white"
+                      color="green"
+                      width="100%"
+                      height="50px"
+                      fontSize="1.5xl"
                       isDisabled={!isAuthenticated()}
                       onClick={() => navigate("/home/cs/qaList?" + urlParams)}
                     >
