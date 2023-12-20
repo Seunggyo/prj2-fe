@@ -42,7 +42,7 @@ import {
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LoginContext } from "../../component/LoginProvider";
-import { FaBookmark, FaRegCalendarAlt, FaTimes } from "react-icons/fa";
+import { FaBookmark, FaTimes } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 
 function LikeContainer({ like, onClick }) {
@@ -117,6 +117,7 @@ export function HsEdit() {
       r.address = e.target.value;
     });
   }
+
   function handleOldAddressChange(e) {
     updateList((r) => {
       r.oldAddress = e.target.value;
@@ -304,7 +305,6 @@ export function HsEdit() {
                 w={"sm"}
                 placeholder="시간"
                 value={list.openHour}
-                defaultValue={0}
                 fontSize="2xl"
               >
                 {hour()}
@@ -495,7 +495,7 @@ export function HsEdit() {
                 </CardFooter>
               </Card>
             ))}
-          <FormControl mb={4}>
+          <FormControl mb={5}>
             <FormLabel fontSize="2xl">이미지</FormLabel>
             <Input
               type="file"
