@@ -264,6 +264,11 @@ export function HsEdit() {
       .finally(() => onClose());
   }
 
+  function handleInfoChange(e) {
+    updateList((draft) => {
+      draft.info = e.target.value;
+    });
+  }
   return (
     <Center>
       <Card w={"xl"} boxShadow="lg" fontFamily="dongle">
@@ -423,10 +428,18 @@ export function HsEdit() {
             </Flex>
           </FormControl>
           <FormControl>
-            <FormLabel fontSize="2xl">상세정보</FormLabel>
+            <FormLabel fontSize="2xl">병원정보</FormLabel>
             <Textarea
               value={list.content}
               onChange={handleContentChange}
+              fontSize="2xl"
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel fontSize="2xl">병원특징</FormLabel>
+            <Textarea
+              value={list.info}
+              onChange={handleInfoChange}
               fontSize="2xl"
             />
           </FormControl>
