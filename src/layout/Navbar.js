@@ -60,6 +60,17 @@ export function NavBar() {
                   <MenuItem>
                     {" "}
                     <button
+                      onClick={() =>
+                        navigate("/home/member/membersPaymentHistory")
+                      }
+                      className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                    >
+                      회원 주문 내역 목록
+                    </button>
+                  </MenuItem>
+                  <MenuItem>
+                    {" "}
+                    <button
                       onClick={() => navigate("/home/hospital/hospitalList")}
                       className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                     >
@@ -78,23 +89,10 @@ export function NavBar() {
                   <MenuItem>
                     {" "}
                     <button
-                      onClick={() =>
-                        navigate("/home/hospital/businessList?" + urlParams)
-                      }
+                      onClick={() => navigate("/home/member/joinList")}
                       className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                     >
-                      기관에서 보는 예약 페이지
-                    </button>
-                  </MenuItem>
-                  <MenuItem>
-                    {" "}
-                    <button
-                      onClick={() =>
-                        navigate("/home/hospital/businessList?" + urlParams)
-                      }
-                      className="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                    >
-                      기관정보 변경
+                      가입 대기 목록
                     </button>
                   </MenuItem>
                 </MenuList>

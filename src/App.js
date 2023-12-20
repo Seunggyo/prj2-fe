@@ -30,10 +30,9 @@ import { DrugView } from "./page/drug/DrugView";
 import { DrugEdit } from "./page/drug/DrugEdit";
 import { HsAdd } from "./page/hs/HsAdd";
 import { HsEdit } from "./page/hs/HsEdit";
-import { Ds } from "./Ds";
-import { Member } from "./Member";
-import { Board } from "./page/board/Board";
-import { CS } from "./page/customerService/CS";
+import { Ds } from "./layout/Ds";
+import { Member } from "./layout/Member";
+import { CS } from "./layout/CS";
 import { CSList } from "./page/customerService/CSList";
 import { CSWrite } from "./page/customerService/CSWrite";
 import { CSView } from "./page/customerService/CSView";
@@ -45,7 +44,7 @@ import { MemberFindPassword } from "./page/member/MemberFindPassword";
 import { MemberJoinList } from "./page/member/MemberJoinList";
 import { Cart } from "./page/drug/Cart";
 import { DrugFuncList } from "./page/drug/DrugFuncList";
-import { Hs } from "./Hs";
+import { Hs } from "./layout/Hs";
 import { HsList } from "./page/hs/HsList";
 import { HsReservation } from "./page/hs/HsReservation";
 import { QAView } from "./page/customerService/QA/QAView";
@@ -54,7 +53,7 @@ import { DrugBuy } from "./page/drug/DrugBuy";
 import { HsReservationCheck } from "./page/hs/HsReservationCheck";
 import { HsView } from "./page/hs/HsView";
 import { HsBusinessCheck } from "./page/hs/HsBusinessCheck";
-import { WelcomePage } from "./WelcomePage";
+import { WelcomePage } from "./layout/WelcomePage";
 import DsKakaoContainer from "./layout/map/DsKakaoContainer";
 import HsKakaoContainer from "./layout/map/HsKakaoContainer";
 import { Fail } from "./page/tossPay/Fail";
@@ -65,8 +64,8 @@ import { PaymentDetail } from "./page/member/PaymentDetail";
 import { BusinessList } from "./page/hs/BusinessList";
 import { DayCheck } from "./page/hs/DayCheck";
 import { MemberBusinessEdit } from "./page/hs/MemberBussinessEdit";
-
-
+import { HistoryAll } from "./page/member/HistoryAll";
+import { Board } from "./layout/Board";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -113,6 +112,7 @@ const routes = createBrowserRouter(
           <Route path="businessedit" element={<MemberBusinessEdit />} />
           <Route path="paymentHistory" element={<PaymentHistory />} />
           <Route path="paymentDetail" element={<PaymentDetail />} />
+          <Route path="membersPaymentHistory" element={<HistoryAll />} />
         </Route>
         <Route path="board" element={<Board />}>
           <Route index element={<BoardList />} />
