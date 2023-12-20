@@ -491,6 +491,8 @@ export function HsReservation() {
         {changeTime && (
           <Box>
             <Textarea
+              value={comment}
+              onChange={handleCommentChange}
               placeholder={
                 "예약시 특이사항을 적어주세요\n ex)진단서가 필요합니다.\n 실비보험청구내역서가 필요합니다."
               }
@@ -504,7 +506,7 @@ export function HsReservation() {
             >
               <CardHeader>
                 예약하신 시간은
-                {reservationHour < 12
+                {reservationHour <= 12
                   ? "오전 " + reservationHour
                   : "오후 " + (reservationHour - 12)}
                 시{" "}
