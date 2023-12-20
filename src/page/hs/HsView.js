@@ -20,7 +20,10 @@ import {
   Text,
   Tooltip,
 } from "@chakra-ui/react";
-import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCommentDots,
+  faHeart as fullHeart,
+} from "@fortawesome/free-solid-svg-icons";
 import React, { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../component/LoginProvider";
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
@@ -310,9 +313,16 @@ export function HsView({ hsId, onLikeSearch }) {
                 >
                   <Td>
                     <Button
+                        border="1px solid lightgrey"
+                        bg="white"
+                        color="green"
+                        width="100%"
+                        height="50px"
+                        fontSize="1.5xl"
                       isDisabled={!isAuthenticated()}
                       onClick={() => navigate("/home/cs/qaList?" + urlParams)}
                     >
+                      <FontAwesomeIcon icon={faCommentDots} size="lg" />
                       문의
                     </Button>
                   </Td>

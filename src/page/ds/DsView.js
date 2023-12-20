@@ -43,6 +43,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { LoginContext } from "../../component/LoginProvider";
 import { DsComment } from "./DsComment";
+import { CalendarIcon } from "@chakra-ui/icons";
 
 function LikeContainer({ like, onClick }) {
   const { isAuthenticated } = useContext(LoginContext);
