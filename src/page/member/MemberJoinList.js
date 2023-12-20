@@ -33,7 +33,6 @@ export function MemberJoinList() {
   const { authCheck, fetched } = useContext(LoginContext);
 
   useEffect(() => {
-    console.log(authCheck());
     if (fetched && authCheck() !== "admin") {
       navigate("/");
     }

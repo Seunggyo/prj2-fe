@@ -159,7 +159,6 @@ const MainPage = () => {
 
   function handleItemClick(dsId) {
     setDsId(dsId);
-    // console.log(dsId);
   }
   function handleItemHsClick(hsId) {
     setHsId(hsId);

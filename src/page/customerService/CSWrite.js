@@ -60,7 +60,6 @@ export function CSWrite() {
         navigate("/home/cs");
       })
       .catch((error) => {
-        console.log(error.response.status);
         if (error.response.status === 400) {
           toast({
             description: "작성한 내용을 확인해주세요.",
