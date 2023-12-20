@@ -116,9 +116,8 @@ export function Cart() {
             ))}
 
             <div className="font-semibold text-xl px-8 flex justify-between py-8 text-gray-600">
-              {/*TODO: 총 토탈 해야함 */}
               <span>Total</span>
-              <span>100.000 원</span>
+              <span>{amount} 원</span>
             </div>
             <Center>
               <button
