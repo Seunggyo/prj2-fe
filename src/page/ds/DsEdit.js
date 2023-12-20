@@ -8,6 +8,7 @@ import {
   Center,
   Checkbox,
   CheckboxGroup,
+  Divider,
   Flex,
   FormControl,
   FormHelperText,
@@ -39,6 +40,7 @@ import { FaBookmark, FaTimes } from "react-icons/fa";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaTrashCan } from "react-icons/fa6";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 export function DsEdit() {
   const [ds, updateDs] = useImmer(null);
@@ -171,23 +173,6 @@ export function DsEdit() {
 
   return (
     <Center>
-      {/*약국 사진*/}
-      {/*{ds.files.length > 0 &&*/}
-      {/*  ds.files.map((file) => (*/}
-      {/*    <Box key={file.id} border="3px solid black" width="50%">*/}
-      {/*      <FormControl display="flex" alignItems="center">*/}
-      {/*        <FormLabel>*/}
-      {/*          <FontAwesomeIcon icon={faTrashCan} color="red" />*/}
-      {/*        </FormLabel>*/}
-      {/*        <Switch*/}
-      {/*          value={file.id}*/}
-      {/*          colorScheme="red"*/}
-      {/*          onChange={handleDeleteFileSwitch}*/}
-      {/*        />*/}
-      {/*      </FormControl>*/}
-      {/*      <Image width="100%" height="300px" src={file.url} alt={file.name} />*/}
-      {/*    </Box>*/}
-      {/*  ))}*/}
       <Card w={"xl"} boxShadow="lg" fontFamily="dongle">
         <CardHeader bg="green.200" textAlign="center" py={4}>
           <Heading fontSize="5xl" color="white" fontFamily="dongle">
@@ -336,23 +321,6 @@ export function DsEdit() {
             </FormControl>
             <FormControl>
               <Flex>
-                <FormLabel fontSize="2xl">야간 업무</FormLabel>
-                <Checkbox
-                  value={ds.nightCare}
-                  isChecked={ds.nightCare}
-                  onChange={(e) =>
-                    updateDs((draft) => {
-                      draft.nightCare = e.target.checked;
-                    })
-                  }
-                />
-                <FormHelperText marginLeft="10px" fontSize="xl">
-                  야간 업무가 없으시 선택 안하셔도 됩니다
-                </FormHelperText>
-              </Flex>
-            </FormControl>
-            <FormControl>
-              <Flex>
                 <FormLabel fontSize="2xl">휴식 시간</FormLabel>
                 <FormHelperText fontSize="xl">
                   휴식 시간이 없으시 선택안하시면 됩니다
@@ -370,8 +338,8 @@ export function DsEdit() {
               </Grid>
               <Flex>
                 <Select
+                  value={ds.restHour}
                   fontSize="2xl"
-                  defaultValue="0"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.restHour = e.target.value;
@@ -381,8 +349,8 @@ export function DsEdit() {
                   {hour()};
                 </Select>
                 <Select
+                  value={ds.restMin}
                   fontSize="2xl"
-                  defaultValue="0"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.restMin = e.target.value;
@@ -398,8 +366,8 @@ export function DsEdit() {
                 </Select>
                 <Text fontSize="2xl">{"~"}</Text>
                 <Select
+                  value={ds.restCloseHour}
                   fontSize="2xl"
-                  defaultValue="0"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.restCloseHour = e.target.value;
@@ -409,8 +377,8 @@ export function DsEdit() {
                   {hour()};
                 </Select>
                 <Select
+                  value={ds.restCloseMin}
                   fontSize="2xl"
-                  defaultValue="0"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.restCloseMin = e.target.value;
@@ -452,31 +420,76 @@ export function DsEdit() {
               }
             />
           </FormControl>
+        </CardBody>
+      </Card>
 
-          <FormControl mb={4}>
-            <FormLabel fontSize="2xl">가게 사진</FormLabel>
+      <Card w={"xl"} boxShadow="lg" fontFamily="dongle">
+        <CardBody>
+          {ds.files.length > 0 &&
+            ds.files.map((file) => (
+              <Card
+                key={file.id}
+                sx={{ marginTop: "20px", marginBottom: "20px" }}
+              >
+                <CardBody display="flex" alignItems="center">
+                  <Image w="400px" h="400px" src={file.url} alt={file.name} />
+                </CardBody>
+                <Divider />
+                <CardFooter>
+                  <FormControl display="flex" alignItems={"center"} gap={2}>
+                    <FormLabel colorScheme="red" m={0} p={0}>
+                      <FontAwesomeIcon icon={faTrashCan} color="red" />
+                    </FormLabel>
+                    <Switch
+                      value={file.id}
+                      colorScheme="red"
+                      onChange={handleDeleteFileSwitch}
+                    />
+                  </FormControl>
+                </CardFooter>
+              </Card>
+            ))}
+          <FormControl mt={5}>
+            <FormLabel fontSize="2xl">이미지</FormLabel>
             <Input
-              fontSize="xl"
               type="file"
               accept="image/*"
               multiple
               onChange={(e) => setUploadFile(e.target.files)}
-              // 파일 업로드 시 미리 보여 주기
-              // onChange={(e) =>
-              //   updateDs((draft) => {
-              //     draft.files = Array.from(e.target.files).map((file) =>
-              //       Object.assign(file, {
-              //         preview: URL.createObjectURL(file),
-              //       }),
-              //     );
-              //   })
-              // }
             />
-            <FormHelperText>
-              한 개 파일은 1MB 이내, 총 파일은 10MB 이내로 첨부 가능합니다
+            <FormHelperText fontSize="2xl">
+              한 개 파일은 3MB, 총 용량은 30MB 이내로 첨부하세요.
             </FormHelperText>
           </FormControl>
+          <FormControl marginTop="10px">
+            <Flex>
+              <FormLabel fontSize="2xl">야간 업무</FormLabel>
+              <Checkbox
+                value={ds.nightCare}
+                isChecked={ds.nightCare}
+                onChange={(e) =>
+                  updateDs((draft) => {
+                    draft.nightCare = e.target.checked;
+                  })
+                }
+              />
+              <FormHelperText marginLeft="10px" fontSize="xl">
+                야간 업무가 없으시 선택 안하셔도 됩니다
+              </FormHelperText>
+            </Flex>
+          </FormControl>
         </CardBody>
+
+        {/*// 파일 업로드 시 미리 보여 주기*/}
+        {/*// onChange={(e) =>*/}
+        {/*//   updateDs((draft) => {*/}
+        {/*//     draft.files = Array.from(e.target.files).map((file) =>*/}
+        {/*//       Object.assign(file, {*/}
+        {/*//         preview: URL.createObjectURL(file),*/}
+        {/*//       }),*/}
+        {/*//     );*/}
+        {/*//   })*/}
+        {/*// }*/}
 
         <CardFooter>
           <Flex>

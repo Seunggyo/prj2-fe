@@ -185,14 +185,15 @@ export function DsView({ dsId }) {
           label={"로그인이 필요합니다!"}
         >
           <Button
-            isDisabled={!isAuthenticated()}
+            marginTop="5px"
+            marginBottom="5px"
             border="1px solid lightgrey"
             bg="white"
+            color="green"
             width="100%"
             height="50px"
-            marginRight="55px"
-            marginBottom="10px"
             fontSize="1.5xl"
+            isDisabled={!isAuthenticated()}
             onClick={() => navigate("/home/cs/qaList?" + urlParams)}
           >
             <FontAwesomeIcon icon={faCommentDots} size="lg" />

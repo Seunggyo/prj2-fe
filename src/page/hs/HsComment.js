@@ -20,12 +20,17 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleLeft,
+  faAngleRight,
+  faPaperPlane,
+} from "@fortawesome/free-solid-svg-icons";
 import { LoginContext } from "../../component/LoginProvider";
 import { DeleteIcon, EditIcon, NotAllowedIcon } from "@chakra-ui/icons";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function CommentForm({ comment, setComment, onSubmit, businessId }) {
   function handleSubmit() {
@@ -34,6 +39,7 @@ function CommentForm({ comment, setComment, onSubmit, businessId }) {
 
   return (
     <Box>
+      {/*(isLogin*/}
       <Flex>
         <Textarea
           placeholder="댓글을 작성해주세요"
@@ -48,6 +54,57 @@ function CommentForm({ comment, setComment, onSubmit, businessId }) {
           </Button>
         </Center>
       </Flex>
+    </Box>
+  );
+}
+
+function PageButton({ variant, pageNumber, children, handleClick }) {
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
+
+  return (
+    <Button variant={variant} onClick={handleClick}>
+      {children}
+    </Button>
+  );
+}
+
+function Pagination({ pageInfo, handleClickPageButton }) {
+  const pageNumbers = [];
+  const navigate = useNavigate();
+
+  for (let i = pageInfo.startPageNumber; i <= pageInfo.endPageNumber; i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <Box>
+      {/* 뒤로가기*/}
+      {pageInfo.prevPageNumber && (
+        <PageButton variant="ghost" pageNumber={pageInfo.prevPageNumber}>
+          <FontAwesomeIcon icon={faAngleLeft} />
+        </PageButton>
+      )}
+
+      {pageNumbers.map((pageNumber) => (
+        <PageButton
+          key={pageNumber}
+          variant={
+            pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
+          }
+          pageNumber={pageNumber}
+          handleClick={() => handleClickPageButton(pageNumber)}
+        >
+          {pageNumber}
+        </PageButton>
+      ))}
+
+      {/*앞으로 가기*/}
+      {pageInfo.nextPageNumber && (
+        <PageButton variant="ghost" pageNumber={pageInfo.nextPageNumber}>
+          <FontAwesomeIcon icon={faAngleRight} />
+        </PageButton>
+      )}
     </Box>
   );
 }
@@ -96,11 +153,11 @@ function CommentItem({ c, toast, setIsSubmitting, onDeleteModalOpen }) {
         <Heading fontSize="2xl" marginBottom="10px">
           {c.memberNickName}
         </Heading>
+        <Text>{c.ago}</Text>
       </Flex>
       <Flex>
         <Box flex={1}>
           <Text>{c.comment}</Text>
-          <Text>{c.ago}</Text>
           {isEditing && (
             <Box>
               <Textarea
@@ -113,7 +170,7 @@ function CommentItem({ c, toast, setIsSubmitting, onDeleteModalOpen }) {
             </Box>
           )}
         </Box>
-        {(hasAccess(c.memberId) || isAdmin()) && (
+        {hasAccess(c.memberId || isAdmin()) && (
           <Box>
             {isEditing || (
               <Button
@@ -157,11 +214,11 @@ function CommentList({
   onDeleteModalOpen,
 }) {
   return (
-    <Center mt={10}>
-      <Card w={"lg"}>
-        <CardBody>
-          <Stack divider={<StackDivider />} spacing="4">
-            {commentList.map((c) => (
+    <Card>
+      <CardBody>
+        <Stack divider={<StackDivider />} spacing="4">
+          {commentList.length > 0 &&
+            commentList.map((c) => (
               <CommentItem
                 key={c.id}
                 c={c}
@@ -171,20 +228,22 @@ function CommentList({
                 onDeleteModalOpen={onDeleteModalOpen}
               />
             ))}
-          </Stack>
-        </CardBody>
-      </Card>
-    </Center>
+        </Stack>
+      </CardBody>
+    </Card>
   );
 }
 
 export function HsComment({ businessId }) {
+  const { isAuthenticated } = useContext(LoginContext);
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const commentIdRef = useRef(0);
+  const [pageInfo, setPageInfo] = useState("");
+  const [pageNumber, setPageNumber] = useState(1);
 
   function handleSubmit(comment) {
     setIsSubmitting(true);
@@ -218,11 +277,13 @@ export function HsComment({ businessId }) {
     if (!isSubmitting) {
       const params = new URLSearchParams();
       params.set("id", businessId);
-      axios
-        .get("/api/hospital/comment/list?" + params)
-        .then((r) => setCommentList(r.data));
+      params.set("p", pageNumber);
+      axios.get("/api/hospital/comment/list?" + params).then((r) => {
+        setCommentList(r.data.hsComment);
+        setPageInfo(r.data.pageInfo);
+      });
     }
-  }, [isSubmitting]);
+  }, [isSubmitting, pageNumber]);
 
   function handleDelete() {
     setIsSubmitting(true);
@@ -258,18 +319,24 @@ export function HsComment({ businessId }) {
     onOpen();
   }
 
+  function handleClickPageButton(page) {
+    setPageNumber(page);
+  }
+
   return (
     <Box>
-      <Center mt={10}>
-        <Box w={"lg"}>
-          <CommentForm
-            comment={comment}
-            setComment={setComment}
-            businessId={businessId}
-            onSubmit={handleSubmit}
-          />
-        </Box>
-      </Center>
+      {isAuthenticated() && (
+        <Center mt={10}>
+          <Box w={"lg"}>
+            <CommentForm
+              comment={comment}
+              setComment={setComment}
+              businessId={businessId}
+              onSubmit={handleSubmit}
+            />
+          </Box>
+        </Center>
+      )}
 
       <CommentList
         businessId={businessId}
@@ -279,6 +346,12 @@ export function HsComment({ businessId }) {
         toast={toast}
         onDeleteModalOpen={handleDeleteModalOpen}
       />
+      <Box>
+        <Pagination
+          pageInfo={pageInfo}
+          handleClickPageButton={handleClickPageButton}
+        />
+      </Box>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

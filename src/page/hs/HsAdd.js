@@ -87,7 +87,7 @@ export function HsAdd() {
           description: "전송 되었습니다.",
           status: "success",
         });
-        navigate("/home/hospital/hospitalList");
+        navigate("/home/hospital");
       })
       .catch(() =>
         toast({
