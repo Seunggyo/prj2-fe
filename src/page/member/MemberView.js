@@ -32,26 +32,7 @@ function MemberView(props) {
   const { login, authCheck, isAuthenticated, hasAccess } =
     useContext(LoginContext);
 
-  // TODO: 회원탈퇴 추가해야함.
-  // const { id } = useParams();
-  // function handleDelete() {
-  //   axios
-  //     .delete("/api/cs/remove/" + id)
-  //     .then((response) => {
-  //       toast({
-  //         description: id + "번 회원이 탈퇴되었습니다.",
-  //         status: "success",
-  //       });
-  //       navigate("/home/cs");
-  //     })
-  //     .catch((error) => {
-  //       toast({
-  //         description: "탈퇴 중 문제가 발생하였습니다.",
-  //         status: "error",
-  //       });
-  //     })
-  //     .finally(() => onClose());
-  // }
+  const { id } = useParams();
 
   useEffect(() => {
     axios.get("/api/member/info?" + params).then(({ data }) => {
