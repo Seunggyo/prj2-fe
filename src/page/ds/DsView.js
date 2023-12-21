@@ -3,22 +3,12 @@ import {
   Box,
   Button,
   Card,
-  CardHeader,
   Center,
   Checkbox,
   Flex,
-  FormControl,
   FormLabel,
   Heading,
   Image,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Spinner,
   Tab,
   Table,
@@ -28,7 +18,6 @@ import {
   Tabs,
   Td,
   Text,
-  Textarea,
   Tooltip,
   useDisclosure,
   useToast,
@@ -36,14 +25,10 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as fullHeart } from "@fortawesome/free-regular-svg-icons";
-import {
-  faCommentDots,
-  faHeart as emptyHeart,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import { LoginContext } from "../../component/LoginProvider";
 import { DsComment } from "./DsComment";
-import { CalendarIcon } from "@chakra-ui/icons";
+import { LikeIcon } from "./LikeIcon";
 
 function LikeContainer({ like, onClick }) {
   const { isAuthenticated } = useContext(LoginContext);
@@ -55,14 +40,12 @@ function LikeContainer({ like, onClick }) {
   return (
     <Flex>
       <Tooltip isDisabled={isAuthenticated()} hasArrow label={"로그인 하세요"}>
-        <Button variant="ghost" size="xl" onClick={onClick}>
-          {like.like && (
-            <FontAwesomeIcon icon={emptyHeart} size="xl" color="red" />
-          )}
-          {like.like || (
-            <FontAwesomeIcon icon={fullHeart} size="xl" color="red" />
-          )}
-        </Button>
+        <Center>
+          <Box onClick={onClick}>
+            {like.like && <LikeIcon type="like" />}
+            {like.like || <LikeIcon />}
+          </Box>
+        </Center>
       </Tooltip>
       <Heading color={"red"} size="lg">
         {like.countLike}
