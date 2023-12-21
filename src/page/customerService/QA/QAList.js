@@ -114,8 +114,7 @@ export function QAList() {
   const [params, setParams] = useSearchParams();
   const location = useLocation();
 
-  const { fetchLogin, login, isAuthenticated, authCheck, hasAccess } =
-    useContext(LoginContext);
+  const { login, isAuthenticated, authCheck } = useContext(LoginContext);
 
   useEffect(() => {
     if (
@@ -285,7 +284,7 @@ export function QAList() {
                           </Badge>
                         )}
                       </Td>
-                      <Td>{qa.qaWriter}</Td>
+                      <Td>{qa.nickName}</Td>
                       <Td>{qa.ago}</Td>
                     </Tr>
                   ))}

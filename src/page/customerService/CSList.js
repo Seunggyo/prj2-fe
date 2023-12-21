@@ -254,7 +254,7 @@ export function CSList() {
                       borderColor: "white",
                       fontFamily: "gowun",
                     }}
-                    className="bg-red-50 border-r w-1/3"
+                    className="bg-red-50 border-r w-2/4"
                   >
                     제목
                   </Th>
@@ -333,7 +333,7 @@ export function CSList() {
                         </Badge>
                       )}
                     </Td>
-                    <Td>{cs.csWriter}</Td>
+                    <Td>{cs.nickName}</Td>
                     <Td>{cs.ago}</Td>
                     <Td>{cs.increaseHit}</Td>
                   </Tr>

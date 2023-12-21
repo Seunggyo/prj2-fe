@@ -84,7 +84,7 @@ export function QAEdit() {
         id: qa.id,
         qaTitle: qa.qaTitle,
         qaContent: qa.qaContent,
-        qaWriter: qa.qaWriter,
+        nickName: qa.nickName,
         qaCategory: qa.qaCategory,
         fileSwitch,
         uploadFiles,
@@ -168,7 +168,7 @@ export function QAEdit() {
                       작성자:
                     </span>
                     <input
-                      value={qa.qaWriter}
+                      value={qa.nickName}
                       readOnly
                       className="ml-2 outline-none py-1 p-2 w-3/5 text-md border-2 rounded-md"
                     />

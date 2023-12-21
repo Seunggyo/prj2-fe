@@ -141,19 +141,19 @@ export function SideBar() {
                 </p>
               </li>
 
-              <li>
-                <p className="relative flex flex-row items-center h-11 focus:outline-none cursor-pointer hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
-                  <span className="inline-flex justify-center items-center ml-4">
-                    <FontAwesomeIcon icon={faBell} />
-                  </span>
-                  <span className="ml-2 text-sm tracking-wide truncate">
-                    알 림
-                  </span>
-                  <span className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-500 bg-indigo-50 rounded-full">
-                    New
-                  </span>
-                </p>
-              </li>
+              {/*<li>*/}
+              {/*  <p className="relative flex flex-row items-center h-11 focus:outline-none cursor-pointer hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">*/}
+              {/*    <span className="inline-flex justify-center items-center ml-4">*/}
+              {/*      <FontAwesomeIcon icon={faBell} />*/}
+              {/*    </span>*/}
+              {/*    <span className="ml-2 text-sm tracking-wide truncate">*/}
+              {/*      알 림*/}
+              {/*    </span>*/}
+              {/*    <span className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-500 bg-indigo-50 rounded-full">*/}
+              {/*      New*/}
+              {/*    </span>*/}
+              {/*  </p>*/}
+              {/*</li>*/}
 
               <Box borderBottom="2px" mt={8} borderColor="rosybrown"></Box>
 
