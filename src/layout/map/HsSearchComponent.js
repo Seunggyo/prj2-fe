@@ -56,7 +56,7 @@ export function HsSearchComponent({
     axios.get("/api/hospital/list?" + params).then((r) => {
       setList(r.data.list);
       const isMemberExists =
-        r.data.list.find((h) => h.memberId === idCheck()) !== undefined;
+        r.data.list.find((h) => h.memberId === idCheck()) === undefined;
       setIsButtonActive(isMemberExists);
     });
   }, [location]);
