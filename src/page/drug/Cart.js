@@ -131,7 +131,7 @@ export function Cart() {
                         " 외 " +
                         (cartList.length - 1) +
                         " 개",
-                      url: cartList[0].url,
+                      cartList,
                     },
                   })
                 }

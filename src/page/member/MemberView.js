@@ -14,17 +14,21 @@ import {
   ModalOverlay,
   Spinner,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { LoginContext } from "../../component/LoginProvider";
 
 function MemberView(props) {
   const [member, setMember] = useState(null);
+  const [boardList, setBoardList] = useState(null);
+  const [commentList, setCommentList] = useState(null);
   const [access, setAccess] = useState(false);
 
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const toast = useToast();
   const { login, authCheck, isAuthenticated, hasAccess } =
     useContext(LoginContext);
 
@@ -50,19 +54,25 @@ function MemberView(props) {
   // }
 
   useEffect(() => {
-    if (
-      authCheck() !== "admin" &&
-      !isAuthenticated() &&
-      !hasAccess(params.get("id"))
-    ) {
-      navigate("/");
-    }
-
-    axios.get("/api/member/info?" + params).then(({ data }) => setMember(data));
+    axios.get("/api/member/info?" + params).then(({ data }) => {
+      setMember(data.member);
+      setBoardList(data.boardList);
+      setCommentList(data.commentList);
+    });
   }, []);
 
-  if (member === null) {
+  if (member === null || boardList === null || commentList === null) {
     return <Spinner />;
+  }
+
+  function handleDeleteClick() {
+    axios.delete("/api/member/remove?" + params).then(() => {
+      toast({
+        description: "탈퇴되었습니다.",
+        status: "success",
+      });
+      navigate("/");
+    });
   }
 
   return (
@@ -135,22 +145,28 @@ function MemberView(props) {
                   <span className="tracking-wide text-xl">개인 정보</span>
                 </div>
 
-                <Flex>
-                  <button
-                    onClick={() =>
-                      navigate("/home/member/edit?" + params.toString())
-                    }
-                    className="ml-60 py-2 rounded-md relative h-12 w-32 overflow-hidden text-blue-500 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-blue-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold"
-                  >
-                    <span className="relative z-10  text-4xl">수 정 하 기</span>
-                  </button>
-                  <button
-                    onClick={onOpen}
-                    className="ml-8 py-2 rounded-md relative h-12 w-32 overflow-hidden text-blue-500 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-blue-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold "
-                  >
-                    <span className="relative z-10  text-4xl">삭 제 하 기</span>
-                  </button>
-                </Flex>
+                {isAuthenticated() && (
+                  <Flex>
+                    <button
+                      onClick={() =>
+                        navigate("/home/member/edit?" + params.toString())
+                      }
+                      className="ml-60 py-2 rounded-md relative h-12 w-32 overflow-hidden text-blue-500 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-blue-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold"
+                    >
+                      <span className="relative z-10  text-4xl">
+                        수 정 하 기
+                      </span>
+                    </button>
+                    <button
+                      onClick={onOpen}
+                      className="ml-8 py-2 rounded-md relative h-12 w-32 overflow-hidden text-blue-500 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-blue-500 before:duration-300 before:ease-out hover:text-white hover:before:h-40 hover:before:w-40 hover:before:opacity-80 font-dongle font-semibold "
+                    >
+                      <span className="relative z-10  text-4xl">
+                        삭 제 하 기
+                      </span>
+                    </button>
+                  </Flex>
+                )}
               </div>
               <div className="text-gray-700 mt-6">
                 <div className="grid md:grid-cols-2 text-md">
@@ -211,41 +227,30 @@ function MemberView(props) {
                         />
                       </svg>
                     </span>
-                    <span className="tracking-wide">활 동</span>
+                    <span className="tracking-wide">최근 작성 게시글</span>
                   </div>
                   <ul className="list-inside space-y-2">
-                    <li>
-                      <div className="text-teal-600">
-                        아프지마 company owner
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        2020년 3월부터 현재까지
-                      </div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">
-                        아프지마 company owner
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        2020년 3월부터 현재까지
-                      </div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">
-                        아프지마 company owner
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        2020년 3월부터 현재까지
-                      </div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">
-                        아프지마 company owner
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        2020년 3월부터 현재까지
-                      </div>
-                    </li>
+                    {boardList.length === 0 && (
+                      <li>
+                        <div className="text-teal-600">
+                          최근 활동이 없습니다.
+                        </div>
+                      </li>
+                    )}
+
+                    {boardList.map((board) => (
+                      <li>
+                        <div
+                          className="text-teal-600 hover:underline cursor-pointer"
+                          onClick={() => navigate("/home/board/" + board.id)}
+                        >
+                          {board.title}
+                        </div>
+                        <div className="text-gray-500 text-xs">
+                          {board.insert}
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 <div>
@@ -271,25 +276,31 @@ function MemberView(props) {
                         />
                       </svg>
                     </span>
-                    <span className="tracking-wide">Education</span>
+                    <span className="tracking-wide">최근 작성 댓글</span>
                   </div>
                   <ul className="list-inside space-y-2">
-                    <li>
-                      <div className="text-teal-600">
-                        Masters Degree in Oxford
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        2020년 3월부터 현재까지
-                      </div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">
-                        Bachelors Degreen in LPU
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        2020년 3월부터 현재까지
-                      </div>
-                    </li>
+                    {commentList.length === 0 && (
+                      <li>
+                        <div className="text-teal-600">
+                          최근 활동이 없습니다.
+                        </div>
+                      </li>
+                    )}
+                    {commentList.map((comment) => (
+                      <li>
+                        <div
+                          className="text-teal-600 hover:underline cursor-pointer"
+                          onClick={() =>
+                            navigate("/home/board/" + comment.boardId)
+                          }
+                        >
+                          {comment.comment}
+                        </div>
+                        <div className="text-gray-500 text-xs">
+                          {comment.inserted}
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -307,9 +318,9 @@ function MemberView(props) {
 
           <ModalFooter>
             <Button onClick={onClose}>취소</Button>
-            {/*<Button onClick={handleDelete} colorScheme="red">*/}
-            {/*  삭제*/}
-            {/*</Button>*/}
+            <Button onClick={handleDeleteClick} colorScheme="red">
+              삭제
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
