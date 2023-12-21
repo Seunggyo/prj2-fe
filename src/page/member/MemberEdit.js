@@ -47,11 +47,11 @@ function MemberEdit(props) {
     }
 
     axios.get("/api/member/info?" + params.toString()).then(({ data }) => {
-      setMember(data);
-      setNickName(data.nickName);
-      setPhone(data.phone);
-      setBirthday(data.birthday);
-      setAddress(data.address);
+      setMember(data.member);
+      setNickName(data.member.nickName);
+      setPhone(data.member.phone);
+      setBirthday(data.member.birthday);
+      setAddress(data.member.address);
     });
   }, []);
 
@@ -124,7 +124,7 @@ function MemberEdit(props) {
             />
           </FormControl>
           <Avatar
-            src={previewProfile || login.profile}
+            src={previewProfile || member.profile}
             style={{ margin: "20px", width: "16rem", height: "16rem" }}
             onClick={() => profileInput.current.click()}
           >
