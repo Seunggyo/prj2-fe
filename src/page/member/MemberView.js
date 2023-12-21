@@ -27,6 +27,8 @@ function MemberView(props) {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const urlParams = new URLSearchParams(window.location.search);
+
   const { login, authCheck, isAuthenticated, hasAccess } =
     useContext(LoginContext);
 
@@ -61,6 +63,10 @@ function MemberView(props) {
 
   if (member === null || boardList === null || commentList === null) {
     return <Spinner />;
+  }
+
+  function handleDeleteClick() {
+    axios.delete("/api/member/remove?" + params).then(() => navigate("/"));
   }
 
   return (
@@ -306,9 +312,9 @@ function MemberView(props) {
 
           <ModalFooter>
             <Button onClick={onClose}>취소</Button>
-            {/*<Button onClick={handleDelete} colorScheme="red">*/}
-            {/*  삭제*/}
-            {/*</Button>*/}
+            <Button onClick={handleDeleteClick} colorScheme="red">
+              삭제
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
