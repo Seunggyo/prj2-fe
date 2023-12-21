@@ -132,12 +132,8 @@ export function BoardList() {
   }
 
   function handleRowClick(id) {
-    axios
-      .put("/api/board/" + id)
-      .then((r) => console.log("good"))
-      .catch((error) => {
-        console.error("bad");
-      });
+    axios.put("/api/board/" + id);
+
     navigate("/home/board/" + id);
   }
 

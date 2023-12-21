@@ -112,9 +112,7 @@ export function Payment() {
                   successUrl: `${window.location.origin}/success`,
                   failUrl: `${window.location.origin}/fail`,
                 });
-              } catch (err) {
-                console.log(err);
-              }
+              } catch (err) {}
             }}
           >
             결제하기

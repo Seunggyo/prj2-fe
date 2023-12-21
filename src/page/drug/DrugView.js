@@ -209,9 +209,7 @@ export function DrugView() {
   function handleLike() {
     axios
       .post("/api/drug/like", { drugId: drug.id })
-      .then((response) => setLike(response.data))
-      .catch(() => console.log("안됨"))
-      .finally(() => console.log("끝"));
+      .then((response) => setLike(response.data));
   }
 
   function handleShowImageStatic(index) {

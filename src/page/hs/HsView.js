@@ -104,8 +104,7 @@ export function HsView({ hsId, onLikeSearch }) {
   function handleLikeClick() {
     axios
       .post("/api/hospital/like", { businessId: list.id })
-      .then((r) => setLike(r.data))
-      .catch(() => console.log("bad"));
+      .then((r) => setLike(r.data));
   }
 
   return (
