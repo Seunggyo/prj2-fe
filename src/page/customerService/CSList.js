@@ -129,12 +129,7 @@ export function CSList() {
   }
 
   function handleRowClick(id) {
-    axios
-      .put("/api/cs/" + id)
-      .then((r) => console.log("good"))
-      .catch((error) => {
-        console.error("bad");
-      });
+    axios.put("/api/cs/" + id);
     navigate("/home/cs/" + id);
   }
 

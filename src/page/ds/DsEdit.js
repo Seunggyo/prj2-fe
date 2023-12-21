@@ -253,7 +253,7 @@ export function DsEdit() {
             <Flex>
               <Select
                 fontSize="2xl"
-                defaultValue={ds.openHour}
+                value={ds.openHour}
                 onChange={(e) =>
                   updateDs((draft) => {
                     draft.openHour = e.target.value;
@@ -264,7 +264,7 @@ export function DsEdit() {
               </Select>
               <Select
                 fontSize="2xl"
-                defaultValue={ds.openMin}
+                value={ds.openMin}
                 onChange={(e) =>
                   updateDs((draft) => {
                     draft.openMin = e.target.value;
@@ -291,7 +291,6 @@ export function DsEdit() {
                 <Select
                   fontSize="2xl"
                   value={ds.closeHour}
-                  defaultValue="16시"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.closeHour = e.target.value;
@@ -303,7 +302,6 @@ export function DsEdit() {
                 <Select
                   fontSize="2xl"
                   value={ds.closeMin}
-                  defaultValue="0분"
                   onChange={(e) =>
                     updateDs((draft) => {
                       draft.closeMin = e.target.value;

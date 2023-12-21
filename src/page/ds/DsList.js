@@ -149,8 +149,6 @@ export function DsList() {
       <Box>
         <Flex>
           <Heading>약국 리스트</Heading>
-          {/* TODO : 리스트에서 추가하는게 아니라 비지니스 유저 정보창에서 추가 하는 식으로 가는게 좋을뜻*/}
-          <Button onClick={handleMoveWrite}>추가</Button>
         </Flex>
         <Box>
           <Table>

@@ -32,6 +32,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { HsComment } from "./HsComment";
 import { CalendarIcon } from "@chakra-ui/icons";
+import { LikeIcon } from "../ds/LikeIcon";
 
 function LikeContainer({ like, onClick }) {
   const { isAuthenticated } = useContext(LoginContext);
@@ -42,15 +43,12 @@ function LikeContainer({ like, onClick }) {
   return (
     <Flex>
       <Tooltip isDisabled={isAuthenticated()} hasArrow label={"로그인 하세요"}>
-        <Button variant="ghost" size="xl" onClick={onClick}>
-          {/*<FontAwesomeIcon icon={faHeart} size="xl" />*/}
-          {like.like && (
-            <FontAwesomeIcon icon={fullHeart} size="xl" color="red" />
-          )}
-          {like.like || (
-            <FontAwesomeIcon icon={emptyHeart} size="xl" color="red" />
-          )}
-        </Button>
+        <Center>
+          <Box onClick={onClick}>
+            {like.like && <LikeIcon type="like" />}
+            {like.like || <LikeIcon />}
+          </Box>
+        </Center>
       </Tooltip>
       <Heading color="red" size="lg">
         {like.countLike}
@@ -106,8 +104,7 @@ export function HsView({ hsId, onLikeSearch }) {
   function handleLikeClick() {
     axios
       .post("/api/hospital/like", { businessId: list.id })
-      .then((r) => setLike(r.data))
-      .catch(() => console.log("bad"));
+      .then((r) => setLike(r.data));
   }
 
   return (

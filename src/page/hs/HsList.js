@@ -177,11 +177,11 @@ export function HsList() {
       <Box>
         <Flex align="center">
           <Heading>병원 리스트</Heading>
-          <Spacer />
+          {/*<Spacer />*/}
           {/*{(isAuthenticated() || isAdmin()) && (*/}
-          <Button onClick={() => navigate("/home/hospital/hospitalAdd")}>
-            병원 추가
-          </Button>
+          {/*<Button onClick={() => navigate("/home/hospital/hospitalAdd")}>*/}
+          {/*  병원 추가*/}
+          {/*</Button>*/}
           {/*)}*/}
         </Flex>
 

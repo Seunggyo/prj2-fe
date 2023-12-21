@@ -316,8 +316,6 @@ export function DrugComment({ drugId }) {
   }
 
   function handleDelete() {
-    // console.log(id + "댓글 삭제");
-
     setIsSubmitting(true);
     axios
       .delete("/api/drug/comment/" + commentIdRef.current)

@@ -94,9 +94,6 @@ export function WelcomePage() {
     return () => clearInterval(interval);
   }, []);
 
-  console.log(imageList.length);
-  console.log(nextIndex.current);
-
   function handleAutoSlide(nextIndex) {
     setImageList(
       imageList.map((image, index) => {

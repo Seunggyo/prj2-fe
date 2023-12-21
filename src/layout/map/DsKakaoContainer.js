@@ -163,7 +163,6 @@ const MainPage = () => {
   function handleItemClick(dsId) {
     setIsListVisible(true);
     setDsId(dsId);
-    // console.log(dsId);
   }
   // function handleItemHsClick(hsId) {
   //   setHsId(hsId);
