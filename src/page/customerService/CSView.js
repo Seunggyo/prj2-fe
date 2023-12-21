@@ -118,7 +118,7 @@ export function CSView() {
                   <span className="mr-4 font-dongle text-3xl text-gray-500">
                     작성자 :
                   </span>
-                  <Input value={cs.csWriter} readOnly w="150px" />
+                  <Input value={cs.nickName} readOnly w="150px" />
                   <span className="ml-10 mr-4 font-dongle text-3xl text-gray-500">
                     카테고리 :
                   </span>

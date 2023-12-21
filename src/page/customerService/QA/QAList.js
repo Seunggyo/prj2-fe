@@ -284,7 +284,7 @@ export function QAList() {
                           </Badge>
                         )}
                       </Td>
-                      <Td>{qa.qaWriter}</Td>
+                      <Td>{qa.nickName}</Td>
                       <Td>{qa.ago}</Td>
                     </Tr>
                   ))}

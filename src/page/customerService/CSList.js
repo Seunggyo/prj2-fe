@@ -333,7 +333,7 @@ export function CSList() {
                         </Badge>
                       )}
                     </Td>
-                    <Td>{cs.csWriter}</Td>
+                    <Td>{cs.nickName}</Td>
                     <Td>{cs.ago}</Td>
                     <Td>{cs.increaseHit}</Td>
                   </Tr>

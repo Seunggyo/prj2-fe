@@ -165,7 +165,7 @@ export function BoardView() {
                   <span className="mr-4 font-dongle text-3xl text-gray-500">
                     작성자 :
                   </span>
-                  <Input value={board.writer} readOnly w="120px" />
+                  <Input value={board.nickName} readOnly w="120px" />
                   <span className="ml-10 mr-4 font-dongle text-3xl text-gray-500">
                     카테고리 :
                   </span>

@@ -180,7 +180,7 @@ export function BoardEdit() {
                       작성자:
                     </span>
                     <input
-                      value={board.writer}
+                      value={board.nickName}
                       readOnly
                       className="ml-2 outline-none py-1 p-2 w-3/5 text-md border-2 rounded-md"
                     />

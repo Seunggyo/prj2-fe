@@ -58,7 +58,7 @@ export function CSEdit() {
         id: cs.id,
         csTitle: cs.csTitle,
         csContent: cs.csContent,
-        csWriter: cs.csWriter,
+        nickName: cs.nickName,
         csCategory: cs.csCategory,
         fileSwitch,
         uploadFiles,
@@ -183,7 +183,7 @@ export function CSEdit() {
                       작성자:
                     </span>
                     <input
-                      value={cs.csWriter}
+                      value={cs.nickName}
                       readOnly
                       className="ml-2 outline-none py-1 p-2 w-3/5 text-md border-2 rounded-md"
                     />

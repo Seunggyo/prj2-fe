@@ -132,7 +132,7 @@ export function QAView() {
                   <span className="mr-4 font-dongle text-4xl text-gray-500">
                     작성자 :
                   </span>
-                  <Input value={qa.qaWriter} readOnly w="120px" />
+                  <Input value={qa.nickName} readOnly w="120px" />
                   <span className="ml-20 mr-4 font-dongle text-4xl text-gray-500">
                     카테고리 :
                   </span>
