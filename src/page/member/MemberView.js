@@ -14,6 +14,7 @@ import {
   ModalOverlay,
   Spinner,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { LoginContext } from "../../component/LoginProvider";
 
@@ -27,8 +28,7 @@ function MemberView(props) {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const urlParams = new URLSearchParams(window.location.search);
-
+  const toast = useToast();
   const { login, authCheck, isAuthenticated, hasAccess } =
     useContext(LoginContext);
 
@@ -66,7 +66,13 @@ function MemberView(props) {
   }
 
   function handleDeleteClick() {
-    axios.delete("/api/member/remove?" + params).then(() => navigate("/"));
+    axios.delete("/api/member/remove?" + params).then(() => {
+      toast({
+        description: "탈퇴되었습니다.",
+        status: "success",
+      });
+      navigate("/");
+    });
   }
 
   return (
