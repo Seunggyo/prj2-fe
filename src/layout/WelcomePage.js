@@ -104,7 +104,7 @@ export function WelcomePage() {
 
   return (
     <div
-      class="h-screen"
+      className="h-screen"
       style={{
         backgroundImage: `url(${bgg})`,
         backgroundRepeat: "no-repeat",
@@ -349,6 +349,79 @@ export function WelcomePage() {
           </div>
         </div>
       </div>
+      <div className="container max-w-6xl mx-auto mt-10">
+        <header className="text-center mx-auto mb-5 font-dongle text-6xl font-bold">
+          Team Member
+        </header>
+        <div className="flex justify-center">
+          <div className="max-w-full px-4 w-2/3 sm:w-1/2 md:w-5/12 lg:w-1/4">
+            <div className="relative overflow-hidden px-6">
+              <img
+                src="https://tailone.tailwindtemplate.net/src/img/dummy/avatar2.png"
+                className="max-w-full h-auto mx-auto rounded-full bg-gray-50 grayscale"
+                alt="member"
+              />
+            </div>
+            <div className="pt-6 text-center">
+              <p className="text-4xl font-dongle font-bold mb-1">김 승 교</p>
+              <p className="text-gray-500">노 예 대 장</p>
+            </div>
+          </div>
+          <div className="max-w-full px-4 w-2/3 sm:w-1/2 md:w-5/12 lg:w-1/4">
+            <div className="relative overflow-hidden px-6">
+              <img
+                src="https://tailone.tailwindtemplate.net/src/img/dummy/avatar3.png"
+                className="max-w-full h-auto mx-auto rounded-full bg-gray-50 grayscale"
+                alt="member"
+              />
+            </div>
+            <div className="pt-6 text-center">
+              <p className="text-4xl font-dongle font-bold mb-1">김 다 솜</p>
+              <p className="text-gray-500">실 세</p>
+            </div>
+          </div>
+          <div className="max-w-full px-4 w-2/3 sm:w-1/2 md:w-5/12 lg:w-1/4">
+            <div className="relative overflow-hidden px-6">
+              <img
+                src="https://tailone.tailwindtemplate.net/src/img/dummy/avatar1.png"
+                className="max-w-full h-auto mx-auto rounded-full bg-gray-50 grayscale"
+                alt="member"
+              />
+            </div>
+            <div className="pt-6 text-center">
+              <p className="text-4xl font-dongle font-bold mb-1">김 래 환</p>
+              <p className="text-gray-500">노 예 1</p>
+            </div>
+          </div>
+          <div className="max-w-full px-4 w-2/3 sm:w-1/2 md:w-5/12 lg:w-1/4">
+            <div className="relative overflow-hidden px-6">
+              <img
+                src="https://tailone.tailwindtemplate.net/src/img/dummy/avatar4.png"
+                className="max-w-full h-auto mx-auto rounded-full bg-gray-50 grayscale"
+                alt="member"
+              />
+            </div>
+            <div className="pt-6 text-center">
+              <p className="text-4xl font-dongle font-bold mb-1">양 희 도</p>
+              <p className="text-gray-500">노 예 2</p>
+            </div>
+          </div>
+          <div className="max-w-full px-4 w-2/3 sm:w-1/2 md:w-5/12 lg:w-1/4">
+            <div className="relative overflow-hidden px-6">
+              <img
+                src="https://tailone.tailwindtemplate.net/src/img/dummy/avatar2.png"
+                className="max-w-full h-auto mx-auto rounded-full bg-gray-50 grayscale"
+                alt="member"
+              />
+            </div>
+            <div className="pt-6 text-center">
+              <p className="text-4xl font-dongle font-bold mb-1">김 도 현</p>
+              <p className="text-gray-500">노 예 3</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="h-10"></div>
     </div>
   );
 }

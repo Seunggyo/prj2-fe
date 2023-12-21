@@ -25,7 +25,7 @@ export function NavBar() {
 
   useEffect(() => {
     fetchLogin();
-  }, [location]);
+  }, []);
 
   if (login !== null) {
     urlParams.set("id", login.id);
