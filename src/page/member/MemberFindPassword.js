@@ -18,8 +18,8 @@ export function MemberFindPassword() {
 
   function handleButtonClick() {
     axios.get("/api/member/info?id=" + id).then(({ data }) => {
-      setMember(data);
-      if (data.id === id) {
+      setMember(data.member);
+      if (data.member.id === id) {
         setIdAuthentication(true);
       }
     });
