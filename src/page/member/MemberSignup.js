@@ -200,6 +200,7 @@ export function MemberSignup() {
 
   // useRef() 변수를 생성해서 사진을 클릭하면 파일 업로더를 띄울 수 있도록 onClick함수의 이벤트에 넣기..
   const profileInput = useRef(null);
+
   function handleProfileChange(e) {
     if (e.target.files[0]) {
       setProfile(e.target.files[0]);
@@ -411,7 +412,7 @@ export function MemberSignup() {
                 variant="outline"
                 onClick={SendMail}
               >
-                메일 인증 {authenticationNum}
+                메일 인증
               </Button>
             </Flex>
 

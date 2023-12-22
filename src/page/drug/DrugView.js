@@ -39,11 +39,8 @@ import {
   faEdit,
   faHeart as fullHeart,
   faRemove,
-  faShoppingCart,
-  faTrain,
 } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 
 function ShoppingCartIcon() {
   return null;
@@ -189,7 +186,7 @@ export function DrugView() {
       .then((response) => {
         setCart(response.data);
         toast({
-          description: "장바구니에 담는중입니다.",
+          description: "장바구니에 담겼습니다.",
           status: "success",
         });
       })

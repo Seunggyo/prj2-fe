@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { AspectRatio, Box, Center, Flex, Image } from "@chakra-ui/react";
+import { AspectRatio, Box, Flex, Image } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,7 +12,6 @@ import {
   faHospital,
   faUser,
 } from "@fortawesome/free-regular-svg-icons";
-import logo from "../assets/images/로고1.png";
 import Snowfall from "react-snowfall";
 import { LoginContext } from "../component/LoginProvider";
 import bgg from "../assets/images/배경화면.jpg";
@@ -42,6 +41,7 @@ const images = [
     current: false,
   },
 ];
+
 export function WelcomePage() {
   /*------------------반짝이----------------------*/
   const [text, setText] = useState("크리스마스크리스마스크리스마스크리스크");
@@ -364,7 +364,7 @@ export function WelcomePage() {
             </div>
             <div className="pt-6 text-center">
               <p className="text-4xl font-dongle font-bold mb-1">김 승 교</p>
-              <p className="text-gray-500">노 예 대 장</p>
+              <p className="text-gray-500">팀장</p>
             </div>
           </div>
           <div className="max-w-full px-4 w-2/3 sm:w-1/2 md:w-5/12 lg:w-1/4">
@@ -377,7 +377,7 @@ export function WelcomePage() {
             </div>
             <div className="pt-6 text-center">
               <p className="text-4xl font-dongle font-bold mb-1">김 다 솜</p>
-              <p className="text-gray-500">실 세</p>
+              <p className="text-gray-500">건강마켓담당</p>
             </div>
           </div>
           <div className="max-w-full px-4 w-2/3 sm:w-1/2 md:w-5/12 lg:w-1/4">
@@ -390,7 +390,7 @@ export function WelcomePage() {
             </div>
             <div className="pt-6 text-center">
               <p className="text-4xl font-dongle font-bold mb-1">김 래 환</p>
-              <p className="text-gray-500">노 예 1</p>
+              <p className="text-gray-500">게시판 담당</p>
             </div>
           </div>
           <div className="max-w-full px-4 w-2/3 sm:w-1/2 md:w-5/12 lg:w-1/4">
@@ -403,7 +403,7 @@ export function WelcomePage() {
             </div>
             <div className="pt-6 text-center">
               <p className="text-4xl font-dongle font-bold mb-1">양 희 도</p>
-              <p className="text-gray-500">노 예 2</p>
+              <p className="text-gray-500">결제 및 멤버 담당</p>
             </div>
           </div>
           <div className="max-w-full px-4 w-2/3 sm:w-1/2 md:w-5/12 lg:w-1/4">
@@ -416,7 +416,7 @@ export function WelcomePage() {
             </div>
             <div className="pt-6 text-center">
               <p className="text-4xl font-dongle font-bold mb-1">김 도 현</p>
-              <p className="text-gray-500">노 예 3</p>
+              <p className="text-gray-500">약국 담당</p>
             </div>
           </div>
         </div>
